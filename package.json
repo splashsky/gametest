@@ -1,0 +1,18 @@
+{
+  "name": "gametest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/Main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": ".\\node_modules\\.bin\\esbuild src/Game.ts --bundle --outfile=public/game.js",
+    "serve": "http-server"
+  },
+  "author": "Splashsky <sky@oceanpotion.cc>",
+  "license": "MIT",
+  "dependencies": {
+    "esbuild": "^0.12.9",
+    "grid-engine": "^2.3.0",
+    "phaser": "^3.55.2"
+  }
+}
