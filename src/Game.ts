@@ -18,9 +18,9 @@ const game = new Phaser.Game({
     plugins: {
         scene: [
             {
-                key: "gridEngine",
+                key: "GridEngine",
                 plugin: GridEngine,
-                mapping: "gridEngine"
+                mapping: "GridEngine"
             }
         ]
     }

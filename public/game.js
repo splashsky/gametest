@@ -73676,6 +73676,15 @@
   // src/Game.ts
   var Phaser2 = __toModule(require_phaser());
 
+  // src/helpers/Direction.ts
+  var Direction;
+  (function(Direction2) {
+    Direction2["UP"] = "up";
+    Direction2["DOWN"] = "down";
+    Direction2["LEFT"] = "left";
+    Direction2["RIGHT"] = "right";
+  })(Direction || (Direction = {}));
+
   // src/helpers/Characters.ts
   function createCharacterSprite(scene, x2, y2, texture, depth, scale) {
     const sprite = scene.add.sprite(x2, y2, texture);
@@ -73697,13 +73706,6 @@
     return map;
   }
 
-  // src/UI.ts
-  var ui = document.getElementById("ui");
-  var testEvent = new CustomEvent("notice", { detail: {} });
-  ui.addEventListener("notice", (e) => {
-    console.log("Hey there's a notice!");
-  });
-
   // src/scenes/MainScene.ts
   var MainScene = class extends Phaser.Scene {
     constructor() {
@@ -73712,45 +73714,55 @@
       });
     }
     preload() {
-      this.load.image("tiles", "assets/tf_dd_A5_1.png");
+      this.load.image("tiles", "assets/tf_atlantis_tiles.png");
       this.load.spritesheet("player", "assets/BlackKnight.png", {
         frameWidth: 26,
         frameHeight: 36
       });
-      this.load.tilemapTiledJSON("map", "assets/test.json");
+      this.load.tilemapTiledJSON("map", "assets/testmap.json");
     }
     create() {
-      const tilemap = createTilemap(this, "map", [{ layer: "DDBase", image: "tiles" }]);
+      const tilemap = createTilemap(this, "map", [{ layer: "Atlantis", image: "tiles" }]);
       const playerSprite = createCharacterSprite(this, 0, 0, "player", 2, 1.5);
       this.isMovingText = this.add.text(-20, -10, "");
       const container = this.add.container(0, 0, [playerSprite, this.isMovingText]);
       this.cameras.main.startFollow(container, true);
       this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
-      this.gridEngine.create(tilemap, {
+      this.GridEngine.create(tilemap, {
         characters: [
           {
             id: "player",
             sprite: playerSprite,
             walkingAnimationMapping: 0,
-            startPosition: { x: 33, y: 53 },
+            startPosition: { x: 35, y: 32 },
             container
           }
         ]
+      });
+      this.GridEngine.positionChangeFinished().subscribe(({ charId, exitTile, enterTile }) => {
+        if (this.hasTrigger(tilemap, enterTile)) {
+          console.log("Found the trigger!");
+        }
       });
     }
     update() {
       const cursors = this.input.keyboard.createCursorKeys();
       if (cursors.left.isDown) {
-        this.gridEngine.move("player", "left");
-        document.getElementById("ui").dispatchEvent(testEvent);
+        this.GridEngine.move("player", Direction.LEFT);
       } else if (cursors.right.isDown) {
-        this.gridEngine.move("player", "right");
+        this.GridEngine.move("player", Direction.RIGHT);
       } else if (cursors.up.isDown) {
-        this.gridEngine.move("player", "up");
+        this.GridEngine.move("player", Direction.UP);
       } else if (cursors.down.isDown) {
-        this.gridEngine.move("player", "down");
+        this.GridEngine.move("player", Direction.DOWN);
       }
-      this.isMovingText.text = `isMoving: ${this.gridEngine.isMoving("player")}`;
+      this.isMovingText.text = `isMoving: ${this.GridEngine.isMoving("player")}`;
+    }
+    hasTrigger(tilemap, pos) {
+      return tilemap.layers.some((layer) => {
+        const tile = tilemap.getTileAt(pos.x, pos.y, false, layer.name);
+        return tile?.properties?.trigger;
+      });
     }
   };
 
@@ -73770,9 +73782,9 @@
     plugins: {
       scene: [
         {
-          key: "gridEngine",
+          key: "GridEngine",
           plugin: lt,
-          mapping: "gridEngine"
+          mapping: "GridEngine"
         }
       ]
     }
