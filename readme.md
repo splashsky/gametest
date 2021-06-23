@@ -7,7 +7,7 @@ Current goals:
 - Interactions with game/UI affect the other
 
 # How to use
-Ensure that (http-server)[https://www.npmjs.com/package/http-server] is installed globally in your environment.
+Ensure that [http-server](https://www.npmjs.com/package/http-server) is installed globally in your environment.
 
 `npm i -g http-server`
 
