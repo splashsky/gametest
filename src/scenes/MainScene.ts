@@ -79,7 +79,8 @@ export default class MainScene extends Phaser.Scene
             this.GridEngine.move("player", Direction.DOWN);
         }
 
-        this.isMovingText.text = `isMoving: ${this.GridEngine.isMoving("player")}`;
+        const pos = this.GridEngine.getPosition("player");
+        this.isMovingText.text = `(x: ${pos.x}, y: ${pos.y})`;
     }
 
     private hasTrigger(tilemap: Phaser.Tilemaps.Tilemap, pos: Position): boolean

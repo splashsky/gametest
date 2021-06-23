@@ -73766,7 +73766,8 @@
       } else if (cursors.down.isDown) {
         this.GridEngine.move("player", Direction.DOWN);
       }
-      this.isMovingText.text = `isMoving: ${this.GridEngine.isMoving("player")}`;
+      const pos = this.GridEngine.getPosition("player");
+      this.isMovingText.text = `(x: ${pos.x}, y: ${pos.y})`;
     }
     hasTrigger(tilemap, pos) {
       console.log("Checking for trigger");
