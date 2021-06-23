@@ -5,9 +5,8 @@
   "main": "src/Main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-game": ".\\node_modules\\.bin\\esbuild src/Game.ts --bundle --outfile=public/game.js",
-    "build-ui": ".\\node_modules\\.bin\\esbuild src/UI.ts --bundle --outfile=public/ui.js",
-    "build": "npm run build-game && npm run build-ui",
+    "build": ".\\node_modules\\.bin\\esbuild src/Game.ts src/UI.ts --bundle --outdir=public",
+    "build-watch": ".\\node_modules\\.bin\\esbuild src/Game.ts src/UI.ts --bundle --outdir=public --watch",
     "serve": "http-server"
   },
   "author": "Splashsky <sky@oceanpotion.cc>",
