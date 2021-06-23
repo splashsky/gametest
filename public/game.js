@@ -73676,6 +73676,14 @@
   // src/Game.ts
   var Phaser2 = __toModule(require_phaser());
 
+  // src/helpers/Characters.ts
+  function createCharacterSprite(scene, x2, y2, texture, depth, scale) {
+    const sprite = scene.add.sprite(x2, y2, texture);
+    sprite.setDepth(depth);
+    sprite.scale = scale;
+    return sprite;
+  }
+
   // src/helpers/Tilemaps.ts
   function createTilemap(scene, key, images) {
     const map = scene.make.tilemap({ key });
@@ -73688,6 +73696,13 @@
     });
     return map;
   }
+
+  // src/UI.ts
+  var ui = document.getElementById("ui");
+  var testEvent = new CustomEvent("notice", { detail: {} });
+  ui.addEventListener("notice", (e) => {
+    console.log("Hey there's a notice!");
+  });
 
   // src/scenes/MainScene.ts
   var MainScene = class extends Phaser.Scene {
@@ -73706,14 +73721,12 @@
     }
     create() {
       const tilemap = createTilemap(this, "map", [{ layer: "DDBase", image: "tiles" }]);
-      const playerSprite = this.add.sprite(0, 0, "player");
-      playerSprite.setDepth(2);
-      playerSprite.scale = 1.5;
+      const playerSprite = createCharacterSprite(this, 0, 0, "player", 2, 1.5);
       this.isMovingText = this.add.text(-20, -10, "");
       const container = this.add.container(0, 0, [playerSprite, this.isMovingText]);
       this.cameras.main.startFollow(container, true);
       this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
-      const GridEngineConfig = {
+      this.gridEngine.create(tilemap, {
         characters: [
           {
             id: "player",
@@ -73723,13 +73736,13 @@
             container
           }
         ]
-      };
-      this.gridEngine.create(tilemap, GridEngineConfig);
+      });
     }
     update() {
       const cursors = this.input.keyboard.createCursorKeys();
       if (cursors.left.isDown) {
         this.gridEngine.move("player", "left");
+        document.getElementById("ui").dispatchEvent(testEvent);
       } else if (cursors.right.isDown) {
         this.gridEngine.move("player", "right");
       } else if (cursors.up.isDown) {

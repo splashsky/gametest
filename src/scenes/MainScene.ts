@@ -1,5 +1,6 @@
 import { createCharacterSprite } from "../helpers/Characters";
 import { createTilemap } from "../helpers/Tilemaps";
+import { testEvent } from "../UI";
 
 export default class MainScene extends Phaser.Scene
 {
@@ -57,6 +58,7 @@ export default class MainScene extends Phaser.Scene
 
         if (cursors.left.isDown) {
             this.gridEngine.move("player", "left");
+            document.getElementById("ui").dispatchEvent(testEvent);
         } else if (cursors.right.isDown) {
             this.gridEngine.move("player", "right");
         } else if (cursors.up.isDown) {
