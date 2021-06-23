@@ -55,15 +55,12 @@ export default class MainScene extends Phaser.Scene
             ]
         });
 
-        this.GridEngine.positionChangeFinished().subscribe(({ charId, exitTile, enterTile }) => {
-            if (this.hasTrigger(tilemap, enterTile)) {
+        this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
+            console.log("Movement stopped");
+            
+            if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
                 console.log("Found the trigger!");
                 notice("Found the thingy!");
-            }
-
-            if (this.hasTrigger(tilemap, exitTile)) {
-                console.log("Left the trigger");
-                notice("Left the thingy!");
             }
         });
     }
@@ -87,9 +84,15 @@ export default class MainScene extends Phaser.Scene
 
     private hasTrigger(tilemap: Phaser.Tilemaps.Tilemap, pos: Position): boolean
     {
-        return tilemap.layers.some((layer) => {
+        console.log("Checking for trigger");
+
+        const result = tilemap.layers.some((layer) => {
             const tile = tilemap.getTileAt(pos.x, pos.y, false, layer.name);
-            return tile?.properties?.trigger;
+            return tile ? 'trigger' in tile.properties : false;
         });
+
+        console.log(result ? "Found it!" : "Nope.");
+
+        return result;
     }
 }
