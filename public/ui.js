@@ -1,8 +1,12 @@
 (() => {
   // src/UI.ts
   var ui = document.getElementById("ui");
-  var testEvent = new CustomEvent("notice", { detail: {} });
-  ui.addEventListener("notice", (e) => {
-    console.log("Hey there's a notice!");
-  });
+  function updateH1(text) {
+    this.ui.querySelector("h1").innerText = text;
+  }
+  function notice(text) {
+    const notice2 = this.ui.querySelector("#notice");
+    notice2.innerText = text;
+    notice2.classList.replace("hidden", "show");
+  }
 })();

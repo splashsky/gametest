@@ -73706,6 +73706,14 @@
     return map;
   }
 
+  // src/UI.ts
+  var ui = document.getElementById("ui");
+  function notice(text) {
+    const notice2 = this.ui.querySelector("#notice");
+    notice2.innerText = text;
+    notice2.classList.replace("hidden", "show");
+  }
+
   // src/scenes/MainScene.ts
   var MainScene = class extends Phaser.Scene {
     constructor() {
@@ -73742,6 +73750,11 @@
       this.GridEngine.positionChangeFinished().subscribe(({ charId, exitTile, enterTile }) => {
         if (this.hasTrigger(tilemap, enterTile)) {
           console.log("Found the trigger!");
+          notice("Found the thingy!");
+        }
+        if (this.hasTrigger(tilemap, exitTile)) {
+          console.log("Left the trigger");
+          notice("Left the thingy!");
         }
       });
     }

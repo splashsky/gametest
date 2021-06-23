@@ -1,7 +1,13 @@
-const ui = document.getElementById("ui");
+const ui: HTMLElement = document.getElementById("ui");
 
-export const testEvent = new CustomEvent("notice", { detail: {} });
+export function updateH1(text: string): void
+{
+    this.ui.querySelector("h1").innerText = text;
+}
 
-ui.addEventListener("notice", (e) => {
-    console.log("Hey there's a notice!");
-});
+export function notice(text: string): void {
+    const notice = this.ui.querySelector("#notice") as HTMLElement;
+
+    notice.innerText = text;
+    notice.classList.replace("hidden", "show");
+}

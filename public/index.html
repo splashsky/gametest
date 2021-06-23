@@ -29,6 +29,19 @@
                 z-index: 2;
                 padding: 4em;
             }
+
+            #notice {
+                background: cadetblue;
+                padding: 1em;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .show {
+                display: block;
+            }
         </style>
     </head>
 
@@ -37,13 +50,8 @@
         <div id="ui">
             <h1 style="color: white; font-size: 24px; font-family: sans-serif;">Hello!</h1>
 
-            <div style="background: gray; padding: 1em;">
-                <form>
-                    <input type="text" placeholder="Poopoo">
-                    <input type="password" placeholder="Nein123">
-
-                    <button type="submit">Login</button>
-                </form>
+            <div id="notice" class="hidden">
+                Here's a notice!
             </div>
         </div>
         

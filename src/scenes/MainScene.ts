@@ -2,6 +2,7 @@ import { GridEngine, Position } from "grid-engine";
 import { Direction } from "../helpers/Direction";
 import { createCharacterSprite } from "../helpers/Characters";
 import { createTilemap } from "../helpers/Tilemaps";
+import { notice } from "../UI";
 
 export default class MainScene extends Phaser.Scene
 {
@@ -57,6 +58,12 @@ export default class MainScene extends Phaser.Scene
         this.GridEngine.positionChangeFinished().subscribe(({ charId, exitTile, enterTile }) => {
             if (this.hasTrigger(tilemap, enterTile)) {
                 console.log("Found the trigger!");
+                notice("Found the thingy!");
+            }
+
+            if (this.hasTrigger(tilemap, exitTile)) {
+                console.log("Left the trigger");
+                notice("Left the thingy!");
             }
         });
     }
