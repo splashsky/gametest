@@ -73706,6 +73706,48 @@
     return map;
   }
 
+  // src/scenes/BeachScene.ts
+  var BeachScene = class extends Phaser.Scene {
+    constructor() {
+      super({ key: "beach" });
+    }
+    preload() {
+      this.load.image("beachTiles", "assets/BeachWithBoundary.png");
+      this.load.tilemapTiledJSON("beach", "assets/beachmap.json");
+    }
+    create() {
+      const tilemap = createTilemap(this, "beach", [{ layer: "beach", image: "beachTiles" }]);
+      const playerSprite = createCharacterSprite(this, 0, 0, "player", 4, 1.5);
+      this.cameras.main.startFollow(playerSprite, true);
+      this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
+      this.GridEngine.create(tilemap, {
+        characters: [
+          {
+            id: "player",
+            sprite: playerSprite,
+            walkingAnimationMapping: 7,
+            startPosition: { x: 15, y: 16 }
+          }
+        ]
+      });
+      this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
+        console.log("Movement stopped");
+      });
+    }
+    update() {
+      const cursors = this.input.keyboard.createCursorKeys();
+      if (cursors.left.isDown) {
+        this.GridEngine.move("player", Direction.LEFT);
+      } else if (cursors.right.isDown) {
+        this.GridEngine.move("player", Direction.RIGHT);
+      } else if (cursors.up.isDown) {
+        this.GridEngine.move("player", Direction.UP);
+      } else if (cursors.down.isDown) {
+        this.GridEngine.move("player", Direction.DOWN);
+      }
+    }
+  };
+
   // src/UI.ts
   var ui = document.getElementById("ui");
   function notice(text) {
@@ -73723,27 +73765,24 @@
     }
     preload() {
       this.load.image("tiles", "assets/tf_atlantis_tiles.png");
-      this.load.spritesheet("player", "assets/BlackKnight.png", {
-        frameWidth: 26,
-        frameHeight: 36
+      this.load.spritesheet("player", "assets/FactionKnights2x.png", {
+        frameWidth: 52,
+        frameHeight: 72
       });
       this.load.tilemapTiledJSON("map", "assets/testmap.json");
     }
     create() {
       const tilemap = createTilemap(this, "map", [{ layer: "Atlantis", image: "tiles" }]);
       const playerSprite = createCharacterSprite(this, 0, 0, "player", 2, 1.5);
-      this.isMovingText = this.add.text(-20, -10, "");
-      const container = this.add.container(0, 0, [playerSprite, this.isMovingText]);
-      this.cameras.main.startFollow(container, true);
+      this.cameras.main.startFollow(playerSprite, true);
       this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
       this.GridEngine.create(tilemap, {
         characters: [
           {
             id: "player",
             sprite: playerSprite,
-            walkingAnimationMapping: 0,
-            startPosition: { x: 35, y: 32 },
-            container
+            walkingAnimationMapping: 7,
+            startPosition: { x: 35, y: 32 }
           }
         ]
       });
@@ -73752,6 +73791,7 @@
         if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
           console.log("Found the trigger!");
           notice("Found the thingy!");
+          this.scene.start("beach");
         }
       });
     }
@@ -73766,8 +73806,6 @@
       } else if (cursors.down.isDown) {
         this.GridEngine.move("player", Direction.DOWN);
       }
-      const pos = this.GridEngine.getPosition("player");
-      this.isMovingText.text = `(x: ${pos.x}, y: ${pos.y})`;
     }
     hasTrigger(tilemap, pos) {
       console.log("Checking for trigger");
@@ -73790,7 +73828,7 @@
       height: window.innerHeight,
       autoCenter: Phaser2.Scale.CENTER_BOTH
     },
-    scene: [MainScene],
+    scene: [MainScene, BeachScene],
     parent: "game",
     backgroundColor: "#415263",
     plugins: {

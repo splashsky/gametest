@@ -1,31 +1,22 @@
-import { GridEngine, Position } from "grid-engine"
+import { GridEngine } from "grid-engine"
 import { Direction } from "../helpers/Direction"
 import { createCharacterSprite } from "../helpers/Characters"
 import { createTilemap } from "../helpers/Tilemaps"
-import { notice } from "../UI"
 
-export default class MainScene extends Phaser.Scene {
+export default class BeachScene extends Phaser.Scene {
     private GridEngine: GridEngine
 
     constructor() {
-        super({
-            key: "Main"
-        })
+        super({ key: 'beach' })
     }
 
     public preload(): void {
-        this.load.image("tiles", "assets/tf_atlantis_tiles.png")
-
-        this.load.spritesheet("player", "assets/FactionKnights2x.png", {
-            frameWidth: 52,
-            frameHeight: 72
-        })
-
-        this.load.tilemapTiledJSON("map", "assets/testmap.json")
+        this.load.image('beachTiles', 'assets/BeachWithBoundary.png')
+        this.load.tilemapTiledJSON('beach', 'assets/beachmap.json')
     }
 
     public create(): void {
-        const tilemap = createTilemap(this, "map", [{layer: "Atlantis", image: "tiles"}])
+        const tilemap = createTilemap(this, 'beach', [{layer: 'beach', image: 'beachTiles'}])
 
         const playerSprite = createCharacterSprite(this, 0, 0, "player", 1.5)
 
@@ -38,22 +29,16 @@ export default class MainScene extends Phaser.Scene {
                     id: "player",
                     sprite: playerSprite,
                     walkingAnimationMapping: 7,
-                    startPosition: { x: 35, y: 32 }
+                    startPosition: { x: 15, y: 16 }
                 }
             ]
         })
 
         this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
             console.log("Movement stopped")
-            
-            if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
-                console.log("Found the trigger!")
-                notice("Found the thingy!")
-                this.scene.start('beach');
-            }
         })
     }
-
+    
     public update(): void {
         const cursors = this.input.keyboard.createCursorKeys()
 
@@ -66,18 +51,5 @@ export default class MainScene extends Phaser.Scene {
         } else if (cursors.down.isDown) {
             this.GridEngine.move("player", Direction.DOWN)
         }
-    }
-
-    private hasTrigger(tilemap: Phaser.Tilemaps.Tilemap, pos: Position): boolean {
-        console.log("Checking for trigger")
-
-        const result = tilemap.layers.some((layer) => {
-            const tile = tilemap.getTileAt(pos.x, pos.y, false, layer.name)
-            return tile ? 'trigger' in tile.properties : false
-        })
-
-        console.log(result ? "Found it!" : "Nope.")
-
-        return result
     }
 }
