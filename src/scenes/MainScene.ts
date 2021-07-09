@@ -46,6 +46,7 @@ export default class MainScene extends Phaser.Scene {
         this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
             console.log("Movement stopped")
             
+            console.log(this.GridEngine.getPosition(charId));
             if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
                 console.log("Found the trigger!")
                 notice("Found the thingy!")
