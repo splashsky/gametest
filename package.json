@@ -9,7 +9,7 @@
     "build-watch": ".\\node_modules\\.bin\\esbuild src/Game.ts src/UI.ts --bundle --outdir=public --watch",
     "serve": "http-server"
   },
-  "author": "Splashsky <sky@oceanpotion.cc>",
+  "author": "Splashsky <sky@surf.gg>",
   "license": "MIT",
   "dependencies": {
     "esbuild": "^0.12.9",
