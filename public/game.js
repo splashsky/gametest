@@ -98,8 +98,8 @@
             function hasGetterOrSetter(def) {
               return !!def.get && typeof def.get === "function" || !!def.set && typeof def.set === "function";
             }
-            function getProperty(definition, k, isClassDescriptor) {
-              var def = isClassDescriptor ? definition[k] : Object.getOwnPropertyDescriptor(definition, k);
+            function getProperty(definition, k2, isClassDescriptor) {
+              var def = isClassDescriptor ? definition[k2] : Object.getOwnPropertyDescriptor(definition, k2);
               if (!isClassDescriptor && def.value && typeof def.value === "object") {
                 def = def.value;
               }
@@ -115,8 +115,8 @@
                 return false;
               }
             }
-            function hasNonConfigurable(obj, k) {
-              var prop = Object.getOwnPropertyDescriptor(obj, k);
+            function hasNonConfigurable(obj, k2) {
+              var prop = Object.getOwnPropertyDescriptor(obj, k2);
               if (!prop) {
                 return false;
               }
@@ -129,22 +129,22 @@
               return false;
             }
             function extend(ctor, definition, isClassDescriptor, extend2) {
-              for (var k in definition) {
-                if (!definition.hasOwnProperty(k)) {
+              for (var k2 in definition) {
+                if (!definition.hasOwnProperty(k2)) {
                   continue;
                 }
-                var def = getProperty(definition, k, isClassDescriptor);
+                var def = getProperty(definition, k2, isClassDescriptor);
                 if (def !== false) {
                   var parent = extend2 || ctor;
-                  if (hasNonConfigurable(parent.prototype, k)) {
+                  if (hasNonConfigurable(parent.prototype, k2)) {
                     if (Class.ignoreFinals) {
                       continue;
                     }
-                    throw new Error("cannot override final property '" + k + "', set Class.ignoreFinals = true to skip");
+                    throw new Error("cannot override final property '" + k2 + "', set Class.ignoreFinals = true to skip");
                   }
-                  Object.defineProperty(ctor.prototype, k, def);
+                  Object.defineProperty(ctor.prototype, k2, def);
                 } else {
-                  ctor.prototype[k] = definition[k];
+                  ctor.prototype[k2] = definition[k2];
                 }
               }
             }
@@ -224,18 +224,18 @@
             var Class = __webpack_require__(0);
             var FuzzyEqual = __webpack_require__(124);
             var Vector2 = new Class({
-              initialize: function Vector22(x2, y2) {
+              initialize: function Vector22(x2, y) {
                 this.x = 0;
                 this.y = 0;
                 if (typeof x2 === "object") {
                   this.x = x2.x || 0;
                   this.y = x2.y || 0;
                 } else {
-                  if (y2 === void 0) {
-                    y2 = x2;
+                  if (y === void 0) {
+                    y = x2;
                   }
                   this.x = x2 || 0;
-                  this.y = y2 || 0;
+                  this.y = y || 0;
                 }
               },
               clone: function() {
@@ -251,16 +251,16 @@
                 this.y = obj.y || 0;
                 return this;
               },
-              set: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              set: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
-              setTo: function(x2, y2) {
-                return this.set(x2, y2);
+              setTo: function(x2, y) {
+                return this.set(x2, y);
               },
               setToPolar: function(azimuth, radius) {
                 if (radius == null) {
@@ -333,25 +333,25 @@
               },
               length: function() {
                 var x2 = this.x;
-                var y2 = this.y;
-                return Math.sqrt(x2 * x2 + y2 * y2);
+                var y = this.y;
+                return Math.sqrt(x2 * x2 + y * y);
               },
               setLength: function(length) {
                 return this.normalize().scale(length);
               },
               lengthSq: function() {
                 var x2 = this.x;
-                var y2 = this.y;
-                return x2 * x2 + y2 * y2;
+                var y = this.y;
+                return x2 * x2 + y * y;
               },
               normalize: function() {
                 var x2 = this.x;
-                var y2 = this.y;
-                var len = x2 * x2 + y2 * y2;
+                var y = this.y;
+                var len = x2 * x2 + y * y;
                 if (len > 0) {
                   len = 1 / Math.sqrt(len);
                   this.x = x2 * len;
-                  this.y = y2 * len;
+                  this.y = y * len;
                 }
                 return this;
               },
@@ -385,18 +385,18 @@
               },
               transformMat3: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
-                var m2 = mat.val;
-                this.x = m2[0] * x2 + m2[3] * y2 + m2[6];
-                this.y = m2[1] * x2 + m2[4] * y2 + m2[7];
+                var y = this.y;
+                var m = mat.val;
+                this.x = m[0] * x2 + m[3] * y + m[6];
+                this.y = m[1] * x2 + m[4] * y + m[7];
                 return this;
               },
               transformMat4: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
-                var m2 = mat.val;
-                this.x = m2[0] * x2 + m2[4] * y2 + m2[12];
-                this.y = m2[1] * x2 + m2[5] * y2 + m2[13];
+                var y = this.y;
+                var m = mat.val;
+                this.x = m[0] * x2 + m[4] * y + m[12];
+                this.y = m[1] * x2 + m[5] * y + m[13];
                 return this;
               },
               reset: function() {
@@ -436,26 +436,26 @@
             var Class = __webpack_require__(0);
             var GEOM_CONST = __webpack_require__(56);
             var Point = new Class({
-              initialize: function Point2(x2, y2) {
+              initialize: function Point2(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.type = GEOM_CONST.POINT;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
               },
-              setTo: function(x2, y2) {
+              setTo: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               }
             });
@@ -634,7 +634,7 @@
                 return [];
               if (handlers.fn)
                 return [handlers.fn];
-              for (var i = 0, l2 = handlers.length, ee2 = new Array(l2); i < l2; i++) {
+              for (var i = 0, l = handlers.length, ee2 = new Array(l); i < l; i++) {
                 ee2[i] = handlers[i].fn;
               }
               return ee2;
@@ -763,12 +763,12 @@
             var Line = __webpack_require__(47);
             var Random = __webpack_require__(174);
             var Rectangle = new Class({
-              initialize: function Rectangle2(x2, y2, width, height) {
+              initialize: function Rectangle2(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 0;
@@ -778,12 +778,12 @@
                 }
                 this.type = GEOM_CONST.RECTANGLE;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
               },
-              contains: function(x2, y2) {
-                return Contains(this, x2, y2);
+              contains: function(x2, y) {
+                return Contains(this, x2, y);
               },
               getPoint: function(position, output) {
                 return GetPoint(this, position, output);
@@ -794,9 +794,9 @@
               getRandomPoint: function(point) {
                 return Random(this, point);
               },
-              setTo: function(x2, y2, width, height) {
+              setTo: function(x2, y, width, height) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
                 return this;
@@ -804,12 +804,12 @@
               setEmpty: function() {
                 return this.setTo(0, 0, 0, 0);
               },
-              setPosition: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setPosition: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
               setSize: function(width, height) {
@@ -959,29 +959,29 @@
               return src;
             }
             module2.exports = {
-              getTintFromFloats: function(r, g, b2, a) {
-                var ur = (r * 255 | 0) & 255;
-                var ug = (g * 255 | 0) & 255;
-                var ub = (b2 * 255 | 0) & 255;
-                var ua = (a * 255 | 0) & 255;
-                return (ua << 24 | ur << 16 | ug << 8 | ub) >>> 0;
+              getTintFromFloats: function(r, g2, b, a2) {
+                var ur2 = (r * 255 | 0) & 255;
+                var ug = (g2 * 255 | 0) & 255;
+                var ub = (b * 255 | 0) & 255;
+                var ua = (a2 * 255 | 0) & 255;
+                return (ua << 24 | ur2 << 16 | ug << 8 | ub) >>> 0;
               },
-              getTintAppendFloatAlpha: function(rgb, a) {
-                var ua = (a * 255 | 0) & 255;
+              getTintAppendFloatAlpha: function(rgb, a2) {
+                var ua = (a2 * 255 | 0) & 255;
                 return (ua << 24 | rgb) >>> 0;
               },
-              getTintAppendFloatAlphaAndSwap: function(rgb, a) {
-                var ur = (rgb >> 16 | 0) & 255;
+              getTintAppendFloatAlphaAndSwap: function(rgb, a2) {
+                var ur2 = (rgb >> 16 | 0) & 255;
                 var ug = (rgb >> 8 | 0) & 255;
                 var ub = (rgb | 0) & 255;
-                var ua = (a * 255 | 0) & 255;
-                return (ua << 24 | ub << 16 | ug << 8 | ur) >>> 0;
+                var ua = (a2 * 255 | 0) & 255;
+                return (ua << 24 | ub << 16 | ug << 8 | ur2) >>> 0;
               },
               getFloatsFromUintRGB: function(rgb) {
-                var ur = (rgb >> 16 | 0) & 255;
+                var ur2 = (rgb >> 16 | 0) & 255;
                 var ug = (rgb >> 8 | 0) & 255;
                 var ub = (rgb | 0) & 255;
-                return [ur / 255, ug / 255, ub / 255];
+                return [ur2 / 255, ug / 255, ub / 255];
               },
               checkShaderMax: function(gl, maxTextures) {
                 if (!maxTextures || maxTextures === -1) {
@@ -1663,12 +1663,12 @@
             var MATH_CONST = __webpack_require__(14);
             var Vector2 = __webpack_require__(3);
             var TransformMatrix = new Class({
-              initialize: function TransformMatrix2(a, b2, c, d, tx, ty) {
-                if (a === void 0) {
-                  a = 1;
+              initialize: function TransformMatrix2(a2, b, c, d, tx, ty) {
+                if (a2 === void 0) {
+                  a2 = 1;
                 }
-                if (b2 === void 0) {
-                  b2 = 0;
+                if (b === void 0) {
+                  b = 0;
                 }
                 if (c === void 0) {
                   c = 0;
@@ -1682,7 +1682,7 @@
                 if (ty === void 0) {
                   ty = 0;
                 }
-                this.matrix = new Float32Array([a, b2, c, d, tx, ty, 0, 0, 1]);
+                this.matrix = new Float32Array([a2, b, c, d, tx, ty, 0, 0, 1]);
                 this.decomposedMatrix = {
                   translateX: 0,
                   translateY: 0,
@@ -1763,12 +1763,12 @@
               rotationNormalized: {
                 get: function() {
                   var matrix = this.matrix;
-                  var a = matrix[0];
-                  var b2 = matrix[1];
+                  var a2 = matrix[0];
+                  var b = matrix[1];
                   var c = matrix[2];
                   var d = matrix[3];
-                  if (a || b2) {
-                    return b2 > 0 ? Math.acos(a / this.scaleX) : -Math.acos(a / this.scaleX);
+                  if (a2 || b) {
+                    return b > 0 ? Math.acos(a2 / this.scaleX) : -Math.acos(a2 / this.scaleX);
                   } else if (c || d) {
                     return MATH_CONST.TAU - (d > 0 ? Math.acos(-c / this.scaleY) : -Math.acos(c / this.scaleY));
                   } else {
@@ -1796,32 +1796,32 @@
                 matrix[5] = 0;
                 return this;
               },
-              translate: function(x2, y2) {
+              translate: function(x2, y) {
                 var matrix = this.matrix;
-                matrix[4] = matrix[0] * x2 + matrix[2] * y2 + matrix[4];
-                matrix[5] = matrix[1] * x2 + matrix[3] * y2 + matrix[5];
+                matrix[4] = matrix[0] * x2 + matrix[2] * y + matrix[4];
+                matrix[5] = matrix[1] * x2 + matrix[3] * y + matrix[5];
                 return this;
               },
-              scale: function(x2, y2) {
+              scale: function(x2, y) {
                 var matrix = this.matrix;
                 matrix[0] *= x2;
                 matrix[1] *= x2;
-                matrix[2] *= y2;
-                matrix[3] *= y2;
+                matrix[2] *= y;
+                matrix[3] *= y;
                 return this;
               },
               rotate: function(angle) {
                 var sin = Math.sin(angle);
                 var cos = Math.cos(angle);
                 var matrix = this.matrix;
-                var a = matrix[0];
-                var b2 = matrix[1];
+                var a2 = matrix[0];
+                var b = matrix[1];
                 var c = matrix[2];
                 var d = matrix[3];
-                matrix[0] = a * cos + c * sin;
-                matrix[1] = b2 * cos + d * sin;
-                matrix[2] = a * -sin + c * cos;
-                matrix[3] = b2 * -sin + d * cos;
+                matrix[0] = a2 * cos + c * sin;
+                matrix[1] = b * cos + d * sin;
+                matrix[2] = a2 * -sin + c * cos;
+                matrix[3] = b * -sin + d * cos;
                 return this;
               },
               multiply: function(rhs, out) {
@@ -1873,7 +1873,7 @@
                 matrix[5] = tx1 * b0 + ty1 * d0 + psf;
                 return this;
               },
-              transform: function(a, b2, c, d, tx, ty) {
+              transform: function(a2, b, c, d, tx, ty) {
                 var matrix = this.matrix;
                 var a0 = matrix[0];
                 var b0 = matrix[1];
@@ -1881,44 +1881,44 @@
                 var d0 = matrix[3];
                 var tx0 = matrix[4];
                 var ty0 = matrix[5];
-                matrix[0] = a * a0 + b2 * c0;
-                matrix[1] = a * b0 + b2 * d0;
+                matrix[0] = a2 * a0 + b * c0;
+                matrix[1] = a2 * b0 + b * d0;
                 matrix[2] = c * a0 + d * c0;
                 matrix[3] = c * b0 + d * d0;
                 matrix[4] = tx * a0 + ty * c0 + tx0;
                 matrix[5] = tx * b0 + ty * d0 + ty0;
                 return this;
               },
-              transformPoint: function(x2, y2, point) {
+              transformPoint: function(x2, y, point) {
                 if (point === void 0) {
                   point = { x: 0, y: 0 };
                 }
                 var matrix = this.matrix;
-                var a = matrix[0];
-                var b2 = matrix[1];
+                var a2 = matrix[0];
+                var b = matrix[1];
                 var c = matrix[2];
                 var d = matrix[3];
                 var tx = matrix[4];
                 var ty = matrix[5];
-                point.x = x2 * a + y2 * c + tx;
-                point.y = x2 * b2 + y2 * d + ty;
+                point.x = x2 * a2 + y * c + tx;
+                point.y = x2 * b + y * d + ty;
                 return point;
               },
               invert: function() {
                 var matrix = this.matrix;
-                var a = matrix[0];
-                var b2 = matrix[1];
+                var a2 = matrix[0];
+                var b = matrix[1];
                 var c = matrix[2];
                 var d = matrix[3];
                 var tx = matrix[4];
                 var ty = matrix[5];
-                var n = a * d - b2 * c;
+                var n = a2 * d - b * c;
                 matrix[0] = d / n;
-                matrix[1] = -b2 / n;
+                matrix[1] = -b / n;
                 matrix[2] = -c / n;
-                matrix[3] = a / n;
+                matrix[3] = a2 / n;
                 matrix[4] = (c * ty - d * tx) / n;
-                matrix[5] = -(a * ty - b2 * tx) / n;
+                matrix[5] = -(a2 * ty - b * tx) / n;
                 return this;
               },
               copyFrom: function(src) {
@@ -1965,10 +1965,10 @@
                 }
                 return out;
               },
-              setTransform: function(a, b2, c, d, tx, ty) {
+              setTransform: function(a2, b, c, d, tx, ty) {
                 var matrix = this.matrix;
-                matrix[0] = a;
-                matrix[1] = b2;
+                matrix[0] = a2;
+                matrix[1] = b;
                 matrix[2] = c;
                 matrix[3] = d;
                 matrix[4] = tx;
@@ -1978,23 +1978,23 @@
               decomposeMatrix: function() {
                 var decomposedMatrix = this.decomposedMatrix;
                 var matrix = this.matrix;
-                var a = matrix[0];
-                var b2 = matrix[1];
+                var a2 = matrix[0];
+                var b = matrix[1];
                 var c = matrix[2];
                 var d = matrix[3];
-                var determ = a * d - b2 * c;
+                var determ = a2 * d - b * c;
                 decomposedMatrix.translateX = matrix[4];
                 decomposedMatrix.translateY = matrix[5];
-                if (a || b2) {
-                  var r = Math.sqrt(a * a + b2 * b2);
-                  decomposedMatrix.rotation = b2 > 0 ? Math.acos(a / r) : -Math.acos(a / r);
+                if (a2 || b) {
+                  var r = Math.sqrt(a2 * a2 + b * b);
+                  decomposedMatrix.rotation = b > 0 ? Math.acos(a2 / r) : -Math.acos(a2 / r);
                   decomposedMatrix.scaleX = r;
                   decomposedMatrix.scaleY = determ / r;
                 } else if (c || d) {
-                  var s2 = Math.sqrt(c * c + d * d);
-                  decomposedMatrix.rotation = Math.PI * 0.5 - (d > 0 ? Math.acos(-c / s2) : -Math.acos(c / s2));
-                  decomposedMatrix.scaleX = determ / s2;
-                  decomposedMatrix.scaleY = s2;
+                  var s = Math.sqrt(c * c + d * d);
+                  decomposedMatrix.rotation = Math.PI * 0.5 - (d > 0 ? Math.acos(-c / s) : -Math.acos(c / s));
+                  decomposedMatrix.scaleX = determ / s;
+                  decomposedMatrix.scaleY = s;
                 } else {
                   decomposedMatrix.rotation = 0;
                   decomposedMatrix.scaleX = 0;
@@ -2002,57 +2002,57 @@
                 }
                 return decomposedMatrix;
               },
-              applyITRS: function(x2, y2, rotation, scaleX, scaleY) {
+              applyITRS: function(x2, y, rotation, scaleX, scaleY) {
                 var matrix = this.matrix;
                 var radianSin = Math.sin(rotation);
                 var radianCos = Math.cos(rotation);
                 matrix[4] = x2;
-                matrix[5] = y2;
+                matrix[5] = y;
                 matrix[0] = radianCos * scaleX;
                 matrix[1] = radianSin * scaleX;
                 matrix[2] = -radianSin * scaleY;
                 matrix[3] = radianCos * scaleY;
                 return this;
               },
-              applyInverse: function(x2, y2, output) {
+              applyInverse: function(x2, y, output) {
                 if (output === void 0) {
                   output = new Vector2();
                 }
                 var matrix = this.matrix;
-                var a = matrix[0];
-                var b2 = matrix[1];
+                var a2 = matrix[0];
+                var b = matrix[1];
                 var c = matrix[2];
                 var d = matrix[3];
                 var tx = matrix[4];
                 var ty = matrix[5];
-                var id = 1 / (a * d + c * -b2);
-                output.x = d * id * x2 + -c * id * y2 + (ty * c - tx * d) * id;
-                output.y = a * id * y2 + -b2 * id * x2 + (-ty * a + tx * b2) * id;
+                var id = 1 / (a2 * d + c * -b);
+                output.x = d * id * x2 + -c * id * y + (ty * c - tx * d) * id;
+                output.y = a2 * id * y + -b * id * x2 + (-ty * a2 + tx * b) * id;
                 return output;
               },
-              getX: function(x2, y2) {
-                return x2 * this.a + y2 * this.c + this.e;
+              getX: function(x2, y) {
+                return x2 * this.a + y * this.c + this.e;
               },
-              getY: function(x2, y2) {
-                return x2 * this.b + y2 * this.d + this.f;
+              getY: function(x2, y) {
+                return x2 * this.b + y * this.d + this.f;
               },
-              getXRound: function(x2, y2, round) {
-                var v2 = this.getX(x2, y2);
+              getXRound: function(x2, y, round) {
+                var v2 = this.getX(x2, y);
                 if (round) {
                   v2 = Math.round(v2);
                 }
                 return v2;
               },
-              getYRound: function(x2, y2, round) {
-                var v2 = this.getY(x2, y2);
+              getYRound: function(x2, y, round) {
+                var v2 = this.getY(x2, y);
                 if (round) {
                   v2 = Math.round(v2);
                 }
                 return v2;
               },
               getCSSMatrix: function() {
-                var m2 = this.matrix;
-                return "matrix(" + m2[0] + "," + m2[1] + "," + m2[2] + "," + m2[3] + "," + m2[4] + "," + m2[5] + ")";
+                var m = this.matrix;
+                return "matrix(" + m[0] + "," + m[1] + "," + m[2] + "," + m[3] + "," + m[4] + "," + m[5] + ")";
               },
               destroy: function() {
                 this.matrix = null;
@@ -2543,7 +2543,7 @@
                 }
                 var chain = function() {
                   var lastResult, args = new Array(arguments.length);
-                  for (var i2 = 0, l2 = arguments.length; i2 < l2; i2++) {
+                  for (var i2 = 0, l = arguments.length; i2 < l; i2++) {
                     args[i2] = arguments[i2];
                   }
                   for (i2 = 0; i2 < funcs.length; i2 += 1) {
@@ -2832,8 +2832,8 @@
                 this._locked = false;
                 return this.update(true);
               },
-              setFromHSV: function(h, s2, v2) {
-                return HSVToRGB(h, s2, v2, this);
+              setFromHSV: function(h, s, v2) {
+                return HSVToRGB(h, s, v2, this);
               },
               update: function(updateHSV) {
                 if (updateHSV === void 0) {
@@ -2843,22 +2843,22 @@
                   return this;
                 }
                 var r = this.r;
-                var g = this.g;
-                var b2 = this.b;
-                var a = this.a;
-                this._color = GetColor(r, g, b2);
-                this._color32 = GetColor32(r, g, b2, a);
-                this._rgba = "rgba(" + r + "," + g + "," + b2 + "," + a / 255 + ")";
+                var g2 = this.g;
+                var b = this.b;
+                var a2 = this.a;
+                this._color = GetColor(r, g2, b);
+                this._color32 = GetColor32(r, g2, b, a2);
+                this._rgba = "rgba(" + r + "," + g2 + "," + b + "," + a2 / 255 + ")";
                 if (updateHSV) {
-                  RGBToHSV(r, g, b2, this);
+                  RGBToHSV(r, g2, b, this);
                 }
                 return this;
               },
               updateHSV: function() {
                 var r = this.r;
-                var g = this.g;
-                var b2 = this.b;
-                RGBToHSV(r, g, b2, this);
+                var g2 = this.g;
+                var b = this.b;
+                RGBToHSV(r, g2, b, this);
                 return this;
               },
               clone: function() {
@@ -2875,9 +2875,9 @@
                   max = 255;
                 }
                 var r = Math.floor(min + Math.random() * (max - min));
-                var g = Math.floor(min + Math.random() * (max - min));
-                var b2 = Math.floor(min + Math.random() * (max - min));
-                return this.setTo(r, g, b2);
+                var g2 = Math.floor(min + Math.random() * (max - min));
+                var b = Math.floor(min + Math.random() * (max - min));
+                return this.setTo(r, g2, b);
               },
               randomGray: function(min, max) {
                 if (min === void 0) {
@@ -2886,8 +2886,8 @@
                 if (max === void 0) {
                   max = 255;
                 }
-                var s2 = Math.floor(min + Math.random() * (max - min));
-                return this.setTo(s2, s2, s2);
+                var s = Math.floor(min + Math.random() * (max - min));
+                return this.setTo(s, s, s);
               },
               saturate: function(amount) {
                 this.s += amount / 100;
@@ -2907,12 +2907,12 @@
               },
               brighten: function(amount) {
                 var r = this.r;
-                var g = this.g;
-                var b2 = this.b;
+                var g2 = this.g;
+                var b = this.b;
                 r = Math.max(0, Math.min(255, r - Math.round(255 * -(amount / 100))));
-                g = Math.max(0, Math.min(255, g - Math.round(255 * -(amount / 100))));
-                b2 = Math.max(0, Math.min(255, b2 - Math.round(255 * -(amount / 100))));
-                return this.setTo(r, g, b2);
+                g2 = Math.max(0, Math.min(255, g2 - Math.round(255 * -(amount / 100))));
+                b = Math.max(0, Math.min(255, b - Math.round(255 * -(amount / 100))));
+                return this.setTo(r, g2, b);
               },
               color: {
                 get: function() {
@@ -3046,7 +3046,7 @@
           function(module2, exports2, __webpack_require__) {
             var Class = __webpack_require__(0);
             var Vector3 = new Class({
-              initialize: function Vector32(x2, y2, z2) {
+              initialize: function Vector32(x2, y, z2) {
                 this.x = 0;
                 this.y = 0;
                 this.z = 0;
@@ -3056,7 +3056,7 @@
                   this.z = x2.z || 0;
                 } else {
                   this.x = x2 || 0;
-                  this.y = y2 || 0;
+                  this.y = y || 0;
                   this.z = z2 || 0;
                 }
               },
@@ -3081,19 +3081,19 @@
               clone: function() {
                 return new Vector3(this.x, this.y, this.z);
               },
-              addVectors: function(a, b2) {
-                this.x = a.x + b2.x;
-                this.y = a.y + b2.y;
-                this.z = a.z + b2.z;
+              addVectors: function(a2, b) {
+                this.x = a2.x + b.x;
+                this.y = a2.y + b.y;
+                this.z = a2.z + b.z;
                 return this;
               },
-              crossVectors: function(a, b2) {
-                var ax = a.x;
-                var ay = a.y;
-                var az = a.z;
-                var bx = b2.x;
-                var by = b2.y;
-                var bz = b2.z;
+              crossVectors: function(a2, b) {
+                var ax = a2.x;
+                var ay = a2.y;
+                var az = a2.z;
+                var bx = b.x;
+                var by = b.y;
+                var bz = b.z;
                 this.x = ay * bz - az * by;
                 this.y = az * bx - ax * bz;
                 this.z = ax * by - ay * bx;
@@ -3108,20 +3108,20 @@
                 this.z = src.z || 0;
                 return this;
               },
-              set: function(x2, y2, z2) {
+              set: function(x2, y, z2) {
                 if (typeof x2 === "object") {
                   this.x = x2.x || 0;
                   this.y = x2.y || 0;
                   this.z = x2.z || 0;
                 } else {
                   this.x = x2 || 0;
-                  this.y = y2 || 0;
+                  this.y = y || 0;
                   this.z = z2 || 0;
                 }
                 return this;
               },
-              setFromMatrixPosition: function(m2) {
-                return this.fromArray(m2.val, 12);
+              setFromMatrixPosition: function(m) {
+                return this.fromArray(m.val, 12);
               },
               setFromMatrixColumn: function(mat4, index) {
                 return this.fromArray(mat4.val, index * 4);
@@ -3141,10 +3141,10 @@
                 this.z += v2.z || 0;
                 return this;
               },
-              addScalar: function(s2) {
-                this.x += s2;
-                this.y += s2;
-                this.z += s2;
+              addScalar: function(s) {
+                this.x += s;
+                this.y += s;
+                this.z += s;
                 return this;
               },
               addScale: function(v2, scale) {
@@ -3203,25 +3203,25 @@
               },
               length: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                return Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+                return Math.sqrt(x2 * x2 + y * y + z2 * z2);
               },
               lengthSq: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                return x2 * x2 + y2 * y2 + z2 * z2;
+                return x2 * x2 + y * y + z2 * z2;
               },
               normalize: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var len = x2 * x2 + y2 * y2 + z2 * z2;
+                var len = x2 * x2 + y * y + z2 * z2;
                 if (len > 0) {
                   len = 1 / Math.sqrt(len);
                   this.x = x2 * len;
-                  this.y = y2 * len;
+                  this.y = y * len;
                   this.z = z2 * len;
                 }
                 return this;
@@ -3255,71 +3255,71 @@
               },
               applyMatrix3: function(mat3) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat3.val;
-                this.x = m2[0] * x2 + m2[3] * y2 + m2[6] * z2;
-                this.y = m2[1] * x2 + m2[4] * y2 + m2[7] * z2;
-                this.z = m2[2] * x2 + m2[5] * y2 + m2[8] * z2;
+                var m = mat3.val;
+                this.x = m[0] * x2 + m[3] * y + m[6] * z2;
+                this.y = m[1] * x2 + m[4] * y + m[7] * z2;
+                this.z = m[2] * x2 + m[5] * y + m[8] * z2;
                 return this;
               },
               applyMatrix4: function(mat4) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat4.val;
-                var w2 = 1 / (m2[3] * x2 + m2[7] * y2 + m2[11] * z2 + m2[15]);
-                this.x = (m2[0] * x2 + m2[4] * y2 + m2[8] * z2 + m2[12]) * w2;
-                this.y = (m2[1] * x2 + m2[5] * y2 + m2[9] * z2 + m2[13]) * w2;
-                this.z = (m2[2] * x2 + m2[6] * y2 + m2[10] * z2 + m2[14]) * w2;
+                var m = mat4.val;
+                var w2 = 1 / (m[3] * x2 + m[7] * y + m[11] * z2 + m[15]);
+                this.x = (m[0] * x2 + m[4] * y + m[8] * z2 + m[12]) * w2;
+                this.y = (m[1] * x2 + m[5] * y + m[9] * z2 + m[13]) * w2;
+                this.z = (m[2] * x2 + m[6] * y + m[10] * z2 + m[14]) * w2;
                 return this;
               },
               transformMat3: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat.val;
-                this.x = x2 * m2[0] + y2 * m2[3] + z2 * m2[6];
-                this.y = x2 * m2[1] + y2 * m2[4] + z2 * m2[7];
-                this.z = x2 * m2[2] + y2 * m2[5] + z2 * m2[8];
+                var m = mat.val;
+                this.x = x2 * m[0] + y * m[3] + z2 * m[6];
+                this.y = x2 * m[1] + y * m[4] + z2 * m[7];
+                this.z = x2 * m[2] + y * m[5] + z2 * m[8];
                 return this;
               },
               transformMat4: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat.val;
-                this.x = m2[0] * x2 + m2[4] * y2 + m2[8] * z2 + m2[12];
-                this.y = m2[1] * x2 + m2[5] * y2 + m2[9] * z2 + m2[13];
-                this.z = m2[2] * x2 + m2[6] * y2 + m2[10] * z2 + m2[14];
+                var m = mat.val;
+                this.x = m[0] * x2 + m[4] * y + m[8] * z2 + m[12];
+                this.y = m[1] * x2 + m[5] * y + m[9] * z2 + m[13];
+                this.z = m[2] * x2 + m[6] * y + m[10] * z2 + m[14];
                 return this;
               },
               transformCoordinates: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat.val;
-                var tx = x2 * m2[0] + y2 * m2[4] + z2 * m2[8] + m2[12];
-                var ty = x2 * m2[1] + y2 * m2[5] + z2 * m2[9] + m2[13];
-                var tz = x2 * m2[2] + y2 * m2[6] + z2 * m2[10] + m2[14];
-                var tw = x2 * m2[3] + y2 * m2[7] + z2 * m2[11] + m2[15];
+                var m = mat.val;
+                var tx = x2 * m[0] + y * m[4] + z2 * m[8] + m[12];
+                var ty = x2 * m[1] + y * m[5] + z2 * m[9] + m[13];
+                var tz = x2 * m[2] + y * m[6] + z2 * m[10] + m[14];
+                var tw = x2 * m[3] + y * m[7] + z2 * m[11] + m[15];
                 this.x = tx / tw;
                 this.y = ty / tw;
                 this.z = tz / tw;
                 return this;
               },
-              transformQuat: function(q) {
+              transformQuat: function(q2) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var qx = q.x;
-                var qy = q.y;
-                var qz = q.z;
-                var qw = q.w;
-                var ix = qw * x2 + qy * z2 - qz * y2;
-                var iy = qw * y2 + qz * x2 - qx * z2;
-                var iz = qw * z2 + qx * y2 - qy * x2;
-                var iw = -qx * x2 - qy * y2 - qz * z2;
+                var qx = q2.x;
+                var qy = q2.y;
+                var qz = q2.z;
+                var qw = q2.w;
+                var ix = qw * x2 + qy * z2 - qz * y;
+                var iy = qw * y + qz * x2 - qx * z2;
+                var iz = qw * z2 + qx * y - qy * x2;
+                var iw = -qx * x2 - qy * y - qz * z2;
                 this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
                 this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
                 this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
@@ -3327,29 +3327,29 @@
               },
               project: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = mat.val;
-                var a00 = m2[0];
-                var a01 = m2[1];
-                var a02 = m2[2];
-                var a03 = m2[3];
-                var a10 = m2[4];
-                var a11 = m2[5];
-                var a12 = m2[6];
-                var a13 = m2[7];
-                var a20 = m2[8];
-                var a21 = m2[9];
-                var a22 = m2[10];
-                var a23 = m2[11];
-                var a30 = m2[12];
-                var a31 = m2[13];
-                var a32 = m2[14];
-                var a33 = m2[15];
-                var lw = 1 / (x2 * a03 + y2 * a13 + z2 * a23 + a33);
-                this.x = (x2 * a00 + y2 * a10 + z2 * a20 + a30) * lw;
-                this.y = (x2 * a01 + y2 * a11 + z2 * a21 + a31) * lw;
-                this.z = (x2 * a02 + y2 * a12 + z2 * a22 + a32) * lw;
+                var m = mat.val;
+                var a00 = m[0];
+                var a01 = m[1];
+                var a02 = m[2];
+                var a03 = m[3];
+                var a10 = m[4];
+                var a11 = m[5];
+                var a12 = m[6];
+                var a13 = m[7];
+                var a20 = m[8];
+                var a21 = m[9];
+                var a22 = m[10];
+                var a23 = m[11];
+                var a30 = m[12];
+                var a31 = m[13];
+                var a32 = m[14];
+                var a33 = m[15];
+                var lw = 1 / (x2 * a03 + y * a13 + z2 * a23 + a33);
+                this.x = (x2 * a00 + y * a10 + z2 * a20 + a30) * lw;
+                this.y = (x2 * a01 + y * a11 + z2 * a21 + a31) * lw;
+                this.z = (x2 * a02 + y * a12 + z2 * a22 + a32) * lw;
                 return this;
               },
               projectViewMatrix: function(viewMatrix, projectionMatrix) {
@@ -3364,10 +3364,10 @@
                 var viewWidth = viewport.z;
                 var viewHeight = viewport.w;
                 var x2 = this.x - viewX;
-                var y2 = viewHeight - this.y - 1 - viewY;
+                var y = viewHeight - this.y - 1 - viewY;
                 var z2 = this.z;
                 this.x = 2 * x2 / viewWidth - 1;
-                this.y = 2 * y2 / viewHeight - 1;
+                this.y = 2 * y / viewHeight - 1;
                 this.z = 2 * z2 - 1;
                 return this.project(invProjectionView);
               },
@@ -4206,11 +4206,11 @@
             module2.exports = GEOM_CONST;
           },
           function(module2, exports2) {
-            var Contains = function(rect, x2, y2) {
+            var Contains = function(rect, x2, y) {
               if (rect.width <= 0 || rect.height <= 0) {
                 return false;
               }
-              return rect.x <= x2 && rect.x + rect.width >= x2 && rect.y <= y2 && rect.y + rect.height >= y2;
+              return rect.x <= x2 && rect.x + rect.width >= x2 && rect.y <= y && rect.y + rect.height >= y;
             };
             module2.exports = Contains;
           },
@@ -4553,12 +4553,12 @@
               },
               onAfterFlush: function() {
               },
-              batchVert: function(x2, y2, u, v2, unit, tintEffect, tint) {
+              batchVert: function(x2, y, u, v2, unit, tintEffect, tint) {
                 var vertexViewF32 = this.vertexViewF32;
                 var vertexViewU32 = this.vertexViewU32;
                 var vertexOffset = this.vertexCount * this.currentShader.vertexComponentCount - 1;
                 vertexViewF32[++vertexOffset] = x2;
-                vertexViewF32[++vertexOffset] = y2;
+                vertexViewF32[++vertexOffset] = y;
                 vertexViewF32[++vertexOffset] = u;
                 vertexViewF32[++vertexOffset] = v2;
                 vertexViewF32[++vertexOffset] = unit;
@@ -4601,7 +4601,7 @@
                 this.onBatch(gameObject);
                 return hasFlushed;
               },
-              drawFillRect: function(x2, y2, width, height, color, alpha, texture, flipUV) {
+              drawFillRect: function(x2, y, width, height, color, alpha, texture, flipUV) {
                 if (texture === void 0) {
                   texture = this.renderer.whiteTexture.glTexture;
                 }
@@ -4609,9 +4609,9 @@
                   flipUV = true;
                 }
                 x2 = Math.floor(x2);
-                y2 = Math.floor(y2);
+                y = Math.floor(y);
                 var xw = Math.floor(x2 + width);
-                var yh = Math.floor(y2 + height);
+                var yh = Math.floor(y + height);
                 var unit = this.setTexture2D(texture);
                 var tint = Utils.getTintAppendFloatAlphaAndSwap(color, alpha);
                 var u0 = 0;
@@ -4622,7 +4622,7 @@
                   v0 = 1;
                   v1 = 0;
                 }
-                this.batchQuad(null, x2, y2, x2, yh, xw, yh, xw, y2, u0, v0, u1, v1, tint, tint, tint, tint, 0, texture, unit);
+                this.batchQuad(null, x2, y, x2, yh, xw, yh, xw, y, u0, v0, u1, v1, tint, tint, tint, tint, 0, texture, unit);
               },
               setTexture2D: function(texture) {
                 if (texture === void 0) {
@@ -4654,25 +4654,25 @@
                 shader.set1f(name, x2);
                 return this;
               },
-              set2f: function(name, x2, y2, shader) {
+              set2f: function(name, x2, y, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set2f(name, x2, y2);
+                shader.set2f(name, x2, y);
                 return this;
               },
-              set3f: function(name, x2, y2, z2, shader) {
+              set3f: function(name, x2, y, z2, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set3f(name, x2, y2, z2);
+                shader.set3f(name, x2, y, z2);
                 return this;
               },
-              set4f: function(name, x2, y2, z2, w2, shader) {
+              set4f: function(name, x2, y, z2, w2, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set4f(name, x2, y2, z2, w2);
+                shader.set4f(name, x2, y, z2, w2);
                 return this;
               },
               set1fv: function(name, arr, shader) {
@@ -4738,25 +4738,25 @@
                 shader.set1i(name, x2);
                 return this;
               },
-              set2i: function(name, x2, y2, shader) {
+              set2i: function(name, x2, y, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set2i(name, x2, y2);
+                shader.set2i(name, x2, y);
                 return this;
               },
-              set3i: function(name, x2, y2, z2, shader) {
+              set3i: function(name, x2, y, z2, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set3i(name, x2, y2, z2);
+                shader.set3i(name, x2, y, z2);
                 return this;
               },
-              set4i: function(name, x2, y2, z2, w2, shader) {
+              set4i: function(name, x2, y, z2, w2, shader) {
                 if (shader === void 0) {
                   shader = this.currentShader;
                 }
-                shader.set4i(name, x2, y2, z2, w2);
+                shader.set4i(name, x2, y, z2, w2);
                 return this;
               },
               setMatrix2fv: function(name, transpose, matrix, shader) {
@@ -4824,7 +4824,7 @@
               var hasHoles = holeIndices && holeIndices.length, outerLen = hasHoles ? holeIndices[0] * dim : data.length, outerNode = linkedList(data, 0, outerLen, dim, true), triangles = [];
               if (!outerNode || outerNode.next === outerNode.prev)
                 return triangles;
-              var minX, minY, maxX, maxY, x2, y2, invSize;
+              var minX, minY, maxX, maxY, x2, y, invSize;
               if (hasHoles)
                 outerNode = eliminateHoles(data, holeIndices, outerNode, dim);
               if (data.length > 80 * dim) {
@@ -4832,15 +4832,15 @@
                 minY = maxY = data[1];
                 for (var i = dim; i < outerLen; i += dim) {
                   x2 = data[i];
-                  y2 = data[i + 1];
+                  y = data[i + 1];
                   if (x2 < minX)
                     minX = x2;
-                  if (y2 < minY)
-                    minY = y2;
+                  if (y < minY)
+                    minY = y;
                   if (x2 > maxX)
                     maxX = x2;
-                  if (y2 > maxY)
-                    maxY = y2;
+                  if (y > maxY)
+                    maxY = y;
                 }
                 invSize = Math.max(maxX - minX, maxY - minY);
                 invSize = invSize !== 0 ? 1 / invSize : 0;
@@ -4868,19 +4868,19 @@
                 return start;
               if (!end)
                 end = start;
-              var p = start, again;
+              var p2 = start, again;
               do {
                 again = false;
-                if (!p.steiner && (equals(p, p.next) || area(p.prev, p, p.next) === 0)) {
-                  removeNode(p);
-                  p = end = p.prev;
-                  if (p === p.next)
+                if (!p2.steiner && (equals(p2, p2.next) || area(p2.prev, p2, p2.next) === 0)) {
+                  removeNode(p2);
+                  p2 = end = p2.prev;
+                  if (p2 === p2.next)
                     break;
                   again = true;
                 } else {
-                  p = p.next;
+                  p2 = p2.next;
                 }
-              } while (again || p !== end);
+              } while (again || p2 !== end);
               return end;
             }
             function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
@@ -4916,77 +4916,77 @@
               }
             }
             function isEar(ear) {
-              var a = ear.prev, b2 = ear, c = ear.next;
-              if (area(a, b2, c) >= 0)
+              var a2 = ear.prev, b = ear, c = ear.next;
+              if (area(a2, b, c) >= 0)
                 return false;
-              var p = ear.next.next;
-              while (p !== ear.prev) {
-                if (pointInTriangle(a.x, a.y, b2.x, b2.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+              var p2 = ear.next.next;
+              while (p2 !== ear.prev) {
+                if (pointInTriangle(a2.x, a2.y, b.x, b.y, c.x, c.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
                   return false;
-                p = p.next;
+                p2 = p2.next;
               }
               return true;
             }
             function isEarHashed(ear, minX, minY, invSize) {
-              var a = ear.prev, b2 = ear, c = ear.next;
-              if (area(a, b2, c) >= 0)
+              var a2 = ear.prev, b = ear, c = ear.next;
+              if (area(a2, b, c) >= 0)
                 return false;
-              var minTX = a.x < b2.x ? a.x < c.x ? a.x : c.x : b2.x < c.x ? b2.x : c.x, minTY = a.y < b2.y ? a.y < c.y ? a.y : c.y : b2.y < c.y ? b2.y : c.y, maxTX = a.x > b2.x ? a.x > c.x ? a.x : c.x : b2.x > c.x ? b2.x : c.x, maxTY = a.y > b2.y ? a.y > c.y ? a.y : c.y : b2.y > c.y ? b2.y : c.y;
+              var minTX = a2.x < b.x ? a2.x < c.x ? a2.x : c.x : b.x < c.x ? b.x : c.x, minTY = a2.y < b.y ? a2.y < c.y ? a2.y : c.y : b.y < c.y ? b.y : c.y, maxTX = a2.x > b.x ? a2.x > c.x ? a2.x : c.x : b.x > c.x ? b.x : c.x, maxTY = a2.y > b.y ? a2.y > c.y ? a2.y : c.y : b.y > c.y ? b.y : c.y;
               var minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize);
-              var p = ear.prevZ, n = ear.nextZ;
-              while (p && p.z >= minZ && n && n.z <= maxZ) {
-                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, b2.x, b2.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+              var p2 = ear.prevZ, n = ear.nextZ;
+              while (p2 && p2.z >= minZ && n && n.z <= maxZ) {
+                if (p2 !== ear.prev && p2 !== ear.next && pointInTriangle(a2.x, a2.y, b.x, b.y, c.x, c.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
                   return false;
-                p = p.prevZ;
-                if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, b2.x, b2.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
+                p2 = p2.prevZ;
+                if (n !== ear.prev && n !== ear.next && pointInTriangle(a2.x, a2.y, b.x, b.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
                   return false;
                 n = n.nextZ;
               }
-              while (p && p.z >= minZ) {
-                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, b2.x, b2.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+              while (p2 && p2.z >= minZ) {
+                if (p2 !== ear.prev && p2 !== ear.next && pointInTriangle(a2.x, a2.y, b.x, b.y, c.x, c.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
                   return false;
-                p = p.prevZ;
+                p2 = p2.prevZ;
               }
               while (n && n.z <= maxZ) {
-                if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, b2.x, b2.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
+                if (n !== ear.prev && n !== ear.next && pointInTriangle(a2.x, a2.y, b.x, b.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
                   return false;
                 n = n.nextZ;
               }
               return true;
             }
             function cureLocalIntersections(start, triangles, dim) {
-              var p = start;
+              var p2 = start;
               do {
-                var a = p.prev, b2 = p.next.next;
-                if (!equals(a, b2) && intersects(a, p, p.next, b2) && locallyInside(a, b2) && locallyInside(b2, a)) {
-                  triangles.push(a.i / dim);
-                  triangles.push(p.i / dim);
-                  triangles.push(b2.i / dim);
-                  removeNode(p);
-                  removeNode(p.next);
-                  p = start = b2;
+                var a2 = p2.prev, b = p2.next.next;
+                if (!equals(a2, b) && intersects(a2, p2, p2.next, b) && locallyInside(a2, b) && locallyInside(b, a2)) {
+                  triangles.push(a2.i / dim);
+                  triangles.push(p2.i / dim);
+                  triangles.push(b.i / dim);
+                  removeNode(p2);
+                  removeNode(p2.next);
+                  p2 = start = b;
                 }
-                p = p.next;
-              } while (p !== start);
-              return filterPoints(p);
+                p2 = p2.next;
+              } while (p2 !== start);
+              return filterPoints(p2);
             }
             function splitEarcut(start, triangles, dim, minX, minY, invSize) {
-              var a = start;
+              var a2 = start;
               do {
-                var b2 = a.next.next;
-                while (b2 !== a.prev) {
-                  if (a.i !== b2.i && isValidDiagonal(a, b2)) {
-                    var c = splitPolygon(a, b2);
-                    a = filterPoints(a, a.next);
+                var b = a2.next.next;
+                while (b !== a2.prev) {
+                  if (a2.i !== b.i && isValidDiagonal(a2, b)) {
+                    var c = splitPolygon(a2, b);
+                    a2 = filterPoints(a2, a2.next);
                     c = filterPoints(c, c.next);
-                    earcutLinked(a, triangles, dim, minX, minY, invSize);
+                    earcutLinked(a2, triangles, dim, minX, minY, invSize);
                     earcutLinked(c, triangles, dim, minX, minY, invSize);
                     return;
                   }
-                  b2 = b2.next;
+                  b = b.next;
                 }
-                a = a.next;
-              } while (a !== start);
+                a2 = a2.next;
+              } while (a2 !== start);
             }
             function eliminateHoles(data, holeIndices, outerNode, dim) {
               var queue = [], i, len, start, end, list;
@@ -5005,95 +5005,95 @@
               }
               return outerNode;
             }
-            function compareX(a, b2) {
-              return a.x - b2.x;
+            function compareX(a2, b) {
+              return a2.x - b.x;
             }
             function eliminateHole(hole, outerNode) {
               outerNode = findHoleBridge(hole, outerNode);
               if (outerNode) {
-                var b2 = splitPolygon(outerNode, hole);
+                var b = splitPolygon(outerNode, hole);
                 filterPoints(outerNode, outerNode.next);
-                filterPoints(b2, b2.next);
+                filterPoints(b, b.next);
               }
             }
             function findHoleBridge(hole, outerNode) {
-              var p = outerNode, hx = hole.x, hy = hole.y, qx = -Infinity, m2;
+              var p2 = outerNode, hx = hole.x, hy = hole.y, qx = -Infinity, m;
               do {
-                if (hy <= p.y && hy >= p.next.y && p.next.y !== p.y) {
-                  var x2 = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
+                if (hy <= p2.y && hy >= p2.next.y && p2.next.y !== p2.y) {
+                  var x2 = p2.x + (hy - p2.y) * (p2.next.x - p2.x) / (p2.next.y - p2.y);
                   if (x2 <= hx && x2 > qx) {
                     qx = x2;
                     if (x2 === hx) {
-                      if (hy === p.y)
-                        return p;
-                      if (hy === p.next.y)
-                        return p.next;
+                      if (hy === p2.y)
+                        return p2;
+                      if (hy === p2.next.y)
+                        return p2.next;
                     }
-                    m2 = p.x < p.next.x ? p : p.next;
+                    m = p2.x < p2.next.x ? p2 : p2.next;
                   }
                 }
-                p = p.next;
-              } while (p !== outerNode);
-              if (!m2)
+                p2 = p2.next;
+              } while (p2 !== outerNode);
+              if (!m)
                 return null;
               if (hx === qx)
-                return m2;
-              var stop = m2, mx = m2.x, my = m2.y, tanMin = Infinity, tan;
-              p = m2;
+                return m;
+              var stop = m, mx = m.x, my = m.y, tanMin = Infinity, tan;
+              p2 = m;
               do {
-                if (hx >= p.x && p.x >= mx && hx !== p.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.x, p.y)) {
-                  tan = Math.abs(hy - p.y) / (hx - p.x);
-                  if (locallyInside(p, hole) && (tan < tanMin || tan === tanMin && (p.x > m2.x || p.x === m2.x && sectorContainsSector(m2, p)))) {
-                    m2 = p;
+                if (hx >= p2.x && p2.x >= mx && hx !== p2.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p2.x, p2.y)) {
+                  tan = Math.abs(hy - p2.y) / (hx - p2.x);
+                  if (locallyInside(p2, hole) && (tan < tanMin || tan === tanMin && (p2.x > m.x || p2.x === m.x && sectorContainsSector(m, p2)))) {
+                    m = p2;
                     tanMin = tan;
                   }
                 }
-                p = p.next;
-              } while (p !== stop);
-              return m2;
+                p2 = p2.next;
+              } while (p2 !== stop);
+              return m;
             }
-            function sectorContainsSector(m2, p) {
-              return area(m2.prev, m2, p.prev) < 0 && area(p.next, m2, m2.next) < 0;
+            function sectorContainsSector(m, p2) {
+              return area(m.prev, m, p2.prev) < 0 && area(p2.next, m, m.next) < 0;
             }
             function indexCurve(start, minX, minY, invSize) {
-              var p = start;
+              var p2 = start;
               do {
-                if (p.z === null)
-                  p.z = zOrder(p.x, p.y, minX, minY, invSize);
-                p.prevZ = p.prev;
-                p.nextZ = p.next;
-                p = p.next;
-              } while (p !== start);
-              p.prevZ.nextZ = null;
-              p.prevZ = null;
-              sortLinked(p);
+                if (p2.z === null)
+                  p2.z = zOrder(p2.x, p2.y, minX, minY, invSize);
+                p2.prevZ = p2.prev;
+                p2.nextZ = p2.next;
+                p2 = p2.next;
+              } while (p2 !== start);
+              p2.prevZ.nextZ = null;
+              p2.prevZ = null;
+              sortLinked(p2);
             }
             function sortLinked(list) {
-              var i, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
+              var i, p2, q2, e, tail, numMerges, pSize, qSize, inSize = 1;
               do {
-                p = list;
+                p2 = list;
                 list = null;
                 tail = null;
                 numMerges = 0;
-                while (p) {
+                while (p2) {
                   numMerges++;
-                  q = p;
+                  q2 = p2;
                   pSize = 0;
                   for (i = 0; i < inSize; i++) {
                     pSize++;
-                    q = q.nextZ;
-                    if (!q)
+                    q2 = q2.nextZ;
+                    if (!q2)
                       break;
                   }
                   qSize = inSize;
-                  while (pSize > 0 || qSize > 0 && q) {
-                    if (pSize !== 0 && (qSize === 0 || !q || p.z <= q.z)) {
-                      e = p;
-                      p = p.nextZ;
+                  while (pSize > 0 || qSize > 0 && q2) {
+                    if (pSize !== 0 && (qSize === 0 || !q2 || p2.z <= q2.z)) {
+                      e = p2;
+                      p2 = p2.nextZ;
                       pSize--;
                     } else {
-                      e = q;
-                      q = q.nextZ;
+                      e = q2;
+                      q2 = q2.nextZ;
                       qSize--;
                     }
                     if (tail)
@@ -5103,43 +5103,43 @@
                     e.prevZ = tail;
                     tail = e;
                   }
-                  p = q;
+                  p2 = q2;
                 }
                 tail.nextZ = null;
                 inSize *= 2;
               } while (numMerges > 1);
               return list;
             }
-            function zOrder(x2, y2, minX, minY, invSize) {
+            function zOrder(x2, y, minX, minY, invSize) {
               x2 = 32767 * (x2 - minX) * invSize;
-              y2 = 32767 * (y2 - minY) * invSize;
+              y = 32767 * (y - minY) * invSize;
               x2 = (x2 | x2 << 8) & 16711935;
               x2 = (x2 | x2 << 4) & 252645135;
               x2 = (x2 | x2 << 2) & 858993459;
               x2 = (x2 | x2 << 1) & 1431655765;
-              y2 = (y2 | y2 << 8) & 16711935;
-              y2 = (y2 | y2 << 4) & 252645135;
-              y2 = (y2 | y2 << 2) & 858993459;
-              y2 = (y2 | y2 << 1) & 1431655765;
-              return x2 | y2 << 1;
+              y = (y | y << 8) & 16711935;
+              y = (y | y << 4) & 252645135;
+              y = (y | y << 2) & 858993459;
+              y = (y | y << 1) & 1431655765;
+              return x2 | y << 1;
             }
             function getLeftmost(start) {
-              var p = start, leftmost = start;
+              var p2 = start, leftmost = start;
               do {
-                if (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y)
-                  leftmost = p;
-                p = p.next;
-              } while (p !== start);
+                if (p2.x < leftmost.x || p2.x === leftmost.x && p2.y < leftmost.y)
+                  leftmost = p2;
+                p2 = p2.next;
+              } while (p2 !== start);
               return leftmost;
             }
             function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
               return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 && (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 && (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
             }
-            function isValidDiagonal(a, b2) {
-              return a.next.i !== b2.i && a.prev.i !== b2.i && !intersectsPolygon(a, b2) && (locallyInside(a, b2) && locallyInside(b2, a) && middleInside(a, b2) && (area(a.prev, a, b2.prev) || area(a, b2.prev, b2)) || equals(a, b2) && area(a.prev, a, a.next) > 0 && area(b2.prev, b2, b2.next) > 0);
+            function isValidDiagonal(a2, b) {
+              return a2.next.i !== b.i && a2.prev.i !== b.i && !intersectsPolygon(a2, b) && (locallyInside(a2, b) && locallyInside(b, a2) && middleInside(a2, b) && (area(a2.prev, a2, b.prev) || area(a2, b.prev, b)) || equals(a2, b) && area(a2.prev, a2, a2.next) > 0 && area(b.prev, b, b.next) > 0);
             }
-            function area(p, q, r) {
-              return (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+            function area(p2, q2, r) {
+              return (q2.y - p2.y) * (r.x - q2.x) - (q2.x - p2.x) * (r.y - q2.y);
             }
             function equals(p1, p2) {
               return p1.x === p2.x && p1.y === p2.y;
@@ -5161,70 +5161,70 @@
                 return true;
               return false;
             }
-            function onSegment(p, q, r) {
-              return q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y);
+            function onSegment(p2, q2, r) {
+              return q2.x <= Math.max(p2.x, r.x) && q2.x >= Math.min(p2.x, r.x) && q2.y <= Math.max(p2.y, r.y) && q2.y >= Math.min(p2.y, r.y);
             }
             function sign(num) {
               return num > 0 ? 1 : num < 0 ? -1 : 0;
             }
-            function intersectsPolygon(a, b2) {
-              var p = a;
+            function intersectsPolygon(a2, b) {
+              var p2 = a2;
               do {
-                if (p.i !== a.i && p.next.i !== a.i && p.i !== b2.i && p.next.i !== b2.i && intersects(p, p.next, a, b2))
+                if (p2.i !== a2.i && p2.next.i !== a2.i && p2.i !== b.i && p2.next.i !== b.i && intersects(p2, p2.next, a2, b))
                   return true;
-                p = p.next;
-              } while (p !== a);
+                p2 = p2.next;
+              } while (p2 !== a2);
               return false;
             }
-            function locallyInside(a, b2) {
-              return area(a.prev, a, a.next) < 0 ? area(a, b2, a.next) >= 0 && area(a, a.prev, b2) >= 0 : area(a, b2, a.prev) < 0 || area(a, a.next, b2) < 0;
+            function locallyInside(a2, b) {
+              return area(a2.prev, a2, a2.next) < 0 ? area(a2, b, a2.next) >= 0 && area(a2, a2.prev, b) >= 0 : area(a2, b, a2.prev) < 0 || area(a2, a2.next, b) < 0;
             }
-            function middleInside(a, b2) {
-              var p = a, inside = false, px = (a.x + b2.x) / 2, py = (a.y + b2.y) / 2;
+            function middleInside(a2, b) {
+              var p2 = a2, inside = false, px = (a2.x + b.x) / 2, py = (a2.y + b.y) / 2;
               do {
-                if (p.y > py !== p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x)
+                if (p2.y > py !== p2.next.y > py && p2.next.y !== p2.y && px < (p2.next.x - p2.x) * (py - p2.y) / (p2.next.y - p2.y) + p2.x)
                   inside = !inside;
-                p = p.next;
-              } while (p !== a);
+                p2 = p2.next;
+              } while (p2 !== a2);
               return inside;
             }
-            function splitPolygon(a, b2) {
-              var a2 = new Node(a.i, a.x, a.y), b22 = new Node(b2.i, b2.x, b2.y), an = a.next, bp = b2.prev;
-              a.next = b2;
-              b2.prev = a;
-              a2.next = an;
-              an.prev = a2;
-              b22.next = a2;
-              a2.prev = b22;
-              bp.next = b22;
-              b22.prev = bp;
-              return b22;
+            function splitPolygon(a2, b) {
+              var a22 = new Node(a2.i, a2.x, a2.y), b2 = new Node(b.i, b.x, b.y), an = a2.next, bp = b.prev;
+              a2.next = b;
+              b.prev = a2;
+              a22.next = an;
+              an.prev = a22;
+              b2.next = a22;
+              a22.prev = b2;
+              bp.next = b2;
+              b2.prev = bp;
+              return b2;
             }
-            function insertNode(i, x2, y2, last) {
-              var p = new Node(i, x2, y2);
+            function insertNode(i, x2, y, last) {
+              var p2 = new Node(i, x2, y);
               if (!last) {
-                p.prev = p;
-                p.next = p;
+                p2.prev = p2;
+                p2.next = p2;
               } else {
-                p.next = last.next;
-                p.prev = last;
-                last.next.prev = p;
-                last.next = p;
+                p2.next = last.next;
+                p2.prev = last;
+                last.next.prev = p2;
+                last.next = p2;
               }
-              return p;
+              return p2;
             }
-            function removeNode(p) {
-              p.next.prev = p.prev;
-              p.prev.next = p.next;
-              if (p.prevZ)
-                p.prevZ.nextZ = p.nextZ;
-              if (p.nextZ)
-                p.nextZ.prevZ = p.prevZ;
+            function removeNode(p2) {
+              p2.next.prev = p2.prev;
+              p2.prev.next = p2.next;
+              if (p2.prevZ)
+                p2.prevZ.nextZ = p2.nextZ;
+              if (p2.nextZ)
+                p2.nextZ.prevZ = p2.prevZ;
             }
-            function Node(i, x2, y2) {
+            function Node(i, x2, y) {
               this.i = i;
               this.x = x2;
-              this.y = y2;
+              this.y = y;
               this.prev = null;
               this.next = null;
               this.z = null;
@@ -5245,10 +5245,10 @@
               }
               var trianglesArea = 0;
               for (i = 0; i < triangles.length; i += 3) {
-                var a = triangles[i] * dim;
-                var b2 = triangles[i + 1] * dim;
+                var a2 = triangles[i] * dim;
+                var b = triangles[i + 1] * dim;
                 var c = triangles[i + 2] * dim;
-                trianglesArea += Math.abs((data[a] - data[c]) * (data[b2 + 1] - data[a + 1]) - (data[a] - data[b2]) * (data[c + 1] - data[a + 1]));
+                trianglesArea += Math.abs((data[a2] - data[c]) * (data[b + 1] - data[a2 + 1]) - (data[a2] - data[b]) * (data[c + 1] - data[a2 + 1]));
               }
               return polygonArea === 0 && trianglesArea === 0 ? 0 : Math.abs((trianglesArea - polygonArea) / polygonArea);
             };
@@ -5432,8 +5432,8 @@
               };
               Vertices.fromPath = function(path, body) {
                 var pathPattern = /L?\s*([-\d.e]+)[\s,]*([-\d.e]+)*/ig, points = [];
-                path.replace(pathPattern, function(match, x2, y2) {
-                  points.push({ x: parseFloat(x2), y: parseFloat(y2) });
+                path.replace(pathPattern, function(match, x2, y) {
+                  points.push({ x: parseFloat(x2), y: parseFloat(y) });
                 });
                 return Vertices.create(points, body);
               };
@@ -5570,14 +5570,14 @@
                 return vertices;
               };
               Vertices.isConvex = function(vertices) {
-                var flag = 0, n = vertices.length, i, j2, k, z2;
+                var flag = 0, n = vertices.length, i, j2, k2, z2;
                 if (n < 3)
                   return null;
                 for (i = 0; i < n; i++) {
                   j2 = (i + 1) % n;
-                  k = (i + 2) % n;
-                  z2 = (vertices[j2].x - vertices[i].x) * (vertices[k].y - vertices[j2].y);
-                  z2 -= (vertices[j2].y - vertices[i].y) * (vertices[k].x - vertices[j2].x);
+                  k2 = (i + 2) % n;
+                  z2 = (vertices[j2].x - vertices[i].x) * (vertices[k2].y - vertices[j2].y);
+                  z2 -= (vertices[j2].y - vertices[i].y) * (vertices[k2].x - vertices[j2].x);
                   if (z2 < 0) {
                     flag |= 1;
                   } else if (z2 > 0) {
@@ -5628,24 +5628,24 @@
             var GEOM_CONST = __webpack_require__(56);
             var Random = __webpack_require__(170);
             var Circle = new Class({
-              initialize: function Circle2(x2, y2, radius) {
+              initialize: function Circle2(x2, y, radius) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (radius === void 0) {
                   radius = 0;
                 }
                 this.type = GEOM_CONST.CIRCLE;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this._radius = radius;
                 this._diameter = radius * 2;
               },
-              contains: function(x2, y2) {
-                return Contains(this, x2, y2);
+              contains: function(x2, y) {
+                return Contains(this, x2, y);
               },
               getPoint: function(position, point) {
                 return GetPoint(this, position, point);
@@ -5656,9 +5656,9 @@
               getRandomPoint: function(point) {
                 return Random(this, point);
               },
-              setTo: function(x2, y2, radius) {
+              setTo: function(x2, y, radius) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this._radius = radius;
                 this._diameter = radius * 2;
                 return this;
@@ -5668,12 +5668,12 @@
                 this._diameter = 0;
                 return this;
               },
-              setPosition: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setPosition: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
               isEmpty: function() {
@@ -5733,10 +5733,10 @@
             module2.exports = Circle;
           },
           function(module2, exports2) {
-            var Contains = function(circle, x2, y2) {
-              if (circle.radius > 0 && x2 >= circle.left && x2 <= circle.right && y2 >= circle.top && y2 <= circle.bottom) {
+            var Contains = function(circle, x2, y) {
+              if (circle.radius > 0 && x2 >= circle.left && x2 <= circle.right && y >= circle.top && y <= circle.bottom) {
                 var dx = (circle.x - x2) * (circle.x - x2);
-                var dy = (circle.y - y2) * (circle.y - y2);
+                var dy = (circle.y - y) * (circle.y - y);
                 return dx + dy <= circle.radius * circle.radius;
               } else {
                 return false;
@@ -5762,10 +5762,10 @@
             var Vector3 = __webpack_require__(39);
             var EPSILON = 1e-6;
             var Matrix4 = new Class({
-              initialize: function Matrix42(m2) {
+              initialize: function Matrix42(m) {
                 this.val = new Float32Array(16);
-                if (m2) {
-                  this.copy(m2);
+                if (m) {
+                  this.copy(m);
                 } else {
                   this.identity();
                 }
@@ -5797,11 +5797,11 @@
                 return this;
               },
               copy: function(src) {
-                var a = src.val;
-                return this.setValues(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15]);
+                var a2 = src.val;
+                return this.setValues(a2[0], a2[1], a2[2], a2[3], a2[4], a2[5], a2[6], a2[7], a2[8], a2[9], a2[10], a2[11], a2[12], a2[13], a2[14], a2[15]);
               },
-              fromArray: function(a) {
-                return this.setValues(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15]);
+              fromArray: function(a2) {
+                return this.setValues(a2[0], a2[1], a2[2], a2[3], a2[4], a2[5], a2[6], a2[7], a2[8], a2[9], a2[10], a2[11], a2[12], a2[13], a2[14], a2[15]);
               },
               zero: function() {
                 return this.setValues(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -5814,19 +5814,19 @@
                 var sz = scale.z;
                 return this.setValues(rm[0] * sx, rm[1] * sx, rm[2] * sx, 0, rm[4] * sy, rm[5] * sy, rm[6] * sy, 0, rm[8] * sz, rm[9] * sz, rm[10] * sz, 0, position.x, position.y, position.z, 1);
               },
-              xyz: function(x2, y2, z2) {
+              xyz: function(x2, y, z2) {
                 this.identity();
                 var out = this.val;
                 out[12] = x2;
-                out[13] = y2;
+                out[13] = y;
                 out[14] = z2;
                 return this;
               },
-              scaling: function(x2, y2, z2) {
+              scaling: function(x2, y, z2) {
                 this.zero();
                 var out = this.val;
                 out[0] = x2;
-                out[5] = y2;
+                out[5] = y;
                 out[10] = z2;
                 out[15] = 1;
                 return this;
@@ -5835,49 +5835,49 @@
                 return this.setValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
               },
               transpose: function() {
-                var a = this.val;
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a23 = a[11];
-                a[1] = a[4];
-                a[2] = a[8];
-                a[3] = a[12];
-                a[4] = a01;
-                a[6] = a[9];
-                a[7] = a[13];
-                a[8] = a02;
-                a[9] = a12;
-                a[11] = a[14];
-                a[12] = a03;
-                a[13] = a13;
-                a[14] = a23;
+                var a2 = this.val;
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a23 = a2[11];
+                a2[1] = a2[4];
+                a2[2] = a2[8];
+                a2[3] = a2[12];
+                a2[4] = a01;
+                a2[6] = a2[9];
+                a2[7] = a2[13];
+                a2[8] = a02;
+                a2[9] = a12;
+                a2[11] = a2[14];
+                a2[12] = a03;
+                a2[13] = a13;
+                a2[14] = a23;
                 return this;
               },
-              getInverse: function(m2) {
-                this.copy(m2);
+              getInverse: function(m) {
+                this.copy(m);
                 return this.invert();
               },
               invert: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
                 var b00 = a00 * a11 - a01 * a10;
                 var b01 = a00 * a12 - a02 * a10;
                 var b02 = a00 * a13 - a03 * a10;
@@ -5898,43 +5898,43 @@
                 return this.setValues((a11 * b11 - a12 * b10 + a13 * b09) * det, (a02 * b10 - a01 * b11 - a03 * b09) * det, (a31 * b05 - a32 * b04 + a33 * b03) * det, (a22 * b04 - a21 * b05 - a23 * b03) * det, (a12 * b08 - a10 * b11 - a13 * b07) * det, (a00 * b11 - a02 * b08 + a03 * b07) * det, (a32 * b02 - a30 * b05 - a33 * b01) * det, (a20 * b05 - a22 * b02 + a23 * b01) * det, (a10 * b10 - a11 * b08 + a13 * b06) * det, (a01 * b08 - a00 * b10 - a03 * b06) * det, (a30 * b04 - a31 * b02 + a33 * b00) * det, (a21 * b02 - a20 * b04 - a23 * b00) * det, (a11 * b07 - a10 * b09 - a12 * b06) * det, (a00 * b09 - a01 * b07 + a02 * b06) * det, (a31 * b01 - a30 * b03 - a32 * b00) * det, (a20 * b03 - a21 * b01 + a22 * b00) * det);
               },
               adjoint: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
                 return this.setValues(a11 * (a22 * a33 - a23 * a32) - a21 * (a12 * a33 - a13 * a32) + a31 * (a12 * a23 - a13 * a22), -(a01 * (a22 * a33 - a23 * a32) - a21 * (a02 * a33 - a03 * a32) + a31 * (a02 * a23 - a03 * a22)), a01 * (a12 * a33 - a13 * a32) - a11 * (a02 * a33 - a03 * a32) + a31 * (a02 * a13 - a03 * a12), -(a01 * (a12 * a23 - a13 * a22) - a11 * (a02 * a23 - a03 * a22) + a21 * (a02 * a13 - a03 * a12)), -(a10 * (a22 * a33 - a23 * a32) - a20 * (a12 * a33 - a13 * a32) + a30 * (a12 * a23 - a13 * a22)), a00 * (a22 * a33 - a23 * a32) - a20 * (a02 * a33 - a03 * a32) + a30 * (a02 * a23 - a03 * a22), -(a00 * (a12 * a33 - a13 * a32) - a10 * (a02 * a33 - a03 * a32) + a30 * (a02 * a13 - a03 * a12)), a00 * (a12 * a23 - a13 * a22) - a10 * (a02 * a23 - a03 * a22) + a20 * (a02 * a13 - a03 * a12), a10 * (a21 * a33 - a23 * a31) - a20 * (a11 * a33 - a13 * a31) + a30 * (a11 * a23 - a13 * a21), -(a00 * (a21 * a33 - a23 * a31) - a20 * (a01 * a33 - a03 * a31) + a30 * (a01 * a23 - a03 * a21)), a00 * (a11 * a33 - a13 * a31) - a10 * (a01 * a33 - a03 * a31) + a30 * (a01 * a13 - a03 * a11), -(a00 * (a11 * a23 - a13 * a21) - a10 * (a01 * a23 - a03 * a21) + a20 * (a01 * a13 - a03 * a11)), -(a10 * (a21 * a32 - a22 * a31) - a20 * (a11 * a32 - a12 * a31) + a30 * (a11 * a22 - a12 * a21)), a00 * (a21 * a32 - a22 * a31) - a20 * (a01 * a32 - a02 * a31) + a30 * (a01 * a22 - a02 * a21), -(a00 * (a11 * a32 - a12 * a31) - a10 * (a01 * a32 - a02 * a31) + a30 * (a01 * a12 - a02 * a11)), a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11));
               },
               determinant: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
                 var b00 = a00 * a11 - a01 * a10;
                 var b01 = a00 * a12 - a02 * a10;
                 var b02 = a00 * a13 - a03 * a10;
@@ -5950,69 +5950,69 @@
                 return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
               },
               multiply: function(src) {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
-                var b2 = src.val;
-                var b0 = b2[0];
-                var b1 = b2[1];
-                var b22 = b2[2];
-                var b3 = b2[3];
-                a[0] = b0 * a00 + b1 * a10 + b22 * a20 + b3 * a30;
-                a[1] = b0 * a01 + b1 * a11 + b22 * a21 + b3 * a31;
-                a[2] = b0 * a02 + b1 * a12 + b22 * a22 + b3 * a32;
-                a[3] = b0 * a03 + b1 * a13 + b22 * a23 + b3 * a33;
-                b0 = b2[4];
-                b1 = b2[5];
-                b22 = b2[6];
-                b3 = b2[7];
-                a[4] = b0 * a00 + b1 * a10 + b22 * a20 + b3 * a30;
-                a[5] = b0 * a01 + b1 * a11 + b22 * a21 + b3 * a31;
-                a[6] = b0 * a02 + b1 * a12 + b22 * a22 + b3 * a32;
-                a[7] = b0 * a03 + b1 * a13 + b22 * a23 + b3 * a33;
-                b0 = b2[8];
-                b1 = b2[9];
-                b22 = b2[10];
-                b3 = b2[11];
-                a[8] = b0 * a00 + b1 * a10 + b22 * a20 + b3 * a30;
-                a[9] = b0 * a01 + b1 * a11 + b22 * a21 + b3 * a31;
-                a[10] = b0 * a02 + b1 * a12 + b22 * a22 + b3 * a32;
-                a[11] = b0 * a03 + b1 * a13 + b22 * a23 + b3 * a33;
-                b0 = b2[12];
-                b1 = b2[13];
-                b22 = b2[14];
-                b3 = b2[15];
-                a[12] = b0 * a00 + b1 * a10 + b22 * a20 + b3 * a30;
-                a[13] = b0 * a01 + b1 * a11 + b22 * a21 + b3 * a31;
-                a[14] = b0 * a02 + b1 * a12 + b22 * a22 + b3 * a32;
-                a[15] = b0 * a03 + b1 * a13 + b22 * a23 + b3 * a33;
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
+                var b = src.val;
+                var b0 = b[0];
+                var b1 = b[1];
+                var b2 = b[2];
+                var b3 = b[3];
+                a2[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+                a2[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+                a2[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+                a2[3] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+                b0 = b[4];
+                b1 = b[5];
+                b2 = b[6];
+                b3 = b[7];
+                a2[4] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+                a2[5] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+                a2[6] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+                a2[7] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+                b0 = b[8];
+                b1 = b[9];
+                b2 = b[10];
+                b3 = b[11];
+                a2[8] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+                a2[9] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+                a2[10] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+                a2[11] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+                b0 = b[12];
+                b1 = b[13];
+                b2 = b[14];
+                b3 = b[15];
+                a2[12] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+                a2[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+                a2[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+                a2[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
                 return this;
               },
               multiplyLocal: function(src) {
-                var a = this.val;
-                var b2 = src.val;
-                return this.setValues(a[0] * b2[0] + a[1] * b2[4] + a[2] * b2[8] + a[3] * b2[12], a[0] * b2[1] + a[1] * b2[5] + a[2] * b2[9] + a[3] * b2[13], a[0] * b2[2] + a[1] * b2[6] + a[2] * b2[10] + a[3] * b2[14], a[0] * b2[3] + a[1] * b2[7] + a[2] * b2[11] + a[3] * b2[15], a[4] * b2[0] + a[5] * b2[4] + a[6] * b2[8] + a[7] * b2[12], a[4] * b2[1] + a[5] * b2[5] + a[6] * b2[9] + a[7] * b2[13], a[4] * b2[2] + a[5] * b2[6] + a[6] * b2[10] + a[7] * b2[14], a[4] * b2[3] + a[5] * b2[7] + a[6] * b2[11] + a[7] * b2[15], a[8] * b2[0] + a[9] * b2[4] + a[10] * b2[8] + a[11] * b2[12], a[8] * b2[1] + a[9] * b2[5] + a[10] * b2[9] + a[11] * b2[13], a[8] * b2[2] + a[9] * b2[6] + a[10] * b2[10] + a[11] * b2[14], a[8] * b2[3] + a[9] * b2[7] + a[10] * b2[11] + a[11] * b2[15], a[12] * b2[0] + a[13] * b2[4] + a[14] * b2[8] + a[15] * b2[12], a[12] * b2[1] + a[13] * b2[5] + a[14] * b2[9] + a[15] * b2[13], a[12] * b2[2] + a[13] * b2[6] + a[14] * b2[10] + a[15] * b2[14], a[12] * b2[3] + a[13] * b2[7] + a[14] * b2[11] + a[15] * b2[15]);
+                var a2 = this.val;
+                var b = src.val;
+                return this.setValues(a2[0] * b[0] + a2[1] * b[4] + a2[2] * b[8] + a2[3] * b[12], a2[0] * b[1] + a2[1] * b[5] + a2[2] * b[9] + a2[3] * b[13], a2[0] * b[2] + a2[1] * b[6] + a2[2] * b[10] + a2[3] * b[14], a2[0] * b[3] + a2[1] * b[7] + a2[2] * b[11] + a2[3] * b[15], a2[4] * b[0] + a2[5] * b[4] + a2[6] * b[8] + a2[7] * b[12], a2[4] * b[1] + a2[5] * b[5] + a2[6] * b[9] + a2[7] * b[13], a2[4] * b[2] + a2[5] * b[6] + a2[6] * b[10] + a2[7] * b[14], a2[4] * b[3] + a2[5] * b[7] + a2[6] * b[11] + a2[7] * b[15], a2[8] * b[0] + a2[9] * b[4] + a2[10] * b[8] + a2[11] * b[12], a2[8] * b[1] + a2[9] * b[5] + a2[10] * b[9] + a2[11] * b[13], a2[8] * b[2] + a2[9] * b[6] + a2[10] * b[10] + a2[11] * b[14], a2[8] * b[3] + a2[9] * b[7] + a2[10] * b[11] + a2[11] * b[15], a2[12] * b[0] + a2[13] * b[4] + a2[14] * b[8] + a2[15] * b[12], a2[12] * b[1] + a2[13] * b[5] + a2[14] * b[9] + a2[15] * b[13], a2[12] * b[2] + a2[13] * b[6] + a2[14] * b[10] + a2[15] * b[14], a2[12] * b[3] + a2[13] * b[7] + a2[14] * b[11] + a2[15] * b[15]);
               },
-              premultiply: function(m2) {
-                return this.multiplyMatrices(m2, this);
+              premultiply: function(m) {
+                return this.multiplyMatrices(m, this);
               },
-              multiplyMatrices: function(a, b2) {
-                var am = a.val;
-                var bm = b2.val;
+              multiplyMatrices: function(a2, b) {
+                var am = a2.val;
+                var bm = b.val;
                 var a11 = am[0];
                 var a12 = am[4];
                 var a13 = am[8];
@@ -6050,188 +6050,188 @@
               translate: function(v2) {
                 return this.translateXYZ(v2.x, v2.y, v2.z);
               },
-              translateXYZ: function(x2, y2, z2) {
-                var a = this.val;
-                a[12] = a[0] * x2 + a[4] * y2 + a[8] * z2 + a[12];
-                a[13] = a[1] * x2 + a[5] * y2 + a[9] * z2 + a[13];
-                a[14] = a[2] * x2 + a[6] * y2 + a[10] * z2 + a[14];
-                a[15] = a[3] * x2 + a[7] * y2 + a[11] * z2 + a[15];
+              translateXYZ: function(x2, y, z2) {
+                var a2 = this.val;
+                a2[12] = a2[0] * x2 + a2[4] * y + a2[8] * z2 + a2[12];
+                a2[13] = a2[1] * x2 + a2[5] * y + a2[9] * z2 + a2[13];
+                a2[14] = a2[2] * x2 + a2[6] * y + a2[10] * z2 + a2[14];
+                a2[15] = a2[3] * x2 + a2[7] * y + a2[11] * z2 + a2[15];
                 return this;
               },
               scale: function(v2) {
                 return this.scaleXYZ(v2.x, v2.y, v2.z);
               },
-              scaleXYZ: function(x2, y2, z2) {
-                var a = this.val;
-                a[0] = a[0] * x2;
-                a[1] = a[1] * x2;
-                a[2] = a[2] * x2;
-                a[3] = a[3] * x2;
-                a[4] = a[4] * y2;
-                a[5] = a[5] * y2;
-                a[6] = a[6] * y2;
-                a[7] = a[7] * y2;
-                a[8] = a[8] * z2;
-                a[9] = a[9] * z2;
-                a[10] = a[10] * z2;
-                a[11] = a[11] * z2;
+              scaleXYZ: function(x2, y, z2) {
+                var a2 = this.val;
+                a2[0] = a2[0] * x2;
+                a2[1] = a2[1] * x2;
+                a2[2] = a2[2] * x2;
+                a2[3] = a2[3] * x2;
+                a2[4] = a2[4] * y;
+                a2[5] = a2[5] * y;
+                a2[6] = a2[6] * y;
+                a2[7] = a2[7] * y;
+                a2[8] = a2[8] * z2;
+                a2[9] = a2[9] * z2;
+                a2[10] = a2[10] * z2;
+                a2[11] = a2[11] * z2;
                 return this;
               },
               makeRotationAxis: function(axis, angle) {
                 var c = Math.cos(angle);
-                var s2 = Math.sin(angle);
+                var s = Math.sin(angle);
                 var t = 1 - c;
                 var x2 = axis.x;
-                var y2 = axis.y;
+                var y = axis.y;
                 var z2 = axis.z;
                 var tx = t * x2;
-                var ty = t * y2;
-                return this.setValues(tx * x2 + c, tx * y2 - s2 * z2, tx * z2 + s2 * y2, 0, tx * y2 + s2 * z2, ty * y2 + c, ty * z2 - s2 * x2, 0, tx * z2 - s2 * y2, ty * z2 + s2 * x2, t * z2 * z2 + c, 0, 0, 0, 0, 1);
+                var ty = t * y;
+                return this.setValues(tx * x2 + c, tx * y - s * z2, tx * z2 + s * y, 0, tx * y + s * z2, ty * y + c, ty * z2 - s * x2, 0, tx * z2 - s * y, ty * z2 + s * x2, t * z2 * z2 + c, 0, 0, 0, 0, 1);
               },
               rotate: function(rad, axis) {
-                var a = this.val;
+                var a2 = this.val;
                 var x2 = axis.x;
-                var y2 = axis.y;
+                var y = axis.y;
                 var z2 = axis.z;
-                var len = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+                var len = Math.sqrt(x2 * x2 + y * y + z2 * z2);
                 if (Math.abs(len) < EPSILON) {
                   return this;
                 }
                 len = 1 / len;
                 x2 *= len;
-                y2 *= len;
+                y *= len;
                 z2 *= len;
-                var s2 = Math.sin(rad);
+                var s = Math.sin(rad);
                 var c = Math.cos(rad);
                 var t = 1 - c;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
                 var b00 = x2 * x2 * t + c;
-                var b01 = y2 * x2 * t + z2 * s2;
-                var b02 = z2 * x2 * t - y2 * s2;
-                var b10 = x2 * y2 * t - z2 * s2;
-                var b11 = y2 * y2 * t + c;
-                var b12 = z2 * y2 * t + x2 * s2;
-                var b20 = x2 * z2 * t + y2 * s2;
-                var b21 = y2 * z2 * t - x2 * s2;
+                var b01 = y * x2 * t + z2 * s;
+                var b02 = z2 * x2 * t - y * s;
+                var b10 = x2 * y * t - z2 * s;
+                var b11 = y * y * t + c;
+                var b12 = z2 * y * t + x2 * s;
+                var b20 = x2 * z2 * t + y * s;
+                var b21 = y * z2 * t - x2 * s;
                 var b22 = z2 * z2 * t + c;
                 return this.setValues(a00 * b00 + a10 * b01 + a20 * b02, a01 * b00 + a11 * b01 + a21 * b02, a02 * b00 + a12 * b01 + a22 * b02, a03 * b00 + a13 * b01 + a23 * b02, a00 * b10 + a10 * b11 + a20 * b12, a01 * b10 + a11 * b11 + a21 * b12, a02 * b10 + a12 * b11 + a22 * b12, a03 * b10 + a13 * b11 + a23 * b12, a00 * b20 + a10 * b21 + a20 * b22, a01 * b20 + a11 * b21 + a21 * b22, a02 * b20 + a12 * b21 + a22 * b22, a03 * b20 + a13 * b21 + a23 * b22, a30, a31, a32, a33);
               },
               rotateX: function(rad) {
-                var a = this.val;
-                var s2 = Math.sin(rad);
+                var a2 = this.val;
+                var s = Math.sin(rad);
                 var c = Math.cos(rad);
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                a[4] = a10 * c + a20 * s2;
-                a[5] = a11 * c + a21 * s2;
-                a[6] = a12 * c + a22 * s2;
-                a[7] = a13 * c + a23 * s2;
-                a[8] = a20 * c - a10 * s2;
-                a[9] = a21 * c - a11 * s2;
-                a[10] = a22 * c - a12 * s2;
-                a[11] = a23 * c - a13 * s2;
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                a2[4] = a10 * c + a20 * s;
+                a2[5] = a11 * c + a21 * s;
+                a2[6] = a12 * c + a22 * s;
+                a2[7] = a13 * c + a23 * s;
+                a2[8] = a20 * c - a10 * s;
+                a2[9] = a21 * c - a11 * s;
+                a2[10] = a22 * c - a12 * s;
+                a2[11] = a23 * c - a13 * s;
                 return this;
               },
               rotateY: function(rad) {
-                var a = this.val;
-                var s2 = Math.sin(rad);
+                var a2 = this.val;
+                var s = Math.sin(rad);
                 var c = Math.cos(rad);
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                a[0] = a00 * c - a20 * s2;
-                a[1] = a01 * c - a21 * s2;
-                a[2] = a02 * c - a22 * s2;
-                a[3] = a03 * c - a23 * s2;
-                a[8] = a00 * s2 + a20 * c;
-                a[9] = a01 * s2 + a21 * c;
-                a[10] = a02 * s2 + a22 * c;
-                a[11] = a03 * s2 + a23 * c;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                a2[0] = a00 * c - a20 * s;
+                a2[1] = a01 * c - a21 * s;
+                a2[2] = a02 * c - a22 * s;
+                a2[3] = a03 * c - a23 * s;
+                a2[8] = a00 * s + a20 * c;
+                a2[9] = a01 * s + a21 * c;
+                a2[10] = a02 * s + a22 * c;
+                a2[11] = a03 * s + a23 * c;
                 return this;
               },
               rotateZ: function(rad) {
-                var a = this.val;
-                var s2 = Math.sin(rad);
+                var a2 = this.val;
+                var s = Math.sin(rad);
                 var c = Math.cos(rad);
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                a[0] = a00 * c + a10 * s2;
-                a[1] = a01 * c + a11 * s2;
-                a[2] = a02 * c + a12 * s2;
-                a[3] = a03 * c + a13 * s2;
-                a[4] = a10 * c - a00 * s2;
-                a[5] = a11 * c - a01 * s2;
-                a[6] = a12 * c - a02 * s2;
-                a[7] = a13 * c - a03 * s2;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                a2[0] = a00 * c + a10 * s;
+                a2[1] = a01 * c + a11 * s;
+                a2[2] = a02 * c + a12 * s;
+                a2[3] = a03 * c + a13 * s;
+                a2[4] = a10 * c - a00 * s;
+                a2[5] = a11 * c - a01 * s;
+                a2[6] = a12 * c - a02 * s;
+                a2[7] = a13 * c - a03 * s;
                 return this;
               },
-              fromRotationTranslation: function(q, v2) {
-                var x2 = q.x;
-                var y2 = q.y;
-                var z2 = q.z;
-                var w2 = q.w;
+              fromRotationTranslation: function(q2, v2) {
+                var x2 = q2.x;
+                var y = q2.y;
+                var z2 = q2.z;
+                var w2 = q2.w;
                 var x22 = x2 + x2;
-                var y22 = y2 + y2;
+                var y2 = y + y;
                 var z22 = z2 + z2;
                 var xx = x2 * x22;
-                var xy = x2 * y22;
+                var xy = x2 * y2;
                 var xz = x2 * z22;
-                var yy = y2 * y22;
-                var yz = y2 * z22;
+                var yy = y * y2;
+                var yz = y * z22;
                 var zz = z2 * z22;
                 var wx = w2 * x22;
-                var wy = w2 * y22;
+                var wy = w2 * y2;
                 var wz = w2 * z22;
                 return this.setValues(1 - (yy + zz), xy + wz, xz - wy, 0, xy - wz, 1 - (xx + zz), yz + wx, 0, xz + wy, yz - wx, 1 - (xx + yy), 0, v2.x, v2.y, v2.z, 1);
               },
-              fromQuat: function(q) {
-                var x2 = q.x;
-                var y2 = q.y;
-                var z2 = q.z;
-                var w2 = q.w;
+              fromQuat: function(q2) {
+                var x2 = q2.x;
+                var y = q2.y;
+                var z2 = q2.z;
+                var w2 = q2.w;
                 var x22 = x2 + x2;
-                var y22 = y2 + y2;
+                var y2 = y + y;
                 var z22 = z2 + z2;
                 var xx = x2 * x22;
-                var xy = x2 * y22;
+                var xy = x2 * y2;
                 var xz = x2 * z22;
-                var yy = y2 * y22;
-                var yz = y2 * z22;
+                var yy = y * y2;
+                var yz = y * z22;
                 var zz = z2 * z22;
                 var wx = w2 * x22;
-                var wy = w2 * y22;
+                var wy = w2 * y2;
                 var wz = w2 * z22;
                 return this.setValues(1 - (yy + zz), xy + wz, xz - wy, 0, xy - wz, 1 - (xx + zz), yz + wx, 0, xz + wy, yz - wx, 1 - (xx + yy), 0, 0, 0, 0, 1);
               },
@@ -6242,24 +6242,24 @@
                 return this.setValues(near * 2 * rl, 0, 0, 0, 0, near * 2 * tb, 0, 0, (right + left) * rl, (top + bottom) * tb, (far + near) * nf, -1, 0, 0, far * near * 2 * nf, 0);
               },
               perspective: function(fovy, aspect, near, far) {
-                var f = 1 / Math.tan(fovy / 2);
+                var f2 = 1 / Math.tan(fovy / 2);
                 var nf = 1 / (near - far);
-                return this.setValues(f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0);
+                return this.setValues(f2 / aspect, 0, 0, 0, 0, f2, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0);
               },
               perspectiveLH: function(width, height, near, far) {
                 return this.setValues(2 * near / width, 0, 0, 0, 0, 2 * near / height, 0, 0, 0, 0, -far / (near - far), 1, 0, 0, near * far / (near - far), 0);
               },
               ortho: function(left, right, bottom, top, near, far) {
-                var lr = left - right;
-                var bt = bottom - top;
+                var lr2 = left - right;
+                var bt2 = bottom - top;
                 var nf = near - far;
-                lr = lr === 0 ? lr : 1 / lr;
-                bt = bt === 0 ? bt : 1 / bt;
+                lr2 = lr2 === 0 ? lr2 : 1 / lr2;
+                bt2 = bt2 === 0 ? bt2 : 1 / bt2;
                 nf = nf === 0 ? nf : 1 / nf;
-                return this.setValues(-2 * lr, 0, 0, 0, 0, -2 * bt, 0, 0, 0, 0, 2 * nf, 0, (left + right) * lr, (top + bottom) * bt, (far + near) * nf, 1);
+                return this.setValues(-2 * lr2, 0, 0, 0, 0, -2 * bt2, 0, 0, 0, 0, 2 * nf, 0, (left + right) * lr2, (top + bottom) * bt2, (far + near) * nf, 1);
               },
               lookAtRH: function(eye, target, up) {
-                var m2 = this.val;
+                var m = this.val;
                 _z.subVectors(eye, target);
                 if (_z.getLengthSquared() === 0) {
                   _z.z = 1;
@@ -6277,15 +6277,15 @@
                 }
                 _x.normalize();
                 _y.crossVectors(_z, _x);
-                m2[0] = _x.x;
-                m2[1] = _x.y;
-                m2[2] = _x.z;
-                m2[4] = _y.x;
-                m2[5] = _y.y;
-                m2[6] = _y.z;
-                m2[8] = _z.x;
-                m2[9] = _z.y;
-                m2[10] = _z.z;
+                m[0] = _x.x;
+                m[1] = _x.y;
+                m[2] = _x.z;
+                m[4] = _y.x;
+                m[5] = _y.y;
+                m[6] = _y.z;
+                m[8] = _z.x;
+                m[9] = _z.y;
+                m[10] = _z.z;
                 return this;
               },
               lookAt: function(eye, center, up) {
@@ -6345,29 +6345,29 @@
                 var m0 = this.val;
                 var m1 = _tempMat1.val;
                 var m2 = _tempMat2.val;
-                var s2 = Math.sin(roll);
+                var s = Math.sin(roll);
                 var c = Math.cos(roll);
                 m0[10] = 1;
                 m0[15] = 1;
                 m0[0] = c;
-                m0[1] = s2;
-                m0[4] = -s2;
+                m0[1] = s;
+                m0[4] = -s;
                 m0[5] = c;
-                s2 = Math.sin(pitch);
+                s = Math.sin(pitch);
                 c = Math.cos(pitch);
                 m1[0] = 1;
                 m1[15] = 1;
                 m1[5] = c;
                 m1[10] = c;
-                m1[9] = -s2;
-                m1[6] = s2;
-                s2 = Math.sin(yaw);
+                m1[9] = -s;
+                m1[6] = s;
+                s = Math.sin(yaw);
                 c = Math.cos(yaw);
                 m2[5] = 1;
                 m2[15] = 1;
                 m2[0] = c;
-                m2[2] = -s2;
-                m2[8] = s2;
+                m2[2] = -s;
+                m2[8] = s;
                 m2[10] = c;
                 this.multiplyLocal(_tempMat1);
                 this.multiplyLocal(_tempMat2);
@@ -6388,52 +6388,52 @@
                 return this;
               },
               multiplyToMat4: function(src, out) {
-                var a = this.val;
-                var b2 = src.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
-                var b00 = b2[0];
-                var b01 = b2[1];
-                var b02 = b2[2];
-                var b03 = b2[3];
-                var b10 = b2[4];
-                var b11 = b2[5];
-                var b12 = b2[6];
-                var b13 = b2[7];
-                var b20 = b2[8];
-                var b21 = b2[9];
-                var b22 = b2[10];
-                var b23 = b2[11];
-                var b30 = b2[12];
-                var b31 = b2[13];
-                var b32 = b2[14];
-                var b33 = b2[15];
+                var a2 = this.val;
+                var b = src.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
+                var b00 = b[0];
+                var b01 = b[1];
+                var b02 = b[2];
+                var b03 = b[3];
+                var b10 = b[4];
+                var b11 = b[5];
+                var b12 = b[6];
+                var b13 = b[7];
+                var b20 = b[8];
+                var b21 = b[9];
+                var b22 = b[10];
+                var b23 = b[11];
+                var b30 = b[12];
+                var b31 = b[13];
+                var b32 = b[14];
+                var b33 = b[15];
                 return out.setValues(b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30, b01 * a01 + b01 * a11 + b02 * a21 + b03 * a31, b02 * a02 + b01 * a12 + b02 * a22 + b03 * a32, b03 * a03 + b01 * a13 + b02 * a23 + b03 * a33, b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30, b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31, b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32, b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33, b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30, b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31, b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32, b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33, b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30, b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31, b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32, b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33);
               },
               fromRotationXYTranslation: function(rotation, position, translateFirst) {
                 var x2 = position.x;
-                var y2 = position.y;
+                var y = position.y;
                 var z2 = position.z;
                 var sx = Math.sin(rotation.x);
                 var cx = Math.cos(rotation.x);
                 var sy = Math.sin(rotation.y);
                 var cy = Math.cos(rotation.y);
                 var a30 = x2;
-                var a31 = y2;
+                var a31 = y;
                 var a32 = z2;
                 var b21 = -sx;
                 var c01 = 0 - b21 * sy;
@@ -6442,16 +6442,16 @@
                 var c22 = cx * cy;
                 if (!translateFirst) {
                   a30 = cy * x2 + sy * z2;
-                  a31 = c01 * x2 + cx * y2 + c21 * z2;
-                  a32 = c02 * x2 + sx * y2 + c22 * z2;
+                  a31 = c01 * x2 + cx * y + c21 * z2;
+                  a32 = c02 * x2 + sx * y + c22 * z2;
                 }
                 return this.setValues(cy, c01, c02, 0, 0, cx, sx, 0, sy, c21, c22, 0, a30, a31, a32, 1);
               },
               getMaxScaleOnAxis: function() {
-                var m2 = this.val;
-                var scaleXSq = m2[0] * m2[0] + m2[1] * m2[1] + m2[2] * m2[2];
-                var scaleYSq = m2[4] * m2[4] + m2[5] * m2[5] + m2[6] * m2[6];
-                var scaleZSq = m2[8] * m2[8] + m2[9] * m2[9] + m2[10] * m2[10];
+                var m = this.val;
+                var scaleXSq = m[0] * m[0] + m[1] * m[1] + m[2] * m[2];
+                var scaleYSq = m[4] * m[4] + m[5] * m[5] + m[6] * m[6];
+                var scaleZSq = m[8] * m[8] + m[9] * m[9] + m[10] * m[10];
                 return Math.sqrt(Math.max(scaleXSq, scaleYSq, scaleZSq));
               }
             });
@@ -6612,12 +6612,12 @@
                 Components.Visible,
                 SpriteRender
               ],
-              initialize: function Sprite2(scene, x2, y2, texture, frame) {
+              initialize: function Sprite2(scene, x2, y, texture, frame) {
                 GameObject.call(this, scene, "Sprite");
                 this._crop = this.resetCropObject();
                 this.anims = new AnimationState(this);
                 this.setTexture(texture, frame);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSizeToFrame();
                 this.setOriginFromFrame();
                 this.initPipeline();
@@ -6743,8 +6743,8 @@
             module2.exports = SafeRange;
           },
           function(module2, exports2) {
-            function Compare(a, b2) {
-              return String(a).localeCompare(b2);
+            function Compare(a2, b) {
+              return String(a2).localeCompare(b);
             }
             function Process(array, compare) {
               var len = array.length;
@@ -6764,10 +6764,10 @@
               var len = arr.length;
               var i = 0;
               var dbl = chk * 2;
-              var l2, r, e;
+              var l, r, e;
               var li, ri;
-              for (l2 = 0; l2 < len; l2 += dbl) {
-                r = l2 + chk;
+              for (l = 0; l < len; l += dbl) {
+                r = l + chk;
                 e = r + chk;
                 if (r > len) {
                   r = len;
@@ -6775,7 +6775,7 @@
                 if (e > len) {
                   e = len;
                 }
-                li = l2;
+                li = l;
                 ri = r;
                 while (true) {
                   if (li < r && ri < e) {
@@ -6911,8 +6911,8 @@
                 this.x3 = x3;
                 this.y3 = y3;
               },
-              contains: function(x2, y2) {
-                return Contains(this, x2, y2);
+              contains: function(x2, y) {
+                return Contains(this, x2, y);
               },
               getPoint: function(position, output) {
                 return GetPoint(this, position, output);
@@ -7050,8 +7050,8 @@
             var Vector = {};
             module2.exports = Vector;
             (function() {
-              Vector.create = function(x2, y2) {
-                return { x: x2 || 0, y: y2 || 0 };
+              Vector.create = function(x2, y) {
+                return { x: x2 || 0, y: y || 0 };
               };
               Vector.clone = function(vector) {
                 return { x: vector.x, y: vector.y };
@@ -7209,11 +7209,11 @@
                 Components.Flip,
                 Components.Visible
               ],
-              initialize: function Tile2(layer, index, x2, y2, width, height, baseWidth, baseHeight) {
+              initialize: function Tile2(layer, index, x2, y, width, height, baseWidth, baseHeight) {
                 this.layer = layer;
                 this.index = index;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
                 this.right;
@@ -7238,8 +7238,8 @@
                 this.tint = 16777215;
                 this.physics = {};
               },
-              containsPoint: function(x2, y2) {
-                return !(x2 < this.pixelX || y2 < this.pixelY || x2 > this.right || y2 > this.bottom);
+              containsPoint: function(x2, y) {
+                return !(x2 < this.pixelX || y < this.pixelY || x2 > this.right || y > this.bottom);
               },
               copy: function(tile) {
                 this.index = tile.index;
@@ -7295,8 +7295,8 @@
               getCenterY: function(camera) {
                 return (this.getTop(camera) + this.getBottom(camera)) / 2;
               },
-              intersects: function(x2, y2, right, bottom) {
-                return !(right <= this.pixelX || bottom <= this.pixelY || x2 >= this.right || y2 >= this.bottom);
+              intersects: function(x2, y, right, bottom) {
+                return !(right <= this.pixelX || bottom <= this.pixelY || x2 >= this.right || y >= this.bottom);
               },
               isInteresting: function(collides, faces) {
                 if (collides && faces) {
@@ -7467,11 +7467,11 @@
             var Vector = __webpack_require__(83);
             var decomp = __webpack_require__(1393);
             (function() {
-              Bodies.rectangle = function(x2, y2, width, height, options) {
+              Bodies.rectangle = function(x2, y, width, height, options) {
                 options = options || {};
                 var rectangle = {
                   label: "Rectangle Body",
-                  position: { x: x2, y: y2 },
+                  position: { x: x2, y },
                   vertices: Vertices.fromPath("L 0 0 L " + width + " 0 L " + width + " " + height + " L 0 " + height)
                 };
                 if (options.chamfer) {
@@ -7481,7 +7481,7 @@
                 }
                 return Body.create(Common.extend({}, rectangle, options));
               };
-              Bodies.trapezoid = function(x2, y2, width, height, slope, options) {
+              Bodies.trapezoid = function(x2, y, width, height, slope, options) {
                 options = options || {};
                 slope *= 0.5;
                 var roof = (1 - slope * 2) * width;
@@ -7493,7 +7493,7 @@
                 }
                 var trapezoid = {
                   label: "Trapezoid Body",
-                  position: { x: x2, y: y2 },
+                  position: { x: x2, y },
                   vertices: Vertices.fromPath(verticesPath)
                 };
                 if (options.chamfer) {
@@ -7503,7 +7503,7 @@
                 }
                 return Body.create(Common.extend({}, trapezoid, options));
               };
-              Bodies.circle = function(x2, y2, radius, options, maxSides) {
+              Bodies.circle = function(x2, y, radius, options, maxSides) {
                 options = options || {};
                 var circle = {
                   label: "Circle Body",
@@ -7513,12 +7513,12 @@
                 var sides = Math.ceil(Math.max(10, Math.min(maxSides, radius)));
                 if (sides % 2 === 1)
                   sides += 1;
-                return Bodies.polygon(x2, y2, sides, radius, Common.extend({}, circle, options));
+                return Bodies.polygon(x2, y, sides, radius, Common.extend({}, circle, options));
               };
-              Bodies.polygon = function(x2, y2, sides, radius, options) {
+              Bodies.polygon = function(x2, y, sides, radius, options) {
                 options = options || {};
                 if (sides < 3)
-                  return Bodies.circle(x2, y2, radius, options);
+                  return Bodies.circle(x2, y, radius, options);
                 var theta = 2 * Math.PI / sides, path = "", offset = theta * 0.5;
                 for (var i = 0; i < sides; i += 1) {
                   var angle = offset + i * theta, xx = Math.cos(angle) * radius, yy = Math.sin(angle) * radius;
@@ -7526,7 +7526,7 @@
                 }
                 var polygon = {
                   label: "Polygon Body",
-                  position: { x: x2, y: y2 },
+                  position: { x: x2, y },
                   vertices: Vertices.fromPath(path)
                 };
                 if (options.chamfer) {
@@ -7536,8 +7536,8 @@
                 }
                 return Body.create(Common.extend({}, polygon, options));
               };
-              Bodies.fromVertices = function(x2, y2, vertexSets, options, flagInternal, removeCollinear, minimumArea) {
-                var body, parts, isConvex, vertices, i, j2, k, v2, z2;
+              Bodies.fromVertices = function(x2, y, vertexSets, options, flagInternal, removeCollinear, minimumArea) {
+                var body, parts, isConvex, vertices, i, j2, k2, v2, z2;
                 options = options || {};
                 parts = [];
                 flagInternal = typeof flagInternal !== "undefined" ? flagInternal : false;
@@ -7559,7 +7559,7 @@
                       vertices = Vertices.hull(vertices);
                     }
                     parts.push({
-                      position: { x: x2, y: y2 },
+                      position: { x: x2, y },
                       vertices
                     });
                   } else {
@@ -7595,7 +7595,7 @@
                 }
                 if (parts.length > 1) {
                   body = Body.create(Common.extend({ parts: parts.slice(0) }, options));
-                  Body.setPosition(body, { x: x2, y: y2 });
+                  Body.setPosition(body, { x: x2, y });
                   return body;
                 } else {
                   return parts[0];
@@ -7612,12 +7612,12 @@
                     if (Bounds.overlaps(partA.bounds, partB.bounds)) {
                       var pav = partA.vertices;
                       var pbv = partB.vertices;
-                      for (var k = 0; k < partA.vertices.length; k++) {
+                      for (var k2 = 0; k2 < partA.vertices.length; k2++) {
                         for (var z2 = 0; z2 < partB.vertices.length; z2++) {
-                          var da = Vector.magnitudeSquared(Vector.sub(pav[(k + 1) % pav.length], pbv[z2]));
-                          var db = Vector.magnitudeSquared(Vector.sub(pav[k], pbv[(z2 + 1) % pbv.length]));
+                          var da = Vector.magnitudeSquared(Vector.sub(pav[(k2 + 1) % pav.length], pbv[z2]));
+                          var db = Vector.magnitudeSquared(Vector.sub(pav[k2], pbv[(z2 + 1) % pbv.length]));
                           if (da < maxDistance && db < maxDistance) {
-                            pav[k].isInternal = true;
+                            pav[k2].isInternal = true;
                             pbv[z2].isInternal = true;
                           }
                         }
@@ -7650,9 +7650,9 @@
             module2.exports = GetCenterY;
           },
           function(module2, exports2) {
-            var SetCenterY = function(gameObject, y2) {
+            var SetCenterY = function(gameObject, y) {
               var offsetY = gameObject.height * gameObject.originY;
-              gameObject.y = y2 + offsetY - gameObject.height * 0.5;
+              gameObject.y = y + offsetY - gameObject.height * 0.5;
               return gameObject;
             };
             module2.exports = SetCenterY;
@@ -7780,8 +7780,8 @@
                 var last = this.getPoint(0, this._tmpVec2A);
                 var sum = 0;
                 cache.push(0);
-                for (var p = 1; p <= divisions; p++) {
-                  current = this.getPoint(p / divisions, this._tmpVec2B);
+                for (var p2 = 1; p2 <= divisions; p2++) {
+                  current = this.getPoint(p2 / divisions, this._tmpVec2B);
                   sum += current.distance(last);
                   cache.push(sum);
                   last.copy(current);
@@ -8528,7 +8528,7 @@
                 var displayOriginX = gameObject.displayOriginX;
                 var displayOriginY = gameObject.displayOriginY;
                 var x2 = -displayOriginX + frameX;
-                var y2 = -displayOriginY + frameY;
+                var y = -displayOriginY + frameY;
                 if (gameObject.isCropped) {
                   var crop = gameObject._crop;
                   if (crop.flipX !== gameObject.flipX || crop.flipY !== gameObject.flipY) {
@@ -8543,7 +8543,7 @@
                   frameX = crop.x;
                   frameY = crop.y;
                   x2 = -displayOriginX + frameX;
-                  y2 = -displayOriginY + frameY;
+                  y = -displayOriginY + frameY;
                 }
                 var flipX = 1;
                 var flipY = 1;
@@ -8555,7 +8555,7 @@
                 }
                 if (gameObject.flipY || frame.source.isGLTexture && !texture.flipY) {
                   if (!customPivot) {
-                    y2 += -frame.realHeight + displayOriginY * 2;
+                    y += -frame.realHeight + displayOriginY * 2;
                   }
                   flipY = -1;
                 }
@@ -8571,16 +8571,16 @@
                 }
                 camMatrix.multiply(spriteMatrix, calcMatrix);
                 var xw = x2 + frameWidth;
-                var yh = y2 + frameHeight;
+                var yh = y + frameHeight;
                 var roundPixels = camera.roundPixels;
-                var tx0 = calcMatrix.getXRound(x2, y2, roundPixels);
-                var ty0 = calcMatrix.getYRound(x2, y2, roundPixels);
+                var tx0 = calcMatrix.getXRound(x2, y, roundPixels);
+                var ty0 = calcMatrix.getYRound(x2, y, roundPixels);
                 var tx1 = calcMatrix.getXRound(x2, yh, roundPixels);
                 var ty1 = calcMatrix.getYRound(x2, yh, roundPixels);
                 var tx2 = calcMatrix.getXRound(xw, yh, roundPixels);
                 var ty2 = calcMatrix.getYRound(xw, yh, roundPixels);
-                var tx3 = calcMatrix.getXRound(xw, y2, roundPixels);
-                var ty3 = calcMatrix.getYRound(xw, y2, roundPixels);
+                var tx3 = calcMatrix.getXRound(xw, y, roundPixels);
+                var ty3 = calcMatrix.getYRound(xw, y, roundPixels);
                 var getTint = Utils.getTintAppendFloatAlpha;
                 var cameraAlpha = camera.alpha;
                 var tintTL = getTint(gameObject.tintTopLeft, cameraAlpha * gameObject._alphaTL);
@@ -8607,7 +8607,7 @@
                 var width = srcWidth;
                 var height = srcHeight;
                 var x2 = -displayOriginX;
-                var y2 = -displayOriginY;
+                var y = -displayOriginY;
                 if (gameObject.isCropped) {
                   var crop = gameObject._crop;
                   var cropWidth = crop.width;
@@ -8631,7 +8631,7 @@
                   u1 = (ox + cropWidth) / textureWidth + uOffset;
                   v1 = (oy + cropHeight) / textureHeight + vOffset;
                   x2 = -displayOriginX + frameX;
-                  y2 = -displayOriginY + frameY;
+                  y = -displayOriginY + frameY;
                 }
                 flipY = flipY ^ (!skipFlip && texture.isRenderTexture ? 1 : 0);
                 if (flipX) {
@@ -8640,10 +8640,10 @@
                 }
                 if (flipY) {
                   height *= -1;
-                  y2 += srcHeight;
+                  y += srcHeight;
                 }
                 var xw = x2 + width;
-                var yh = y2 + height;
+                var yh = y + height;
                 spriteMatrix.applyITRS(srcX, srcY, rotation, scaleX, scaleY);
                 camMatrix.copyFrom(camera.matrix);
                 if (parentTransformMatrix) {
@@ -8656,14 +8656,14 @@
                 }
                 camMatrix.multiply(spriteMatrix, calcMatrix);
                 var roundPixels = camera.roundPixels;
-                var tx0 = calcMatrix.getXRound(x2, y2, roundPixels);
-                var ty0 = calcMatrix.getYRound(x2, y2, roundPixels);
+                var tx0 = calcMatrix.getXRound(x2, y, roundPixels);
+                var ty0 = calcMatrix.getYRound(x2, y, roundPixels);
                 var tx1 = calcMatrix.getXRound(x2, yh, roundPixels);
                 var ty1 = calcMatrix.getYRound(x2, yh, roundPixels);
                 var tx2 = calcMatrix.getXRound(xw, yh, roundPixels);
                 var ty2 = calcMatrix.getYRound(xw, yh, roundPixels);
-                var tx3 = calcMatrix.getXRound(xw, y2, roundPixels);
-                var ty3 = calcMatrix.getYRound(xw, y2, roundPixels);
+                var tx3 = calcMatrix.getXRound(xw, y, roundPixels);
+                var ty3 = calcMatrix.getYRound(xw, y, roundPixels);
                 if (textureUnit === void 0) {
                   textureUnit = this.renderer.setTexture2D(texture);
                 }
@@ -8675,47 +8675,47 @@
                   this.manager.postBatch(gameObject);
                 }
               },
-              batchTextureFrame: function(frame, x2, y2, tint, alpha, transformMatrix, parentTransformMatrix) {
+              batchTextureFrame: function(frame, x2, y, tint, alpha, transformMatrix, parentTransformMatrix) {
                 this.manager.set(this);
                 var spriteMatrix = this._tempMatrix1.copyFrom(transformMatrix);
                 var calcMatrix = this._tempMatrix2;
                 var xw = x2 + frame.width;
-                var yh = y2 + frame.height;
+                var yh = y + frame.height;
                 if (parentTransformMatrix) {
                   spriteMatrix.multiply(parentTransformMatrix, calcMatrix);
                 } else {
                   calcMatrix = spriteMatrix;
                 }
-                var tx0 = calcMatrix.getX(x2, y2);
-                var ty0 = calcMatrix.getY(x2, y2);
+                var tx0 = calcMatrix.getX(x2, y);
+                var ty0 = calcMatrix.getY(x2, y);
                 var tx1 = calcMatrix.getX(x2, yh);
                 var ty1 = calcMatrix.getY(x2, yh);
                 var tx2 = calcMatrix.getX(xw, yh);
                 var ty2 = calcMatrix.getY(xw, yh);
-                var tx3 = calcMatrix.getX(xw, y2);
-                var ty3 = calcMatrix.getY(xw, y2);
+                var tx3 = calcMatrix.getX(xw, y);
+                var ty3 = calcMatrix.getY(xw, y);
                 var unit = this.renderer.setTextureSource(frame.source);
                 tint = Utils.getTintAppendFloatAlpha(tint, alpha);
                 this.batchQuad(null, tx0, ty0, tx1, ty1, tx2, ty2, tx3, ty3, frame.u0, frame.v0, frame.u1, frame.v1, tint, tint, tint, tint, 0, frame.glTexture, unit);
               },
-              batchFillRect: function(x2, y2, width, height, currentMatrix, parentMatrix) {
+              batchFillRect: function(x2, y, width, height, currentMatrix, parentMatrix) {
                 this.renderer.pipelines.set(this);
                 var calcMatrix = this.calcMatrix;
                 if (parentMatrix) {
                   parentMatrix.multiply(currentMatrix, calcMatrix);
                 }
                 var xw = x2 + width;
-                var yh = y2 + height;
-                var x0 = calcMatrix.getX(x2, y2);
-                var y0 = calcMatrix.getY(x2, y2);
+                var yh = y + height;
+                var x0 = calcMatrix.getX(x2, y);
+                var y0 = calcMatrix.getY(x2, y);
                 var x1 = calcMatrix.getX(x2, yh);
                 var y1 = calcMatrix.getY(x2, yh);
                 var x22 = calcMatrix.getX(xw, yh);
-                var y22 = calcMatrix.getY(xw, yh);
-                var x3 = calcMatrix.getX(xw, y2);
-                var y3 = calcMatrix.getY(xw, y2);
+                var y2 = calcMatrix.getY(xw, yh);
+                var x3 = calcMatrix.getX(xw, y);
+                var y3 = calcMatrix.getY(xw, y);
                 var tint = this.fillTint;
-                this.batchQuad(null, x0, y0, x1, y1, x22, y22, x3, y3, 0, 0, 1, 1, tint.TL, tint.TR, tint.BL, tint.BR, 2);
+                this.batchQuad(null, x0, y0, x1, y1, x22, y2, x3, y3, 0, 0, 1, 1, tint.TL, tint.TR, tint.BL, tint.BR, 2);
               },
               batchFillTriangle: function(x0, y0, x1, y1, x2, y2, currentMatrix, parentMatrix) {
                 this.renderer.pipelines.set(this);
@@ -8865,7 +8865,7 @@
             var Clamp = __webpack_require__(18);
             var Extend = __webpack_require__(17);
             var Frame = new Class({
-              initialize: function Frame2(texture, name, sourceIndex, x2, y2, width, height) {
+              initialize: function Frame2(texture, name, sourceIndex, x2, y, width, height) {
                 this.texture = texture;
                 this.name = name;
                 this.source = texture.source[sourceIndex];
@@ -8923,17 +8923,17 @@
                     height: 0
                   }
                 };
-                this.setSize(width, height, x2, y2);
+                this.setSize(width, height, x2, y);
               },
-              setSize: function(width, height, x2, y2) {
+              setSize: function(width, height, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 this.cutX = x2;
-                this.cutY = y2;
+                this.cutY = y;
                 this.cutWidth = width;
                 this.cutHeight = height;
                 this.width = width;
@@ -8945,11 +8945,11 @@
                 var data = this.data;
                 var cut = data.cut;
                 cut.x = x2;
-                cut.y = y2;
+                cut.y = y;
                 cut.w = width;
                 cut.h = height;
                 cut.r = x2 + width;
-                cut.b = y2 + height;
+                cut.b = y + height;
                 data.sourceSize.w = width;
                 data.sourceSize.h = height;
                 data.spriteSourceSize.w = width;
@@ -8957,7 +8957,7 @@
                 data.radius = 0.5 * Math.sqrt(width * width + height * height);
                 var drawImage = data.drawImage;
                 drawImage.x = x2;
-                drawImage.y = y2;
+                drawImage.y = y;
                 drawImage.width = width;
                 drawImage.height = height;
                 return this.updateUVs();
@@ -8984,7 +8984,7 @@
                 this.centerY = Math.floor(destHeight / 2);
                 return this.updateUVs();
               },
-              setCropUVs: function(crop, x2, y2, width, height, flipX, flipY) {
+              setCropUVs: function(crop, x2, y, width, height, flipX, flipY) {
                 var cx = this.cutX;
                 var cy = this.cutY;
                 var cw = this.cutWidth;
@@ -8992,24 +8992,24 @@
                 var rw = this.realWidth;
                 var rh = this.realHeight;
                 x2 = Clamp(x2, 0, rw);
-                y2 = Clamp(y2, 0, rh);
+                y = Clamp(y, 0, rh);
                 width = Clamp(width, 0, rw - x2);
-                height = Clamp(height, 0, rh - y2);
+                height = Clamp(height, 0, rh - y);
                 var ox = cx + x2;
-                var oy = cy + y2;
+                var oy = cy + y;
                 var ow = width;
                 var oh = height;
                 var data = this.data;
                 if (data.trim) {
                   var ss = data.spriteSourceSize;
                   width = Clamp(width, 0, cw - x2);
-                  height = Clamp(height, 0, ch - y2);
+                  height = Clamp(height, 0, ch - y);
                   var cropRight = x2 + width;
-                  var cropBottom = y2 + height;
-                  var intersects = !(ss.r < x2 || ss.b < y2 || ss.x > cropRight || ss.y > cropBottom);
+                  var cropBottom = y + height;
+                  var intersects = !(ss.r < x2 || ss.b < y || ss.x > cropRight || ss.y > cropBottom);
                   if (intersects) {
                     var ix = Math.max(ss.x, x2);
-                    var iy = Math.max(ss.y, y2);
+                    var iy = Math.max(ss.y, y);
                     var iw = Math.min(ss.r, cropRight) - ix;
                     var ih = Math.min(ss.b, cropBottom) - iy;
                     ow = iw;
@@ -9025,7 +9025,7 @@
                       oy = cy + (iy - ss.y);
                     }
                     x2 = ix;
-                    y2 = iy;
+                    y = iy;
                     width = iw;
                     height = ih;
                   } else {
@@ -9039,7 +9039,7 @@
                     ox = cx + (cw - x2 - width);
                   }
                   if (flipY) {
-                    oy = cy + (ch - y2 - height);
+                    oy = cy + (ch - y - height);
                   }
                 }
                 var tw = this.source.width;
@@ -9049,7 +9049,7 @@
                 crop.u1 = Math.min(1, (ox + ow) / tw);
                 crop.v1 = Math.min(1, (oy + oh) / th);
                 crop.x = x2;
-                crop.y = y2;
+                crop.y = y;
                 crop.cx = ox;
                 crop.cy = oy;
                 crop.cw = ow;
@@ -9361,12 +9361,12 @@
             var GEOM_CONST = __webpack_require__(56);
             var Random = __webpack_require__(180);
             var Ellipse = new Class({
-              initialize: function Ellipse2(x2, y2, width, height) {
+              initialize: function Ellipse2(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 0;
@@ -9376,12 +9376,12 @@
                 }
                 this.type = GEOM_CONST.ELLIPSE;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
               },
-              contains: function(x2, y2) {
-                return Contains(this, x2, y2);
+              contains: function(x2, y) {
+                return Contains(this, x2, y);
               },
               getPoint: function(position, point) {
                 return GetPoint(this, position, point);
@@ -9392,9 +9392,9 @@
               getRandomPoint: function(point) {
                 return Random(this, point);
               },
-              setTo: function(x2, y2, width, height) {
+              setTo: function(x2, y, width, height) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
                 return this;
@@ -9404,12 +9404,12 @@
                 this.height = 0;
                 return this;
               },
-              setPosition: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setPosition: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
               setSize: function(width, height) {
@@ -9465,12 +9465,12 @@
             module2.exports = Ellipse;
           },
           function(module2, exports2) {
-            var Contains = function(ellipse, x2, y2) {
+            var Contains = function(ellipse, x2, y) {
               if (ellipse.width <= 0 || ellipse.height <= 0) {
                 return false;
               }
               var normx = (x2 - ellipse.x) / ellipse.width;
-              var normy = (y2 - ellipse.y) / ellipse.height;
+              var normy = (y - ellipse.y) / ellipse.height;
               normx *= normx;
               normy *= normy;
               return normx + normy < 0.25;
@@ -9537,12 +9537,12 @@
               removedFromScene: function() {
                 this.scene.sys.updateList.remove(this);
               },
-              create: function(x2, y2, key, frame, visible, active) {
+              create: function(x2, y, key, frame, visible, active) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (key === void 0) {
                   key = this.defaultKey;
@@ -9559,7 +9559,7 @@
                 if (this.isFull()) {
                   return null;
                 }
-                var child = new this.classType(this.scene, x2, y2, key, frame);
+                var child = new this.classType(this.scene, x2, y, key, frame);
                 child.addToDisplayList(this.scene.sys.displayList);
                 child.addToUpdateList();
                 child.visible = visible;
@@ -9632,10 +9632,10 @@
                   entries.push(created);
                 }
                 var x2 = GetValue(options, "setXY.x", 0);
-                var y2 = GetValue(options, "setXY.y", 0);
+                var y = GetValue(options, "setXY.y", 0);
                 var stepX = GetValue(options, "setXY.stepX", 0);
                 var stepY = GetValue(options, "setXY.stepY", 0);
-                Actions.SetXY(entries, x2, y2, stepX, stepY);
+                Actions.SetXY(entries, x2, y, stepX, stepY);
                 var rotation = GetValue(options, "setRotation.value", 0);
                 var stepRotation = GetValue(options, "setRotation.step", 0);
                 Actions.SetRotation(entries, rotation, stepRotation);
@@ -9777,19 +9777,19 @@
               getMatching: function(property, value, startIndex, endIndex) {
                 return GetAll(this.children.entries, property, value, startIndex, endIndex);
               },
-              getFirst: function(state, createIfNull, x2, y2, key, frame, visible) {
-                return this.getHandler(true, 1, state, createIfNull, x2, y2, key, frame, visible);
+              getFirst: function(state, createIfNull, x2, y, key, frame, visible) {
+                return this.getHandler(true, 1, state, createIfNull, x2, y, key, frame, visible);
               },
-              getFirstNth: function(nth, state, createIfNull, x2, y2, key, frame, visible) {
-                return this.getHandler(true, nth, state, createIfNull, x2, y2, key, frame, visible);
+              getFirstNth: function(nth, state, createIfNull, x2, y, key, frame, visible) {
+                return this.getHandler(true, nth, state, createIfNull, x2, y, key, frame, visible);
               },
-              getLast: function(state, createIfNull, x2, y2, key, frame, visible) {
-                return this.getHandler(false, 1, state, createIfNull, x2, y2, key, frame, visible);
+              getLast: function(state, createIfNull, x2, y, key, frame, visible) {
+                return this.getHandler(false, 1, state, createIfNull, x2, y, key, frame, visible);
               },
-              getLastNth: function(nth, state, createIfNull, x2, y2, key, frame, visible) {
-                return this.getHandler(false, nth, state, createIfNull, x2, y2, key, frame, visible);
+              getLastNth: function(nth, state, createIfNull, x2, y, key, frame, visible) {
+                return this.getHandler(false, nth, state, createIfNull, x2, y, key, frame, visible);
               },
-              getHandler: function(forwards, nth, state, createIfNull, x2, y2, key, frame, visible) {
+              getHandler: function(forwards, nth, state, createIfNull, x2, y, key, frame, visible) {
                 if (state === void 0) {
                   state = false;
                 }
@@ -9829,25 +9829,25 @@
                   if (typeof x2 === "number") {
                     gameObject.x = x2;
                   }
-                  if (typeof y2 === "number") {
-                    gameObject.y = y2;
+                  if (typeof y === "number") {
+                    gameObject.y = y;
                   }
                   return gameObject;
                 }
                 if (createIfNull) {
-                  return this.create(x2, y2, key, frame, visible);
+                  return this.create(x2, y, key, frame, visible);
                 } else {
                   return null;
                 }
               },
-              get: function(x2, y2, key, frame, visible) {
-                return this.getFirst(false, true, x2, y2, key, frame, visible);
+              get: function(x2, y, key, frame, visible) {
+                return this.getFirst(false, true, x2, y, key, frame, visible);
               },
-              getFirstAlive: function(createIfNull, x2, y2, key, frame, visible) {
-                return this.getFirst(true, createIfNull, x2, y2, key, frame, visible);
+              getFirstAlive: function(createIfNull, x2, y, key, frame, visible) {
+                return this.getFirst(true, createIfNull, x2, y, key, frame, visible);
               },
-              getFirstDead: function(createIfNull, x2, y2, key, frame, visible) {
-                return this.getFirst(false, createIfNull, x2, y2, key, frame, visible);
+              getFirstDead: function(createIfNull, x2, y, key, frame, visible) {
+                return this.getFirst(false, createIfNull, x2, y, key, frame, visible);
               },
               playAnimation: function(key, startFrame) {
                 Actions.PlayAnimation(this.children.entries, key, startFrame);
@@ -9904,8 +9904,8 @@
                 Actions.SetY(this.children.entries, value, step);
                 return this;
               },
-              setXY: function(x2, y2, stepX, stepY) {
-                Actions.SetXY(this.children.entries, x2, y2, stepX, stepY);
+              setXY: function(x2, y, stepX, stepY) {
+                Actions.SetXY(this.children.entries, x2, y, stepX, stepY);
                 return this;
               },
               incX: function(value, step) {
@@ -9916,12 +9916,12 @@
                 Actions.IncY(this.children.entries, value, step);
                 return this;
               },
-              incXY: function(x2, y2, stepX, stepY) {
-                Actions.IncXY(this.children.entries, x2, y2, stepX, stepY);
+              incXY: function(x2, y, stepX, stepY) {
+                Actions.IncXY(this.children.entries, x2, y, stepX, stepY);
                 return this;
               },
-              shiftPosition: function(x2, y2, direction) {
-                Actions.ShiftPosition(this.children.entries, x2, y2, direction);
+              shiftPosition: function(x2, y, direction) {
+                Actions.ShiftPosition(this.children.entries, x2, y, direction);
                 return this;
               },
               angle: function(value, step) {
@@ -10047,20 +10047,20 @@
             module2.exports = FillPathWebGL;
           },
           function(module2, exports2) {
-            var Contains = function(triangle, x2, y2) {
+            var Contains = function(triangle, x2, y) {
               var v0x = triangle.x3 - triangle.x1;
               var v0y = triangle.y3 - triangle.y1;
               var v1x = triangle.x2 - triangle.x1;
               var v1y = triangle.y2 - triangle.y1;
               var v2x = x2 - triangle.x1;
-              var v2y = y2 - triangle.y1;
+              var v2y = y - triangle.y1;
               var dot00 = v0x * v0x + v0y * v0y;
               var dot01 = v0x * v1x + v0y * v1y;
               var dot02 = v0x * v2x + v0y * v2y;
               var dot11 = v1x * v1x + v1y * v1y;
               var dot12 = v1x * v2x + v1y * v2y;
-              var b2 = dot00 * dot11 - dot01 * dot01;
-              var inv = b2 === 0 ? 0 : 1 / b2;
+              var b = dot00 * dot11 - dot01 * dot01;
+              var inv = b === 0 ? 0 : 1 / b;
               var u = (dot11 * dot02 - dot01 * dot12) * inv;
               var v2 = (dot00 * dot12 - dot01 * dot02) * inv;
               return u >= 0 && v2 >= 0 && u + v2 < 1;
@@ -10073,8 +10073,8 @@
             var Vector2 = __webpack_require__(3);
             function GetLength(x1, y1, x2, y2) {
               var x3 = x1 - x2;
-              var y3 = y1 - y2;
-              var magnitude = x3 * x3 + y3 * y3;
+              var y = y1 - y2;
+              var magnitude = x3 * x3 + y * y;
               return Math.sqrt(magnitude);
             }
             var Face = new Class({
@@ -10116,10 +10116,10 @@
                 var d1 = GetLength(v3x, v3y, v2x, v2y);
                 var d2 = GetLength(v1x, v1y, v3x, v3y);
                 var d3 = GetLength(v2x, v2y, v1x, v1y);
-                var p = d1 + d2 + d3;
-                return this._inCenter.set((v1x * d1 + v2x * d2 + v3x * d3) / p, (v1y * d1 + v2y * d2 + v3y * d3) / p);
+                var p2 = d1 + d2 + d3;
+                return this._inCenter.set((v1x * d1 + v2x * d2 + v3x * d3) / p2, (v1y * d1 + v2y * d2 + v3y * d3) / p2);
               },
-              contains: function(x2, y2, calcMatrix) {
+              contains: function(x2, y, calcMatrix) {
                 var vertex1 = this.vertex1;
                 var vertex2 = this.vertex2;
                 var vertex3 = this.vertex3;
@@ -10130,25 +10130,25 @@
                 var v3x = vertex3.vx;
                 var v3y = vertex3.vy;
                 if (calcMatrix) {
-                  var a = calcMatrix.a;
-                  var b2 = calcMatrix.b;
+                  var a2 = calcMatrix.a;
+                  var b = calcMatrix.b;
                   var c = calcMatrix.c;
                   var d = calcMatrix.d;
                   var e = calcMatrix.e;
-                  var f = calcMatrix.f;
-                  v1x = vertex1.vx * a + vertex1.vy * c + e;
-                  v1y = vertex1.vx * b2 + vertex1.vy * d + f;
-                  v2x = vertex2.vx * a + vertex2.vy * c + e;
-                  v2y = vertex2.vx * b2 + vertex2.vy * d + f;
-                  v3x = vertex3.vx * a + vertex3.vy * c + e;
-                  v3y = vertex3.vx * b2 + vertex3.vy * d + f;
+                  var f2 = calcMatrix.f;
+                  v1x = vertex1.vx * a2 + vertex1.vy * c + e;
+                  v1y = vertex1.vx * b + vertex1.vy * d + f2;
+                  v2x = vertex2.vx * a2 + vertex2.vy * c + e;
+                  v2y = vertex2.vx * b + vertex2.vy * d + f2;
+                  v3x = vertex3.vx * a2 + vertex3.vy * c + e;
+                  v3y = vertex3.vx * b + vertex3.vy * d + f2;
                 }
                 var t0x = v3x - v1x;
                 var t0y = v3y - v1y;
                 var t1x = v2x - v1x;
                 var t1y = v2y - v1y;
                 var t2x = x2 - v1x;
-                var t2y = y2 - v1y;
+                var t2y = y - v1y;
                 var dot00 = t0x * t0x + t0y * t0y;
                 var dot01 = t0x * t1x + t0y * t1y;
                 var dot02 = t0x * t2x + t0y * t2y;
@@ -10190,10 +10190,10 @@
                 bounds.height = Math.max(v1.vy, v2.vy, v3.vy) - bounds.y;
                 return this;
               },
-              isInView: function(camera, hideCCW, z2, alpha, a, b2, c, d, e, f, roundPixels) {
-                var v1 = this.vertex1.update(a, b2, c, d, e, f, roundPixels, alpha);
-                var v2 = this.vertex2.update(a, b2, c, d, e, f, roundPixels, alpha);
-                var v3 = this.vertex3.update(a, b2, c, d, e, f, roundPixels, alpha);
+              isInView: function(camera, hideCCW, z2, alpha, a2, b, c, d, e, f2, roundPixels) {
+                var v1 = this.vertex1.update(a2, b, c, d, e, f2, roundPixels, alpha);
+                var v2 = this.vertex2.update(a2, b, c, d, e, f2, roundPixels, alpha);
+                var v3 = this.vertex3.update(a2, b, c, d, e, f2, roundPixels, alpha);
                 if (v1.ta <= 0 && v2.ta <= 0 && v3.ta <= 0) {
                   return false;
                 }
@@ -10205,26 +10205,26 @@
                 bounds.y = Math.min(v1.ty, v2.ty, v3.ty);
                 bounds.width = Math.max(v1.tx, v2.tx, v3.tx) - bounds.x;
                 bounds.height = Math.max(v1.ty, v2.ty, v3.ty) - bounds.y;
-                var cr = camera.x + camera.width;
+                var cr2 = camera.x + camera.width;
                 var cb = camera.y + camera.height;
                 if (bounds.width <= 0 || bounds.height <= 0 || camera.width <= 0 || camera.height <= 0) {
                   return false;
                 }
-                return !(bounds.right < camera.x || bounds.bottom < camera.y || bounds.x > cr || bounds.y > cb);
+                return !(bounds.right < camera.x || bounds.bottom < camera.y || bounds.x > cr2 || bounds.y > cb);
               },
-              translate: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = 0;
+              translate: function(x2, y) {
+                if (y === void 0) {
+                  y = 0;
                 }
                 var v1 = this.vertex1;
                 var v2 = this.vertex2;
                 var v3 = this.vertex3;
                 v1.x += x2;
-                v1.y += y2;
+                v1.y += y;
                 v2.x += x2;
-                v2.y += y2;
+                v2.y += y;
                 v3.x += x2;
-                v3.y += y2;
+                v3.y += y;
                 return this;
               },
               x: {
@@ -10280,7 +10280,7 @@
             var Vector3 = __webpack_require__(39);
             var Vertex = new Class({
               Extends: Vector3,
-              initialize: function Vertex2(x2, y2, z2, u, v2, color, alpha, nx, ny, nz) {
+              initialize: function Vertex2(x2, y, z2, u, v2, color, alpha, nx, ny, nz) {
                 if (color === void 0) {
                   color = 16777215;
                 }
@@ -10296,7 +10296,7 @@
                 if (nz === void 0) {
                   nz = 0;
                 }
-                Vector3.call(this, x2, y2, z2);
+                Vector3.call(this, x2, y, z2);
                 this.vx = 0;
                 this.vy = 0;
                 this.vz = 0;
@@ -10318,13 +10318,13 @@
               },
               transformCoordinatesLocal: function(transformMatrix, width, height, cameraZ) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var m2 = transformMatrix.val;
-                var tx = x2 * m2[0] + y2 * m2[4] + z2 * m2[8] + m2[12];
-                var ty = x2 * m2[1] + y2 * m2[5] + z2 * m2[9] + m2[13];
-                var tz = x2 * m2[2] + y2 * m2[6] + z2 * m2[10] + m2[14];
-                var tw = x2 * m2[3] + y2 * m2[7] + z2 * m2[11] + m2[15];
+                var m = transformMatrix.val;
+                var tx = x2 * m[0] + y * m[4] + z2 * m[8] + m[12];
+                var ty = x2 * m[1] + y * m[5] + z2 * m[9] + m[13];
+                var tz = x2 * m[2] + y * m[6] + z2 * m[10] + m[14];
+                var tw = x2 * m[3] + y * m[7] + z2 * m[11] + m[15];
                 this.vx = tx / tw * width;
                 this.vy = -(ty / tw) * height;
                 if (cameraZ <= 0) {
@@ -10333,9 +10333,9 @@
                   this.vz = -(tz / tw);
                 }
               },
-              update: function(a, b2, c, d, e, f, roundPixels, alpha) {
-                var tx = this.vx * a + this.vy * c + e;
-                var ty = this.vx * b2 + this.vy * d + f;
+              update: function(a2, b, c, d, e, f2, roundPixels, alpha) {
+                var tx = this.vx * a2 + this.vy * c + e;
+                var ty = this.vx * b + this.vy * d + f2;
                 if (roundPixels) {
                   tx = Math.round(tx);
                   ty = Math.round(ty);
@@ -10805,7 +10805,7 @@
                 this.texCoordinates.length = 0;
                 var tx = this.tileMargin;
                 var ty = this.tileMargin;
-                for (var y2 = 0; y2 < this.rows; y2++) {
+                for (var y = 0; y < this.rows; y++) {
                   for (var x2 = 0; x2 < this.columns; x2++) {
                     this.texCoordinates.push({ x: tx, y: ty });
                     tx += this.tileWidth + this.tileSpacing;
@@ -10837,11 +10837,11 @@
             module2.exports = ALIGN_CONST;
           },
           function(module2, exports2) {
-            var Equal = function(a, b2, epsilon) {
+            var Equal = function(a2, b, epsilon) {
               if (epsilon === void 0) {
                 epsilon = 1e-4;
               }
-              return Math.abs(a - b2) < epsilon;
+              return Math.abs(a2 - b) < epsilon;
             };
             module2.exports = Equal;
           },
@@ -10869,11 +10869,11 @@
                 Components.Visible,
                 ImageRender
               ],
-              initialize: function Image3(scene, x2, y2, texture, frame) {
+              initialize: function Image3(scene, x2, y, texture, frame) {
                 GameObject.call(this, scene, "Image");
                 this._crop = this.resetCropObject();
                 this.setTexture(texture, frame);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSizeToFrame();
                 this.setOriginFromFrame();
                 this.initPipeline();
@@ -11097,7 +11097,7 @@
                 Components.ScrollFactor,
                 Components.Visible
               ],
-              initialize: function Zone2(scene, x2, y2, width, height) {
+              initialize: function Zone2(scene, x2, y, width, height) {
                 if (width === void 0) {
                   width = 1;
                 }
@@ -11105,7 +11105,7 @@
                   height = width;
                 }
                 GameObject.call(this, scene, "Zone");
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.width = width;
                 this.height = height;
                 this.blendMode = BlendModes.NORMAL;
@@ -11222,12 +11222,12 @@
                 Components.Alpha,
                 Components.Visible
               ],
-              initialize: function BaseCamera2(x2, y2, width, height) {
+              initialize: function BaseCamera2(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 0;
@@ -11247,7 +11247,7 @@
                 this.worldView = new Rectangle();
                 this.dirty = true;
                 this._x = x2;
-                this._y = y2;
+                this._y = y;
                 this._width = width;
                 this._height = height;
                 this._bounds = new Rectangle();
@@ -11272,25 +11272,25 @@
               addToRenderList: function(child) {
                 this.renderList.push(child);
               },
-              setOrigin: function(x2, y2) {
+              setOrigin: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0.5;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.originX = x2;
-                this.originY = y2;
+                this.originY = y;
                 return this;
               },
-              getScroll: function(x2, y2, out) {
+              getScroll: function(x2, y, out) {
                 if (out === void 0) {
                   out = new Vector2();
                 }
                 var originX = this.width * 0.5;
                 var originY = this.height * 0.5;
                 out.x = x2 - originX;
-                out.y = y2 - originY;
+                out.y = y - originY;
                 if (this.useBounds) {
                   out.x = this.clampX(out.x);
                   out.y = this.clampY(out.y);
@@ -11306,18 +11306,18 @@
                 }
                 return this;
               },
-              centerOnY: function(y2) {
+              centerOnY: function(y) {
                 var originY = this.height * 0.5;
-                this.midPoint.y = y2;
-                this.scrollY = y2 - originY;
+                this.midPoint.y = y;
+                this.scrollY = y - originY;
                 if (this.useBounds) {
                   this.scrollY = this.clampY(this.scrollY);
                 }
                 return this;
               },
-              centerOn: function(x2, y2) {
+              centerOn: function(x2, y) {
                 this.centerOnX(x2);
-                this.centerOnY(y2);
+                this.centerOnY(y);
                 return this;
               },
               centerToBounds: function() {
@@ -11383,7 +11383,7 @@
                 }
                 return culledObjects;
               },
-              getWorldPoint: function(x2, y2, output) {
+              getWorldPoint: function(x2, y, output) {
                 if (output === void 0) {
                   output = new Vector2();
                 }
@@ -11397,7 +11397,7 @@
                 var determinant = mva * mvd - mvb * mvc;
                 if (!determinant) {
                   output.x = x2;
-                  output.y = y2;
+                  output.y = y;
                   return output;
                 }
                 determinant = 1 / determinant;
@@ -11408,13 +11408,13 @@
                 var ime = (mvc * mvf - mvd * mve) * determinant;
                 var imf = (mvb * mve - mva * mvf) * determinant;
                 var c = Math.cos(this.rotation);
-                var s2 = Math.sin(this.rotation);
+                var s = Math.sin(this.rotation);
                 var zoomX = this.zoomX;
                 var zoomY = this.zoomY;
                 var scrollX = this.scrollX;
                 var scrollY = this.scrollY;
-                var sx = x2 + (scrollX * c - scrollY * s2) * zoomX;
-                var sy = y2 + (scrollX * s2 + scrollY * c) * zoomY;
+                var sx = x2 + (scrollX * c - scrollY * s) * zoomX;
+                var sy = y + (scrollX * s + scrollY * c) * zoomY;
                 output.x = sx * ima + sy * imc + ime;
                 output.y = sx * imb + sy * imd + imf;
                 return output;
@@ -11480,17 +11480,17 @@
                 }
                 return x2;
               },
-              clampY: function(y2) {
+              clampY: function(y) {
                 var bounds = this._bounds;
                 var dh = this.displayHeight;
                 var by = bounds.y + (dh - this.height) / 2;
                 var bh = Math.max(by, by + bounds.height - dh);
-                if (y2 < by) {
-                  y2 = by;
-                } else if (y2 > bh) {
-                  y2 = bh;
+                if (y < by) {
+                  y = by;
+                } else if (y > bh) {
+                  y = bh;
                 }
-                return y2;
+                return y;
               },
               removeBounds: function() {
                 this.useBounds = false;
@@ -11513,11 +11513,11 @@
                 this.transparent = this.backgroundColor.alpha === 0;
                 return this;
               },
-              setBounds: function(x2, y2, width, height, centerOn) {
+              setBounds: function(x2, y, width, height, centerOn) {
                 if (centerOn === void 0) {
                   centerOn = false;
                 }
-                this._bounds.setTo(x2, y2, width, height);
+                this._bounds.setTo(x2, y, width, height);
                 this.dirty = true;
                 this.useBounds = true;
                 if (centerOn) {
@@ -11543,12 +11543,12 @@
                 this.name = value;
                 return this;
               },
-              setPosition: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setPosition: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
               setRotation: function(value) {
@@ -11574,12 +11574,12 @@
                 this.updateSystem();
                 return this;
               },
-              setScroll: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setScroll: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.scrollX = x2;
-                this.scrollY = y2;
+                this.scrollY = y;
                 return this;
               },
               setSize: function(width, height) {
@@ -11590,28 +11590,28 @@
                 this.height = height;
                 return this;
               },
-              setViewport: function(x2, y2, width, height) {
+              setViewport: function(x2, y, width, height) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.width = width;
                 this.height = height;
                 return this;
               },
-              setZoom: function(x2, y2) {
+              setZoom: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 1;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 if (x2 === 0) {
                   x2 = 1e-3;
                 }
-                if (y2 === 0) {
-                  y2 = 1e-3;
+                if (y === 0) {
+                  y = 1e-3;
                 }
                 this.zoomX = x2;
-                this.zoomY = y2;
+                this.zoomY = y;
                 return this;
               },
               setMask: function(mask, fixedPosition) {
@@ -11949,7 +11949,7 @@
           function(module2, exports2, __webpack_require__) {
             var Class = __webpack_require__(0);
             var Vector4 = new Class({
-              initialize: function Vector42(x2, y2, z2, w2) {
+              initialize: function Vector42(x2, y, z2, w2) {
                 this.x = 0;
                 this.y = 0;
                 this.z = 0;
@@ -11961,7 +11961,7 @@
                   this.w = x2.w || 0;
                 } else {
                   this.x = x2 || 0;
-                  this.y = y2 || 0;
+                  this.y = y || 0;
                   this.z = z2 || 0;
                   this.w = w2 || 0;
                 }
@@ -11979,7 +11979,7 @@
               equals: function(v2) {
                 return this.x === v2.x && this.y === v2.y && this.z === v2.z && this.w === v2.w;
               },
-              set: function(x2, y2, z2, w2) {
+              set: function(x2, y, z2, w2) {
                 if (typeof x2 === "object") {
                   this.x = x2.x || 0;
                   this.y = x2.y || 0;
@@ -11987,7 +11987,7 @@
                   this.w = x2.w || 0;
                 } else {
                   this.x = x2 || 0;
-                  this.y = y2 || 0;
+                  this.y = y || 0;
                   this.z = z2 || 0;
                   this.w = w2 || 0;
                 }
@@ -12016,28 +12016,28 @@
               },
               length: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                return Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2);
+                return Math.sqrt(x2 * x2 + y * y + z2 * z2 + w2 * w2);
               },
               lengthSq: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                return x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2;
+                return x2 * x2 + y * y + z2 * z2 + w2 * w2;
               },
               normalize: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                var len = x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2;
+                var len = x2 * x2 + y * y + z2 * z2 + w2 * w2;
                 if (len > 0) {
                   len = 1 / Math.sqrt(len);
                   this.x = x2 * len;
-                  this.y = y2 * len;
+                  this.y = y * len;
                   this.z = z2 * len;
                   this.w = w2 * len;
                 }
@@ -12097,28 +12097,28 @@
               },
               transformMat4: function(mat) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                var m2 = mat.val;
-                this.x = m2[0] * x2 + m2[4] * y2 + m2[8] * z2 + m2[12] * w2;
-                this.y = m2[1] * x2 + m2[5] * y2 + m2[9] * z2 + m2[13] * w2;
-                this.z = m2[2] * x2 + m2[6] * y2 + m2[10] * z2 + m2[14] * w2;
-                this.w = m2[3] * x2 + m2[7] * y2 + m2[11] * z2 + m2[15] * w2;
+                var m = mat.val;
+                this.x = m[0] * x2 + m[4] * y + m[8] * z2 + m[12] * w2;
+                this.y = m[1] * x2 + m[5] * y + m[9] * z2 + m[13] * w2;
+                this.z = m[2] * x2 + m[6] * y + m[10] * z2 + m[14] * w2;
+                this.w = m[3] * x2 + m[7] * y + m[11] * z2 + m[15] * w2;
                 return this;
               },
-              transformQuat: function(q) {
+              transformQuat: function(q2) {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                var qx = q.x;
-                var qy = q.y;
-                var qz = q.z;
-                var qw = q.w;
-                var ix = qw * x2 + qy * z2 - qz * y2;
-                var iy = qw * y2 + qz * x2 - qx * z2;
-                var iz = qw * z2 + qx * y2 - qy * x2;
-                var iw = -qx * x2 - qy * y2 - qz * z2;
+                var qx = q2.x;
+                var qy = q2.y;
+                var qz = q2.z;
+                var qw = q2.w;
+                var ix = qw * x2 + qy * z2 - qz * y;
+                var iy = qw * y + qz * x2 - qx * z2;
+                var iz = qw * z2 + qx * y - qy * x2;
+                var iw = -qx * x2 - qy * y - qz * z2;
                 this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
                 this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
                 this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
@@ -12838,7 +12838,7 @@
                 Components.Visible,
                 Render
               ],
-              initialize: function BitmapText2(scene, x2, y2, font, text, size, align) {
+              initialize: function BitmapText2(scene, x2, y, font, text, size, align) {
                 if (text === void 0) {
                   text = "";
                 }
@@ -12867,7 +12867,7 @@
                 this.dropShadowAlpha = 0.5;
                 this.fromAtlas = entry.fromAtlas;
                 this.setTexture(entry.texture, entry.frame);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setOrigin(0, 0);
                 this.initPipeline();
                 this.setText(text);
@@ -12914,12 +12914,12 @@
                 }
                 return this;
               },
-              setDropShadow: function(x2, y2, color, alpha) {
+              setDropShadow: function(x2, y, color, alpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (color === void 0) {
                   color = 0;
@@ -12928,7 +12928,7 @@
                   alpha = 0.5;
                 }
                 this.dropShadowX = x2;
-                this.dropShadowY = y2;
+                this.dropShadowY = y;
                 this.dropShadowColor = color;
                 this.dropShadowAlpha = alpha;
                 return this;
@@ -13014,8 +13014,8 @@
                 }
                 return bounds;
               },
-              getCharacterAt: function(x2, y2, camera) {
-                var point = this.getLocalPoint(x2, y2, null, camera);
+              getCharacterAt: function(x2, y, camera) {
+                var point = this.getLocalPoint(x2, y, null, camera);
                 var bounds = this.getTextBounds();
                 var chars = bounds.characters;
                 var tempRect = new Rectangle();
@@ -13307,7 +13307,7 @@
                 Components.Visible,
                 Render
               ],
-              initialize: function PointLight2(scene, x2, y2, color, radius, intensity, attenuation) {
+              initialize: function PointLight2(scene, x2, y, color, radius, intensity, attenuation) {
                 if (color === void 0) {
                   color = 16777215;
                 }
@@ -13322,7 +13322,7 @@
                 }
                 GameObject.call(this, scene, "PointLight");
                 this.initPipeline(PIPELINES_CONST.POINTLIGHT_PIPELINE);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.color = IntegerToColor(color);
                 this.intensity = intensity;
                 this.attenuation = attenuation;
@@ -13507,8 +13507,8 @@
                 Components.Size,
                 Components.Velocity
               ],
-              initialize: function ArcadeSprite2(scene, x2, y2, texture, frame) {
-                Sprite.call(this, scene, x2, y2, texture, frame);
+              initialize: function ArcadeSprite2(scene, x2, y, texture, frame) {
+                Sprite.call(this, scene, x2, y, texture, frame);
                 this.body = null;
               }
             });
@@ -13546,12 +13546,12 @@
               var drawTop = Math.max(0, bounds.top);
               var drawBottom = Math.min(mapHeight, bounds.bottom);
               var x2;
-              var y2;
+              var y;
               var tile;
               if (renderOrder === 0) {
-                for (y2 = drawTop; y2 < drawBottom; y2++) {
-                  for (x2 = drawLeft; mapData[y2] && x2 < drawRight; x2++) {
-                    tile = mapData[y2][x2];
+                for (y = drawTop; y < drawBottom; y++) {
+                  for (x2 = drawLeft; mapData[y] && x2 < drawRight; x2++) {
+                    tile = mapData[y][x2];
                     if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                       continue;
                     }
@@ -13559,9 +13559,9 @@
                   }
                 }
               } else if (renderOrder === 1) {
-                for (y2 = drawTop; y2 < drawBottom; y2++) {
-                  for (x2 = drawRight; mapData[y2] && x2 >= drawLeft; x2--) {
-                    tile = mapData[y2][x2];
+                for (y = drawTop; y < drawBottom; y++) {
+                  for (x2 = drawRight; mapData[y] && x2 >= drawLeft; x2--) {
+                    tile = mapData[y][x2];
                     if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                       continue;
                     }
@@ -13569,9 +13569,9 @@
                   }
                 }
               } else if (renderOrder === 2) {
-                for (y2 = drawBottom; y2 >= drawTop; y2--) {
-                  for (x2 = drawLeft; mapData[y2] && x2 < drawRight; x2++) {
-                    tile = mapData[y2][x2];
+                for (y = drawBottom; y >= drawTop; y--) {
+                  for (x2 = drawLeft; mapData[y] && x2 < drawRight; x2++) {
+                    tile = mapData[y][x2];
                     if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                       continue;
                     }
@@ -13579,9 +13579,9 @@
                   }
                 }
               } else if (renderOrder === 3) {
-                for (y2 = drawBottom; y2 >= drawTop; y2--) {
-                  for (x2 = drawRight; mapData[y2] && x2 >= drawLeft; x2--) {
-                    tile = mapData[y2][x2];
+                for (y = drawBottom; y >= drawTop; y--) {
+                  for (x2 = drawRight; mapData[y] && x2 >= drawLeft; x2--) {
+                    tile = mapData[y][x2];
                     if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                       continue;
                     }
@@ -13688,9 +13688,9 @@
               var flipX = GetBoolean(config, "flipX", defaults.flipX);
               var flipY = GetBoolean(config, "flipY", defaults.flipY);
               var data = [];
-              for (var p = 0; p < props.length; p++) {
-                var key = props[p].key;
-                var value = props[p].value;
+              for (var p2 = 0; p2 < props.length; p2++) {
+                var key = props[p2].key;
+                var value = props[p2].value;
                 for (var t = 0; t < targets.length; t++) {
                   var ops = GetValueOp(key, value);
                   var tweenData = TweenData(targets[t], t, key, ops.getEnd, ops.getStart, ops.getActive, GetEaseFunction(GetValue(value, "ease", ease), GetValue(value, "easeParams", easeParams)), GetNewValue(value, "delay", delay), GetNewValue(value, "duration", duration), GetBoolean(value, "yoyo", yoyo), GetNewValue(value, "hold", hold), GetNewValue(value, "repeat", repeat), GetNewValue(value, "repeatDelay", repeatDelay), GetBoolean(value, "flipX", flipX), GetBoolean(value, "flipY", flipY));
@@ -13985,11 +13985,11 @@
                 if (!frame) {
                   return 0;
                 }
-                var p = frame.progress;
+                var p2 = frame.progress;
                 if (this.inReverse) {
-                  p *= -1;
+                  p2 *= -1;
                 }
-                return p;
+                return p2;
               },
               setProgress: function(value) {
                 if (!this.forward) {
@@ -14518,9 +14518,9 @@
               var u = Math.random() + Math.random();
               var r = u > 1 ? 2 - u : u;
               var x2 = r * Math.cos(t);
-              var y2 = r * Math.sin(t);
+              var y = r * Math.sin(t);
               out.x = circle.x + x2 * circle.radius;
-              out.y = circle.y + y2 * circle.radius;
+              out.y = circle.y + y * circle.radius;
               return out;
             };
             module2.exports = Random;
@@ -14537,22 +14537,22 @@
                 out.y = rectangle.y;
                 return out;
               }
-              var p = Perimeter(rectangle) * position;
+              var p2 = Perimeter(rectangle) * position;
               if (position > 0.5) {
-                p -= rectangle.width + rectangle.height;
-                if (p <= rectangle.width) {
-                  out.x = rectangle.right - p;
+                p2 -= rectangle.width + rectangle.height;
+                if (p2 <= rectangle.width) {
+                  out.x = rectangle.right - p2;
                   out.y = rectangle.bottom;
                 } else {
                   out.x = rectangle.x;
-                  out.y = rectangle.bottom - (p - rectangle.width);
+                  out.y = rectangle.bottom - (p2 - rectangle.width);
                 }
-              } else if (p <= rectangle.width) {
-                out.x = rectangle.x + p;
+              } else if (p2 <= rectangle.width) {
+                out.x = rectangle.x + p2;
                 out.y = rectangle.y;
               } else {
                 out.x = rectangle.right;
-                out.y = rectangle.y + (p - rectangle.width);
+                out.y = rectangle.y + (p2 - rectangle.width);
               }
               return out;
             };
@@ -14575,8 +14575,8 @@
               for (var i = 0; i < quantity; i++) {
                 var position = i / quantity;
                 var x3 = x1 + (x2 - x1) * position;
-                var y3 = y1 + (y2 - y1) * position;
-                out.push(new Point(x3, y3));
+                var y = y1 + (y2 - y1) * position;
+                out.push(new Point(x3, y));
               }
               return out;
             };
@@ -14660,19 +14660,19 @@
           },
           function(module2, exports2, __webpack_require__) {
             var Vector2 = __webpack_require__(3);
-            var TransformXY = function(x2, y2, positionX, positionY, rotation, scaleX, scaleY, output) {
+            var TransformXY = function(x2, y, positionX, positionY, rotation, scaleX, scaleY, output) {
               if (output === void 0) {
                 output = new Vector2();
               }
               var radianSin = Math.sin(rotation);
               var radianCos = Math.cos(rotation);
-              var a = radianCos * scaleX;
-              var b2 = radianSin * scaleX;
+              var a2 = radianCos * scaleX;
+              var b = radianSin * scaleX;
               var c = -radianSin * scaleY;
               var d = radianCos * scaleY;
-              var id = 1 / (a * d + c * -b2);
-              output.x = d * id * x2 + -c * id * y2 + (positionY * c - positionX * d) * id;
-              output.y = a * id * y2 + -b2 * id * x2 + (-positionY * a + positionX * b2) * id;
+              var id = 1 / (a2 * d + c * -b);
+              output.x = d * id * x2 + -c * id * y + (positionY * c - positionX * d) * id;
+              output.y = a2 * id * y + -b * id * x2 + (-positionY * a2 + positionX * b) * id;
               return output;
             };
             module2.exports = TransformXY;
@@ -14711,10 +14711,10 @@
               if (out === void 0) {
                 out = new Point();
               }
-              var p = Math.random() * Math.PI * 2;
-              var s2 = Math.sqrt(Math.random());
-              out.x = ellipse.x + s2 * Math.cos(p) * ellipse.width / 2;
-              out.y = ellipse.y + s2 * Math.sin(p) * ellipse.height / 2;
+              var p2 = Math.random() * Math.PI * 2;
+              var s = Math.sqrt(Math.random());
+              out.x = ellipse.x + s * Math.cos(p2) * ellipse.width / 2;
+              out.y = ellipse.y + s * Math.sin(p2) * ellipse.height / 2;
               return out;
             };
             module2.exports = Random;
@@ -14730,22 +14730,22 @@
               var vx = triangle.x3 - triangle.x1;
               var vy = triangle.y3 - triangle.y1;
               var r = Math.random();
-              var s2 = Math.random();
-              if (r + s2 >= 1) {
+              var s = Math.random();
+              if (r + s >= 1) {
                 r = 1 - r;
-                s2 = 1 - s2;
+                s = 1 - s;
               }
-              out.x = triangle.x1 + (ux * r + vx * s2);
-              out.y = triangle.y1 + (uy * r + vy * s2);
+              out.x = triangle.x1 + (ux * r + vx * s);
+              out.y = triangle.y1 + (uy * r + vy * s);
               return out;
             };
             module2.exports = Random;
           },
           function(module2, exports2) {
-            var RotateAroundDistance = function(point, x2, y2, angle, distance) {
-              var t = angle + Math.atan2(point.y - y2, point.x - x2);
+            var RotateAroundDistance = function(point, x2, y, angle, distance) {
+              var t = angle + Math.atan2(point.y - y, point.x - x2);
               point.x = x2 + distance * Math.cos(t);
-              point.y = y2 + distance * Math.sin(t);
+              point.y = y + distance * Math.sin(t);
               return point;
             };
             module2.exports = RotateAroundDistance;
@@ -15140,30 +15140,30 @@
           },
           function(module2, exports2, __webpack_require__) {
             var GetColor = __webpack_require__(103);
-            function ConvertValue(n, h, s2, v2) {
-              var k = (n + h * 6) % 6;
-              var min = Math.min(k, 4 - k, 1);
-              return Math.round(255 * (v2 - v2 * s2 * Math.max(0, min)));
+            function ConvertValue(n, h, s, v2) {
+              var k2 = (n + h * 6) % 6;
+              var min = Math.min(k2, 4 - k2, 1);
+              return Math.round(255 * (v2 - v2 * s * Math.max(0, min)));
             }
-            var HSVToRGB = function(h, s2, v2, out) {
-              if (s2 === void 0) {
-                s2 = 1;
+            var HSVToRGB = function(h, s, v2, out) {
+              if (s === void 0) {
+                s = 1;
               }
               if (v2 === void 0) {
                 v2 = 1;
               }
-              var r = ConvertValue(5, h, s2, v2);
-              var g = ConvertValue(3, h, s2, v2);
-              var b2 = ConvertValue(1, h, s2, v2);
+              var r = ConvertValue(5, h, s, v2);
+              var g2 = ConvertValue(3, h, s, v2);
+              var b = ConvertValue(1, h, s, v2);
               if (!out) {
-                return { r, g, b: b2, color: GetColor(r, g, b2) };
+                return { r, g: g2, b, color: GetColor(r, g2, b) };
               } else if (out.setTo) {
-                return out.setTo(r, g, b2, out.alpha, false);
+                return out.setTo(r, g2, b, out.alpha, false);
               } else {
                 out.r = r;
-                out.g = g;
-                out.b = b2;
-                out.color = GetColor(r, g, b2);
+                out.g = g2;
+                out.b = b;
+                out.color = GetColor(r, g2, b);
                 return out;
               }
             };
@@ -15179,9 +15179,9 @@
             module2.exports = IntegerToColor;
           },
           function(module2, exports2) {
-            var CenterOn = function(rect, x2, y2) {
+            var CenterOn = function(rect, x2, y) {
               rect.x = x2 - rect.width / 2;
-              rect.y = y2 - rect.height / 2;
+              rect.y = y - rect.height / 2;
               return rect;
             };
             module2.exports = CenterOn;
@@ -15205,13 +15205,13 @@
               worker: false
             };
             function checkIsLittleEndian() {
-              var a = new ArrayBuffer(4);
-              var b2 = new Uint8Array(a);
-              var c = new Uint32Array(a);
-              b2[0] = 161;
-              b2[1] = 178;
-              b2[2] = 195;
-              b2[3] = 212;
+              var a2 = new ArrayBuffer(4);
+              var b = new Uint8Array(a2);
+              var c = new Uint32Array(a2);
+              b[0] = 161;
+              b[1] = 178;
+              b[2] = 195;
+              b[3] = 212;
               if (c[0] === 3569595041) {
                 return true;
               }
@@ -15285,9 +15285,9 @@
               var getPrefix = function(context) {
                 var vendors = ["i", "webkitI", "msI", "mozI", "oI"];
                 for (var i = 0; i < vendors.length; i++) {
-                  var s2 = vendors[i] + "mageSmoothingEnabled";
-                  if (s2 in context) {
-                    return s2;
+                  var s = vendors[i] + "mageSmoothingEnabled";
+                  if (s in context) {
+                    return s;
                   }
                 }
                 return null;
@@ -15479,27 +15479,27 @@
                 return this;
               },
               reset: function() {
-                var m2 = this._matrix;
-                m2[0] = 1;
-                m2[1] = 0;
-                m2[2] = 0;
-                m2[3] = 0;
-                m2[4] = 0;
-                m2[5] = 0;
-                m2[6] = 1;
-                m2[7] = 0;
-                m2[8] = 0;
-                m2[9] = 0;
-                m2[10] = 0;
-                m2[11] = 0;
-                m2[12] = 1;
-                m2[13] = 0;
-                m2[14] = 0;
-                m2[15] = 0;
-                m2[16] = 0;
-                m2[17] = 0;
-                m2[18] = 1;
-                m2[19] = 0;
+                var m = this._matrix;
+                m[0] = 1;
+                m[1] = 0;
+                m[2] = 0;
+                m[3] = 0;
+                m[4] = 0;
+                m[5] = 0;
+                m[6] = 1;
+                m[7] = 0;
+                m[8] = 0;
+                m[9] = 0;
+                m[10] = 0;
+                m[11] = 0;
+                m[12] = 1;
+                m[13] = 0;
+                m[14] = 0;
+                m[15] = 0;
+                m[16] = 0;
+                m[17] = 0;
+                m[18] = 1;
+                m[19] = 0;
                 this._dirty = true;
                 return this;
               },
@@ -15522,21 +15522,21 @@
                 if (multiply === void 0) {
                   multiply = false;
                 }
-                var b2 = value;
+                var b = value;
                 return this.multiply([
-                  b2,
+                  b,
                   0,
                   0,
                   0,
                   0,
                   0,
-                  b2,
+                  b,
                   0,
                   0,
                   0,
                   0,
                   0,
-                  b2,
+                  b,
                   0,
                   0,
                   0,
@@ -15554,20 +15554,20 @@
                   multiply = false;
                 }
                 var x2 = value * 2 / 3 + 1;
-                var y2 = (x2 - 1) * -0.5;
+                var y = (x2 - 1) * -0.5;
                 return this.multiply([
                   x2,
-                  y2,
-                  y2,
+                  y,
+                  y,
                   0,
                   0,
-                  y2,
+                  y,
                   x2,
-                  y2,
+                  y,
                   0,
                   0,
-                  y2,
-                  y2,
+                  y,
+                  y,
                   x2,
                   0,
                   0,
@@ -15988,35 +15988,35 @@
                   0
                 ], multiply);
               },
-              multiply: function(a, multiply) {
+              multiply: function(a2, multiply) {
                 if (!multiply) {
                   this.reset();
                 }
-                var m2 = this._matrix;
+                var m = this._matrix;
                 var c = [];
                 for (var i = 0; i < 20; i++) {
-                  c[i] = m2[i];
+                  c[i] = m[i];
                 }
-                m2[0] = c[0] * a[0] + c[1] * a[5] + c[2] * a[10] + c[3] * a[15];
-                m2[1] = c[0] * a[1] + c[1] * a[6] + c[2] * a[11] + c[3] * a[16];
-                m2[2] = c[0] * a[2] + c[1] * a[7] + c[2] * a[12] + c[3] * a[17];
-                m2[3] = c[0] * a[3] + c[1] * a[8] + c[2] * a[13] + c[3] * a[18];
-                m2[4] = c[0] * a[4] + c[1] * a[9] + c[2] * a[14] + c[3] * a[19] + c[4];
-                m2[5] = c[5] * a[0] + c[6] * a[5] + c[7] * a[10] + c[8] * a[15];
-                m2[6] = c[5] * a[1] + c[6] * a[6] + c[7] * a[11] + c[8] * a[16];
-                m2[7] = c[5] * a[2] + c[6] * a[7] + c[7] * a[12] + c[8] * a[17];
-                m2[8] = c[5] * a[3] + c[6] * a[8] + c[7] * a[13] + c[8] * a[18];
-                m2[9] = c[5] * a[4] + c[6] * a[9] + c[7] * a[14] + c[8] * a[19] + c[9];
-                m2[10] = c[10] * a[0] + c[11] * a[5] + c[12] * a[10] + c[13] * a[15];
-                m2[11] = c[10] * a[1] + c[11] * a[6] + c[12] * a[11] + c[13] * a[16];
-                m2[12] = c[10] * a[2] + c[11] * a[7] + c[12] * a[12] + c[13] * a[17];
-                m2[13] = c[10] * a[3] + c[11] * a[8] + c[12] * a[13] + c[13] * a[18];
-                m2[14] = c[10] * a[4] + c[11] * a[9] + c[12] * a[14] + c[13] * a[19] + c[14];
-                m2[15] = c[15] * a[0] + c[16] * a[5] + c[17] * a[10] + c[18] * a[15];
-                m2[16] = c[15] * a[1] + c[16] * a[6] + c[17] * a[11] + c[18] * a[16];
-                m2[17] = c[15] * a[2] + c[16] * a[7] + c[17] * a[12] + c[18] * a[17];
-                m2[18] = c[15] * a[3] + c[16] * a[8] + c[17] * a[13] + c[18] * a[18];
-                m2[19] = c[15] * a[4] + c[16] * a[9] + c[17] * a[14] + c[18] * a[19] + c[19];
+                m[0] = c[0] * a2[0] + c[1] * a2[5] + c[2] * a2[10] + c[3] * a2[15];
+                m[1] = c[0] * a2[1] + c[1] * a2[6] + c[2] * a2[11] + c[3] * a2[16];
+                m[2] = c[0] * a2[2] + c[1] * a2[7] + c[2] * a2[12] + c[3] * a2[17];
+                m[3] = c[0] * a2[3] + c[1] * a2[8] + c[2] * a2[13] + c[3] * a2[18];
+                m[4] = c[0] * a2[4] + c[1] * a2[9] + c[2] * a2[14] + c[3] * a2[19] + c[4];
+                m[5] = c[5] * a2[0] + c[6] * a2[5] + c[7] * a2[10] + c[8] * a2[15];
+                m[6] = c[5] * a2[1] + c[6] * a2[6] + c[7] * a2[11] + c[8] * a2[16];
+                m[7] = c[5] * a2[2] + c[6] * a2[7] + c[7] * a2[12] + c[8] * a2[17];
+                m[8] = c[5] * a2[3] + c[6] * a2[8] + c[7] * a2[13] + c[8] * a2[18];
+                m[9] = c[5] * a2[4] + c[6] * a2[9] + c[7] * a2[14] + c[8] * a2[19] + c[9];
+                m[10] = c[10] * a2[0] + c[11] * a2[5] + c[12] * a2[10] + c[13] * a2[15];
+                m[11] = c[10] * a2[1] + c[11] * a2[6] + c[12] * a2[11] + c[13] * a2[16];
+                m[12] = c[10] * a2[2] + c[11] * a2[7] + c[12] * a2[12] + c[13] * a2[17];
+                m[13] = c[10] * a2[3] + c[11] * a2[8] + c[12] * a2[13] + c[13] * a2[18];
+                m[14] = c[10] * a2[4] + c[11] * a2[9] + c[12] * a2[14] + c[13] * a2[19] + c[14];
+                m[15] = c[15] * a2[0] + c[16] * a2[5] + c[17] * a2[10] + c[18] * a2[15];
+                m[16] = c[15] * a2[1] + c[16] * a2[6] + c[17] * a2[11] + c[18] * a2[16];
+                m[17] = c[15] * a2[2] + c[16] * a2[7] + c[17] * a2[12] + c[18] * a2[17];
+                m[18] = c[15] * a2[3] + c[16] * a2[8] + c[17] * a2[13] + c[18] * a2[18];
+                m[19] = c[15] * a2[4] + c[16] * a2[9] + c[17] * a2[14] + c[18] * a2[19] + c[19];
                 this._dirty = true;
                 return this;
               }
@@ -16037,17 +16037,17 @@
               var minY = Number.MAX_VALUE;
               var maxX = MATH_CONST.MIN_SAFE_INTEGER;
               var maxY = MATH_CONST.MIN_SAFE_INTEGER;
-              var p;
+              var p2;
               var px;
               var py;
               for (var i = 0; i < points.length; i++) {
-                p = points[i];
-                if (Array.isArray(p)) {
-                  px = p[0];
-                  py = p[1];
+                p2 = points[i];
+                if (Array.isArray(p2)) {
+                  px = p2[0];
+                  py = p2[1];
                 } else {
-                  px = p.x;
-                  py = p.y;
+                  px = p2.x;
+                  py = p2.y;
                 }
                 minX = Math.min(minX, px);
                 minY = Math.min(minY, py);
@@ -16377,11 +16377,11 @@
                   this.source.push(new TextureSource(this, source[i], width, height));
                 }
               },
-              add: function(name, sourceIndex, x2, y2, width, height) {
+              add: function(name, sourceIndex, x2, y, width, height) {
                 if (this.has(name)) {
                   return null;
                 }
-                var frame = new Frame(this, name, sourceIndex, x2, y2, width, height);
+                var frame = new Frame(this, name, sourceIndex, x2, y, width, height);
                 this.frames[name] = frame;
                 if (this.firstFrame === "__BASE") {
                   this.firstFrame = name;
@@ -16799,16 +16799,16 @@
                 Components.Visible,
                 BlitterRender
               ],
-              initialize: function Blitter2(scene, x2, y2, texture, frame) {
+              initialize: function Blitter2(scene, x2, y, texture, frame) {
                 GameObject.call(this, scene, "Blitter");
                 this.setTexture(texture, frame);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.initPipeline();
                 this.children = new List();
                 this.renderList = [];
                 this.dirty = false;
               },
-              create: function(x2, y2, frame, visible, index) {
+              create: function(x2, y, frame, visible, index) {
                 if (visible === void 0) {
                   visible = true;
                 }
@@ -16820,7 +16820,7 @@
                 } else if (!(frame instanceof Frame)) {
                   frame = this.texture.get(frame);
                 }
-                var bob = new Bob(this, x2, y2, frame, visible);
+                var bob = new Bob(this, x2, y, frame, visible);
                 this.children.addAt(bob, index, false);
                 this.dirty = true;
                 return bob;
@@ -16897,7 +16897,7 @@
                 Components.Visible,
                 Render
               ],
-              initialize: function Container2(scene, x2, y2, children) {
+              initialize: function Container2(scene, x2, y, children) {
                 GameObject.call(this, scene, "Container");
                 this.list = [];
                 this.exclusive = true;
@@ -16910,7 +16910,7 @@
                 this.scrollFactorX = 1;
                 this.scrollFactorY = 1;
                 this.initPipeline();
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.clearAlpha();
                 this.setBlendMode(BlendModes.SKIP_CHECK);
                 if (children) {
@@ -17171,18 +17171,18 @@
                 }
                 return this;
               },
-              setScrollFactor: function(x2, y2, updateChildren) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setScrollFactor: function(x2, y, updateChildren) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 if (updateChildren === void 0) {
                   updateChildren = false;
                 }
                 this.scrollFactorX = x2;
-                this.scrollFactorY = y2;
+                this.scrollFactorY = y;
                 if (updateChildren) {
                   ArrayUtils.SetAll(this.list, "scrollFactorX", x2);
-                  ArrayUtils.SetAll(this.list, "scrollFactorY", y2);
+                  ArrayUtils.SetAll(this.list, "scrollFactorY", y);
                 }
                 return this;
               },
@@ -17249,8 +17249,8 @@
               Mixins: [
                 Render
               ],
-              initialize: function DynamicBitmapText2(scene, x2, y2, font, text, size, align) {
-                BitmapText.call(this, scene, x2, y2, font, text, size, align);
+              initialize: function DynamicBitmapText2(scene, x2, y, font, text, size, align) {
+                BitmapText.call(this, scene, x2, y, font, text, size, align);
                 this.type = "DynamicBitmapText";
                 this.scrollX = 0;
                 this.scrollY = 0;
@@ -17328,9 +17328,9 @@
               ],
               initialize: function Graphics2(scene, options) {
                 var x2 = GetValue(options, "x", 0);
-                var y2 = GetValue(options, "y", 0);
+                var y = GetValue(options, "y", 0);
                 GameObject.call(this, scene, "Graphics");
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.initPipeline();
                 this.displayOriginX = 0;
                 this.displayOriginY = 0;
@@ -17425,15 +17425,15 @@
               strokeCircleShape: function(circle) {
                 return this.strokeCircle(circle.x, circle.y, circle.radius);
               },
-              fillCircle: function(x2, y2, radius) {
+              fillCircle: function(x2, y, radius) {
                 this.beginPath();
-                this.arc(x2, y2, radius, 0, MATH_CONST.PI2);
+                this.arc(x2, y, radius, 0, MATH_CONST.PI2);
                 this.fillPath();
                 return this;
               },
-              strokeCircle: function(x2, y2, radius) {
+              strokeCircle: function(x2, y, radius) {
                 this.beginPath();
-                this.arc(x2, y2, radius, 0, MATH_CONST.PI2);
+                this.arc(x2, y, radius, 0, MATH_CONST.PI2);
                 this.strokePath();
                 return this;
               },
@@ -17443,101 +17443,101 @@
               strokeRectShape: function(rect) {
                 return this.strokeRect(rect.x, rect.y, rect.width, rect.height);
               },
-              fillRect: function(x2, y2, width, height) {
-                this.commandBuffer.push(Commands.FILL_RECT, x2, y2, width, height);
+              fillRect: function(x2, y, width, height) {
+                this.commandBuffer.push(Commands.FILL_RECT, x2, y, width, height);
                 return this;
               },
-              strokeRect: function(x2, y2, width, height) {
+              strokeRect: function(x2, y, width, height) {
                 var lineWidthHalf = this._lineWidth / 2;
                 var minx = x2 - lineWidthHalf;
                 var maxx = x2 + lineWidthHalf;
                 this.beginPath();
-                this.moveTo(x2, y2);
-                this.lineTo(x2, y2 + height);
+                this.moveTo(x2, y);
+                this.lineTo(x2, y + height);
                 this.strokePath();
                 this.beginPath();
-                this.moveTo(x2 + width, y2);
-                this.lineTo(x2 + width, y2 + height);
+                this.moveTo(x2 + width, y);
+                this.lineTo(x2 + width, y + height);
                 this.strokePath();
                 this.beginPath();
-                this.moveTo(minx, y2);
-                this.lineTo(maxx + width, y2);
+                this.moveTo(minx, y);
+                this.lineTo(maxx + width, y);
                 this.strokePath();
                 this.beginPath();
-                this.moveTo(minx, y2 + height);
-                this.lineTo(maxx + width, y2 + height);
+                this.moveTo(minx, y + height);
+                this.lineTo(maxx + width, y + height);
                 this.strokePath();
                 return this;
               },
-              fillRoundedRect: function(x2, y2, width, height, radius) {
+              fillRoundedRect: function(x2, y, width, height, radius) {
                 if (radius === void 0) {
                   radius = 20;
                 }
                 var tl = radius;
-                var tr2 = radius;
+                var tr = radius;
                 var bl = radius;
-                var br = radius;
+                var br2 = radius;
                 if (typeof radius !== "number") {
                   tl = GetFastValue(radius, "tl", 20);
-                  tr2 = GetFastValue(radius, "tr", 20);
+                  tr = GetFastValue(radius, "tr", 20);
                   bl = GetFastValue(radius, "bl", 20);
-                  br = GetFastValue(radius, "br", 20);
+                  br2 = GetFastValue(radius, "br", 20);
                 }
                 this.beginPath();
-                this.moveTo(x2 + tl, y2);
-                this.lineTo(x2 + width - tr2, y2);
-                this.arc(x2 + width - tr2, y2 + tr2, tr2, -MATH_CONST.TAU, 0);
-                this.lineTo(x2 + width, y2 + height - br);
-                this.arc(x2 + width - br, y2 + height - br, br, 0, MATH_CONST.TAU);
-                this.lineTo(x2 + bl, y2 + height);
-                this.arc(x2 + bl, y2 + height - bl, bl, MATH_CONST.TAU, Math.PI);
-                this.lineTo(x2, y2 + tl);
-                this.arc(x2 + tl, y2 + tl, tl, -Math.PI, -MATH_CONST.TAU);
+                this.moveTo(x2 + tl, y);
+                this.lineTo(x2 + width - tr, y);
+                this.arc(x2 + width - tr, y + tr, tr, -MATH_CONST.TAU, 0);
+                this.lineTo(x2 + width, y + height - br2);
+                this.arc(x2 + width - br2, y + height - br2, br2, 0, MATH_CONST.TAU);
+                this.lineTo(x2 + bl, y + height);
+                this.arc(x2 + bl, y + height - bl, bl, MATH_CONST.TAU, Math.PI);
+                this.lineTo(x2, y + tl);
+                this.arc(x2 + tl, y + tl, tl, -Math.PI, -MATH_CONST.TAU);
                 this.fillPath();
                 return this;
               },
-              strokeRoundedRect: function(x2, y2, width, height, radius) {
+              strokeRoundedRect: function(x2, y, width, height, radius) {
                 if (radius === void 0) {
                   radius = 20;
                 }
                 var tl = radius;
-                var tr2 = radius;
+                var tr = radius;
                 var bl = radius;
-                var br = radius;
+                var br2 = radius;
                 if (typeof radius !== "number") {
                   tl = GetFastValue(radius, "tl", 20);
-                  tr2 = GetFastValue(radius, "tr", 20);
+                  tr = GetFastValue(radius, "tr", 20);
                   bl = GetFastValue(radius, "bl", 20);
-                  br = GetFastValue(radius, "br", 20);
+                  br2 = GetFastValue(radius, "br", 20);
                 }
                 this.beginPath();
-                this.moveTo(x2 + tl, y2);
-                this.lineTo(x2 + width - tr2, y2);
-                this.moveTo(x2 + width - tr2, y2);
-                this.arc(x2 + width - tr2, y2 + tr2, tr2, -MATH_CONST.TAU, 0);
-                this.lineTo(x2 + width, y2 + height - br);
-                this.moveTo(x2 + width, y2 + height - br);
-                this.arc(x2 + width - br, y2 + height - br, br, 0, MATH_CONST.TAU);
-                this.lineTo(x2 + bl, y2 + height);
-                this.moveTo(x2 + bl, y2 + height);
-                this.arc(x2 + bl, y2 + height - bl, bl, MATH_CONST.TAU, Math.PI);
-                this.lineTo(x2, y2 + tl);
-                this.moveTo(x2, y2 + tl);
-                this.arc(x2 + tl, y2 + tl, tl, -Math.PI, -MATH_CONST.TAU);
+                this.moveTo(x2 + tl, y);
+                this.lineTo(x2 + width - tr, y);
+                this.moveTo(x2 + width - tr, y);
+                this.arc(x2 + width - tr, y + tr, tr, -MATH_CONST.TAU, 0);
+                this.lineTo(x2 + width, y + height - br2);
+                this.moveTo(x2 + width, y + height - br2);
+                this.arc(x2 + width - br2, y + height - br2, br2, 0, MATH_CONST.TAU);
+                this.lineTo(x2 + bl, y + height);
+                this.moveTo(x2 + bl, y + height);
+                this.arc(x2 + bl, y + height - bl, bl, MATH_CONST.TAU, Math.PI);
+                this.lineTo(x2, y + tl);
+                this.moveTo(x2, y + tl);
+                this.arc(x2 + tl, y + tl, tl, -Math.PI, -MATH_CONST.TAU);
                 this.strokePath();
                 return this;
               },
               fillPointShape: function(point, size) {
                 return this.fillPoint(point.x, point.y, size);
               },
-              fillPoint: function(x2, y2, size) {
+              fillPoint: function(x2, y, size) {
                 if (!size || size < 1) {
                   size = 1;
                 } else {
                   x2 -= size / 2;
-                  y2 -= size / 2;
+                  y -= size / 2;
                 }
-                this.commandBuffer.push(Commands.FILL_RECT, x2, y2, size, size);
+                this.commandBuffer.push(Commands.FILL_RECT, x2, y, size, size);
                 return this;
               },
               fillTriangleShape: function(triangle) {
@@ -17564,12 +17564,12 @@
                 this.strokePath();
                 return this;
               },
-              lineTo: function(x2, y2) {
-                this.commandBuffer.push(Commands.LINE_TO, x2, y2);
+              lineTo: function(x2, y) {
+                this.commandBuffer.push(Commands.LINE_TO, x2, y);
                 return this;
               },
-              moveTo: function(x2, y2) {
-                this.commandBuffer.push(Commands.MOVE_TO, x2, y2);
+              moveTo: function(x2, y) {
+                this.commandBuffer.push(Commands.MOVE_TO, x2, y);
                 return this;
               },
               strokePoints: function(points, closeShape, closePath, endIndex) {
@@ -17627,11 +17627,11 @@
                 var points = ellipse.getPoints(smoothness);
                 return this.strokePoints(points, true);
               },
-              strokeEllipse: function(x2, y2, width, height, smoothness) {
+              strokeEllipse: function(x2, y, width, height, smoothness) {
                 if (smoothness === void 0) {
                   smoothness = 32;
                 }
-                var ellipse = new Ellipse(x2, y2, width, height);
+                var ellipse = new Ellipse(x2, y, width, height);
                 var points = ellipse.getPoints(smoothness);
                 return this.strokePoints(points, true);
               },
@@ -17642,25 +17642,25 @@
                 var points = ellipse.getPoints(smoothness);
                 return this.fillPoints(points, true);
               },
-              fillEllipse: function(x2, y2, width, height, smoothness) {
+              fillEllipse: function(x2, y, width, height, smoothness) {
                 if (smoothness === void 0) {
                   smoothness = 32;
                 }
-                var ellipse = new Ellipse(x2, y2, width, height);
+                var ellipse = new Ellipse(x2, y, width, height);
                 var points = ellipse.getPoints(smoothness);
                 return this.fillPoints(points, true);
               },
-              arc: function(x2, y2, radius, startAngle, endAngle, anticlockwise, overshoot) {
+              arc: function(x2, y, radius, startAngle, endAngle, anticlockwise, overshoot) {
                 if (anticlockwise === void 0) {
                   anticlockwise = false;
                 }
                 if (overshoot === void 0) {
                   overshoot = 0;
                 }
-                this.commandBuffer.push(Commands.ARC, x2, y2, radius, startAngle, endAngle, anticlockwise, overshoot);
+                this.commandBuffer.push(Commands.ARC, x2, y, radius, startAngle, endAngle, anticlockwise, overshoot);
                 return this;
               },
-              slice: function(x2, y2, radius, startAngle, endAngle, anticlockwise, overshoot) {
+              slice: function(x2, y, radius, startAngle, endAngle, anticlockwise, overshoot) {
                 if (anticlockwise === void 0) {
                   anticlockwise = false;
                 }
@@ -17668,8 +17668,8 @@
                   overshoot = 0;
                 }
                 this.commandBuffer.push(Commands.BEGIN_PATH);
-                this.commandBuffer.push(Commands.MOVE_TO, x2, y2);
-                this.commandBuffer.push(Commands.ARC, x2, y2, radius, startAngle, endAngle, anticlockwise, overshoot);
+                this.commandBuffer.push(Commands.MOVE_TO, x2, y);
+                this.commandBuffer.push(Commands.ARC, x2, y, radius, startAngle, endAngle, anticlockwise, overshoot);
                 this.commandBuffer.push(Commands.CLOSE_PATH);
                 return this;
               },
@@ -17681,12 +17681,12 @@
                 this.commandBuffer.push(Commands.RESTORE);
                 return this;
               },
-              translateCanvas: function(x2, y2) {
-                this.commandBuffer.push(Commands.TRANSLATE, x2, y2);
+              translateCanvas: function(x2, y) {
+                this.commandBuffer.push(Commands.TRANSLATE, x2, y);
                 return this;
               },
-              scaleCanvas: function(x2, y2) {
-                this.commandBuffer.push(Commands.SCALE, x2, y2);
+              scaleCanvas: function(x2, y) {
+                this.commandBuffer.push(Commands.SCALE, x2, y);
                 return this;
               },
               rotateCanvas: function(radians) {
@@ -18079,18 +18079,18 @@
               createGravityWell: function(config) {
                 return this.addGravityWell(new GravityWell(config));
               },
-              emitParticle: function(count, x2, y2) {
+              emitParticle: function(count, x2, y) {
                 var emitters = this.emitters.list;
                 for (var i = 0; i < emitters.length; i++) {
                   var emitter = emitters[i];
                   if (emitter.active) {
-                    emitter.emitParticle(count, x2, y2);
+                    emitter.emitParticle(count, x2, y);
                   }
                 }
                 return this;
               },
-              emitParticleAt: function(x2, y2, count) {
-                return this.emitParticle(count, x2, y2);
+              emitParticleAt: function(x2, y, count) {
+                return this.emitParticle(count, x2, y);
               },
               pause: function() {
                 this.active = false;
@@ -18156,12 +18156,12 @@
                 Components.Visible,
                 Render
               ],
-              initialize: function RenderTexture2(scene, x2, y2, width, height, key, frame) {
+              initialize: function RenderTexture2(scene, x2, y, width, height, key, frame) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 32;
@@ -18207,7 +18207,7 @@
                   this.drawGameObject = this.batchGameObjectCanvas;
                 }
                 this.camera.setScene(scene);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 if (key === void 0) {
                   this.setSize(width, height);
                 }
@@ -18274,7 +18274,7 @@
                 this._saved = true;
                 return this.texture;
               },
-              fill: function(rgb, alpha, x2, y2, width, height) {
+              fill: function(rgb, alpha, x2, y, width, height) {
                 var frame = this.frame;
                 var camera = this.camera;
                 var renderer = this.renderer;
@@ -18284,8 +18284,8 @@
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = frame.cutWidth;
@@ -18294,8 +18294,8 @@
                   height = frame.cutHeight;
                 }
                 var r = (rgb >> 16 & 255) / 255;
-                var g = (rgb >> 8 & 255) / 255;
-                var b2 = (rgb & 255) / 255;
+                var g2 = (rgb >> 8 & 255) / 255;
+                var b = (rgb & 255) / 255;
                 var renderTarget = this.renderTarget;
                 camera.preRender();
                 if (renderTarget) {
@@ -18308,13 +18308,13 @@
                   var rh = renderer.height;
                   var sx = rw / tw;
                   var sy = rh / th;
-                  pipeline.drawFillRect(x2 * sx, y2 * sy, width * sx, height * sy, Utils.getTintFromFloats(b2, g, r, 1), alpha);
+                  pipeline.drawFillRect(x2 * sx, y * sy, width * sx, height * sy, Utils.getTintFromFloats(b, g2, r, 1), alpha);
                   renderTarget.unbind(true);
                 } else {
                   var ctx = this.context;
                   renderer.setContext(ctx);
-                  ctx.fillStyle = "rgba(" + r + "," + g + "," + b2 + "," + alpha + ")";
-                  ctx.fillRect(x2 + frame.cutX, y2 + frame.cutY, width, height);
+                  ctx.fillStyle = "rgba(" + r + "," + g2 + "," + b + "," + alpha + ")";
+                  ctx.fillRect(x2 + frame.cutX, y + frame.cutY, width, height);
                   renderer.setContext();
                 }
                 this.dirty = true;
@@ -18336,21 +18336,21 @@
                 }
                 return this;
               },
-              erase: function(entries, x2, y2) {
+              erase: function(entries, x2, y) {
                 this._eraseMode = true;
-                this.draw(entries, x2, y2, 1, 16777215);
+                this.draw(entries, x2, y, 1, 16777215);
                 this._eraseMode = false;
                 return this;
               },
-              draw: function(entries, x2, y2, alpha, tint) {
+              draw: function(entries, x2, y, alpha, tint) {
                 this.beginDraw();
-                this.batchDraw(entries, x2, y2, alpha, tint);
+                this.batchDraw(entries, x2, y, alpha, tint);
                 this.endDraw();
                 return this;
               },
-              drawFrame: function(key, frame, x2, y2, alpha, tint) {
+              drawFrame: function(key, frame, x2, y, alpha, tint) {
                 this.beginDraw();
-                this.batchDrawFrame(key, frame, x2, y2, alpha, tint);
+                this.batchDrawFrame(key, frame, x2, y, alpha, tint);
                 this.endDraw();
                 return this;
               },
@@ -18366,7 +18366,7 @@
                 }
                 return this;
               },
-              batchDraw: function(entries, x2, y2, alpha, tint) {
+              batchDraw: function(entries, x2, y, alpha, tint) {
                 if (alpha === void 0) {
                   alpha = this.globalAlpha;
                 }
@@ -18378,15 +18378,15 @@
                 if (!Array.isArray(entries)) {
                   entries = [entries];
                 }
-                this.batchList(entries, x2, y2, alpha, tint);
+                this.batchList(entries, x2, y, alpha, tint);
                 return this;
               },
-              batchDrawFrame: function(key, frame, x2, y2, alpha, tint) {
+              batchDrawFrame: function(key, frame, x2, y, alpha, tint) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (alpha === void 0) {
                   alpha = this.globalAlpha;
@@ -18399,9 +18399,9 @@
                 var textureFrame = this.textureManager.getFrame(key, frame);
                 if (textureFrame) {
                   if (this.renderTarget) {
-                    this.pipeline.batchTextureFrame(textureFrame, x2, y2, tint, alpha, this.camera.matrix, null);
+                    this.pipeline.batchTextureFrame(textureFrame, x2, y, tint, alpha, this.camera.matrix, null);
                   } else {
-                    this.batchTextureFrame(textureFrame, x2 + this.frame.cutX, y2 + this.frame.cutY, alpha, tint);
+                    this.batchTextureFrame(textureFrame, x2 + this.frame.cutX, y + this.frame.cutY, alpha, tint);
                   }
                 }
                 return this;
@@ -18424,53 +18424,53 @@
                 this.dirty = true;
                 return this;
               },
-              batchList: function(children, x2, y2, alpha, tint) {
+              batchList: function(children, x2, y, alpha, tint) {
                 for (var i = 0; i < children.length; i++) {
                   var entry = children[i];
                   if (!entry || entry === this) {
                     continue;
                   }
                   if (entry.renderWebGL || entry.renderCanvas) {
-                    this.drawGameObject(entry, x2, y2);
+                    this.drawGameObject(entry, x2, y);
                   } else if (entry.isParent || entry.list) {
-                    this.batchGroup(entry.getChildren(), x2, y2);
+                    this.batchGroup(entry.getChildren(), x2, y);
                   } else if (typeof entry === "string") {
-                    this.batchTextureFrameKey(entry, null, x2, y2, alpha, tint);
+                    this.batchTextureFrameKey(entry, null, x2, y, alpha, tint);
                   } else if (entry instanceof Frame) {
-                    this.batchTextureFrame(entry, x2, y2, alpha, tint);
+                    this.batchTextureFrame(entry, x2, y, alpha, tint);
                   } else if (Array.isArray(entry)) {
-                    this.batchList(entry, x2, y2, alpha, tint);
+                    this.batchList(entry, x2, y, alpha, tint);
                   }
                 }
               },
-              batchGroup: function(children, x2, y2) {
+              batchGroup: function(children, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 x2 += this.frame.cutX;
-                y2 += this.frame.cutY;
+                y += this.frame.cutY;
                 for (var i = 0; i < children.length; i++) {
                   var entry = children[i];
                   if (entry.willRender(this.camera)) {
                     var tx = entry.x + x2;
-                    var ty = entry.y + y2;
+                    var ty = entry.y + y;
                     this.drawGameObject(entry, tx, ty);
                   }
                 }
               },
-              batchGameObjectWebGL: function(gameObject, x2, y2) {
+              batchGameObjectWebGL: function(gameObject, x2, y) {
                 if (x2 === void 0) {
                   x2 = gameObject.x;
                 }
-                if (y2 === void 0) {
-                  y2 = gameObject.y;
+                if (y === void 0) {
+                  y = gameObject.y;
                 }
                 var prevX = gameObject.x;
                 var prevY = gameObject.y;
-                gameObject.setPosition(x2 + this.frame.cutX, y2 + this.frame.cutY);
+                gameObject.setPosition(x2 + this.frame.cutX, y + this.frame.cutY);
                 if (gameObject.renderDirect) {
                   gameObject.renderDirect(this.renderer, gameObject, this.camera);
                 } else {
@@ -18478,12 +18478,12 @@
                 }
                 gameObject.setPosition(prevX, prevY);
               },
-              batchGameObjectCanvas: function(gameObject, x2, y2) {
+              batchGameObjectCanvas: function(gameObject, x2, y) {
                 if (x2 === void 0) {
                   x2 = gameObject.x;
                 }
-                if (y2 === void 0) {
-                  y2 = gameObject.y;
+                if (y === void 0) {
+                  y = gameObject.y;
                 }
                 var prevX = gameObject.x;
                 var prevY = gameObject.y;
@@ -18491,31 +18491,31 @@
                   var blendMode = gameObject.blendMode;
                   gameObject.blendMode = BlendModes.ERASE;
                 }
-                gameObject.setPosition(x2 + this.frame.cutX, y2 + this.frame.cutY);
+                gameObject.setPosition(x2 + this.frame.cutX, y + this.frame.cutY);
                 gameObject.renderCanvas(this.renderer, gameObject, this.camera, null);
                 gameObject.setPosition(prevX, prevY);
                 if (this._eraseMode) {
                   gameObject.blendMode = blendMode;
                 }
               },
-              batchTextureFrameKey: function(key, frame, x2, y2, alpha, tint) {
+              batchTextureFrameKey: function(key, frame, x2, y, alpha, tint) {
                 var textureFrame = this.textureManager.getFrame(key, frame);
                 if (textureFrame) {
-                  this.batchTextureFrame(textureFrame, x2, y2, alpha, tint);
+                  this.batchTextureFrame(textureFrame, x2, y, alpha, tint);
                 }
               },
-              batchTextureFrame: function(textureFrame, x2, y2, alpha, tint) {
+              batchTextureFrame: function(textureFrame, x2, y, alpha, tint) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 x2 += this.frame.cutX;
-                y2 += this.frame.cutY;
+                y += this.frame.cutY;
                 var renderTarget = this.renderTarget;
                 if (renderTarget) {
-                  this.pipeline.batchTextureFrame(textureFrame, x2, y2, tint, alpha, this.camera.matrix, null);
+                  this.pipeline.batchTextureFrame(textureFrame, x2, y, tint, alpha, this.camera.matrix, null);
                 } else {
                   var ctx = this.context;
                   var cd = textureFrame.canvasData;
@@ -18525,15 +18525,15 @@
                   ctx.globalCompositeOperation = this._eraseMode ? "destination-out" : "source-over";
                   ctx.globalAlpha = alpha;
                   matrix.setToContext(ctx);
-                  ctx.drawImage(source, cd.x, cd.y, cd.width, cd.height, x2, y2, cd.width, cd.height);
+                  ctx.drawImage(source, cd.x, cd.y, cd.width, cd.height, x2, y, cd.width, cd.height);
                   ctx.restore();
                 }
               },
-              snapshotArea: function(x2, y2, width, height, callback, type, encoderOptions) {
+              snapshotArea: function(x2, y, width, height, callback, type, encoderOptions) {
                 if (this.renderTarget) {
-                  this.renderer.snapshotFramebuffer(this.renderTarget.framebuffer, this.width, this.height, callback, false, x2, y2, width, height, type, encoderOptions);
+                  this.renderer.snapshotFramebuffer(this.renderTarget.framebuffer, this.width, this.height, callback, false, x2, y, width, height, type, encoderOptions);
                 } else {
-                  this.renderer.snapshotCanvas(this.canvas, callback, false, x2, y2, width, height, type, encoderOptions);
+                  this.renderer.snapshotCanvas(this.canvas, callback, false, x2, y, width, height, type, encoderOptions);
                 }
                 return this;
               },
@@ -18545,11 +18545,11 @@
                 }
                 return this;
               },
-              snapshotPixel: function(x2, y2, callback) {
+              snapshotPixel: function(x2, y, callback) {
                 if (this.renderTarget) {
-                  this.renderer.snapshotFramebuffer(this.renderTarget.framebuffer, this.width, this.height, callback, true, x2, y2);
+                  this.renderer.snapshotFramebuffer(this.renderTarget.framebuffer, this.width, this.height, callback, true, x2, y);
                 } else {
-                  this.renderer.snapshotCanvas(this.canvas, callback, true, x2, y2);
+                  this.renderer.snapshotCanvas(this.canvas, callback, true, x2, y);
                 }
                 return this;
               },
@@ -18603,7 +18603,7 @@
                 Components.ScrollFactor,
                 RopeRender
               ],
-              initialize: function Rope2(scene, x2, y2, texture, frame, points, horizontal, colors, alphas) {
+              initialize: function Rope2(scene, x2, y, texture, frame, points, horizontal, colors, alphas) {
                 if (texture === void 0) {
                   texture = "__DEFAULT";
                 }
@@ -18629,7 +18629,7 @@
                 this.debugCallback = null;
                 this.debugGraphic = null;
                 this.setTexture(texture, frame);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSizeToFrame();
                 this.initPipeline(PIPELINE_CONST.ROPE_PIPELINE);
                 if (Array.isArray(points)) {
@@ -18773,20 +18773,20 @@
                     segments = 2;
                   }
                   points = [];
-                  var s2;
+                  var s;
                   var frameSegment;
                   var offset;
                   if (this.horizontal) {
                     offset = -this.frame.halfWidth;
                     frameSegment = this.frame.width / (segments - 1);
-                    for (s2 = 0; s2 < segments; s2++) {
-                      points.push({ x: offset + s2 * frameSegment, y: 0 });
+                    for (s = 0; s < segments; s++) {
+                      points.push({ x: offset + s * frameSegment, y: 0 });
                     }
                   } else {
                     offset = -this.frame.halfHeight;
                     frameSegment = this.frame.height / (segments - 1);
-                    for (s2 = 0; s2 < segments; s2++) {
-                      points.push({ x: 0, y: offset + s2 * frameSegment });
+                    for (s = 0; s < segments; s++) {
+                      points.push({ x: 0, y: offset + s * frameSegment });
                     }
                   }
                 }
@@ -19012,16 +19012,16 @@
                 Components.Visible,
                 TextRender
               ],
-              initialize: function Text2(scene, x2, y2, text, style) {
+              initialize: function Text2(scene, x2, y, text, style) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 GameObject.call(this, scene, "Text");
                 this.renderer = scene.sys.renderer;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setOrigin(0, 0);
                 this.initPipeline();
                 this.canvas = CanvasPool.create(this);
@@ -19224,11 +19224,11 @@
               setStroke: function(color, thickness) {
                 return this.style.setStroke(color, thickness);
               },
-              setShadow: function(x2, y2, color, blur, shadowStroke, shadowFill) {
-                return this.style.setShadow(x2, y2, color, blur, shadowStroke, shadowFill);
+              setShadow: function(x2, y, color, blur, shadowStroke, shadowFill) {
+                return this.style.setShadow(x2, y, color, blur, shadowStroke, shadowFill);
               },
-              setShadowOffset: function(x2, y2) {
-                return this.style.setShadowOffset(x2, y2);
+              setShadowOffset: function(x2, y) {
+                return this.style.setShadowOffset(x2, y);
               },
               setShadowColor: function(color) {
                 return this.style.setShadowColor(color);
@@ -19269,10 +19269,10 @@
                     left = GetValue(config, "left", 0);
                     right = GetValue(config, "right", left);
                   }
-                  var y2 = GetValue(config, "y", null);
-                  if (y2 !== null) {
-                    top = y2;
-                    bottom = y2;
+                  var y = GetValue(config, "y", null);
+                  if (y !== null) {
+                    top = y;
+                    bottom = y;
                   } else {
                     top = GetValue(config, "top", 0);
                     bottom = GetValue(config, "bottom", top);
@@ -19479,7 +19479,7 @@
                 Components.Visible,
                 TileSpriteRender
               ],
-              initialize: function TileSprite2(scene, x2, y2, width, height, textureKey, frameKey) {
+              initialize: function TileSprite2(scene, x2, y, width, height, textureKey, frameKey) {
                 var renderer = scene.sys.renderer;
                 GameObject.call(this, scene, "TileSprite");
                 var displayTexture = scene.sys.textures.get(textureKey);
@@ -19507,7 +19507,7 @@
                 this.fillCanvas = CanvasPool.create2D(this, this.potWidth, this.potHeight);
                 this.fillContext = this.fillCanvas.getContext("2d");
                 this.fillPattern = null;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 this.setFrame(frameKey);
                 this.setOriginFromFrame();
@@ -19541,24 +19541,24 @@
                 this.updateTileTexture();
                 return this;
               },
-              setTilePosition: function(x2, y2) {
+              setTilePosition: function(x2, y) {
                 if (x2 !== void 0) {
                   this.tilePositionX = x2;
                 }
-                if (y2 !== void 0) {
-                  this.tilePositionY = y2;
+                if (y !== void 0) {
+                  this.tilePositionY = y;
                 }
                 return this;
               },
-              setTileScale: function(x2, y2) {
+              setTileScale: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = this.tileScaleX;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.tileScaleX = x2;
-                this.tileScaleY = y2;
+                this.tileScaleY = y;
                 return this;
               },
               updateTileTexture: function() {
@@ -19705,7 +19705,7 @@
                 Components.Visible,
                 VideoRender
               ],
-              initialize: function Video2(scene, x2, y2, key) {
+              initialize: function Video2(scene, x2, y, key) {
                 GameObject.call(this, scene, "Video");
                 this.video = null;
                 this.videoTexture = null;
@@ -19739,7 +19739,7 @@
                 this._cacheKey = "";
                 this._isSeeking = false;
                 this.removeVideoElementOnDestroy = false;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.initPipeline();
                 if (key) {
                   this.changeSource(key, false);
@@ -19860,12 +19860,12 @@
                 }
                 return this.snapshotArea(0, 0, this.width, this.height, width, height);
               },
-              snapshotArea: function(x2, y2, srcWidth, srcHeight, destWidth, destHeight) {
+              snapshotArea: function(x2, y, srcWidth, srcHeight, destWidth, destHeight) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (srcWidth === void 0) {
                   srcWidth = this.width;
@@ -19885,12 +19885,12 @@
                   snap = this.scene.sys.textures.createCanvas(UUID(), destWidth, destHeight);
                   this.snapshotTexture = snap;
                   if (video) {
-                    snap.context.drawImage(video, x2, y2, srcWidth, srcHeight, 0, 0, destWidth, destHeight);
+                    snap.context.drawImage(video, x2, y, srcWidth, srcHeight, 0, 0, destWidth, destHeight);
                   }
                 } else {
                   snap.setSize(destWidth, destHeight);
                   if (video) {
-                    snap.context.drawImage(video, x2, y2, srcWidth, srcHeight, 0, 0, destWidth, destHeight);
+                    snap.context.drawImage(video, x2, y, srcWidth, srcHeight, 0, 0, destWidth, destHeight);
                   }
                 }
                 return snap.update();
@@ -20292,8 +20292,8 @@
                   this.setTo(points);
                 }
               },
-              contains: function(x2, y2) {
-                return Contains(this, x2, y2);
+              contains: function(x2, y) {
+                return Contains(this, x2, y);
               },
               setTo: function(points) {
                 this.area = 0;
@@ -20304,24 +20304,24 @@
                 if (!Array.isArray(points)) {
                   return this;
                 }
-                var p;
+                var p2;
                 var y0 = Number.MAX_VALUE;
                 for (var i = 0; i < points.length; i++) {
-                  p = { x: 0, y: 0 };
+                  p2 = { x: 0, y: 0 };
                   if (typeof points[i] === "number" || typeof points[i] === "string") {
-                    p.x = parseFloat(points[i]);
-                    p.y = parseFloat(points[i + 1]);
+                    p2.x = parseFloat(points[i]);
+                    p2.y = parseFloat(points[i + 1]);
                     i++;
                   } else if (Array.isArray(points[i])) {
-                    p.x = points[i][0];
-                    p.y = points[i][1];
+                    p2.x = points[i][0];
+                    p2.y = points[i][1];
                   } else {
-                    p.x = points[i].x;
-                    p.y = points[i].y;
+                    p2.x = points[i].x;
+                    p2.y = points[i].y;
                   }
-                  this.points.push(p);
-                  if (p.y < y0) {
-                    y0 = p.y;
+                  this.points.push(p2);
+                  if (p2.y < y0) {
+                    y0 = p2.y;
                   }
                 }
                 this.calculateArea(y0);
@@ -20353,14 +20353,14 @@
             module2.exports = Polygon;
           },
           function(module2, exports2) {
-            var Contains = function(polygon, x2, y2) {
+            var Contains = function(polygon, x2, y) {
               var inside = false;
               for (var i = -1, j2 = polygon.points.length - 1; ++i < polygon.points.length; j2 = i) {
                 var ix = polygon.points[i].x;
                 var iy = polygon.points[i].y;
                 var jx = polygon.points[j2].x;
                 var jy = polygon.points[j2].y;
-                if ((iy <= y2 && y2 < jy || jy <= y2 && y2 < iy) && x2 < (jx - ix) * (y2 - iy) / (jy - iy) + ix) {
+                if ((iy <= y && y < jy || jy <= y && y < iy) && x2 < (jx - ix) * (y - iy) / (jy - iy) + ix) {
                   inside = !inside;
                 }
               }
@@ -20390,12 +20390,12 @@
                 Components.Visible,
                 ShaderRender
               ],
-              initialize: function Shader2(scene, key, x2, y2, width, height, textures, textureData) {
+              initialize: function Shader2(scene, key, x2, y, width, height, textures, textureData) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 128;
@@ -20428,7 +20428,7 @@
                 this.glTexture = null;
                 this.renderToTexture = false;
                 this.texture = null;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 this.setOrigin(0.5, 0.5);
                 this.setShader(key, textures, textureData);
@@ -20707,15 +20707,15 @@
                 var vm = this.viewMatrix;
                 if (!this.renderToTexture) {
                   var x2 = -this._displayOriginX;
-                  var y2 = -this._displayOriginY;
+                  var y = -this._displayOriginY;
                   vm[0] = matrix2D[0];
                   vm[1] = matrix2D[1];
                   vm[4] = matrix2D[2];
                   vm[5] = matrix2D[3];
                   vm[8] = matrix2D[4];
                   vm[9] = matrix2D[5];
-                  vm[12] = vm[0] * x2 + vm[4] * y2;
-                  vm[13] = vm[1] * x2 + vm[5] * y2;
+                  vm[12] = vm[0] * x2 + vm[4] * y;
+                  vm[13] = vm[1] * x2 + vm[5] * y;
                 }
                 gl.useProgram(program);
                 gl.uniformMatrix4fv(gl.getUniformLocation(program, "uViewMatrix"), false, vm);
@@ -20816,12 +20816,12 @@
                 Components.ScrollFactor,
                 MeshRender
               ],
-              initialize: function Mesh2(scene, x2, y2, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas) {
+              initialize: function Mesh2(scene, x2, y, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (texture === void 0) {
                   texture = "__WHITE";
@@ -20845,7 +20845,7 @@
                 this.totalFrame = 0;
                 this.ignoreDirtyCache = false;
                 var renderer = scene.sys.renderer;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setTexture(texture, frame);
                 this.setSize(renderer.width, renderer.height);
                 this.initPipeline();
@@ -20916,10 +20916,10 @@
                 this.vertices = [];
                 return this;
               },
-              addVerticesFromObj: function(key, scale, x2, y2, z2, rotateX, rotateY, rotateZ, zIsUp) {
+              addVerticesFromObj: function(key, scale, x2, y, z2, rotateX, rotateY, rotateZ, zIsUp) {
                 var data = this.scene.sys.cache.obj.get(key);
                 if (data) {
-                  GenerateObjVerts(data, this, scale, x2, y2, z2, rotateX, rotateY, rotateZ, zIsUp);
+                  GenerateObjVerts(data, this, scale, x2, y, z2, rotateX, rotateY, rotateZ, zIsUp);
                 }
                 return this;
               },
@@ -20930,8 +20930,8 @@
                 StableSort(this.faces, this.sortByDepth);
                 return this;
               },
-              addVertex: function(x2, y2, z2, u, v2, color, alpha) {
-                var vert = new Vertex(x2, y2, z2, u, v2, color, alpha);
+              addVertex: function(x2, y, z2, u, v2, color, alpha) {
+                var vert = new Vertex(x2, y, z2, u, v2, color, alpha);
                 this.vertices.push(vert);
                 return vert;
               },
@@ -20959,7 +20959,7 @@
               getFace: function(index) {
                 return this.faces[index];
               },
-              getFaceAt: function(x2, y2, camera) {
+              getFaceAt: function(x2, y, camera) {
                 if (camera === void 0) {
                   camera = this.scene.sys.cameras.main;
                 }
@@ -20968,7 +20968,7 @@
                 var results = [];
                 for (var i = 0; i < faces.length; i++) {
                   var face = faces[i];
-                  if (face.contains(x2, y2, calcMatrix)) {
+                  if (face.contains(x2, y, calcMatrix)) {
                     results.push(face);
                   }
                 }
@@ -21090,35 +21090,35 @@
                 var ly2 = line.y2;
                 var cx = circle.x;
                 var cy = circle.y;
-                var cr = circle.radius;
+                var cr2 = circle.radius;
                 var lDirX = lx2 - lx1;
                 var lDirY = ly2 - ly1;
                 var oDirX = lx1 - cx;
                 var oDirY = ly1 - cy;
                 var coefficientA = lDirX * lDirX + lDirY * lDirY;
                 var coefficientB = 2 * (lDirX * oDirX + lDirY * oDirY);
-                var coefficientC = oDirX * oDirX + oDirY * oDirY - cr * cr;
+                var coefficientC = oDirX * oDirX + oDirY * oDirY - cr2 * cr2;
                 var lambda = coefficientB * coefficientB - 4 * coefficientA * coefficientC;
-                var x2, y2;
+                var x2, y;
                 if (lambda === 0) {
                   var root = -coefficientB / (2 * coefficientA);
                   x2 = lx1 + root * lDirX;
-                  y2 = ly1 + root * lDirY;
+                  y = ly1 + root * lDirY;
                   if (root >= 0 && root <= 1) {
-                    out.push(new Point(x2, y2));
+                    out.push(new Point(x2, y));
                   }
                 } else if (lambda > 0) {
                   var root1 = (-coefficientB - Math.sqrt(lambda)) / (2 * coefficientA);
                   x2 = lx1 + root1 * lDirX;
-                  y2 = ly1 + root1 * lDirY;
+                  y = ly1 + root1 * lDirY;
                   if (root1 >= 0 && root1 <= 1) {
-                    out.push(new Point(x2, y2));
+                    out.push(new Point(x2, y));
                   }
                   var root2 = (-coefficientB + Math.sqrt(lambda)) / (2 * coefficientA);
                   x2 = lx1 + root2 * lDirX;
-                  y2 = ly1 + root2 * lDirY;
+                  y = ly1 + root2 * lDirY;
                   if (root2 >= 0 && root2 <= 1) {
-                    out.push(new Point(x2, y2));
+                    out.push(new Point(x2, y));
                   }
                 }
               }
@@ -21208,8 +21208,8 @@
               var dot00 = v0x * v0x + v0y * v0y;
               var dot01 = v0x * v1x + v0y * v1y;
               var dot11 = v1x * v1x + v1y * v1y;
-              var b2 = dot00 * dot11 - dot01 * dot01;
-              var inv = b2 === 0 ? 0 : 1 / b2;
+              var b = dot00 * dot11 - dot01 * dot01;
+              var inv = b === 0 ? 0 : 1 / b;
               var u;
               var v2;
               var v2x;
@@ -21237,17 +21237,17 @@
             module2.exports = ContainsArray;
           },
           function(module2, exports2) {
-            var RotateAroundXY = function(line, x2, y2, angle) {
+            var RotateAroundXY = function(line, x2, y, angle) {
               var c = Math.cos(angle);
-              var s2 = Math.sin(angle);
+              var s = Math.sin(angle);
               var tx = line.x1 - x2;
-              var ty = line.y1 - y2;
-              line.x1 = tx * c - ty * s2 + x2;
-              line.y1 = tx * s2 + ty * c + y2;
+              var ty = line.y1 - y;
+              line.x1 = tx * c - ty * s + x2;
+              line.y1 = tx * s + ty * c + y;
               tx = line.x2 - x2;
-              ty = line.y2 - y2;
-              line.x2 = tx * c - ty * s2 + x2;
-              line.y2 = tx * s2 + ty * c + y2;
+              ty = line.y2 - y;
+              line.x2 = tx * c - ty * s + x2;
+              line.y2 = tx * s + ty * c + y;
               return line;
             };
             module2.exports = RotateAroundXY;
@@ -21259,21 +21259,21 @@
             module2.exports = GetAspectRatio;
           },
           function(module2, exports2) {
-            var RotateAroundXY = function(triangle, x2, y2, angle) {
+            var RotateAroundXY = function(triangle, x2, y, angle) {
               var c = Math.cos(angle);
-              var s2 = Math.sin(angle);
+              var s = Math.sin(angle);
               var tx = triangle.x1 - x2;
-              var ty = triangle.y1 - y2;
-              triangle.x1 = tx * c - ty * s2 + x2;
-              triangle.y1 = tx * s2 + ty * c + y2;
+              var ty = triangle.y1 - y;
+              triangle.x1 = tx * c - ty * s + x2;
+              triangle.y1 = tx * s + ty * c + y;
               tx = triangle.x2 - x2;
-              ty = triangle.y2 - y2;
-              triangle.x2 = tx * c - ty * s2 + x2;
-              triangle.y2 = tx * s2 + ty * c + y2;
+              ty = triangle.y2 - y;
+              triangle.x2 = tx * c - ty * s + x2;
+              triangle.y2 = tx * s + ty * c + y;
               tx = triangle.x3 - x2;
-              ty = triangle.y3 - y2;
-              triangle.x3 = tx * c - ty * s2 + x2;
-              triangle.y3 = tx * s2 + ty * c + y2;
+              ty = triangle.y3 - y;
+              triangle.x3 = tx * c - ty * s + x2;
+              triangle.y3 = tx * s + ty * c + y;
               return triangle;
             };
             module2.exports = RotateAroundXY;
@@ -21428,7 +21428,7 @@
             };
           },
           function(module2, exports2) {
-            var OverlapRect = function(world, x2, y2, width, height, includeDynamic, includeStatic) {
+            var OverlapRect = function(world, x2, y, width, height, includeDynamic, includeStatic) {
               if (includeDynamic === void 0) {
                 includeDynamic = true;
               }
@@ -21439,9 +21439,9 @@
               var staticBodies = [];
               var minMax = world.treeMinMax;
               minMax.minX = x2;
-              minMax.minY = y2;
+              minMax.minY = y;
               minMax.maxX = x2 + width;
-              minMax.maxY = y2 + height;
+              minMax.maxY = y + height;
               if (includeStatic) {
                 staticBodies = world.staticTree.search(minMax);
               }
@@ -21452,12 +21452,12 @@
                 var fakeBody = {
                   position: {
                     x: x2,
-                    y: y2
+                    y
                   },
                   left: x2,
-                  top: y2,
+                  top: y,
                   right: x2 + width,
-                  bottom: y2 + height,
+                  bottom: y + height,
                   isCircle: false
                 };
                 var intersects = world.intersects;
@@ -21935,15 +21935,15 @@
               var tiles = [];
               var height = data.length;
               var width = 0;
-              for (var y2 = 0; y2 < data.length; y2++) {
-                tiles[y2] = [];
-                var row = data[y2];
+              for (var y = 0; y < data.length; y++) {
+                tiles[y] = [];
+                var row = data[y];
                 for (var x2 = 0; x2 < row.length; x2++) {
                   var tileIndex = parseInt(row[x2], 10);
                   if (isNaN(tileIndex) || tileIndex === -1) {
-                    tiles[y2][x2] = insertNull ? null : new Tile(layerData, -1, x2, y2, tileWidth, tileHeight);
+                    tiles[y][x2] = insertNull ? null : new Tile(layerData, -1, x2, y, tileWidth, tileHeight);
                   } else {
-                    tiles[y2][x2] = new Tile(layerData, tileIndex, x2, y2, tileWidth, tileHeight);
+                    tiles[y][x2] = new Tile(layerData, tileIndex, x2, y, tileWidth, tileHeight);
                   }
                 }
                 if (width === 0) {
@@ -21962,8 +21962,8 @@
           function(module2, exports2, __webpack_require__) {
             var Pick = __webpack_require__(571);
             var ParseGID = __webpack_require__(261);
-            var copyPoints = function(p) {
-              return { x: p.x, y: p.y };
+            var copyPoints = function(p2) {
+              return { x: p2.x, y: p2.y };
             };
             var commonObjectProps = ["id", "name", "type", "rotation", "properties", "visible", "x", "y", "width", "height"];
             var ParseObject = function(tiledObject, offsetX, offsetY) {
@@ -22964,8 +22964,8 @@
                   if (Bounds.overlaps(bodyA.bounds, bodyB.bounds)) {
                     for (var j2 = bodyA.parts.length > 1 ? 1 : 0; j2 < bodyA.parts.length; j2++) {
                       var partA = bodyA.parts[j2];
-                      for (var k = bodyB.parts.length > 1 ? 1 : 0; k < bodyB.parts.length; k++) {
-                        var partB = bodyB.parts[k];
+                      for (var k2 = bodyB.parts.length > 1 ? 1 : 0; k2 < bodyB.parts.length; k2++) {
+                        var partB = bodyB.parts[k2];
                         if (partA === bodyA && partB === bodyB || Bounds.overlaps(partA.bounds, partB.bounds)) {
                           var pairId = Pair.id(partA, partB), pair = pairsTable[pairId], previousCollision;
                           if (pair && pair.isActive) {
@@ -23527,9 +23527,9 @@
           function(module2, exports2, __webpack_require__) {
             var SetCenterX = __webpack_require__(88);
             var SetCenterY = __webpack_require__(90);
-            var CenterOn = function(gameObject, x2, y2) {
+            var CenterOn = function(gameObject, x2, y) {
               SetCenterX(gameObject, x2);
-              return SetCenterY(gameObject, y2);
+              return SetCenterY(gameObject, y);
             };
             module2.exports = CenterOn;
           },
@@ -23775,13 +23775,13 @@
             module2.exports = GetPoint;
           },
           function(module2, exports2) {
-            var RotateAround = function(point, x2, y2, angle) {
+            var RotateAround = function(point, x2, y, angle) {
               var c = Math.cos(angle);
-              var s2 = Math.sin(angle);
+              var s = Math.sin(angle);
               var tx = point.x - x2;
-              var ty = point.y - y2;
-              point.x = tx * c - ty * s2 + x2;
-              point.y = tx * s2 + ty * c + y2;
+              var ty = point.y - y;
+              point.x = tx * c - ty * s + x2;
+              point.y = tx * s + ty * c + y;
               return point;
             };
             module2.exports = RotateAround;
@@ -24002,12 +24002,12 @@
             var ScrollFactor = {
               scrollFactorX: 1,
               scrollFactorY: 1,
-              setScrollFactor: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setScrollFactor: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.scrollFactorX = x2;
-                this.scrollFactorY = y2;
+                this.scrollFactorY = y;
                 return this;
               }
             };
@@ -24085,12 +24085,12 @@
                   this._rotation = WrapAngle(value);
                 }
               },
-              setPosition: function(x2, y2, z2, w2) {
+              setPosition: function(x2, y, z2, w2) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 if (z2 === void 0) {
                   z2 = 0;
@@ -24099,7 +24099,7 @@
                   w2 = 0;
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.z = z2;
                 this.w = w2;
                 return this;
@@ -24119,12 +24119,12 @@
                 }
                 return this;
               },
-              setRandomPosition: function(x2, y2, width, height) {
+              setRandomPosition: function(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.scene.sys.scale.width;
@@ -24133,7 +24133,7 @@
                   height = this.scene.sys.scale.height;
                 }
                 this.x = x2 + Math.random() * width;
-                this.y = y2 + Math.random() * height;
+                this.y = y + Math.random() * height;
                 return this;
               },
               setRotation: function(radians) {
@@ -24150,15 +24150,15 @@
                 this.angle = degrees;
                 return this;
               },
-              setScale: function(x2, y2) {
+              setScale: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 1;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.scaleX = x2;
-                this.scaleY = y2;
+                this.scaleY = y;
                 return this;
               },
               setX: function(value) {
@@ -24214,7 +24214,7 @@
                 }
                 return tempMatrix;
               },
-              getLocalPoint: function(x2, y2, point, camera) {
+              getLocalPoint: function(x2, y, point, camera) {
                 if (!point) {
                   point = new Vector2();
                 }
@@ -24224,7 +24224,7 @@
                 var csx = camera.scrollX;
                 var csy = camera.scrollY;
                 var px = x2 + csx * this.scrollFactorX - csx;
-                var py = y2 + csy * this.scrollFactorY - csy;
+                var py = y + csy * this.scrollFactorY - csy;
                 if (this.parentContainer) {
                   this.getWorldTransformMatrix().applyInverse(px, py, point);
                 } else {
@@ -24298,40 +24298,40 @@
                 quantity = Math.round(Perimeter(rect) / step);
               }
               var x2 = rect.x;
-              var y2 = rect.y;
+              var y = rect.y;
               var face = 0;
               for (var i = 0; i < quantity; i++) {
-                out.push(new Point(x2, y2));
+                out.push(new Point(x2, y));
                 switch (face) {
                   case 0:
                     x2 += step;
                     if (x2 >= rect.right) {
                       face = 1;
-                      y2 += x2 - rect.right;
+                      y += x2 - rect.right;
                       x2 = rect.right;
                     }
                     break;
                   case 1:
-                    y2 += step;
-                    if (y2 >= rect.bottom) {
+                    y += step;
+                    if (y >= rect.bottom) {
                       face = 2;
-                      x2 -= y2 - rect.bottom;
-                      y2 = rect.bottom;
+                      x2 -= y - rect.bottom;
+                      y = rect.bottom;
                     }
                     break;
                   case 2:
                     x2 -= step;
                     if (x2 <= rect.left) {
                       face = 3;
-                      y2 -= rect.left - x2;
+                      y -= rect.left - x2;
                       x2 = rect.left;
                     }
                     break;
                   case 3:
-                    y2 -= step;
-                    if (y2 <= rect.top) {
+                    y -= step;
+                    if (y <= rect.top) {
                       face = 0;
-                      y2 = rect.top;
+                      y = rect.top;
                     }
                     break;
                 }
@@ -24451,8 +24451,8 @@
           function(module2, exports2) {
             var SortByDigits = function(array) {
               var re2 = /\D/g;
-              array.sort(function(a, b2) {
-                return parseInt(a.replace(re2, ""), 10) - parseInt(b2.replace(re2, ""), 10);
+              array.sort(function(a2, b) {
+                return parseInt(a2.replace(re2, ""), 10) - parseInt(b.replace(re2, ""), 10);
               });
               return array;
             };
@@ -24935,8 +24935,8 @@
                 Components.Tint,
                 Components.Pipeline
               ],
-              initialize: function Camera2(x2, y2, width, height) {
-                BaseCamera.call(this, x2, y2, width, height);
+              initialize: function Camera2(x2, y, width, height) {
+                BaseCamera.call(this, x2, y, width, height);
                 this.postPipelines = [];
                 this.pipelineData = {};
                 this.inputEnabled = true;
@@ -24992,8 +24992,8 @@
               shake: function(duration, intensity, force, callback, context) {
                 return this.shakeEffect.start(duration, intensity, force, callback, context);
               },
-              pan: function(x2, y2, duration, ease, force, callback, context) {
-                return this.panEffect.start(x2, y2, duration, ease, force, callback, context);
+              pan: function(x2, y, duration, ease, force, callback, context) {
+                return this.panEffect.start(x2, y, duration, ease, force, callback, context);
               },
               rotateTo: function(radians, shortestPath, duration, ease, force, callback, context) {
                 return this.rotateToEffect.start(radians, shortestPath, duration, ease, force, callback, context);
@@ -25070,24 +25070,24 @@
                   this.emit(Events.FOLLOW_UPDATE, this, follow);
                 }
               },
-              setLerp: function(x2, y2) {
+              setLerp: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 1;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
-                this.lerp.set(x2, y2);
+                this.lerp.set(x2, y);
                 return this;
               },
-              setFollowOffset: function(x2, y2) {
+              setFollowOffset: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
-                this.followOffset.set(x2, y2);
+                this.followOffset.set(x2, y);
                 return this;
               },
               startFollow: function(target, roundPixels, lerpX, lerpY, offsetX, offsetY) {
@@ -25160,15 +25160,15 @@
             var Color = __webpack_require__(38);
             var HexStringToColor = function(hex) {
               var color = new Color();
-              hex = hex.replace(/^(?:#|0x)?([a-f\d])([a-f\d])([a-f\d])$/i, function(m2, r2, g2, b3) {
-                return r2 + r2 + g2 + g2 + b3 + b3;
+              hex = hex.replace(/^(?:#|0x)?([a-f\d])([a-f\d])([a-f\d])$/i, function(m, r2, g3, b2) {
+                return r2 + r2 + g3 + g3 + b2 + b2;
               });
               var result = /^(?:#|0x)?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
               if (result) {
                 var r = parseInt(result[1], 16);
-                var g = parseInt(result[2], 16);
-                var b2 = parseInt(result[3], 16);
-                color.setTo(r, g, b2);
+                var g2 = parseInt(result[2], 16);
+                var b = parseInt(result[3], 16);
+                color.setTo(r, g2, b);
               }
               return color;
             };
@@ -25181,36 +25181,36 @@
             module2.exports = GetColor32;
           },
           function(module2, exports2) {
-            var RGBToHSV = function(r, g, b2, out) {
+            var RGBToHSV = function(r, g2, b, out) {
               if (out === void 0) {
                 out = { h: 0, s: 0, v: 0 };
               }
               r /= 255;
-              g /= 255;
-              b2 /= 255;
-              var min = Math.min(r, g, b2);
-              var max = Math.max(r, g, b2);
+              g2 /= 255;
+              b /= 255;
+              var min = Math.min(r, g2, b);
+              var max = Math.max(r, g2, b);
               var d = max - min;
               var h = 0;
-              var s2 = max === 0 ? 0 : d / max;
+              var s = max === 0 ? 0 : d / max;
               var v2 = max;
               if (max !== min) {
                 if (max === r) {
-                  h = (g - b2) / d + (g < b2 ? 6 : 0);
-                } else if (max === g) {
-                  h = (b2 - r) / d + 2;
-                } else if (max === b2) {
-                  h = (r - g) / d + 4;
+                  h = (g2 - b) / d + (g2 < b ? 6 : 0);
+                } else if (max === g2) {
+                  h = (b - r) / d + 2;
+                } else if (max === b) {
+                  h = (r - g2) / d + 4;
                 }
                 h /= 6;
               }
               if (out.hasOwnProperty("_h")) {
                 out._h = h;
-                out._s = s2;
+                out._s = s;
                 out._v = v2;
               } else {
                 out.h = h;
-                out.s = s2;
+                out.s = s;
                 out.v = v2;
               }
               return out;
@@ -25251,10 +25251,10 @@
               var result = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*(\d+(?:\.\d+)?))?\s*\)$/.exec(rgb.toLowerCase());
               if (result) {
                 var r = parseInt(result[1], 10);
-                var g = parseInt(result[2], 10);
-                var b2 = parseInt(result[3], 10);
-                var a = result[4] !== void 0 ? parseFloat(result[4]) : 1;
-                color.setTo(r, g, b2, a * 255);
+                var g2 = parseInt(result[2], 10);
+                var b = parseInt(result[3], 10);
+                var a2 = result[4] !== void 0 ? parseFloat(result[4]) : 1;
+                color.setTo(r, g2, b, a2 * 255);
               }
               return color;
             };
@@ -25607,9 +25607,9 @@
             module2.exports = Normalize;
           },
           function(module2, exports2) {
-            var DistanceBetweenPoints = function(a, b2) {
-              var dx = a.x - b2.x;
-              var dy = a.y - b2.y;
+            var DistanceBetweenPoints = function(a2, b) {
+              var dx = a2.x - b.x;
+              var dy = a2.y - b.y;
               return Math.sqrt(dx * dx + dy * dy);
             };
             module2.exports = DistanceBetweenPoints;
@@ -25623,20 +25623,20 @@
             module2.exports = DistanceSquared;
           },
           function(module2, exports2) {
-            var GreaterThan = function(a, b2, epsilon) {
+            var GreaterThan = function(a2, b, epsilon) {
               if (epsilon === void 0) {
                 epsilon = 1e-4;
               }
-              return a > b2 - epsilon;
+              return a2 > b - epsilon;
             };
             module2.exports = GreaterThan;
           },
           function(module2, exports2) {
-            var LessThan = function(a, b2, epsilon) {
+            var LessThan = function(a2, b, epsilon) {
               if (epsilon === void 0) {
                 epsilon = 1e-4;
               }
-              return a < b2 + epsilon;
+              return a2 < b + epsilon;
             };
             module2.exports = LessThan;
           },
@@ -25661,19 +25661,19 @@
             module2.exports = Factorial;
           },
           function(module2, exports2) {
-            function P0(t, p) {
-              var k = 1 - t;
-              return k * k * k * p;
+            function P0(t, p2) {
+              var k2 = 1 - t;
+              return k2 * k2 * k2 * p2;
             }
-            function P1(t, p) {
-              var k = 1 - t;
-              return 3 * k * k * t * p;
+            function P1(t, p2) {
+              var k2 = 1 - t;
+              return 3 * k2 * k2 * t * p2;
             }
-            function P2(t, p) {
-              return 3 * (1 - t) * t * t * p;
+            function P2(t, p2) {
+              return 3 * (1 - t) * t * t * p2;
             }
-            function P3(t, p) {
-              return t * t * t * p;
+            function P3(t, p2) {
+              return t * t * t * p2;
             }
             var CubicBezierInterpolation = function(t, p0, p1, p2, p3) {
               return P0(t, p0) + P1(t, p1) + P2(t, p2) + P3(t, p3);
@@ -25681,15 +25681,15 @@
             module2.exports = CubicBezierInterpolation;
           },
           function(module2, exports2) {
-            function P0(t, p) {
-              var k = 1 - t;
-              return k * k * p;
+            function P0(t, p2) {
+              var k2 = 1 - t;
+              return k2 * k2 * p2;
             }
-            function P1(t, p) {
-              return 2 * (1 - t) * t * p;
+            function P1(t, p2) {
+              return 2 * (1 - t) * t * p2;
             }
-            function P2(t, p) {
-              return t * t * p;
+            function P2(t, p2) {
+              return t * t * p2;
             }
             var QuadraticBezierInterpolation = function(t, p0, p1, p2) {
               return P0(t, p0) + P1(t, p1) + P2(t, p2);
@@ -25713,9 +25713,9 @@
           function(module2, exports2) {
             var Rotate = function(point, angle) {
               var x2 = point.x;
-              var y2 = point.y;
-              point.x = x2 * Math.cos(angle) - y2 * Math.sin(angle);
-              point.y = x2 * Math.sin(angle) + y2 * Math.cos(angle);
+              var y = point.y;
+              point.x = x2 * Math.cos(angle) - y * Math.sin(angle);
+              point.y = x2 * Math.sin(angle) + y * Math.cos(angle);
               return point;
             };
             module2.exports = Rotate;
@@ -25729,10 +25729,10 @@
           function(module2, exports2, __webpack_require__) {
             var Class = __webpack_require__(0);
             var Matrix3 = new Class({
-              initialize: function Matrix32(m2) {
+              initialize: function Matrix32(m) {
                 this.val = new Float32Array(9);
-                if (m2) {
-                  this.copy(m2);
+                if (m) {
+                  this.copy(m);
                 } else {
                   this.identity();
                 }
@@ -25745,43 +25745,43 @@
               },
               copy: function(src) {
                 var out = this.val;
-                var a = src.val;
-                out[0] = a[0];
-                out[1] = a[1];
-                out[2] = a[2];
-                out[3] = a[3];
-                out[4] = a[4];
-                out[5] = a[5];
-                out[6] = a[6];
-                out[7] = a[7];
-                out[8] = a[8];
+                var a2 = src.val;
+                out[0] = a2[0];
+                out[1] = a2[1];
+                out[2] = a2[2];
+                out[3] = a2[3];
+                out[4] = a2[4];
+                out[5] = a2[5];
+                out[6] = a2[6];
+                out[7] = a2[7];
+                out[8] = a2[8];
                 return this;
               },
-              fromMat4: function(m2) {
-                var a = m2.val;
+              fromMat4: function(m) {
+                var a2 = m.val;
                 var out = this.val;
-                out[0] = a[0];
-                out[1] = a[1];
-                out[2] = a[2];
-                out[3] = a[4];
-                out[4] = a[5];
-                out[5] = a[6];
-                out[6] = a[8];
-                out[7] = a[9];
-                out[8] = a[10];
+                out[0] = a2[0];
+                out[1] = a2[1];
+                out[2] = a2[2];
+                out[3] = a2[4];
+                out[4] = a2[5];
+                out[5] = a2[6];
+                out[6] = a2[8];
+                out[7] = a2[9];
+                out[8] = a2[10];
                 return this;
               },
-              fromArray: function(a) {
+              fromArray: function(a2) {
                 var out = this.val;
-                out[0] = a[0];
-                out[1] = a[1];
-                out[2] = a[2];
-                out[3] = a[3];
-                out[4] = a[4];
-                out[5] = a[5];
-                out[6] = a[6];
-                out[7] = a[7];
-                out[8] = a[8];
+                out[0] = a2[0];
+                out[1] = a2[1];
+                out[2] = a2[2];
+                out[3] = a2[3];
+                out[4] = a2[4];
+                out[5] = a2[5];
+                out[6] = a2[6];
+                out[7] = a2[7];
+                out[8] = a2[8];
                 return this;
               },
               identity: function() {
@@ -25798,29 +25798,29 @@
                 return this;
               },
               transpose: function() {
-                var a = this.val;
-                var a01 = a[1];
-                var a02 = a[2];
-                var a12 = a[5];
-                a[1] = a[3];
-                a[2] = a[6];
-                a[3] = a01;
-                a[5] = a[7];
-                a[6] = a02;
-                a[7] = a12;
+                var a2 = this.val;
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a12 = a2[5];
+                a2[1] = a2[3];
+                a2[2] = a2[6];
+                a2[3] = a01;
+                a2[5] = a2[7];
+                a2[6] = a02;
+                a2[7] = a12;
                 return this;
               },
               invert: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a10 = a[3];
-                var a11 = a[4];
-                var a12 = a[5];
-                var a20 = a[6];
-                var a21 = a[7];
-                var a22 = a[8];
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a10 = a2[3];
+                var a11 = a2[4];
+                var a12 = a2[5];
+                var a20 = a2[6];
+                var a21 = a2[7];
+                var a22 = a2[8];
                 var b01 = a22 * a11 - a12 * a21;
                 var b11 = -a22 * a10 + a12 * a20;
                 var b21 = a21 * a10 - a11 * a20;
@@ -25829,139 +25829,139 @@
                   return null;
                 }
                 det = 1 / det;
-                a[0] = b01 * det;
-                a[1] = (-a22 * a01 + a02 * a21) * det;
-                a[2] = (a12 * a01 - a02 * a11) * det;
-                a[3] = b11 * det;
-                a[4] = (a22 * a00 - a02 * a20) * det;
-                a[5] = (-a12 * a00 + a02 * a10) * det;
-                a[6] = b21 * det;
-                a[7] = (-a21 * a00 + a01 * a20) * det;
-                a[8] = (a11 * a00 - a01 * a10) * det;
+                a2[0] = b01 * det;
+                a2[1] = (-a22 * a01 + a02 * a21) * det;
+                a2[2] = (a12 * a01 - a02 * a11) * det;
+                a2[3] = b11 * det;
+                a2[4] = (a22 * a00 - a02 * a20) * det;
+                a2[5] = (-a12 * a00 + a02 * a10) * det;
+                a2[6] = b21 * det;
+                a2[7] = (-a21 * a00 + a01 * a20) * det;
+                a2[8] = (a11 * a00 - a01 * a10) * det;
                 return this;
               },
               adjoint: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a10 = a[3];
-                var a11 = a[4];
-                var a12 = a[5];
-                var a20 = a[6];
-                var a21 = a[7];
-                var a22 = a[8];
-                a[0] = a11 * a22 - a12 * a21;
-                a[1] = a02 * a21 - a01 * a22;
-                a[2] = a01 * a12 - a02 * a11;
-                a[3] = a12 * a20 - a10 * a22;
-                a[4] = a00 * a22 - a02 * a20;
-                a[5] = a02 * a10 - a00 * a12;
-                a[6] = a10 * a21 - a11 * a20;
-                a[7] = a01 * a20 - a00 * a21;
-                a[8] = a00 * a11 - a01 * a10;
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a10 = a2[3];
+                var a11 = a2[4];
+                var a12 = a2[5];
+                var a20 = a2[6];
+                var a21 = a2[7];
+                var a22 = a2[8];
+                a2[0] = a11 * a22 - a12 * a21;
+                a2[1] = a02 * a21 - a01 * a22;
+                a2[2] = a01 * a12 - a02 * a11;
+                a2[3] = a12 * a20 - a10 * a22;
+                a2[4] = a00 * a22 - a02 * a20;
+                a2[5] = a02 * a10 - a00 * a12;
+                a2[6] = a10 * a21 - a11 * a20;
+                a2[7] = a01 * a20 - a00 * a21;
+                a2[8] = a00 * a11 - a01 * a10;
                 return this;
               },
               determinant: function() {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a10 = a[3];
-                var a11 = a[4];
-                var a12 = a[5];
-                var a20 = a[6];
-                var a21 = a[7];
-                var a22 = a[8];
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a10 = a2[3];
+                var a11 = a2[4];
+                var a12 = a2[5];
+                var a20 = a2[6];
+                var a21 = a2[7];
+                var a22 = a2[8];
                 return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
               },
               multiply: function(src) {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a10 = a[3];
-                var a11 = a[4];
-                var a12 = a[5];
-                var a20 = a[6];
-                var a21 = a[7];
-                var a22 = a[8];
-                var b2 = src.val;
-                var b00 = b2[0];
-                var b01 = b2[1];
-                var b02 = b2[2];
-                var b10 = b2[3];
-                var b11 = b2[4];
-                var b12 = b2[5];
-                var b20 = b2[6];
-                var b21 = b2[7];
-                var b22 = b2[8];
-                a[0] = b00 * a00 + b01 * a10 + b02 * a20;
-                a[1] = b00 * a01 + b01 * a11 + b02 * a21;
-                a[2] = b00 * a02 + b01 * a12 + b02 * a22;
-                a[3] = b10 * a00 + b11 * a10 + b12 * a20;
-                a[4] = b10 * a01 + b11 * a11 + b12 * a21;
-                a[5] = b10 * a02 + b11 * a12 + b12 * a22;
-                a[6] = b20 * a00 + b21 * a10 + b22 * a20;
-                a[7] = b20 * a01 + b21 * a11 + b22 * a21;
-                a[8] = b20 * a02 + b21 * a12 + b22 * a22;
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a10 = a2[3];
+                var a11 = a2[4];
+                var a12 = a2[5];
+                var a20 = a2[6];
+                var a21 = a2[7];
+                var a22 = a2[8];
+                var b = src.val;
+                var b00 = b[0];
+                var b01 = b[1];
+                var b02 = b[2];
+                var b10 = b[3];
+                var b11 = b[4];
+                var b12 = b[5];
+                var b20 = b[6];
+                var b21 = b[7];
+                var b22 = b[8];
+                a2[0] = b00 * a00 + b01 * a10 + b02 * a20;
+                a2[1] = b00 * a01 + b01 * a11 + b02 * a21;
+                a2[2] = b00 * a02 + b01 * a12 + b02 * a22;
+                a2[3] = b10 * a00 + b11 * a10 + b12 * a20;
+                a2[4] = b10 * a01 + b11 * a11 + b12 * a21;
+                a2[5] = b10 * a02 + b11 * a12 + b12 * a22;
+                a2[6] = b20 * a00 + b21 * a10 + b22 * a20;
+                a2[7] = b20 * a01 + b21 * a11 + b22 * a21;
+                a2[8] = b20 * a02 + b21 * a12 + b22 * a22;
                 return this;
               },
               translate: function(v2) {
-                var a = this.val;
+                var a2 = this.val;
                 var x2 = v2.x;
-                var y2 = v2.y;
-                a[6] = x2 * a[0] + y2 * a[3] + a[6];
-                a[7] = x2 * a[1] + y2 * a[4] + a[7];
-                a[8] = x2 * a[2] + y2 * a[5] + a[8];
+                var y = v2.y;
+                a2[6] = x2 * a2[0] + y * a2[3] + a2[6];
+                a2[7] = x2 * a2[1] + y * a2[4] + a2[7];
+                a2[8] = x2 * a2[2] + y * a2[5] + a2[8];
                 return this;
               },
               rotate: function(rad) {
-                var a = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a10 = a[3];
-                var a11 = a[4];
-                var a12 = a[5];
-                var s2 = Math.sin(rad);
+                var a2 = this.val;
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a10 = a2[3];
+                var a11 = a2[4];
+                var a12 = a2[5];
+                var s = Math.sin(rad);
                 var c = Math.cos(rad);
-                a[0] = c * a00 + s2 * a10;
-                a[1] = c * a01 + s2 * a11;
-                a[2] = c * a02 + s2 * a12;
-                a[3] = c * a10 - s2 * a00;
-                a[4] = c * a11 - s2 * a01;
-                a[5] = c * a12 - s2 * a02;
+                a2[0] = c * a00 + s * a10;
+                a2[1] = c * a01 + s * a11;
+                a2[2] = c * a02 + s * a12;
+                a2[3] = c * a10 - s * a00;
+                a2[4] = c * a11 - s * a01;
+                a2[5] = c * a12 - s * a02;
                 return this;
               },
               scale: function(v2) {
-                var a = this.val;
+                var a2 = this.val;
                 var x2 = v2.x;
-                var y2 = v2.y;
-                a[0] = x2 * a[0];
-                a[1] = x2 * a[1];
-                a[2] = x2 * a[2];
-                a[3] = y2 * a[3];
-                a[4] = y2 * a[4];
-                a[5] = y2 * a[5];
+                var y = v2.y;
+                a2[0] = x2 * a2[0];
+                a2[1] = x2 * a2[1];
+                a2[2] = x2 * a2[2];
+                a2[3] = y * a2[3];
+                a2[4] = y * a2[4];
+                a2[5] = y * a2[5];
                 return this;
               },
-              fromQuat: function(q) {
-                var x2 = q.x;
-                var y2 = q.y;
-                var z2 = q.z;
-                var w2 = q.w;
+              fromQuat: function(q2) {
+                var x2 = q2.x;
+                var y = q2.y;
+                var z2 = q2.z;
+                var w2 = q2.w;
                 var x22 = x2 + x2;
-                var y22 = y2 + y2;
+                var y2 = y + y;
                 var z22 = z2 + z2;
                 var xx = x2 * x22;
-                var xy = x2 * y22;
+                var xy = x2 * y2;
                 var xz = x2 * z22;
-                var yy = y2 * y22;
-                var yz = y2 * z22;
+                var yy = y * y2;
+                var yz = y * z22;
                 var zz = z2 * z22;
                 var wx = w2 * x22;
-                var wy = w2 * y22;
+                var wy = w2 * y2;
                 var wz = w2 * z22;
                 var out = this.val;
                 out[0] = 1 - (yy + zz);
@@ -25975,25 +25975,25 @@
                 out[8] = 1 - (xx + yy);
                 return this;
               },
-              normalFromMat4: function(m2) {
-                var a = m2.val;
+              normalFromMat4: function(m) {
+                var a2 = m.val;
                 var out = this.val;
-                var a00 = a[0];
-                var a01 = a[1];
-                var a02 = a[2];
-                var a03 = a[3];
-                var a10 = a[4];
-                var a11 = a[5];
-                var a12 = a[6];
-                var a13 = a[7];
-                var a20 = a[8];
-                var a21 = a[9];
-                var a22 = a[10];
-                var a23 = a[11];
-                var a30 = a[12];
-                var a31 = a[13];
-                var a32 = a[14];
-                var a33 = a[15];
+                var a00 = a2[0];
+                var a01 = a2[1];
+                var a02 = a2[2];
+                var a03 = a2[3];
+                var a10 = a2[4];
+                var a11 = a2[5];
+                var a12 = a2[6];
+                var a13 = a2[7];
+                var a20 = a2[8];
+                var a21 = a2[9];
+                var a22 = a2[10];
+                var a23 = a2[11];
+                var a30 = a2[12];
+                var a31 = a2[13];
+                var a32 = a2[14];
+                var a33 = a2[15];
                 var b00 = a00 * a11 - a01 * a10;
                 var b01 = a00 * a12 - a02 * a10;
                 var b02 = a00 * a13 - a03 * a10;
@@ -26038,9 +26038,9 @@
             var tmpvec = new Vector3();
             var tmpMat3 = new Matrix3();
             var Quaternion = new Class({
-              initialize: function Quaternion2(x2, y2, z2, w2) {
+              initialize: function Quaternion2(x2, y, z2, w2) {
                 this.onChangeCallback = NOOP;
-                this.set(x2, y2, z2, w2);
+                this.set(x2, y, z2, w2);
               },
               x: {
                 get: function() {
@@ -26081,7 +26081,7 @@
               copy: function(src) {
                 return this.set(src);
               },
-              set: function(x2, y2, z2, w2, update) {
+              set: function(x2, y, z2, w2, update) {
                 if (update === void 0) {
                   update = true;
                 }
@@ -26092,7 +26092,7 @@
                   this._w = x2.w || 0;
                 } else {
                   this._x = x2 || 0;
-                  this._y = y2 || 0;
+                  this._y = y || 0;
                   this._z = z2 || 0;
                   this._w = w2 || 0;
                 }
@@ -26127,28 +26127,28 @@
               },
               length: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                return Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2);
+                return Math.sqrt(x2 * x2 + y * y + z2 * z2 + w2 * w2);
               },
               lengthSq: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                return x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2;
+                return x2 * x2 + y * y + z2 * z2 + w2 * w2;
               },
               normalize: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
                 var w2 = this.w;
-                var len = x2 * x2 + y2 * y2 + z2 * z2 + w2 * w2;
+                var len = x2 * x2 + y * y + z2 * z2 + w2 * w2;
                 if (len > 0) {
                   len = 1 / Math.sqrt(len);
                   this._x = x2 * len;
-                  this._y = y2 * len;
+                  this._y = y * len;
                   this._z = z2 * len;
                   this._w = w2 * len;
                 }
@@ -26168,18 +26168,18 @@
                 var aw = this.w;
                 return this.set(ax + t * (v2.x - ax), ay + t * (v2.y - ay), az + t * (v2.z - az), aw + t * (v2.w - aw));
               },
-              rotationTo: function(a, b2) {
-                var dot = a.x * b2.x + a.y * b2.y + a.z * b2.z;
+              rotationTo: function(a2, b) {
+                var dot = a2.x * b.x + a2.y * b.y + a2.z * b.z;
                 if (dot < -0.999999) {
-                  if (tmpvec.copy(xUnitVec3).cross(a).length() < EPSILON) {
-                    tmpvec.copy(yUnitVec3).cross(a);
+                  if (tmpvec.copy(xUnitVec3).cross(a2).length() < EPSILON) {
+                    tmpvec.copy(yUnitVec3).cross(a2);
                   }
                   tmpvec.normalize();
                   return this.setAxisAngle(tmpvec, Math.PI);
                 } else if (dot > 0.999999) {
                   return this.set(0, 0, 0, 1);
                 } else {
-                  tmpvec.copy(a).cross(b2);
+                  tmpvec.copy(a2).cross(b);
                   this._x = tmpvec.x;
                   this._y = tmpvec.y;
                   this._z = tmpvec.z;
@@ -26188,16 +26188,16 @@
                 }
               },
               setAxes: function(view, right, up) {
-                var m2 = tmpMat3.val;
-                m2[0] = right.x;
-                m2[3] = right.y;
-                m2[6] = right.z;
-                m2[1] = up.x;
-                m2[4] = up.y;
-                m2[7] = up.z;
-                m2[2] = -view.x;
-                m2[5] = -view.y;
-                m2[8] = -view.z;
+                var m = tmpMat3.val;
+                m[0] = right.x;
+                m[3] = right.y;
+                m[6] = right.z;
+                m[1] = up.x;
+                m[4] = up.y;
+                m[7] = up.z;
+                m[2] = -view.x;
+                m[5] = -view.y;
+                m[8] = -view.z;
                 return this.fromMat3(tmpMat3).normalize();
               },
               identity: function() {
@@ -26205,29 +26205,29 @@
               },
               setAxisAngle: function(axis, rad) {
                 rad = rad * 0.5;
-                var s2 = Math.sin(rad);
-                return this.set(s2 * axis.x, s2 * axis.y, s2 * axis.z, Math.cos(rad));
+                var s = Math.sin(rad);
+                return this.set(s * axis.x, s * axis.y, s * axis.z, Math.cos(rad));
               },
-              multiply: function(b2) {
+              multiply: function(b) {
                 var ax = this.x;
                 var ay = this.y;
                 var az = this.z;
                 var aw = this.w;
-                var bx = b2.x;
-                var by = b2.y;
-                var bz = b2.z;
-                var bw = b2.w;
+                var bx = b.x;
+                var by = b.y;
+                var bz = b.z;
+                var bw = b.w;
                 return this.set(ax * bw + aw * bx + ay * bz - az * by, ay * bw + aw * by + az * bx - ax * bz, az * bw + aw * bz + ax * by - ay * bx, aw * bw - ax * bx - ay * by - az * bz);
               },
-              slerp: function(b2, t) {
+              slerp: function(b, t) {
                 var ax = this.x;
                 var ay = this.y;
                 var az = this.z;
                 var aw = this.w;
-                var bx = b2.x;
-                var by = b2.y;
-                var bz = b2.z;
-                var bw = b2.w;
+                var bx = b.x;
+                var by = b.y;
+                var bz = b.z;
+                var bw = b.w;
                 var cosom = ax * bx + ay * by + az * bz + aw * bw;
                 if (cosom < 0) {
                   cosom = -cosom;
@@ -26294,20 +26294,20 @@
               },
               calculateW: function() {
                 var x2 = this.x;
-                var y2 = this.y;
+                var y = this.y;
                 var z2 = this.z;
-                this.w = -Math.sqrt(1 - x2 * x2 - y2 * y2 - z2 * z2);
+                this.w = -Math.sqrt(1 - x2 * x2 - y * y - z2 * z2);
                 return this;
               },
               setFromEuler: function(euler, update) {
                 var x2 = euler.x / 2;
-                var y2 = euler.y / 2;
+                var y = euler.y / 2;
                 var z2 = euler.z / 2;
                 var c1 = Math.cos(x2);
-                var c2 = Math.cos(y2);
+                var c2 = Math.cos(y);
                 var c3 = Math.cos(z2);
                 var s1 = Math.sin(x2);
-                var s2 = Math.sin(y2);
+                var s2 = Math.sin(y);
                 var s3 = Math.sin(z2);
                 switch (euler.order) {
                   case "XYZ": {
@@ -26338,63 +26338,63 @@
                 return this;
               },
               setFromRotationMatrix: function(mat4) {
-                var m2 = mat4.val;
-                var m11 = m2[0];
-                var m12 = m2[4];
-                var m13 = m2[8];
-                var m21 = m2[1];
-                var m22 = m2[5];
-                var m23 = m2[9];
-                var m31 = m2[2];
-                var m32 = m2[6];
-                var m33 = m2[10];
+                var m = mat4.val;
+                var m11 = m[0];
+                var m12 = m[4];
+                var m13 = m[8];
+                var m21 = m[1];
+                var m22 = m[5];
+                var m23 = m[9];
+                var m31 = m[2];
+                var m32 = m[6];
+                var m33 = m[10];
                 var trace = m11 + m22 + m33;
-                var s2;
+                var s;
                 if (trace > 0) {
-                  s2 = 0.5 / Math.sqrt(trace + 1);
-                  this.set((m32 - m23) * s2, (m13 - m31) * s2, (m21 - m12) * s2, 0.25 / s2);
+                  s = 0.5 / Math.sqrt(trace + 1);
+                  this.set((m32 - m23) * s, (m13 - m31) * s, (m21 - m12) * s, 0.25 / s);
                 } else if (m11 > m22 && m11 > m33) {
-                  s2 = 2 * Math.sqrt(1 + m11 - m22 - m33);
-                  this.set(0.25 * s2, (m12 + m21) / s2, (m13 + m31) / s2, (m32 - m23) / s2);
+                  s = 2 * Math.sqrt(1 + m11 - m22 - m33);
+                  this.set(0.25 * s, (m12 + m21) / s, (m13 + m31) / s, (m32 - m23) / s);
                 } else if (m22 > m33) {
-                  s2 = 2 * Math.sqrt(1 + m22 - m11 - m33);
-                  this.set((m12 + m21) / s2, 0.25 * s2, (m23 + m32) / s2, (m13 - m31) / s2);
+                  s = 2 * Math.sqrt(1 + m22 - m11 - m33);
+                  this.set((m12 + m21) / s, 0.25 * s, (m23 + m32) / s, (m13 - m31) / s);
                 } else {
-                  s2 = 2 * Math.sqrt(1 + m33 - m11 - m22);
-                  this.set((m13 + m31) / s2, (m23 + m32) / s2, 0.25 * s2, (m21 - m12) / s2);
+                  s = 2 * Math.sqrt(1 + m33 - m11 - m22);
+                  this.set((m13 + m31) / s, (m23 + m32) / s, 0.25 * s, (m21 - m12) / s);
                 }
                 return this;
               },
               fromMat3: function(mat) {
-                var m2 = mat.val;
-                var fTrace = m2[0] + m2[4] + m2[8];
+                var m = mat.val;
+                var fTrace = m[0] + m[4] + m[8];
                 var fRoot;
                 if (fTrace > 0) {
                   fRoot = Math.sqrt(fTrace + 1);
                   this.w = 0.5 * fRoot;
                   fRoot = 0.5 / fRoot;
-                  this._x = (m2[7] - m2[5]) * fRoot;
-                  this._y = (m2[2] - m2[6]) * fRoot;
-                  this._z = (m2[3] - m2[1]) * fRoot;
+                  this._x = (m[7] - m[5]) * fRoot;
+                  this._y = (m[2] - m[6]) * fRoot;
+                  this._z = (m[3] - m[1]) * fRoot;
                 } else {
                   var i = 0;
-                  if (m2[4] > m2[0]) {
+                  if (m[4] > m[0]) {
                     i = 1;
                   }
-                  if (m2[8] > m2[i * 3 + i]) {
+                  if (m[8] > m[i * 3 + i]) {
                     i = 2;
                   }
                   var j2 = siNext[i];
-                  var k = siNext[j2];
-                  fRoot = Math.sqrt(m2[i * 3 + i] - m2[j2 * 3 + j2] - m2[k * 3 + k] + 1);
+                  var k2 = siNext[j2];
+                  fRoot = Math.sqrt(m[i * 3 + i] - m[j2 * 3 + j2] - m[k2 * 3 + k2] + 1);
                   tmp[i] = 0.5 * fRoot;
                   fRoot = 0.5 / fRoot;
-                  tmp[j2] = (m2[j2 * 3 + i] + m2[i * 3 + j2]) * fRoot;
-                  tmp[k] = (m2[k * 3 + i] + m2[i * 3 + k]) * fRoot;
+                  tmp[j2] = (m[j2 * 3 + i] + m[i * 3 + j2]) * fRoot;
+                  tmp[k2] = (m[k2 * 3 + i] + m[i * 3 + k2]) * fRoot;
                   this._x = tmp[0];
                   this._y = tmp[1];
                   this._z = tmp[2];
-                  this._w = (m2[k * 3 + j2] - m2[j2 * 3 + k]) * fRoot;
+                  this._w = (m[k2 * 3 + j2] - m[j2 * 3 + k2]) * fRoot;
                 }
                 this.onChangeCallback(this);
                 return this;
@@ -26657,11 +26657,11 @@
                   state.callback = null;
                 }
               },
-              snapshotCanvas: function(canvas, callback, getPixel, x2, y2, width, height, type, encoderOptions) {
+              snapshotCanvas: function(canvas, callback, getPixel, x2, y, width, height, type, encoderOptions) {
                 if (getPixel === void 0) {
                   getPixel = false;
                 }
-                this.snapshotArea(x2, y2, width, height, callback, type, encoderOptions);
+                this.snapshotArea(x2, y, width, height, callback, type, encoderOptions);
                 var state = this.snapshotState;
                 state.getPixel = getPixel;
                 CanvasSnapshot(this.canvas, state);
@@ -26671,20 +26671,20 @@
               snapshot: function(callback, type, encoderOptions) {
                 return this.snapshotArea(0, 0, this.gameCanvas.width, this.gameCanvas.height, callback, type, encoderOptions);
               },
-              snapshotArea: function(x2, y2, width, height, callback, type, encoderOptions) {
+              snapshotArea: function(x2, y, width, height, callback, type, encoderOptions) {
                 var state = this.snapshotState;
                 state.callback = callback;
                 state.type = type;
                 state.encoder = encoderOptions;
                 state.getPixel = false;
                 state.x = x2;
-                state.y = y2;
+                state.y = y;
                 state.width = Math.min(width, this.gameCanvas.width);
                 state.height = Math.min(height, this.gameCanvas.height);
                 return this;
               },
-              snapshotPixel: function(x2, y2, callback) {
-                this.snapshotArea(x2, y2, 1, 1, callback);
+              snapshotPixel: function(x2, y, callback) {
+                this.snapshotArea(x2, y, 1, 1, callback);
                 this.snapshotState.getPixel = true;
                 return this;
               },
@@ -26706,7 +26706,7 @@
                 var displayOriginX = sprite.displayOriginX;
                 var displayOriginY = sprite.displayOriginY;
                 var x2 = -displayOriginX + frame.x;
-                var y2 = -displayOriginY + frame.y;
+                var y = -displayOriginY + frame.y;
                 if (sprite.isCropped) {
                   var crop = sprite._crop;
                   if (crop.flipX !== sprite.flipX || crop.flipY !== sprite.flipY) {
@@ -26717,7 +26717,7 @@
                   frameX = crop.cx;
                   frameY = crop.cy;
                   x2 = -displayOriginX + crop.x;
-                  y2 = -displayOriginY + crop.y;
+                  y = -displayOriginY + crop.y;
                   if (sprite.flipX) {
                     if (x2 >= 0) {
                       x2 = -(x2 + frameWidth);
@@ -26726,10 +26726,10 @@
                     }
                   }
                   if (sprite.flipY) {
-                    if (y2 >= 0) {
-                      y2 = -(y2 + frameHeight);
-                    } else if (y2 < 0) {
-                      y2 = Math.abs(y2) - frameHeight;
+                    if (y >= 0) {
+                      y = -(y + frameHeight);
+                    } else if (y < 0) {
+                      y = Math.abs(y) - frameHeight;
                     }
                   }
                 }
@@ -26743,7 +26743,7 @@
                 }
                 if (sprite.flipY) {
                   if (!customPivot) {
-                    y2 += -frame.realHeight + displayOriginY * 2;
+                    y += -frame.realHeight + displayOriginY * 2;
                   }
                   flipY = -1;
                 }
@@ -26766,7 +26766,7 @@
                 if (sprite.mask) {
                   sprite.mask.preRenderCanvas(this, sprite, camera);
                 }
-                ctx.drawImage(frame.source.image, frameX, frameY, frameWidth, frameHeight, x2, y2, frameWidth / res, frameHeight / res);
+                ctx.drawImage(frame.source.image, frameX, frameY, frameWidth, frameHeight, x2, y, frameWidth / res, frameHeight / res);
                 if (sprite.mask) {
                   sprite.mask.postRenderCanvas(this, sprite, camera);
                 }
@@ -26790,19 +26790,19 @@
               var type = GetFastValue(config, "type", "image/png");
               var encoderOptions = GetFastValue(config, "encoder", 0.92);
               var x2 = Math.abs(Math.round(GetFastValue(config, "x", 0)));
-              var y2 = Math.abs(Math.round(GetFastValue(config, "y", 0)));
+              var y = Math.abs(Math.round(GetFastValue(config, "y", 0)));
               var width = GetFastValue(config, "width", canvas.width);
               var height = GetFastValue(config, "height", canvas.height);
               var getPixel = GetFastValue(config, "getPixel", false);
               if (getPixel) {
                 var context = canvas.getContext("2d");
-                var imageData = context.getImageData(x2, y2, 1, 1);
+                var imageData = context.getImageData(x2, y, 1, 1);
                 var data = imageData.data;
                 callback.call(null, new Color(data[0], data[1], data[2], data[3] / 255));
-              } else if (x2 !== 0 || y2 !== 0 || width !== canvas.width || height !== canvas.height) {
+              } else if (x2 !== 0 || y !== 0 || width !== canvas.width || height !== canvas.height) {
                 var copyCanvas = CanvasPool.createWebGL(this, width, height);
                 var ctx = copyCanvas.getContext("2d");
-                ctx.drawImage(canvas, x2, y2, width, height, 0, 0, width, height);
+                ctx.drawImage(canvas, x2, y, width, height, 0, 0, width, height);
                 var image1 = new Image();
                 image1.onerror = function() {
                   callback.call(null);
@@ -27175,18 +27175,18 @@
               flush: function() {
                 this.pipelines.flush();
               },
-              pushScissor: function(x2, y2, width, height, drawingBufferHeight) {
+              pushScissor: function(x2, y, width, height, drawingBufferHeight) {
                 if (drawingBufferHeight === void 0) {
                   drawingBufferHeight = this.drawingBufferHeight;
                 }
                 var scissorStack = this.scissorStack;
-                var scissor = [x2, y2, width, height];
+                var scissor = [x2, y, width, height];
                 scissorStack.push(scissor);
-                this.setScissor(x2, y2, width, height, drawingBufferHeight);
+                this.setScissor(x2, y, width, height, drawingBufferHeight);
                 this.currentScissor = scissor;
                 return scissor;
               },
-              setScissor: function(x2, y2, width, height, drawingBufferHeight) {
+              setScissor: function(x2, y, width, height, drawingBufferHeight) {
                 if (drawingBufferHeight === void 0) {
                   drawingBufferHeight = this.drawingBufferHeight;
                 }
@@ -27198,11 +27198,11 @@
                   var cy = current[1];
                   var cw = current[2];
                   var ch = current[3];
-                  setScissor = cx !== x2 || cy !== y2 || cw !== width || ch !== height;
+                  setScissor = cx !== x2 || cy !== y || cw !== width || ch !== height;
                 }
                 if (setScissor) {
                   this.flush();
-                  gl.scissor(x2, drawingBufferHeight - y2 - height, width, height);
+                  gl.scissor(x2, drawingBufferHeight - y - height, width, height);
                 }
               },
               resetScissor: function() {
@@ -27211,11 +27211,11 @@
                 var current = this.currentScissor;
                 if (current) {
                   var x2 = current[0];
-                  var y2 = current[1];
+                  var y = current[1];
                   var width = current[2];
                   var height = current[3];
                   if (width > 0 && height > 0) {
-                    gl.scissor(x2, this.drawingBufferHeight - y2 - height, width, height);
+                    gl.scissor(x2, this.drawingBufferHeight - y - height, width, height);
                   }
                 }
               },
@@ -27794,32 +27794,32 @@
               snapshot: function(callback, type, encoderOptions) {
                 return this.snapshotArea(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight, callback, type, encoderOptions);
               },
-              snapshotArea: function(x2, y2, width, height, callback, type, encoderOptions) {
+              snapshotArea: function(x2, y, width, height, callback, type, encoderOptions) {
                 var state = this.snapshotState;
                 state.callback = callback;
                 state.type = type;
                 state.encoder = encoderOptions;
                 state.getPixel = false;
                 state.x = x2;
-                state.y = y2;
+                state.y = y;
                 state.width = Math.min(width, this.gl.drawingBufferWidth);
                 state.height = Math.min(height, this.gl.drawingBufferHeight);
                 return this;
               },
-              snapshotPixel: function(x2, y2, callback) {
-                this.snapshotArea(x2, y2, 1, 1, callback);
+              snapshotPixel: function(x2, y, callback) {
+                this.snapshotArea(x2, y, 1, 1, callback);
                 this.snapshotState.getPixel = true;
                 return this;
               },
-              snapshotFramebuffer: function(framebuffer, bufferWidth, bufferHeight, callback, getPixel, x2, y2, width, height, type, encoderOptions) {
+              snapshotFramebuffer: function(framebuffer, bufferWidth, bufferHeight, callback, getPixel, x2, y, width, height, type, encoderOptions) {
                 if (getPixel === void 0) {
                   getPixel = false;
                 }
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = bufferWidth;
@@ -27828,7 +27828,7 @@
                   height = bufferHeight;
                 }
                 var currentFramebuffer = this.currentFramebuffer;
-                this.snapshotArea(x2, y2, width, height, callback, type, encoderOptions);
+                this.snapshotArea(x2, y, width, height, callback, type, encoderOptions);
                 var state = this.snapshotState;
                 state.getPixel = getPixel;
                 state.isFramebuffer = true;
@@ -28235,8 +28235,8 @@
                 this.setUtility(this.UTILITY_PIPELINE.copyShader).blitFrame(source, target, brightness, clear, clearAlpha, eraseMode);
                 return this;
               },
-              copyFrameRect: function(source, target, x2, y2, width, height, clear, clearAlpha) {
-                this.UTILITY_PIPELINE.copyFrameRect(source, target, x2, y2, width, height, clear, clearAlpha);
+              copyFrameRect: function(source, target, x2, y, width, height, clear, clearAlpha) {
+                this.UTILITY_PIPELINE.copyFrameRect(source, target, x2, y, width, height, clear, clearAlpha);
                 return this;
               },
               forceZero: function() {
@@ -28617,14 +28617,14 @@
               set1f: function(name, x2) {
                 return this.setUniform1(this.gl.uniform1f, name, x2);
               },
-              set2f: function(name, x2, y2) {
-                return this.setUniform2(this.gl.uniform2f, name, x2, y2);
+              set2f: function(name, x2, y) {
+                return this.setUniform2(this.gl.uniform2f, name, x2, y);
               },
-              set3f: function(name, x2, y2, z2) {
-                return this.setUniform3(this.gl.uniform3f, name, x2, y2, z2);
+              set3f: function(name, x2, y, z2) {
+                return this.setUniform3(this.gl.uniform3f, name, x2, y, z2);
               },
-              set4f: function(name, x2, y2, z2, w2) {
-                return this.setUniform4(this.gl.uniform4f, name, x2, y2, z2, w2);
+              set4f: function(name, x2, y, z2, w2) {
+                return this.setUniform4(this.gl.uniform4f, name, x2, y, z2, w2);
               },
               set1fv: function(name, arr) {
                 return this.setUniform1(this.gl.uniform1fv, name, arr, true);
@@ -28653,14 +28653,14 @@
               set1i: function(name, x2) {
                 return this.setUniform1(this.gl.uniform1i, name, x2);
               },
-              set2i: function(name, x2, y2) {
-                return this.setUniform2(this.gl.uniform2i, name, x2, y2);
+              set2i: function(name, x2, y) {
+                return this.setUniform2(this.gl.uniform2i, name, x2, y);
               },
-              set3i: function(name, x2, y2, z2) {
-                return this.setUniform3(this.gl.uniform3i, name, x2, y2, z2);
+              set3i: function(name, x2, y, z2) {
+                return this.setUniform3(this.gl.uniform3i, name, x2, y, z2);
               },
-              set4i: function(name, x2, y2, z2, w2) {
-                return this.setUniform4(this.gl.uniform4i, name, x2, y2, z2, w2);
+              set4i: function(name, x2, y, z2, w2) {
+                return this.setUniform4(this.gl.uniform4i, name, x2, y, z2, w2);
               },
               setMatrix2fv: function(name, transpose, matrix) {
                 return this.setUniform2(this.gl.uniformMatrix2fv, name, transpose, matrix, true);
@@ -28724,24 +28724,24 @@
                 this.prevQuad = [0, 0, 0, 0, 0];
                 this.polygonCache = [];
               },
-              batchFillRect: function(x2, y2, width, height, currentMatrix, parentMatrix) {
+              batchFillRect: function(x2, y, width, height, currentMatrix, parentMatrix) {
                 this.renderer.pipelines.set(this);
                 var calcMatrix = this.calcMatrix;
                 if (parentMatrix) {
                   parentMatrix.multiply(currentMatrix, calcMatrix);
                 }
                 var xw = x2 + width;
-                var yh = y2 + height;
-                var x0 = calcMatrix.getX(x2, y2);
-                var y0 = calcMatrix.getY(x2, y2);
+                var yh = y + height;
+                var x0 = calcMatrix.getX(x2, y);
+                var y0 = calcMatrix.getY(x2, y);
                 var x1 = calcMatrix.getX(x2, yh);
                 var y1 = calcMatrix.getY(x2, yh);
                 var x22 = calcMatrix.getX(xw, yh);
-                var y22 = calcMatrix.getY(xw, yh);
-                var x3 = calcMatrix.getX(xw, y2);
-                var y3 = calcMatrix.getY(xw, y2);
+                var y2 = calcMatrix.getY(xw, yh);
+                var x3 = calcMatrix.getX(xw, y);
+                var y3 = calcMatrix.getY(xw, y);
                 var tint = this.fillTint;
-                this.batchQuad(x0, y0, x1, y1, x22, y22, x3, y3, tint.TL, tint.TR, tint.BL, tint.BR);
+                this.batchQuad(x0, y0, x1, y1, x22, y2, x3, y3, tint.TL, tint.TR, tint.BL, tint.BR);
               },
               batchFillTriangle: function(x0, y0, x1, y1, x2, y2, currentMatrix, parentMatrix) {
                 this.renderer.pipelines.set(this);
@@ -28883,12 +28883,12 @@
                   prev[4] = 1;
                 }
               },
-              batchVert: function(x2, y2, tint) {
+              batchVert: function(x2, y, tint) {
                 var vertexViewF32 = this.vertexViewF32;
                 var vertexViewU32 = this.vertexViewU32;
                 var vertexOffset = this.vertexCount * this.currentShader.vertexComponentCount - 1;
                 vertexViewF32[++vertexOffset] = x2;
-                vertexViewF32[++vertexOffset] = y2;
+                vertexViewF32[++vertexOffset] = y;
                 vertexViewU32[++vertexOffset] = tint;
                 this.vertexCount++;
               },
@@ -29017,9 +29017,9 @@
                   if (rotation) {
                     var rot = -rotation;
                     var c = Math.cos(rot);
-                    var s2 = Math.sin(rot);
-                    inverseRotationMatrix[1] = s2;
-                    inverseRotationMatrix[3] = -s2;
+                    var s = Math.sin(rot);
+                    inverseRotationMatrix[1] = s;
+                    inverseRotationMatrix[3] = -s;
                     inverseRotationMatrix[0] = inverseRotationMatrix[4] = c;
                   } else {
                     inverseRotationMatrix[0] = inverseRotationMatrix[4] = 1;
@@ -29091,9 +29091,9 @@
                   MultiPipeline.prototype.batchTexture.call(this, gameObject, texture, textureWidth, textureHeight, srcX, srcY, srcWidth, srcHeight, scaleX, scaleY, rotation, flipX, flipY, scrollFactorX, scrollFactorY, displayOriginX, displayOriginY, frameX, frameY, frameWidth, frameHeight, tintTL, tintTR, tintBL, tintBR, tintEffect, uOffset, vOffset, camera, parentTransformMatrix, skipFlip, textureUnit);
                 }
               },
-              batchTextureFrame: function(frame, x2, y2, tint, alpha, transformMatrix, parentTransformMatrix) {
+              batchTextureFrame: function(frame, x2, y, tint, alpha, transformMatrix, parentTransformMatrix) {
                 if (this.lightsActive) {
-                  MultiPipeline.prototype.batchTextureFrame.call(this, frame, x2, y2, tint, alpha, transformMatrix, parentTransformMatrix);
+                  MultiPipeline.prototype.batchTextureFrame.call(this, frame, x2, y, tint, alpha, transformMatrix, parentTransformMatrix);
                 }
               }
             });
@@ -29143,32 +29143,32 @@
                 var radius = light.radius;
                 var attenuation = light.attenuation;
                 var r = color.r * intensity;
-                var g = color.g * intensity;
-                var b2 = color.b * intensity;
-                var a = camera.alpha * light.alpha;
+                var g2 = color.g * intensity;
+                var b = color.b * intensity;
+                var a2 = camera.alpha * light.alpha;
                 if (this.shouldFlush(6)) {
                   this.flush();
                 }
-                this.batchLightVert(x0, y0, lightX, lightY, radius, attenuation, r, g, b2, a);
-                this.batchLightVert(x1, y1, lightX, lightY, radius, attenuation, r, g, b2, a);
-                this.batchLightVert(x2, y2, lightX, lightY, radius, attenuation, r, g, b2, a);
-                this.batchLightVert(x0, y0, lightX, lightY, radius, attenuation, r, g, b2, a);
-                this.batchLightVert(x2, y2, lightX, lightY, radius, attenuation, r, g, b2, a);
-                this.batchLightVert(x3, y3, lightX, lightY, radius, attenuation, r, g, b2, a);
+                this.batchLightVert(x0, y0, lightX, lightY, radius, attenuation, r, g2, b, a2);
+                this.batchLightVert(x1, y1, lightX, lightY, radius, attenuation, r, g2, b, a2);
+                this.batchLightVert(x2, y2, lightX, lightY, radius, attenuation, r, g2, b, a2);
+                this.batchLightVert(x0, y0, lightX, lightY, radius, attenuation, r, g2, b, a2);
+                this.batchLightVert(x2, y2, lightX, lightY, radius, attenuation, r, g2, b, a2);
+                this.batchLightVert(x3, y3, lightX, lightY, radius, attenuation, r, g2, b, a2);
               },
-              batchLightVert: function(x2, y2, lightX, lightY, radius, attenuation, r, g, b2, a) {
+              batchLightVert: function(x2, y, lightX, lightY, radius, attenuation, r, g2, b, a2) {
                 var vertexViewF32 = this.vertexViewF32;
                 var vertexOffset = this.vertexCount * this.currentShader.vertexComponentCount - 1;
                 vertexViewF32[++vertexOffset] = x2;
-                vertexViewF32[++vertexOffset] = y2;
+                vertexViewF32[++vertexOffset] = y;
                 vertexViewF32[++vertexOffset] = lightX;
                 vertexViewF32[++vertexOffset] = lightY;
                 vertexViewF32[++vertexOffset] = radius;
                 vertexViewF32[++vertexOffset] = attenuation;
                 vertexViewF32[++vertexOffset] = r;
-                vertexViewF32[++vertexOffset] = g;
-                vertexViewF32[++vertexOffset] = b2;
-                vertexViewF32[++vertexOffset] = a;
+                vertexViewF32[++vertexOffset] = g2;
+                vertexViewF32[++vertexOffset] = b;
+                vertexViewF32[++vertexOffset] = a2;
                 this.vertexCount++;
               }
             });
@@ -29401,7 +29401,7 @@
                 gl.bindTexture(gl.TEXTURE_2D, null);
                 this.resetUVs();
               },
-              copyFrameRect: function(source, target, x2, y2, width, height, clear, clearAlpha) {
+              copyFrameRect: function(source, target, x2, y, width, height, clear, clearAlpha) {
                 if (clear === void 0) {
                   clear = true;
                 }
@@ -29421,7 +29421,7 @@
                 }
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, target.texture);
-                gl.copyTexSubImage2D(gl.TEXTURE_2D, 0, 0, 0, x2, y2, width, height);
+                gl.copyTexSubImage2D(gl.TEXTURE_2D, 0, 0, 0, x2, y, width, height);
                 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
                 gl.bindTexture(gl.TEXTURE_2D, null);
               },
@@ -29593,14 +29593,14 @@
               var type = GetFastValue(config, "type", "image/png");
               var encoderOptions = GetFastValue(config, "encoder", 0.92);
               var x2 = GetFastValue(config, "x", 0);
-              var y2 = GetFastValue(config, "y", 0);
+              var y = GetFastValue(config, "y", 0);
               var getPixel = GetFastValue(config, "getPixel", false);
               var isFramebuffer = GetFastValue(config, "isFramebuffer", false);
               var bufferWidth = isFramebuffer ? GetFastValue(config, "bufferWidth", 1) : gl.drawingBufferWidth;
               var bufferHeight = isFramebuffer ? GetFastValue(config, "bufferHeight", 1) : gl.drawingBufferHeight;
               if (getPixel) {
                 var pixel = new Uint8Array(4);
-                var destY = isFramebuffer ? y2 : bufferHeight - y2;
+                var destY = isFramebuffer ? y : bufferHeight - y;
                 gl.readPixels(x2, destY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
                 callback.call(null, new Color(pixel[0], pixel[1], pixel[2], pixel[3] / 255));
               } else {
@@ -29608,7 +29608,7 @@
                 var height = GetFastValue(config, "height", bufferHeight);
                 var total = width * height * 4;
                 var pixels = new Uint8Array(total);
-                gl.readPixels(x2, bufferHeight - y2 - height, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+                gl.readPixels(x2, bufferHeight - y - height, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
                 var canvas = CanvasPool.createWebGL(this, width, height);
                 var ctx = canvas.getContext("2d");
                 var imageData = ctx.getImageData(0, 0, width, height);
@@ -29988,13 +29988,13 @@
               if (preRender) {
                 preRender(canvas, ctx);
               }
-              for (var y2 = 0; y2 < data.length; y2++) {
-                var row = data[y2];
+              for (var y = 0; y < data.length; y++) {
+                var row = data[y];
                 for (var x2 = 0; x2 < row.length; x2++) {
                   var d = row[x2];
                   if (d !== "." && d !== " ") {
                     ctx.fillStyle = palette[d];
-                    ctx.fillRect(x2 * pixelWidth, y2 * pixelHeight, pixelWidth, pixelHeight);
+                    ctx.fillRect(x2 * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);
                   }
                 }
               }
@@ -30112,11 +30112,11 @@
             var Vector2 = __webpack_require__(3);
             var EllipseCurve = new Class({
               Extends: Curve,
-              initialize: function EllipseCurve2(x2, y2, xRadius, yRadius, startAngle, endAngle, clockwise, rotation) {
+              initialize: function EllipseCurve2(x2, y, xRadius, yRadius, startAngle, endAngle, clockwise, rotation) {
                 if (typeof x2 === "object") {
                   var config = x2;
                   x2 = GetValue(config, "x", 0);
-                  y2 = GetValue(config, "y", 0);
+                  y = GetValue(config, "y", 0);
                   xRadius = GetValue(config, "xRadius", 0);
                   yRadius = GetValue(config, "yRadius", xRadius);
                   startAngle = GetValue(config, "startAngle", 0);
@@ -30141,7 +30141,7 @@
                   }
                 }
                 Curve.call(this, "EllipseCurve");
-                this.p0 = new Vector2(x2, y2);
+                this.p0 = new Vector2(x2, y);
                 this._xRadius = xRadius;
                 this._yRadius = yRadius;
                 this._startAngle = DegToRad(startAngle);
@@ -30187,16 +30187,16 @@
                 }
                 var angle = this._startAngle + t * deltaAngle;
                 var x2 = this.p0.x + this._xRadius * Math.cos(angle);
-                var y2 = this.p0.y + this._yRadius * Math.sin(angle);
+                var y = this.p0.y + this._yRadius * Math.sin(angle);
                 if (this._rotation !== 0) {
                   var cos = Math.cos(this._rotation);
                   var sin = Math.sin(this._rotation);
                   var tx = x2 - this.p0.x;
-                  var ty = y2 - this.p0.y;
+                  var ty = y - this.p0.y;
                   x2 = tx * cos - ty * sin + this.p0.x;
-                  y2 = tx * sin + ty * cos + this.p0.y;
+                  y = tx * sin + ty * cos + this.p0.y;
                 }
-                return out.set(x2, y2);
+                return out.set(x2, y);
               },
               setXRadius: function(value) {
                 this.xRadius = value;
@@ -30417,9 +30417,9 @@
             var Class = __webpack_require__(0);
             var Vector2 = __webpack_require__(3);
             var MoveTo = new Class({
-              initialize: function MoveTo2(x2, y2) {
+              initialize: function MoveTo2(x2, y) {
                 this.active = false;
-                this.p0 = new Vector2(x2, y2);
+                this.p0 = new Vector2(x2, y);
               },
               getPoint: function(t, out) {
                 if (out === void 0) {
@@ -30537,24 +30537,24 @@
               },
               addPoints: function(points) {
                 for (var i = 0; i < points.length; i++) {
-                  var p = new Vector2();
+                  var p2 = new Vector2();
                   if (typeof points[i] === "number") {
-                    p.x = points[i];
-                    p.y = points[i + 1];
+                    p2.x = points[i];
+                    p2.y = points[i + 1];
                     i++;
                   } else if (Array.isArray(points[i])) {
-                    p.x = points[i][0];
-                    p.y = points[i][1];
+                    p2.x = points[i][0];
+                    p2.y = points[i][1];
                   } else {
-                    p.x = points[i].x;
-                    p.y = points[i].y;
+                    p2.x = points[i].x;
+                    p2.y = points[i].y;
                   }
-                  this.points.push(p);
+                  this.points.push(p2);
                 }
                 return this;
               },
-              addPoint: function(x2, y2) {
-                var vec = new Vector2(x2, y2);
+              addPoint: function(x2, y) {
+                var vec = new Vector2(x2, y);
                 this.points.push(vec);
                 return vec;
               },
@@ -30671,7 +30671,7 @@
             module2.exports = ComponentToHex;
           },
           function(module2, exports2) {
-            var HueToComponent = function(p, q, t) {
+            var HueToComponent = function(p2, q2, t) {
               if (t < 0) {
                 t += 1;
               }
@@ -30679,15 +30679,15 @@
                 t -= 1;
               }
               if (t < 1 / 6) {
-                return p + (q - p) * 6 * t;
+                return p2 + (q2 - p2) * 6 * t;
               }
               if (t < 1 / 2) {
-                return q;
+                return q2;
               }
               if (t < 2 / 3) {
-                return p + (q - p) * (2 / 3 - t) * 6;
+                return p2 + (q2 - p2) * (2 / 3 - t) * 6;
               }
-              return p;
+              return p2;
             };
             module2.exports = HueToComponent;
           },
@@ -31079,8 +31079,8 @@
                 var csy = camera.scrollY;
                 output.length = 0;
                 var x2 = pointer.x;
-                var y2 = pointer.y;
-                camera.getWorldPoint(x2, y2, tempPoint);
+                var y = pointer.y;
+                camera.getWorldPoint(x2, y, tempPoint);
                 pointer.worldX = tempPoint.x;
                 pointer.worldY = tempPoint.y;
                 var point = { x: 0, y: 0 };
@@ -31105,27 +31105,27 @@
                 }
                 return output;
               },
-              pointWithinHitArea: function(gameObject, x2, y2) {
+              pointWithinHitArea: function(gameObject, x2, y) {
                 x2 += gameObject.displayOriginX;
-                y2 += gameObject.displayOriginY;
+                y += gameObject.displayOriginY;
                 var input = gameObject.input;
-                if (input && input.hitAreaCallback(input.hitArea, x2, y2, gameObject)) {
+                if (input && input.hitAreaCallback(input.hitArea, x2, y, gameObject)) {
                   input.localX = x2;
-                  input.localY = y2;
+                  input.localY = y;
                   return true;
                 } else {
                   return false;
                 }
               },
-              pointWithinInteractiveObject: function(object, x2, y2) {
+              pointWithinInteractiveObject: function(object, x2, y) {
                 if (!object.hitArea) {
                   return false;
                 }
                 x2 += object.gameObject.displayOriginX;
-                y2 += object.gameObject.displayOriginY;
+                y += object.gameObject.displayOriginY;
                 object.localX = x2;
-                object.localY = y2;
-                return object.hitAreaCallback(object.hitArea, x2, y2, object);
+                object.localY = y;
+                return object.hitAreaCallback(object.hitArea, x2, y, object);
               },
               transformPointer: function(pointer, pageX, pageY, wasMove) {
                 var p0 = pointer.position;
@@ -31133,14 +31133,14 @@
                 p1.x = p0.x;
                 p1.y = p0.y;
                 var x2 = this.scaleManager.transformX(pageX);
-                var y2 = this.scaleManager.transformY(pageY);
-                var a = pointer.smoothFactor;
-                if (!wasMove || a === 0) {
+                var y = this.scaleManager.transformY(pageY);
+                var a2 = pointer.smoothFactor;
+                if (!wasMove || a2 === 0) {
                   p0.x = x2;
-                  p0.y = y2;
+                  p0.y = y;
                 } else {
-                  p0.x = x2 * a + p1.x * (1 - a);
-                  p0.y = y2 * a + p1.y * (1 - a);
+                  p0.x = x2 * a2 + p1.x * (1 - a2);
+                  p0.y = y * a2 + p1.y * (1 - a2);
                 }
               },
               destroy: function() {
@@ -32037,8 +32037,8 @@
                     scene[map[pluginKey]] = game2;
                   }
                 }
-                for (var s2 = 0; s2 < scenePlugins.length; s2++) {
-                  pluginList = scenePlugins[s2];
+                for (var s = 0; s < scenePlugins.length; s++) {
+                  pluginList = scenePlugins[s];
                   for (i = 0; i < pluginList.length; i++) {
                     pluginKey = pluginList[i];
                     if (!PluginCache.hasCore(pluginKey)) {
@@ -34096,36 +34096,36 @@
                 }
                 return output;
               },
-              getPixel: function(x2, y2, key, frame) {
+              getPixel: function(x2, y, key, frame) {
                 var textureFrame = this.getFrame(key, frame);
                 if (textureFrame) {
                   x2 -= textureFrame.x;
-                  y2 -= textureFrame.y;
+                  y -= textureFrame.y;
                   var data = textureFrame.data.cut;
                   x2 += data.x;
-                  y2 += data.y;
-                  if (x2 >= data.x && x2 < data.r && y2 >= data.y && y2 < data.b) {
+                  y += data.y;
+                  if (x2 >= data.x && x2 < data.r && y >= data.y && y < data.b) {
                     var ctx = this._tempContext;
                     ctx.clearRect(0, 0, 1, 1);
-                    ctx.drawImage(textureFrame.source.image, x2, y2, 1, 1, 0, 0, 1, 1);
+                    ctx.drawImage(textureFrame.source.image, x2, y, 1, 1, 0, 0, 1, 1);
                     var rgb = ctx.getImageData(0, 0, 1, 1);
                     return new Color(rgb.data[0], rgb.data[1], rgb.data[2], rgb.data[3]);
                   }
                 }
                 return null;
               },
-              getPixelAlpha: function(x2, y2, key, frame) {
+              getPixelAlpha: function(x2, y, key, frame) {
                 var textureFrame = this.getFrame(key, frame);
                 if (textureFrame) {
                   x2 -= textureFrame.x;
-                  y2 -= textureFrame.y;
+                  y -= textureFrame.y;
                   var data = textureFrame.data.cut;
                   x2 += data.x;
-                  y2 += data.y;
-                  if (x2 >= data.x && x2 < data.r && y2 >= data.y && y2 < data.b) {
+                  y += data.y;
+                  if (x2 >= data.x && x2 < data.r && y >= data.y && y < data.b) {
                     var ctx = this._tempContext;
                     ctx.clearRect(0, 0, 1, 1);
-                    ctx.drawImage(textureFrame.source.image, x2, y2, 1, 1, 0, 0, 1, 1);
+                    ctx.drawImage(textureFrame.source.image, x2, y, 1, 1, 0, 0, 1, 1);
                     var rgb = ctx.getImageData(0, 0, 1, 1);
                     return rgb.data[3];
                   }
@@ -34223,16 +34223,16 @@
                 }
                 return this;
               },
-              draw: function(x2, y2, source) {
-                this.context.drawImage(source, x2, y2);
+              draw: function(x2, y, source) {
+                this.context.drawImage(source, x2, y);
                 return this.update();
               },
-              drawFrame: function(key, frame, x2, y2) {
+              drawFrame: function(key, frame, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 var textureFrame = this.manager.getFrame(key, frame);
                 if (textureFrame) {
@@ -34240,30 +34240,30 @@
                   var width = textureFrame.cutWidth;
                   var height = textureFrame.cutHeight;
                   var res = textureFrame.source.resolution;
-                  this.context.drawImage(textureFrame.source.image, cd.x, cd.y, width, height, x2, y2, width / res, height / res);
+                  this.context.drawImage(textureFrame.source.image, cd.x, cd.y, width, height, x2, y, width / res, height / res);
                   return this.update();
                 } else {
                   return this;
                 }
               },
-              setPixel: function(x2, y2, red, green, blue, alpha) {
+              setPixel: function(x2, y, red, green, blue, alpha) {
                 if (alpha === void 0) {
                   alpha = 255;
                 }
                 x2 = Math.abs(Math.floor(x2));
-                y2 = Math.abs(Math.floor(y2));
-                var index = this.getIndex(x2, y2);
+                y = Math.abs(Math.floor(y));
+                var index = this.getIndex(x2, y);
                 if (index > -1) {
-                  var imageData = this.context.getImageData(x2, y2, 1, 1);
+                  var imageData = this.context.getImageData(x2, y, 1, 1);
                   imageData.data[0] = red;
                   imageData.data[1] = green;
                   imageData.data[2] = blue;
                   imageData.data[3] = alpha;
-                  this.context.putImageData(imageData, x2, y2);
+                  this.context.putImageData(imageData, x2, y);
                 }
                 return this;
               },
-              putData: function(imageData, x2, y2, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
+              putData: function(imageData, x2, y, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
                 if (dirtyX === void 0) {
                   dirtyX = 0;
                 }
@@ -34276,38 +34276,38 @@
                 if (dirtyHeight === void 0) {
                   dirtyHeight = imageData.height;
                 }
-                this.context.putImageData(imageData, x2, y2, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
+                this.context.putImageData(imageData, x2, y, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
                 return this;
               },
-              getData: function(x2, y2, width, height) {
+              getData: function(x2, y, width, height) {
                 x2 = Clamp(Math.floor(x2), 0, this.width - 1);
-                y2 = Clamp(Math.floor(y2), 0, this.height - 1);
+                y = Clamp(Math.floor(y), 0, this.height - 1);
                 width = Clamp(width, 1, this.width - x2);
-                height = Clamp(height, 1, this.height - y2);
-                var imageData = this.context.getImageData(x2, y2, width, height);
+                height = Clamp(height, 1, this.height - y);
+                var imageData = this.context.getImageData(x2, y, width, height);
                 return imageData;
               },
-              getPixel: function(x2, y2, out) {
+              getPixel: function(x2, y, out) {
                 if (!out) {
                   out = new Color();
                 }
-                var index = this.getIndex(x2, y2);
+                var index = this.getIndex(x2, y);
                 if (index > -1) {
                   var data = this.data;
                   var r = data[index + 0];
-                  var g = data[index + 1];
-                  var b2 = data[index + 2];
-                  var a = data[index + 3];
-                  out.setTo(r, g, b2, a);
+                  var g2 = data[index + 1];
+                  var b = data[index + 2];
+                  var a2 = data[index + 3];
+                  out.setTo(r, g2, b, a2);
                 }
                 return out;
               },
-              getPixels: function(x2, y2, width, height) {
+              getPixels: function(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.width;
@@ -34316,11 +34316,11 @@
                   height = width;
                 }
                 x2 = Math.abs(Math.round(x2));
-                y2 = Math.abs(Math.round(y2));
+                y = Math.abs(Math.round(y));
                 var left = Clamp(x2, 0, this.width);
                 var right = Clamp(x2 + width, 0, this.width);
-                var top = Clamp(y2, 0, this.height);
-                var bottom = Clamp(y2 + height, 0, this.height);
+                var top = Clamp(y, 0, this.height);
+                var bottom = Clamp(y + height, 0, this.height);
                 var pixel = new Color();
                 var out = [];
                 for (var py = top; py < bottom; py++) {
@@ -34333,11 +34333,11 @@
                 }
                 return out;
               },
-              getIndex: function(x2, y2) {
+              getIndex: function(x2, y) {
                 x2 = Math.abs(Math.round(x2));
-                y2 = Math.abs(Math.round(y2));
-                if (x2 < this.width && y2 < this.height) {
-                  return (x2 + y2 * this.width) * 4;
+                y = Math.abs(Math.round(y));
+                if (x2 < this.width && y < this.height) {
+                  return (x2 + y * this.width) * 4;
                 } else {
                   return -1;
                 }
@@ -34352,12 +34352,12 @@
               getContext: function() {
                 return this.context;
               },
-              clear: function(x2, y2, width, height) {
+              clear: function(x2, y, width, height) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.width;
@@ -34365,7 +34365,7 @@
                 if (height === void 0) {
                   height = this.height;
                 }
-                this.context.clearRect(x2, y2, width, height);
+                this.context.clearRect(x2, y, width, height);
                 return this.update();
               },
               setSize: function(width, height) {
@@ -35386,7 +35386,7 @@
               base64 = base64.substr(base64.indexOf(",") + 1);
               var len = base64.length;
               var bufferLength = len * 0.75;
-              var p = 0;
+              var p2 = 0;
               var encoded1;
               var encoded2;
               var encoded3;
@@ -35404,9 +35404,9 @@
                 encoded2 = lookup[base64.charCodeAt(i2 + 1)];
                 encoded3 = lookup[base64.charCodeAt(i2 + 2)];
                 encoded4 = lookup[base64.charCodeAt(i2 + 3)];
-                bytes[p++] = encoded1 << 2 | encoded2 >> 4;
-                bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
-                bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+                bytes[p2++] = encoded1 << 2 | encoded2 >> 4;
+                bytes[p2++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+                bytes[p2++] = (encoded3 & 3) << 6 | encoded4 & 63;
               }
               return arrayBuffer;
             };
@@ -35777,10 +35777,10 @@
               arr[i] = arr[j2];
               arr[j2] = tmp;
             }
-            function defaultCompare(a, b2) {
-              return a < b2 ? -1 : a > b2 ? 1 : 0;
+            function defaultCompare(a2, b) {
+              return a2 < b ? -1 : a2 > b ? 1 : 0;
             }
-            var QuickSelect = function(arr, k, left, right, compare) {
+            var QuickSelect = function(arr, k2, left, right, compare) {
               if (left === void 0) {
                 left = 0;
               }
@@ -35793,18 +35793,18 @@
               while (right > left) {
                 if (right - left > 600) {
                   var n = right - left + 1;
-                  var m2 = k - left + 1;
+                  var m = k2 - left + 1;
                   var z2 = Math.log(n);
-                  var s2 = 0.5 * Math.exp(2 * z2 / 3);
-                  var sd = 0.5 * Math.sqrt(z2 * s2 * (n - s2) / n) * (m2 - n / 2 < 0 ? -1 : 1);
-                  var newLeft = Math.max(left, Math.floor(k - m2 * s2 / n + sd));
-                  var newRight = Math.min(right, Math.floor(k + (n - m2) * s2 / n + sd));
-                  QuickSelect(arr, k, newLeft, newRight, compare);
+                  var s = 0.5 * Math.exp(2 * z2 / 3);
+                  var sd = 0.5 * Math.sqrt(z2 * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1);
+                  var newLeft = Math.max(left, Math.floor(k2 - m * s / n + sd));
+                  var newRight = Math.min(right, Math.floor(k2 + (n - m) * s / n + sd));
+                  QuickSelect(arr, k2, newLeft, newRight, compare);
                 }
-                var t = arr[k];
+                var t = arr[k2];
                 var i = left;
                 var j2 = right;
-                swap(arr, left, k);
+                swap(arr, left, k2);
                 if (compare(arr[right], t) > 0) {
                   swap(arr, left, right);
                 }
@@ -35825,10 +35825,10 @@
                   j2++;
                   swap(arr, j2, right);
                 }
-                if (j2 <= k) {
+                if (j2 <= k2) {
                   left = j2 + 1;
                 }
-                if (k <= j2) {
+                if (k2 <= j2) {
                   right = j2 - 1;
                 }
               }
@@ -35838,18 +35838,18 @@
           function(module2, exports2, __webpack_require__) {
             var GetValue = __webpack_require__(6);
             var Shuffle = __webpack_require__(131);
-            var BuildChunk = function(a, b2, qty) {
+            var BuildChunk = function(a2, b, qty) {
               var out = [];
-              for (var aIndex = 0; aIndex < a.length; aIndex++) {
-                for (var bIndex = 0; bIndex < b2.length; bIndex++) {
+              for (var aIndex = 0; aIndex < a2.length; aIndex++) {
+                for (var bIndex = 0; bIndex < b.length; bIndex++) {
                   for (var i = 0; i < qty; i++) {
-                    out.push({ a: a[aIndex], b: b2[bIndex] });
+                    out.push({ a: a2[aIndex], b: b[bIndex] });
                   }
                 }
               }
               return out;
             };
-            var Range = function(a, b2, options) {
+            var Range = function(a2, b, options) {
               var max = GetValue(options, "max", 0);
               var qty = GetValue(options, "qty", 1);
               var random = GetValue(options, "random", false);
@@ -35858,13 +35858,13 @@
               var yoyo = GetValue(options, "yoyo", false);
               var out = [];
               if (randomB) {
-                Shuffle(b2);
+                Shuffle(b);
               }
               if (repeat === -1) {
                 if (max === 0) {
                   repeat = 0;
                 } else {
-                  var total = a.length * b2.length * qty;
+                  var total = a2.length * b.length * qty;
                   if (yoyo) {
                     total *= 2;
                   }
@@ -35872,7 +35872,7 @@
                 }
               }
               for (var i = 0; i <= repeat; i++) {
-                var chunk = BuildChunk(a, b2, qty);
+                var chunk = BuildChunk(a2, b, qty);
                 if (random) {
                   Shuffle(chunk);
                 }
@@ -35940,10 +35940,10 @@
             var Class = __webpack_require__(0);
             var Frame = __webpack_require__(109);
             var Bob = new Class({
-              initialize: function Bob2(blitter, x2, y2, frame, visible) {
+              initialize: function Bob2(blitter, x2, y, frame, visible) {
                 this.parent = blitter;
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.frame = frame;
                 this.data = {};
                 this.tint = 16777215;
@@ -35967,9 +35967,9 @@
                 this.flipY = false;
                 return this;
               },
-              reset: function(x2, y2, frame) {
+              reset: function(x2, y, frame) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.flipX = false;
                 this.flipY = false;
                 this._alpha = 1;
@@ -35980,9 +35980,9 @@
                 }
                 return this;
               },
-              setPosition: function(x2, y2) {
+              setPosition: function(x2, y) {
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 return this;
               },
               setFlipX: function(value) {
@@ -35993,9 +35993,9 @@
                 this.flipY = value;
                 return this;
               },
-              setFlip: function(x2, y2) {
+              setFlip: function(x2, y) {
                 this.flipX = x2;
-                this.flipY = y2;
+                this.flipY = y;
                 return this;
               },
               setVisible: function(value) {
@@ -36045,10 +36045,10 @@
                 out = new Rectangle();
               }
               var x2 = Math.min(rectA.x, rectB.x);
-              var y2 = Math.min(rectA.y, rectB.y);
+              var y = Math.min(rectA.y, rectB.y);
               var w2 = Math.max(rectA.right, rectB.right) - x2;
-              var h = Math.max(rectA.bottom, rectB.bottom) - y2;
-              return out.setTo(x2, y2, w2, h);
+              var h = Math.max(rectA.bottom, rectB.bottom) - y;
+              return out.setTo(x2, y, w2, h);
             };
             module2.exports = Union;
           },
@@ -36073,7 +36073,7 @@
                 Components.Visible,
                 DOMElementRender
               ],
-              initialize: function DOMElement2(scene, x2, y2, element, style, innerText) {
+              initialize: function DOMElement2(scene, x2, y, element, style, innerText) {
                 GameObject.call(this, scene, "DOMElement");
                 this.parent = scene.sys.game.domContainer;
                 this.cache = scene.sys.cache.html;
@@ -36089,7 +36089,7 @@
                 this.displayWidth = 0;
                 this.displayHeight = 0;
                 this.handler = this.dispatchNativeEvent.bind(this);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 if (typeof element === "string") {
                   if (element[0] === "#") {
                     this.setElement(element.substr(1), style, innerText);
@@ -36115,15 +36115,15 @@
                   style.display = sys.settings.visible ? "block" : "none";
                 }
               },
-              setSkew: function(x2, y2) {
+              setSkew: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.skewX = x2;
-                this.skewY = y2;
+                this.skewY = y;
                 return this;
               },
               setPerspective: function(value) {
@@ -36729,11 +36729,11 @@
             var Class = __webpack_require__(0);
             var GetFastValue = __webpack_require__(2);
             var GravityWell = new Class({
-              initialize: function GravityWell2(x2, y2, power, epsilon, gravity) {
+              initialize: function GravityWell2(x2, y, power, epsilon, gravity) {
                 if (typeof x2 === "object") {
                   var config = x2;
                   x2 = GetFastValue(config, "x", 0);
-                  y2 = GetFastValue(config, "y", 0);
+                  y = GetFastValue(config, "y", 0);
                   power = GetFastValue(config, "power", 0);
                   epsilon = GetFastValue(config, "epsilon", 100);
                   gravity = GetFastValue(config, "gravity", 50);
@@ -36741,8 +36741,8 @@
                   if (x2 === void 0) {
                     x2 = 0;
                   }
-                  if (y2 === void 0) {
-                    y2 = 0;
+                  if (y === void 0) {
+                    y = 0;
                   }
                   if (power === void 0) {
                     power = 0;
@@ -36755,7 +36755,7 @@
                   }
                 }
                 this.x = x2;
-                this.y = y2;
+                this.y = y;
                 this.active = true;
                 this._gravity = gravity;
                 this._power = 0;
@@ -36765,8 +36765,8 @@
               },
               update: function(particle, delta) {
                 var x2 = this.x - particle.x;
-                var y2 = this.y - particle.y;
-                var dSq = x2 * x2 + y2 * y2;
+                var y = this.y - particle.y;
+                var dSq = x2 * x2 + y * y;
                 if (dSq === 0) {
                   return;
                 }
@@ -36776,7 +36776,7 @@
                 }
                 var factor = this._power * delta / (dSq * d) * 100;
                 particle.velocityX += x2 * factor;
-                particle.velocityY += y2 * factor;
+                particle.velocityY += y * factor;
               },
               epsilon: {
                 get: function() {
@@ -36849,7 +36849,7 @@
                 this.x = 0;
                 this.y = 0;
               },
-              fire: function(x2, y2) {
+              fire: function(x2, y) {
                 var emitter = this.emitter;
                 this.frame = emitter.getFrame();
                 if (emitter.emitZone) {
@@ -36860,10 +36860,10 @@
                 } else {
                   this.x += x2;
                 }
-                if (y2 === void 0) {
+                if (y === void 0) {
                   this.y += emitter.y.onEmit(this, "y");
                 } else {
-                  this.y += y2;
+                  this.y += y;
                 }
                 this.life = emitter.lifespan.onEmit(this, "lifespan");
                 this.lifeCurrent = this.life;
@@ -37275,23 +37275,23 @@
                 this.radial = value;
                 return this;
               },
-              setPosition: function(x2, y2) {
+              setPosition: function(x2, y) {
                 this.x.onChange(x2);
-                this.y.onChange(y2);
+                this.y.onChange(y);
                 return this;
               },
-              setBounds: function(x2, y2, width, height) {
+              setBounds: function(x2, y, width, height) {
                 if (typeof x2 === "object") {
                   var obj = x2;
                   x2 = obj.x;
-                  y2 = obj.y;
+                  y = obj.y;
                   width = HasValue(obj, "w") ? obj.w : obj.width;
                   height = HasValue(obj, "h") ? obj.h : obj.height;
                 }
                 if (this.bounds) {
-                  this.bounds.setTo(x2, y2, width, height);
+                  this.bounds.setTo(x2, y, width, height);
                 } else {
-                  this.bounds = new Rectangle(x2, y2, width, height);
+                  this.bounds = new Rectangle(x2, y, width, height);
                 }
                 return this;
               },
@@ -37334,9 +37334,9 @@
                 this.gravityY = value;
                 return this;
               },
-              setGravity: function(x2, y2) {
+              setGravity: function(x2, y) {
                 this.gravityX = x2;
-                this.gravityY = y2;
+                this.gravityY = y;
                 return this;
               },
               setAlpha: function(value) {
@@ -37505,14 +37505,14 @@
                 this.quantity.onChange(count);
                 return this.start();
               },
-              explode: function(count, x2, y2) {
+              explode: function(count, x2, y) {
                 this.frequency = -1;
-                return this.emitParticle(count, x2, y2);
+                return this.emitParticle(count, x2, y);
               },
-              emitParticleAt: function(x2, y2, count) {
-                return this.emitParticle(count, x2, y2);
+              emitParticleAt: function(x2, y, count) {
+                return this.emitParticle(count, x2, y);
               },
-              emitParticle: function(count, x2, y2) {
+              emitParticle: function(count, x2, y) {
                 if (this.atLimit()) {
                   return;
                 }
@@ -37521,7 +37521,7 @@
                 }
                 var dead = this.dead;
                 var followX = this.follow ? this.follow.x + this.followOffset.x : x2;
-                var followY = this.follow ? this.follow.y + this.followOffset.y : y2;
+                var followY = this.follow ? this.follow.y + this.followOffset.y : y;
                 for (var i = 0; i < count; i++) {
                   var particle = dead.pop();
                   if (!particle) {
@@ -37587,8 +37587,8 @@
                   }
                 }
               },
-              depthSortCallback: function(a, b2) {
-                return a.y - b2.y;
+              depthSortCallback: function(a2, b) {
+                return a2.y - b.y;
               }
             });
             module2.exports = ParticleEmitter;
@@ -37631,9 +37631,9 @@
               updateSource: function() {
                 this.points = this.source.getPoints(this.quantity, this.stepRate);
                 if (this.seamless) {
-                  var a = this.points[0];
-                  var b2 = this.points[this.points.length - 1];
-                  if (a.x === b2.x && a.y === b2.y) {
+                  var a2 = this.points[0];
+                  var b = this.points[this.points.length - 1];
+                  if (a2.x === b.x && a2.y === b.y) {
                     this.points.pop();
                   }
                 }
@@ -37716,8 +37716,8 @@
               Mixins: [
                 Components.PathFollower
               ],
-              initialize: function PathFollower2(scene, path, x2, y2, texture, frame) {
-                Sprite.call(this, scene, x2, y2, texture, frame);
+              initialize: function PathFollower2(scene, path, x2, y, texture, frame) {
+                Sprite.call(this, scene, x2, y, texture, frame);
                 this.path = path;
               },
               preUpdate: function(time, delta) {
@@ -38001,12 +38001,12 @@
                 }
                 return this.parent;
               },
-              setShadow: function(x2, y2, color, blur, shadowStroke, shadowFill) {
+              setShadow: function(x2, y, color, blur, shadowStroke, shadowFill) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (color === void 0) {
                   color = "#000";
@@ -38021,22 +38021,22 @@
                   shadowFill = true;
                 }
                 this.shadowOffsetX = x2;
-                this.shadowOffsetY = y2;
+                this.shadowOffsetY = y;
                 this.shadowColor = color;
                 this.shadowBlur = blur;
                 this.shadowStroke = shadowStroke;
                 this.shadowFill = shadowFill;
                 return this.update(false);
               },
-              setShadowOffset: function(x2, y2) {
+              setShadowOffset: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.shadowOffsetX = x2;
-                this.shadowOffsetY = y2;
+                this.shadowOffsetY = y;
                 return this.update(false);
               },
               setShadowColor: function(color) {
@@ -38211,12 +38211,12 @@
               Mixins: [
                 ArcRender
               ],
-              initialize: function Arc2(scene, x2, y2, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha) {
+              initialize: function Arc2(scene, x2, y, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (radius === void 0) {
                   radius = 128;
@@ -38235,7 +38235,7 @@
                 this._endAngle = endAngle;
                 this._anticlockwise = anticlockwise;
                 this._iterations = 0.01;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 var diameter = this.geom.radius * 2;
                 this.setSize(diameter, diameter);
                 if (fillColor !== void 0) {
@@ -38325,7 +38325,7 @@
                 var endAngle = DegToRad(this._endAngle);
                 var anticlockwise = this._anticlockwise;
                 var x2 = radius;
-                var y2 = radius;
+                var y = radius;
                 endAngle -= startAngle;
                 if (anticlockwise) {
                   if (endAngle < -MATH_CONST.PI2) {
@@ -38338,16 +38338,16 @@
                 } else if (endAngle < 0) {
                   endAngle = MATH_CONST.PI2 + endAngle % MATH_CONST.PI2;
                 }
-                var path = [x2 + Math.cos(startAngle) * radius, y2 + Math.sin(startAngle) * radius];
+                var path = [x2 + Math.cos(startAngle) * radius, y + Math.sin(startAngle) * radius];
                 var ta;
                 while (iteration < 1) {
                   ta = endAngle * iteration + startAngle;
-                  path.push(x2 + Math.cos(ta) * radius, y2 + Math.sin(ta) * radius);
+                  path.push(x2 + Math.cos(ta) * radius, y + Math.sin(ta) * radius);
                   iteration += step;
                 }
                 ta = endAngle + startAngle;
-                path.push(x2 + Math.cos(ta) * radius, y2 + Math.sin(ta) * radius);
-                path.push(x2 + Math.cos(startAngle) * radius, y2 + Math.sin(startAngle) * radius);
+                path.push(x2 + Math.cos(ta) * radius, y + Math.sin(ta) * radius);
+                path.push(x2 + Math.cos(startAngle) * radius, y + Math.sin(startAngle) * radius);
                 this.pathIndexes = Earcut(path);
                 this.pathData = path;
                 return this;
@@ -38366,18 +38366,18 @@
               Mixins: [
                 CurveRender
               ],
-              initialize: function Curve2(scene, x2, y2, curve, fillColor, fillAlpha) {
+              initialize: function Curve2(scene, x2, y, curve, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 Shape.call(this, scene, "Curve", curve);
                 this._smoothness = 32;
                 this._curveBounds = new Rectangle();
                 this.closePath = false;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 if (fillColor !== void 0) {
                   this.setFillStyle(fillColor, fillAlpha);
                 }
@@ -38426,12 +38426,12 @@
               Mixins: [
                 EllipseRender
               ],
-              initialize: function Ellipse2(scene, x2, y2, width, height, fillColor, fillAlpha) {
+              initialize: function Ellipse2(scene, x2, y, width, height, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 128;
@@ -38441,7 +38441,7 @@
                 }
                 Shape.call(this, scene, "Ellipse", new GeomEllipse(width / 2, height / 2, width, height));
                 this._smoothness = 64;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.width = width;
                 this.height = height;
                 if (fillColor !== void 0) {
@@ -38493,12 +38493,12 @@
               Mixins: [
                 GridRender
               ],
-              initialize: function Grid2(scene, x2, y2, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha) {
+              initialize: function Grid2(scene, x2, y, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 128;
@@ -38522,7 +38522,7 @@
                 this.showAltCells = false;
                 this.altFillColor;
                 this.altFillAlpha;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 this.setFillStyle(fillColor, fillAlpha);
                 if (outlineFillColor !== void 0) {
@@ -38581,12 +38581,12 @@
               Mixins: [
                 IsoBoxRender
               ],
-              initialize: function IsoBox2(scene, x2, y2, size, height, fillTop, fillLeft, fillRight) {
+              initialize: function IsoBox2(scene, x2, y, size, height, fillTop, fillLeft, fillRight) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (size === void 0) {
                   size = 48;
@@ -38612,7 +38612,7 @@
                 this.showLeft = true;
                 this.showRight = true;
                 this.isFilled = true;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(size, height);
                 this.updateDisplayOrigin();
               },
@@ -38654,12 +38654,12 @@
               Mixins: [
                 IsoTriangleRender
               ],
-              initialize: function IsoTriangle2(scene, x2, y2, size, height, reversed, fillTop, fillLeft, fillRight) {
+              initialize: function IsoTriangle2(scene, x2, y, size, height, reversed, fillTop, fillLeft, fillRight) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (size === void 0) {
                   size = 48;
@@ -38689,7 +38689,7 @@
                 this.showRight = true;
                 this.isReversed = reversed;
                 this.isFilled = true;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(size, height);
                 this.updateDisplayOrigin();
               },
@@ -38736,12 +38736,12 @@
               Mixins: [
                 LineRender
               ],
-              initialize: function Line2(scene, x2, y2, x1, y1, x22, y22, strokeColor, strokeAlpha) {
+              initialize: function Line2(scene, x2, y, x1, y1, x22, y2, strokeColor, strokeAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (x1 === void 0) {
                   x1 = 0;
@@ -38752,16 +38752,16 @@
                 if (x22 === void 0) {
                   x22 = 128;
                 }
-                if (y22 === void 0) {
-                  y22 = 0;
+                if (y2 === void 0) {
+                  y2 = 0;
                 }
-                Shape.call(this, scene, "Line", new GeomLine(x1, y1, x22, y22));
+                Shape.call(this, scene, "Line", new GeomLine(x1, y1, x22, y2));
                 var width = Math.max(1, this.geom.right - this.geom.left);
                 var height = Math.max(1, this.geom.bottom - this.geom.top);
                 this.lineWidth = 1;
                 this._startWidth = 1;
                 this._endWidth = 1;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 if (strokeColor !== void 0) {
                   this.setStrokeStyle(1, strokeColor, strokeAlpha);
@@ -38797,16 +38797,16 @@
               Mixins: [
                 PolygonRender
               ],
-              initialize: function Polygon2(scene, x2, y2, points, fillColor, fillAlpha) {
+              initialize: function Polygon2(scene, x2, y, points, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 Shape.call(this, scene, "Polygon", new GeomPolygon(points));
                 var bounds = GetAABB(this.geom);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(bounds.width, bounds.height);
                 if (fillColor !== void 0) {
                   this.setFillStyle(fillColor, fillAlpha);
@@ -38847,13 +38847,13 @@
               var minY = Infinity;
               var maxX = -minX;
               var maxY = -minY;
-              var p;
+              var p2;
               for (var i = 0; i < polygon.points.length; i++) {
-                p = polygon.points[i];
-                minX = Math.min(minX, p.x);
-                minY = Math.min(minY, p.y);
-                maxX = Math.max(maxX, p.x);
-                maxY = Math.max(maxY, p.y);
+                p2 = polygon.points[i];
+                minX = Math.min(minX, p2.x);
+                minY = Math.min(minY, p2.y);
+                maxX = Math.max(maxX, p2.x);
+                maxY = Math.max(maxY, p2.y);
               }
               out.x = minX;
               out.y = minY;
@@ -38914,9 +38914,9 @@
             module2.exports = Perimeter;
           },
           function(module2, exports2) {
-            var copy = function(out, a) {
-              out[0] = a[0];
-              out[1] = a[1];
+            var copy = function(out, a2) {
+              out[0] = a2[0];
+              out[1] = a2[1];
               return out;
             };
             var Smooth = function(polygon) {
@@ -38957,12 +38957,12 @@
               Mixins: [
                 RectangleRender
               ],
-              initialize: function Rectangle2(scene, x2, y2, width, height, fillColor, fillAlpha) {
+              initialize: function Rectangle2(scene, x2, y, width, height, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = 128;
@@ -38971,7 +38971,7 @@
                   height = 128;
                 }
                 Shape.call(this, scene, "Rectangle", new GeomRectangle(0, 0, width, height));
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 if (fillColor !== void 0) {
                   this.setFillStyle(fillColor, fillAlpha);
@@ -39014,12 +39014,12 @@
               Mixins: [
                 StarRender
               ],
-              initialize: function Star2(scene, x2, y2, points, innerRadius, outerRadius, fillColor, fillAlpha) {
+              initialize: function Star2(scene, x2, y, points, innerRadius, outerRadius, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (points === void 0) {
                   points = 5;
@@ -39034,7 +39034,7 @@
                 this._points = points;
                 this._innerRadius = innerRadius;
                 this._outerRadius = outerRadius;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(outerRadius * 2, outerRadius * 2);
                 if (fillColor !== void 0) {
                   this.setFillStyle(fillColor, fillAlpha);
@@ -39089,15 +39089,15 @@
                 var rot = Math.PI / 2 * 3;
                 var step = Math.PI / points;
                 var x2 = outerRadius;
-                var y2 = outerRadius;
-                path.push(x2, y2 + -outerRadius);
+                var y = outerRadius;
+                path.push(x2, y + -outerRadius);
                 for (var i = 0; i < points; i++) {
-                  path.push(x2 + Math.cos(rot) * outerRadius, y2 + Math.sin(rot) * outerRadius);
+                  path.push(x2 + Math.cos(rot) * outerRadius, y + Math.sin(rot) * outerRadius);
                   rot += step;
-                  path.push(x2 + Math.cos(rot) * innerRadius, y2 + Math.sin(rot) * innerRadius);
+                  path.push(x2 + Math.cos(rot) * innerRadius, y + Math.sin(rot) * innerRadius);
                   rot += step;
                 }
-                path.push(x2, y2 + -outerRadius);
+                path.push(x2, y + -outerRadius);
                 this.pathIndexes = Earcut(path);
                 this.pathData = path;
                 return this;
@@ -39115,12 +39115,12 @@
               Mixins: [
                 TriangleRender
               ],
-              initialize: function Triangle2(scene, x2, y2, x1, y1, x22, y22, x3, y3, fillColor, fillAlpha) {
+              initialize: function Triangle2(scene, x2, y, x1, y1, x22, y2, x3, y3, fillColor, fillAlpha) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (x1 === void 0) {
                   x1 = 0;
@@ -39131,8 +39131,8 @@
                 if (x22 === void 0) {
                   x22 = 64;
                 }
-                if (y22 === void 0) {
-                  y22 = 0;
+                if (y2 === void 0) {
+                  y2 = 0;
                 }
                 if (x3 === void 0) {
                   x3 = 128;
@@ -39140,10 +39140,10 @@
                 if (y3 === void 0) {
                   y3 = 128;
                 }
-                Shape.call(this, scene, "Triangle", new GeomTriangle(x1, y1, x22, y22, x3, y3));
+                Shape.call(this, scene, "Triangle", new GeomTriangle(x1, y1, x22, y2, x3, y3));
                 var width = this.geom.right - this.geom.left;
                 var height = this.geom.bottom - this.geom.top;
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setSize(width, height);
                 if (fillColor !== void 0) {
                   this.setFillStyle(fillColor, fillAlpha);
@@ -39190,20 +39190,20 @@
               var length2 = Length(line2);
               var length3 = Length(line3);
               var perimeter = length1 + length2 + length3;
-              var p = perimeter * position;
+              var p2 = perimeter * position;
               var localPosition = 0;
-              if (p < length1) {
-                localPosition = p / length1;
+              if (p2 < length1) {
+                localPosition = p2 / length1;
                 out.x = line1.x1 + (line1.x2 - line1.x1) * localPosition;
                 out.y = line1.y1 + (line1.y2 - line1.y1) * localPosition;
-              } else if (p > length1 + length2) {
-                p -= length1 + length2;
-                localPosition = p / length3;
+              } else if (p2 > length1 + length2) {
+                p2 -= length1 + length2;
+                localPosition = p2 / length3;
                 out.x = line3.x1 + (line3.x2 - line3.x1) * localPosition;
                 out.y = line3.y1 + (line3.y2 - line3.y1) * localPosition;
               } else {
-                p -= length1;
-                localPosition = p / length2;
+                p2 -= length1;
+                localPosition = p2 / length2;
                 out.x = line2.x1 + (line2.x2 - line2.x1) * localPosition;
                 out.y = line2.y1 + (line2.y2 - line2.y1) * localPosition;
               }
@@ -39229,21 +39229,21 @@
                 quantity = perimeter / stepRate;
               }
               for (var i = 0; i < quantity; i++) {
-                var p = perimeter * (i / quantity);
+                var p2 = perimeter * (i / quantity);
                 var localPosition = 0;
                 var point = new Point();
-                if (p < length1) {
-                  localPosition = p / length1;
+                if (p2 < length1) {
+                  localPosition = p2 / length1;
                   point.x = line1.x1 + (line1.x2 - line1.x1) * localPosition;
                   point.y = line1.y1 + (line1.y2 - line1.y1) * localPosition;
-                } else if (p > length1 + length2) {
-                  p -= length1 + length2;
-                  localPosition = p / length3;
+                } else if (p2 > length1 + length2) {
+                  p2 -= length1 + length2;
+                  localPosition = p2 / length3;
                   point.x = line3.x1 + (line3.x2 - line3.x1) * localPosition;
                   point.y = line3.y1 + (line3.y2 - line3.y1) * localPosition;
                 } else {
-                  p -= length1;
-                  localPosition = p / length2;
+                  p2 -= length1;
+                  localPosition = p2 / length2;
                   point.x = line2.x1 + (line2.x2 - line2.x1) * localPosition;
                   point.y = line2.y1 + (line2.y2 - line2.y1) * localPosition;
                 }
@@ -39302,7 +39302,7 @@
               };
               var i;
               var x2;
-              var y2;
+              var y;
               var z2;
               var u;
               var v2;
@@ -39320,7 +39320,7 @@
                   var index2 = indicies[i] * 2;
                   var index3 = indicies[i] * iInc;
                   x2 = vertices[index3];
-                  y2 = vertices[index3 + 1];
+                  y = vertices[index3 + 1];
                   z2 = containsZ ? vertices[index3 + 2] : 0;
                   u = uvs[index2];
                   v2 = uvs[index2 + 1];
@@ -39334,14 +39334,14 @@
                     normalY = normals[index3 + 1];
                     normalZ = containsZ ? normals[index3 + 2] : 0;
                   }
-                  result.vertices.push(new Vertex(x2, y2, z2, u, v2, color, alpha, normalX, normalY, normalZ));
+                  result.vertices.push(new Vertex(x2, y, z2, u, v2, color, alpha, normalX, normalY, normalZ));
                 }
               } else {
                 var uvIndex = 0;
                 var colorIndex = 0;
                 for (i = 0; i < vertices.length; i += iInc) {
                   x2 = vertices[i];
-                  y2 = vertices[i + 1];
+                  y = vertices[i + 1];
                   z2 = containsZ ? vertices[i + 2] : 0;
                   u = uvs[uvIndex];
                   v2 = uvs[uvIndex + 1];
@@ -39355,7 +39355,7 @@
                     normalY = normals[i + 1];
                     normalZ = containsZ ? normals[i + 2] : 0;
                   }
-                  result.vertices.push(new Vertex(x2, y2, z2, u, v2, color, alpha, normalX, normalY, normalZ));
+                  result.vertices.push(new Vertex(x2, y, z2, u, v2, color, alpha, normalX, normalY, normalZ));
                   uvIndex += 2;
                   colorIndex++;
                 }
@@ -39378,15 +39378,15 @@
             var tempPosition = new Vector3();
             var tempRotation = new Vector3();
             var tempMatrix = new Matrix4();
-            var GenerateObjVerts = function(data, mesh, scale, x2, y2, z2, rotateX, rotateY, rotateZ, zIsUp) {
+            var GenerateObjVerts = function(data, mesh, scale, x2, y, z2, rotateX, rotateY, rotateZ, zIsUp) {
               if (scale === void 0) {
                 scale = 1;
               }
               if (x2 === void 0) {
                 x2 = 0;
               }
-              if (y2 === void 0) {
-                y2 = 0;
+              if (y === void 0) {
+                y = 0;
               }
               if (z2 === void 0) {
                 z2 = 0;
@@ -39408,11 +39408,11 @@
                 verts: []
               };
               var materials = data.materials;
-              tempPosition.set(x2, y2, z2);
+              tempPosition.set(x2, y, z2);
               tempRotation.set(rotateX, rotateY, rotateZ);
               tempMatrix.fromRotationXYTranslation(tempRotation, tempPosition, zIsUp);
-              for (var m2 = 0; m2 < data.models.length; m2++) {
-                var model = data.models[m2];
+              for (var m = 0; m < data.models.length; m++) {
+                var model = data.models[m];
                 var vertices = model.vertices;
                 var textureCoords = model.textureCoords;
                 var faces = model.faces;
@@ -39422,7 +39422,7 @@
                   var v2 = face.vertices[1];
                   var v3 = face.vertices[2];
                   var m1 = vertices[v1.vertexIndex];
-                  var m22 = vertices[v2.vertexIndex];
+                  var m2 = vertices[v2.vertexIndex];
                   var m3 = vertices[v3.vertexIndex];
                   var t1 = v1.textureCoordsIndex;
                   var t2 = v2.textureCoordsIndex;
@@ -39435,7 +39435,7 @@
                     color = materials[face.material];
                   }
                   var vert1 = new Vertex(m1.x * scale, m1.y * scale, m1.z * scale, uv1.u, uv1.v, color).transformMat4(tempMatrix);
-                  var vert2 = new Vertex(m22.x * scale, m22.y * scale, m22.z * scale, uv2.u, uv2.v, color).transformMat4(tempMatrix);
+                  var vert2 = new Vertex(m2.x * scale, m2.y * scale, m2.z * scale, uv2.u, uv2.v, color).transformMat4(tempMatrix);
                   var vert3 = new Vertex(m3.x * scale, m3.y * scale, m3.z * scale, uv3.u, uv3.v, color).transformMat4(tempMatrix);
                   result.verts.push(vert1, vert2, vert3);
                   result.faces.push(new Face(vert1, vert2, vert3));
@@ -39461,9 +39461,9 @@
                 Components.ScrollFactor,
                 Components.Visible
               ],
-              initialize: function Light2(x2, y2, radius, r, g, b2, intensity) {
-                Circle.call(this, x2, y2, radius);
-                this.color = new RGB(r, g, b2);
+              initialize: function Light2(x2, y, radius, r, g2, b, intensity) {
+                Circle.call(this, x2, y, radius);
+                this.color = new RGB(r, g2, b);
                 this.intensity = intensity;
                 this.renderFlags = 15;
                 this.cameraFilter = 0;
@@ -39507,8 +39507,8 @@
                 this.maxLights = -1;
                 this.visibleLights = 0;
               },
-              addPointLight: function(x2, y2, color, radius, intensity, attenuation) {
-                return this.systems.displayList.add(new PointLight(this.scene, x2, y2, color, radius, intensity, attenuation));
+              addPointLight: function(x2, y, color, radius, intensity, attenuation) {
+                return this.systems.displayList.add(new PointLight(this.scene, x2, y, color, radius, intensity, attenuation));
               },
               enable: function() {
                 if (this.maxLights === -1) {
@@ -39541,8 +39541,8 @@
                 this.visibleLights = visibleLights.length;
                 return visibleLights;
               },
-              sortByDistance: function(a, b2) {
-                return a.distance >= b2.distance;
+              sortByDistance: function(a2, b) {
+                return a2.distance >= b.distance;
               },
               setAmbientColor: function(rgb) {
                 var color = Utils.getFloatsFromUintRGB(rgb);
@@ -39555,12 +39555,12 @@
               getLightCount: function() {
                 return this.lights.length;
               },
-              addLight: function(x2, y2, radius, rgb, intensity) {
+              addLight: function(x2, y, radius, rgb, intensity) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (radius === void 0) {
                   radius = 128;
@@ -39572,7 +39572,7 @@
                   intensity = 1;
                 }
                 var color = Utils.getFloatsFromUintRGB(rgb);
-                var light = new Light(x2, y2, radius, color[0], color[1], color[2], intensity);
+                var light = new Light(x2, y, radius, color[0], color[1], color[2], intensity);
                 this.lights.push(light);
                 return light;
               },
@@ -39958,8 +39958,8 @@
               if (r < 0) {
                 return Math.sqrt((x1 - px) * (x1 - px) + (y1 - py) * (y1 - py)) <= lineThickness;
               } else if (r >= 0 && r <= 1) {
-                var s2 = ((y1 - py) * (x2 - x1) - (x1 - px) * (y2 - y1)) / L2;
-                return Math.abs(s2) * Math.sqrt(L2) <= lineThickness;
+                var s = ((y1 - py) * (x2 - x1) - (x1 - px) * (y2 - y1)) / L2;
+                return Math.abs(s) * Math.sqrt(L2) <= lineThickness;
               } else {
                 return Math.sqrt((x2 - px) * (x2 - px) + (y2 - py) * (y2 - py)) <= lineThickness;
               }
@@ -40017,9 +40017,9 @@
             function parseVertexCoords(lineItems, result) {
               var len = lineItems.length;
               var x2 = len >= 2 ? parseFloat(lineItems[1]) : 0;
-              var y2 = len >= 3 ? parseFloat(lineItems[2]) : 0;
+              var y = len >= 3 ? parseFloat(lineItems[2]) : 0;
               var z2 = len >= 4 ? parseFloat(lineItems[3]) : 0;
-              currentModel(result).vertices.push({ x: x2, y: y2, z: z2 });
+              currentModel(result).vertices.push({ x: x2, y, z: z2 });
             }
             function parseTextureCoords(lineItems, result) {
               var len = lineItems.length;
@@ -40043,9 +40043,9 @@
             function parseVertexNormal(lineItems, result) {
               var len = lineItems.length;
               var x2 = len >= 2 ? parseFloat(lineItems[1]) : 0;
-              var y2 = len >= 3 ? parseFloat(lineItems[2]) : 0;
+              var y = len >= 3 ? parseFloat(lineItems[2]) : 0;
               var z2 = len >= 4 ? parseFloat(lineItems[3]) : 0;
-              currentModel(result).vertexNormals.push({ x: x2, y: y2, z: z2 });
+              currentModel(result).vertexNormals.push({ x: x2, y, z: z2 });
             }
             function parsePolygon(lineItems, result) {
               var totalVertices = lineItems.length - 1;
@@ -40166,9 +40166,9 @@
                   }
                   case "kd": {
                     var r = Math.floor(lineItems[1] * 255);
-                    var g = lineItems.length >= 2 ? Math.floor(lineItems[2] * 255) : r;
-                    var b2 = lineItems.length >= 3 ? Math.floor(lineItems[3] * 255) : r;
-                    output[currentMaterial] = GetColor(r, g, b2);
+                    var g2 = lineItems.length >= 2 ? Math.floor(lineItems[2] * 255) : r;
+                    var b = lineItems.length >= 3 ? Math.floor(lineItems[3] * 255) : r;
+                    output[currentMaterial] = GetColor(r, g2, b);
                     break;
                   }
                 }
@@ -40253,13 +40253,13 @@
             module2.exports = Centroid;
           },
           function(module2, exports2) {
-            var Offset = function(triangle, x2, y2) {
+            var Offset = function(triangle, x2, y) {
               triangle.x1 += x2;
-              triangle.y1 += y2;
+              triangle.y1 += y;
               triangle.x2 += x2;
-              triangle.y2 += y2;
+              triangle.y2 += y;
               triangle.x3 += x2;
-              triangle.y3 += y2;
+              triangle.y3 += y;
               return triangle;
             };
             module2.exports = Offset;
@@ -40268,8 +40268,8 @@
             var Point = __webpack_require__(4);
             function getLength(x1, y1, x2, y2) {
               var x3 = x1 - x2;
-              var y3 = y1 - y2;
-              var magnitude = x3 * x3 + y3 * y3;
+              var y = y1 - y2;
+              var magnitude = x3 * x3 + y * y;
               return Math.sqrt(magnitude);
             }
             var InCenter = function(triangle, out) {
@@ -40285,17 +40285,17 @@
               var d1 = getLength(x3, y3, x2, y2);
               var d2 = getLength(x1, y1, x3, y3);
               var d3 = getLength(x2, y2, x1, y1);
-              var p = d1 + d2 + d3;
-              out.x = (x1 * d1 + x2 * d2 + x3 * d3) / p;
-              out.y = (y1 * d1 + y2 * d2 + y3 * d3) / p;
+              var p2 = d1 + d2 + d3;
+              out.x = (x1 * d1 + x2 * d2 + x3 * d3) / p2;
+              out.y = (y1 * d1 + y2 * d2 + y3 * d3) / p2;
               return out;
             };
             module2.exports = InCenter;
           },
           function(module2, exports2) {
             var CreatePixelPerfectHandler = function(textureManager, alphaTolerance) {
-              return function(hitArea, x2, y2, gameObject) {
-                var alpha = textureManager.getPixelAlpha(x2, y2, gameObject.texture.key, gameObject.frame.name);
+              return function(hitArea, x2, y, gameObject) {
+                var alpha = textureManager.getPixelAlpha(x2, y, gameObject.texture.key, gameObject.frame.name);
                 return alpha && alpha >= alphaTolerance;
               };
             };
@@ -41103,27 +41103,27 @@
                 this.world.enableBody(gameObject, type);
                 return gameObject;
               },
-              staticImage: function(x2, y2, key, frame) {
-                var image = new ArcadeImage(this.scene, x2, y2, key, frame);
+              staticImage: function(x2, y, key, frame) {
+                var image = new ArcadeImage(this.scene, x2, y, key, frame);
                 this.sys.displayList.add(image);
                 this.world.enableBody(image, CONST.STATIC_BODY);
                 return image;
               },
-              image: function(x2, y2, key, frame) {
-                var image = new ArcadeImage(this.scene, x2, y2, key, frame);
+              image: function(x2, y, key, frame) {
+                var image = new ArcadeImage(this.scene, x2, y, key, frame);
                 this.sys.displayList.add(image);
                 this.world.enableBody(image, CONST.DYNAMIC_BODY);
                 return image;
               },
-              staticSprite: function(x2, y2, key, frame) {
-                var sprite = new ArcadeSprite(this.scene, x2, y2, key, frame);
+              staticSprite: function(x2, y, key, frame) {
+                var sprite = new ArcadeSprite(this.scene, x2, y, key, frame);
                 this.sys.displayList.add(sprite);
                 this.sys.updateList.add(sprite);
                 this.world.enableBody(sprite, CONST.STATIC_BODY);
                 return sprite;
               },
-              sprite: function(x2, y2, key, frame) {
-                var sprite = new ArcadeSprite(this.scene, x2, y2, key, frame);
+              sprite: function(x2, y, key, frame) {
+                var sprite = new ArcadeSprite(this.scene, x2, y, key, frame);
                 this.sys.displayList.add(sprite);
                 this.sys.updateList.add(sprite);
                 this.world.enableBody(sprite, CONST.DYNAMIC_BODY);
@@ -41164,8 +41164,8 @@
                 Components.Size,
                 Components.Velocity
               ],
-              initialize: function ArcadeImage2(scene, x2, y2, texture, frame) {
-                Image2.call(this, scene, x2, y2, texture, frame);
+              initialize: function ArcadeImage2(scene, x2, y, texture, frame) {
+                Image2.call(this, scene, x2, y, texture, frame);
                 this.body = null;
               }
             });
@@ -41176,12 +41176,12 @@
             var Circle = __webpack_require__(65);
             var CircleToCircle = __webpack_require__(231);
             var CircleToRectangle = __webpack_require__(151);
-            var OverlapCirc = function(world, x2, y2, radius, includeDynamic, includeStatic) {
-              var bodiesInRect = OverlapRect(world, x2 - radius, y2 - radius, 2 * radius, 2 * radius, includeDynamic, includeStatic);
+            var OverlapCirc = function(world, x2, y, radius, includeDynamic, includeStatic) {
+              var bodiesInRect = OverlapRect(world, x2 - radius, y - radius, 2 * radius, 2 * radius, includeDynamic, includeStatic);
               if (bodiesInRect.length === 0) {
                 return bodiesInRect;
               }
-              var area = new Circle(x2, y2, radius);
+              var area = new Circle(x2, y, radius);
               var circFromBody = new Circle();
               var bodiesInArea = [];
               for (var i = 0; i < bodiesInRect.length; i++) {
@@ -41280,13 +41280,13 @@
                   this.world.disableBody(child);
                 }
               },
-              setVelocity: function(x2, y2, step) {
+              setVelocity: function(x2, y, step) {
                 if (step === void 0) {
                   step = 0;
                 }
                 var items = this.getChildren();
                 for (var i = 0; i < items.length; i++) {
-                  items[i].body.velocity.set(x2 + i * step, y2 + i * step);
+                  items[i].body.velocity.set(x2 + i * step, y + i * step);
                 }
                 return this;
               },
@@ -41550,8 +41550,8 @@
                 this.drawDebug = true;
                 return graphic;
               },
-              setBounds: function(x2, y2, width, height, checkLeft, checkRight, checkUp, checkDown) {
-                this.bounds.setTo(x2, y2, width, height);
+              setBounds: function(x2, y, width, height, checkLeft, checkRight, checkUp, checkDown) {
+                this.bounds.setTo(x2, y, width, height);
                 if (checkLeft !== void 0) {
                   this.setBoundsCollision(checkLeft, checkRight, checkUp, checkDown);
                 }
@@ -41943,17 +41943,17 @@
                 var d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                 var nx = (body2.center.x - body1.center.x) / d || 0;
                 var ny = (body2.center.y - body1.center.y) / d || 0;
-                var p = 2 * (body1.velocity.x * nx + body1.velocity.y * ny - body2.velocity.x * nx - body2.velocity.y * ny) / (body1.mass + body2.mass);
+                var p2 = 2 * (body1.velocity.x * nx + body1.velocity.y * ny - body2.velocity.x * nx - body2.velocity.y * ny) / (body1.mass + body2.mass);
                 if (body1.immovable || body2.immovable) {
-                  p *= 2;
+                  p2 *= 2;
                 }
                 if (!body1.immovable) {
-                  body1.velocity.x = body1.velocity.x - p / body1.mass * nx;
-                  body1.velocity.y = body1.velocity.y - p / body1.mass * ny;
+                  body1.velocity.x = body1.velocity.x - p2 / body1.mass * nx;
+                  body1.velocity.y = body1.velocity.y - p2 / body1.mass * ny;
                 }
                 if (!body2.immovable) {
-                  body2.velocity.x = body2.velocity.x + p / body2.mass * nx;
-                  body2.velocity.y = body2.velocity.y + p / body2.mass * ny;
+                  body2.velocity.x = body2.velocity.x + p2 / body2.mass * nx;
+                  body2.velocity.y = body2.velocity.y + p2 / body2.mass * ny;
                 }
                 if (!body1.immovable && !body2.immovable) {
                   overlap /= 2;
@@ -41998,9 +41998,9 @@
               },
               circleBodyIntersects: function(circle, body) {
                 var x2 = Clamp(circle.center.x, body.left, body.right);
-                var y2 = Clamp(circle.center.y, body.top, body.bottom);
+                var y = Clamp(circle.center.y, body.top, body.bottom);
                 var dx = (circle.center.x - x2) * (circle.center.x - x2);
-                var dy = (circle.center.y - y2) * (circle.center.y - y2);
+                var dy = (circle.center.y - y) * (circle.center.y - y);
                 return dx + dy <= circle.halfWidth * circle.halfWidth;
               },
               overlap: function(object1, object2, overlapCallback, processCallback, callbackContext) {
@@ -42194,7 +42194,7 @@
                   return false;
                 }
                 var x2 = body.position.x;
-                var y2 = body.position.y;
+                var y = body.position.y;
                 var w2 = body.width;
                 var h = body.height;
                 var layerData = tilemapLayer.layer;
@@ -42207,7 +42207,7 @@
                   var yDiff = (layerData.tileHeight - layerData.baseTileHeight) * tilemapLayer.scaleY;
                   h += yDiff;
                 }
-                var mapData = GetTilesWithinWorldXY(x2, y2, w2, h, null, tilemapLayer.scene.cameras.main, tilemapLayer.layer);
+                var mapData = GetTilesWithinWorldXY(x2, y, w2, h, null, tilemapLayer.scene.cameras.main, tilemapLayer.layer);
                 if (mapData.length === 0) {
                   return false;
                 } else {
@@ -42413,9 +42413,9 @@
                 }
                 var recalc = false;
                 if (this.syncBounds) {
-                  var b2 = sprite.getBounds(this._bounds);
-                  this.width = b2.width;
-                  this.height = b2.height;
+                  var b = sprite.getBounds(this._bounds);
+                  this.width = b.width;
+                  this.height = b.height;
                   recalc = true;
                 } else {
                   var asx = Math.abs(transform.scaleX);
@@ -42593,11 +42593,11 @@
                 }
                 return wasSet;
               },
-              setOffset: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setOffset: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
-                this.offset.set(x2, y2);
+                this.offset.set(x2, y);
                 return this;
               },
               setSize: function(width, height, center) {
@@ -42650,14 +42650,14 @@
                 }
                 return this;
               },
-              reset: function(x2, y2) {
+              reset: function(x2, y) {
                 this.stop();
                 var gameObject = this.gameObject;
-                gameObject.setPosition(x2, y2);
+                gameObject.setPosition(x2, y);
                 if (gameObject.getTopLeft) {
                   gameObject.getTopLeft(this.position);
                 } else {
-                  this.position.set(x2, y2);
+                  this.position.set(x2, y);
                 }
                 this.prev.copy(this.position);
                 this.prevFrame.copy(this.position);
@@ -42682,13 +42682,13 @@
                 obj.bottom = this.bottom;
                 return obj;
               },
-              hitTest: function(x2, y2) {
+              hitTest: function(x2, y) {
                 if (!this.isCircle) {
-                  return RectangleContains(this, x2, y2);
+                  return RectangleContains(this, x2, y);
                 }
-                if (this.radius > 0 && x2 >= this.left && x2 <= this.right && y2 >= this.top && y2 <= this.bottom) {
+                if (this.radius > 0 && x2 >= this.left && x2 <= this.right && y >= this.top && y <= this.bottom) {
                   var dx = (this.center.x - x2) * (this.center.x - x2);
-                  var dy = (this.center.y - y2) * (this.center.y - y2);
+                  var dy = (this.center.y - y) * (this.center.y - y);
                   return dx + dy <= this.radius * this.radius;
                 }
                 return false;
@@ -42732,11 +42732,11 @@
               drawDebug: function(graphic) {
                 var pos = this.position;
                 var x2 = pos.x + this.halfWidth;
-                var y2 = pos.y + this.halfHeight;
+                var y = pos.y + this.halfHeight;
                 if (this.debugShowBody) {
                   graphic.lineStyle(graphic.defaultStrokeWidth, this.debugBodyColor);
                   if (this.isCircle) {
-                    graphic.strokeCircle(x2, y2, this.width / 2);
+                    graphic.strokeCircle(x2, y, this.width / 2);
                   } else {
                     if (this.checkCollision.up) {
                       graphic.lineBetween(pos.x, pos.y, pos.x + this.width, pos.y);
@@ -42754,7 +42754,7 @@
                 }
                 if (this.debugShowVelocity) {
                   graphic.lineStyle(graphic.defaultStrokeWidth, this.world.defaults.velocityDebugColor, 1);
-                  graphic.lineBetween(x2, y2, x2 + this.velocity.x / 2, y2 + this.velocity.y / 2);
+                  graphic.lineBetween(x2, y, x2 + this.velocity.x / 2, y + this.velocity.y / 2);
                 }
               },
               willDrawDebug: function() {
@@ -42783,29 +42783,29 @@
                 }
                 return this;
               },
-              setVelocity: function(x2, y2) {
-                this.velocity.set(x2, y2);
+              setVelocity: function(x2, y) {
+                this.velocity.set(x2, y);
                 x2 = this.velocity.x;
-                y2 = this.velocity.y;
-                this.speed = Math.sqrt(x2 * x2 + y2 * y2);
+                y = this.velocity.y;
+                this.speed = Math.sqrt(x2 * x2 + y * y);
                 return this;
               },
               setVelocityX: function(value) {
                 this.velocity.x = value;
                 var x2 = value;
-                var y2 = this.velocity.y;
-                this.speed = Math.sqrt(x2 * x2 + y2 * y2);
+                var y = this.velocity.y;
+                this.speed = Math.sqrt(x2 * x2 + y * y);
                 return this;
               },
               setVelocityY: function(value) {
                 this.velocity.y = value;
                 var x2 = this.velocity.x;
-                var y2 = value;
-                this.speed = Math.sqrt(x2 * x2 + y2 * y2);
+                var y = value;
+                this.speed = Math.sqrt(x2 * x2 + y * y);
                 return this;
               },
-              setMaxVelocity: function(x2, y2) {
-                this.maxVelocity.set(x2, y2);
+              setMaxVelocity: function(x2, y) {
+                this.maxVelocity.set(x2, y);
                 return this;
               },
               setMaxVelocityX: function(value) {
@@ -42820,8 +42820,8 @@
                 this.maxSpeed = value;
                 return this;
               },
-              setBounce: function(x2, y2) {
-                this.bounce.set(x2, y2);
+              setBounce: function(x2, y) {
+                this.bounce.set(x2, y);
                 return this;
               },
               setBounceX: function(value) {
@@ -42832,8 +42832,8 @@
                 this.bounce.y = value;
                 return this;
               },
-              setAcceleration: function(x2, y2) {
-                this.acceleration.set(x2, y2);
+              setAcceleration: function(x2, y) {
+                this.acceleration.set(x2, y);
                 return this;
               },
               setAccelerationX: function(value) {
@@ -42865,8 +42865,8 @@
                 this.allowRotation = value;
                 return this;
               },
-              setDrag: function(x2, y2) {
-                this.drag.set(x2, y2);
+              setDrag: function(x2, y) {
+                this.drag.set(x2, y);
                 return this;
               },
               setDamping: function(value) {
@@ -42881,8 +42881,8 @@
                 this.drag.y = value;
                 return this;
               },
-              setGravity: function(x2, y2) {
-                this.gravity.set(x2, y2);
+              setGravity: function(x2, y) {
+                this.gravity.set(x2, y);
                 return this;
               },
               setGravityX: function(value) {
@@ -42893,8 +42893,8 @@
                 this.gravity.y = value;
                 return this;
               },
-              setFriction: function(x2, y2) {
-                this.friction.set(x2, y2);
+              setFriction: function(x2, y) {
+                this.friction.set(x2, y);
                 return this;
               },
               setFrictionX: function(value) {
@@ -42949,8 +42949,8 @@
                   blocked.right = true;
                 }
               },
-              processY: function(y2, vy, up, down) {
-                this.y += y2;
+              processY: function(y, vy, up, down) {
+                this.y += y;
                 this.updateCenter();
                 if (vy !== null) {
                   this.velocity.y = vy;
@@ -43211,26 +43211,26 @@
                 return result;
               },
               _build: function(items, left, right, height) {
-                var N2 = right - left + 1, M2 = this._maxEntries, node;
-                if (N2 <= M2) {
+                var N = right - left + 1, M2 = this._maxEntries, node;
+                if (N <= M2) {
                   node = createNode(items.slice(left, right + 1));
                   calcBBox(node, this.toBBox);
                   return node;
                 }
                 if (!height) {
-                  height = Math.ceil(Math.log(N2) / Math.log(M2));
-                  M2 = Math.ceil(N2 / Math.pow(M2, height - 1));
+                  height = Math.ceil(Math.log(N) / Math.log(M2));
+                  M2 = Math.ceil(N / Math.pow(M2, height - 1));
                 }
                 node = createNode([]);
                 node.leaf = false;
                 node.height = height;
-                var N22 = Math.ceil(N2 / M2), N1 = N22 * Math.ceil(Math.sqrt(M2)), i, j2, right2, right3;
+                var N2 = Math.ceil(N / M2), N1 = N2 * Math.ceil(Math.sqrt(M2)), i, j2, right2, right3;
                 multiSelect(items, left, right, N1, this.compareMinX);
                 for (i = left; i <= right; i += N1) {
                   right2 = Math.min(i + N1 - 1, right);
-                  multiSelect(items, i, right2, N22, this.compareMinY);
-                  for (j2 = i; j2 <= right2; j2 += N22) {
-                    right3 = Math.min(j2 + N22 - 1, right2);
+                  multiSelect(items, i, right2, N2, this.compareMinY);
+                  for (j2 = i; j2 <= right2; j2 += N2) {
+                    right3 = Math.min(j2 + N2 - 1, right2);
                     node.children.push(this._build(items, j2, right3, height - 1));
                   }
                 }
@@ -43278,9 +43278,9 @@
                 this._adjustParentBBoxes(bbox, insertPath, level);
               },
               _split: function(insertPath, level) {
-                var node = insertPath[level], M2 = node.children.length, m2 = this._minEntries;
-                this._chooseSplitAxis(node, m2, M2);
-                var splitIndex = this._chooseSplitIndex(node, m2, M2);
+                var node = insertPath[level], M2 = node.children.length, m = this._minEntries;
+                this._chooseSplitAxis(node, m, M2);
+                var splitIndex = this._chooseSplitIndex(node, m, M2);
                 var newNode = createNode(node.children.splice(splitIndex, node.children.length - splitIndex));
                 newNode.height = node.height;
                 newNode.leaf = node.leaf;
@@ -43297,10 +43297,10 @@
                 this.data.leaf = false;
                 calcBBox(this.data, this.toBBox);
               },
-              _chooseSplitIndex: function(node, m2, M2) {
+              _chooseSplitIndex: function(node, m, M2) {
                 var i, bbox1, bbox2, overlap, area, minOverlap, minArea, index;
                 minOverlap = minArea = Infinity;
-                for (i = m2; i <= M2 - m2; i++) {
+                for (i = m; i <= M2 - m; i++) {
                   bbox1 = distBBox(node, 0, i, this.toBBox);
                   bbox2 = distBBox(node, i, M2, this.toBBox);
                   overlap = intersectionArea(bbox1, bbox2);
@@ -43318,20 +43318,20 @@
                 }
                 return index;
               },
-              _chooseSplitAxis: function(node, m2, M2) {
-                var compareMinX = node.leaf ? this.compareMinX : compareNodeMinX, compareMinY = node.leaf ? this.compareMinY : compareNodeMinY, xMargin = this._allDistMargin(node, m2, M2, compareMinX), yMargin = this._allDistMargin(node, m2, M2, compareMinY);
+              _chooseSplitAxis: function(node, m, M2) {
+                var compareMinX = node.leaf ? this.compareMinX : compareNodeMinX, compareMinY = node.leaf ? this.compareMinY : compareNodeMinY, xMargin = this._allDistMargin(node, m, M2, compareMinX), yMargin = this._allDistMargin(node, m, M2, compareMinY);
                 if (xMargin < yMargin)
                   node.children.sort(compareMinX);
               },
-              _allDistMargin: function(node, m2, M2, compare) {
+              _allDistMargin: function(node, m, M2, compare) {
                 node.children.sort(compare);
-                var toBBox = this.toBBox, leftBBox = distBBox(node, 0, m2, toBBox), rightBBox = distBBox(node, M2 - m2, M2, toBBox), margin = bboxMargin(leftBBox) + bboxMargin(rightBBox), i, child;
-                for (i = m2; i < M2 - m2; i++) {
+                var toBBox = this.toBBox, leftBBox = distBBox(node, 0, m, toBBox), rightBBox = distBBox(node, M2 - m, M2, toBBox), margin = bboxMargin(leftBBox) + bboxMargin(rightBBox), i, child;
+                for (i = m; i < M2 - m; i++) {
                   child = node.children[i];
                   extend(leftBBox, node.leaf ? toBBox(child) : child);
                   margin += bboxMargin(leftBBox);
                 }
-                for (i = M2 - m2 - 1; i >= m2; i--) {
+                for (i = M2 - m - 1; i >= m; i--) {
                   child = node.children[i];
                   extend(rightBBox, node.leaf ? toBBox(child) : child);
                   margin += bboxMargin(rightBBox);
@@ -43355,18 +43355,18 @@
                     calcBBox(path[i], this.toBBox);
                 }
               },
-              compareMinX: function(a, b2) {
-                return a.left - b2.left;
+              compareMinX: function(a2, b) {
+                return a2.left - b.left;
               },
-              compareMinY: function(a, b2) {
-                return a.top - b2.top;
+              compareMinY: function(a2, b) {
+                return a2.top - b.top;
               },
-              toBBox: function(a) {
+              toBBox: function(a2) {
                 return {
-                  minX: a.left,
-                  minY: a.top,
-                  maxX: a.right,
-                  maxY: a.bottom
+                  minX: a2.left,
+                  minY: a2.top,
+                  maxX: a2.right,
+                  maxY: a2.bottom
                 };
               }
             };
@@ -43382,50 +43382,50 @@
             function calcBBox(node, toBBox) {
               distBBox(node, 0, node.children.length, toBBox, node);
             }
-            function distBBox(node, k, p, toBBox, destNode) {
+            function distBBox(node, k2, p2, toBBox, destNode) {
               if (!destNode)
                 destNode = createNode(null);
               destNode.minX = Infinity;
               destNode.minY = Infinity;
               destNode.maxX = -Infinity;
               destNode.maxY = -Infinity;
-              for (var i = k, child; i < p; i++) {
+              for (var i = k2, child; i < p2; i++) {
                 child = node.children[i];
                 extend(destNode, node.leaf ? toBBox(child) : child);
               }
               return destNode;
             }
-            function extend(a, b2) {
-              a.minX = Math.min(a.minX, b2.minX);
-              a.minY = Math.min(a.minY, b2.minY);
-              a.maxX = Math.max(a.maxX, b2.maxX);
-              a.maxY = Math.max(a.maxY, b2.maxY);
-              return a;
+            function extend(a2, b) {
+              a2.minX = Math.min(a2.minX, b.minX);
+              a2.minY = Math.min(a2.minY, b.minY);
+              a2.maxX = Math.max(a2.maxX, b.maxX);
+              a2.maxY = Math.max(a2.maxY, b.maxY);
+              return a2;
             }
-            function compareNodeMinX(a, b2) {
-              return a.minX - b2.minX;
+            function compareNodeMinX(a2, b) {
+              return a2.minX - b.minX;
             }
-            function compareNodeMinY(a, b2) {
-              return a.minY - b2.minY;
+            function compareNodeMinY(a2, b) {
+              return a2.minY - b.minY;
             }
-            function bboxArea(a) {
-              return (a.maxX - a.minX) * (a.maxY - a.minY);
+            function bboxArea(a2) {
+              return (a2.maxX - a2.minX) * (a2.maxY - a2.minY);
             }
-            function bboxMargin(a) {
-              return a.maxX - a.minX + (a.maxY - a.minY);
+            function bboxMargin(a2) {
+              return a2.maxX - a2.minX + (a2.maxY - a2.minY);
             }
-            function enlargedArea(a, b2) {
-              return (Math.max(b2.maxX, a.maxX) - Math.min(b2.minX, a.minX)) * (Math.max(b2.maxY, a.maxY) - Math.min(b2.minY, a.minY));
+            function enlargedArea(a2, b) {
+              return (Math.max(b.maxX, a2.maxX) - Math.min(b.minX, a2.minX)) * (Math.max(b.maxY, a2.maxY) - Math.min(b.minY, a2.minY));
             }
-            function intersectionArea(a, b2) {
-              var minX = Math.max(a.minX, b2.minX), minY = Math.max(a.minY, b2.minY), maxX = Math.min(a.maxX, b2.maxX), maxY = Math.min(a.maxY, b2.maxY);
+            function intersectionArea(a2, b) {
+              var minX = Math.max(a2.minX, b.minX), minY = Math.max(a2.minY, b.minY), maxX = Math.min(a2.maxX, b.maxX), maxY = Math.min(a2.maxY, b.maxY);
               return Math.max(0, maxX - minX) * Math.max(0, maxY - minY);
             }
-            function contains(a, b2) {
-              return a.minX <= b2.minX && a.minY <= b2.minY && b2.maxX <= a.maxX && b2.maxY <= a.maxY;
+            function contains(a2, b) {
+              return a2.minX <= b.minX && a2.minY <= b.minY && b.maxX <= a2.maxX && b.maxY <= a2.maxY;
             }
-            function intersects(a, b2) {
-              return b2.minX <= a.maxX && b2.minY <= a.maxY && b2.maxX >= a.minX && b2.maxY >= a.minY;
+            function intersects(a2, b) {
+              return b.minX <= a2.maxX && b.minY <= a2.maxY && b.maxX >= a2.minX && b.maxY >= a2.minY;
             }
             function createNode(children) {
               return {
@@ -43607,15 +43607,15 @@
             module2.exports = TileCheckY;
           },
           function(module2, exports2) {
-            var ProcessTileSeparationY = function(body, y2) {
-              if (y2 < 0) {
+            var ProcessTileSeparationY = function(body, y) {
+              if (y < 0) {
                 body.blocked.none = false;
                 body.blocked.up = true;
-              } else if (y2 > 0) {
+              } else if (y > 0) {
                 body.blocked.none = false;
                 body.blocked.down = true;
               }
-              body.position.y -= y2;
+              body.position.y -= y;
               if (body.bounce.y === 0) {
                 body.velocity.y = 0;
               } else {
@@ -43746,14 +43746,14 @@
                 this.world.staticTree.insert(this);
                 return this;
               },
-              setOffset: function(x2, y2) {
-                if (y2 === void 0) {
-                  y2 = x2;
+              setOffset: function(x2, y) {
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.world.staticTree.remove(this);
                 this.position.x -= this.offset.x;
                 this.position.y -= this.offset.y;
-                this.offset.set(x2, y2);
+                this.offset.set(x2, y);
                 this.position.x += this.offset.x;
                 this.position.y += this.offset.y;
                 this.updateCenter();
@@ -43817,16 +43817,16 @@
               updateCenter: function() {
                 this.center.set(this.position.x + this.halfWidth, this.position.y + this.halfHeight);
               },
-              reset: function(x2, y2) {
+              reset: function(x2, y) {
                 var gameObject = this.gameObject;
                 if (x2 === void 0) {
                   x2 = gameObject.x;
                 }
-                if (y2 === void 0) {
-                  y2 = gameObject.y;
+                if (y === void 0) {
+                  y = gameObject.y;
                 }
                 this.world.staticTree.remove(this);
-                gameObject.setPosition(x2, y2);
+                gameObject.setPosition(x2, y);
                 gameObject.getTopLeft(this.position);
                 this.updateCenter();
                 this.world.staticTree.insert(this);
@@ -43841,8 +43841,8 @@
                 obj.bottom = this.bottom;
                 return obj;
               },
-              hitTest: function(x2, y2) {
-                return this.isCircle ? CircleContains(this, x2, y2) : RectangleContains(this, x2, y2);
+              hitTest: function(x2, y) {
+                return this.isCircle ? CircleContains(this, x2, y) : RectangleContains(this, x2, y);
               },
               postUpdate: function() {
               },
@@ -43868,11 +43868,11 @@
               drawDebug: function(graphic) {
                 var pos = this.position;
                 var x2 = pos.x + this.halfWidth;
-                var y2 = pos.y + this.halfHeight;
+                var y = pos.y + this.halfHeight;
                 if (this.debugShowBody) {
                   graphic.lineStyle(graphic.defaultStrokeWidth, this.debugBodyColor, 1);
                   if (this.isCircle) {
-                    graphic.strokeCircle(x2, y2, this.width / 2);
+                    graphic.strokeCircle(x2, y, this.width / 2);
                   } else {
                     graphic.strokeRect(pos.x, pos.y, this.width, this.height);
                   }
@@ -44082,13 +44082,13 @@
               var drawBottom = mapHeight;
               if (!tilemapLayer.skipCull) {
                 var x2;
-                var y2;
+                var y;
                 var tile;
                 if (renderOrder === 0) {
-                  for (y2 = drawTop; y2 < drawBottom; y2++) {
-                    for (x2 = drawLeft; mapData[y2] && x2 < drawRight; x2++) {
-                      if (CheckIsoBounds(x2, y2, layer, camera)) {
-                        tile = mapData[y2][x2];
+                  for (y = drawTop; y < drawBottom; y++) {
+                    for (x2 = drawLeft; mapData[y] && x2 < drawRight; x2++) {
+                      if (CheckIsoBounds(x2, y, layer, camera)) {
+                        tile = mapData[y][x2];
                         if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                           continue;
                         }
@@ -44097,10 +44097,10 @@
                     }
                   }
                 } else if (renderOrder === 1) {
-                  for (y2 = drawTop; y2 < drawBottom; y2++) {
-                    for (x2 = drawRight; mapData[y2] && x2 >= drawLeft; x2--) {
-                      if (CheckIsoBounds(x2, y2, layer, camera)) {
-                        tile = mapData[y2][x2];
+                  for (y = drawTop; y < drawBottom; y++) {
+                    for (x2 = drawRight; mapData[y] && x2 >= drawLeft; x2--) {
+                      if (CheckIsoBounds(x2, y, layer, camera)) {
+                        tile = mapData[y][x2];
                         if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                           continue;
                         }
@@ -44109,10 +44109,10 @@
                     }
                   }
                 } else if (renderOrder === 2) {
-                  for (y2 = drawBottom; y2 >= drawTop; y2--) {
-                    for (x2 = drawLeft; mapData[y2] && x2 < drawRight; x2++) {
-                      if (CheckIsoBounds(x2, y2, layer, camera)) {
-                        tile = mapData[y2][x2];
+                  for (y = drawBottom; y >= drawTop; y--) {
+                    for (x2 = drawLeft; mapData[y] && x2 < drawRight; x2++) {
+                      if (CheckIsoBounds(x2, y, layer, camera)) {
+                        tile = mapData[y][x2];
                         if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                           continue;
                         }
@@ -44121,10 +44121,10 @@
                     }
                   }
                 } else if (renderOrder === 3) {
-                  for (y2 = drawBottom; y2 >= drawTop; y2--) {
-                    for (x2 = drawRight; mapData[y2] && x2 >= drawLeft; x2--) {
-                      if (CheckIsoBounds(x2, y2, layer, camera)) {
-                        tile = mapData[y2][x2];
+                  for (y = drawBottom; y >= drawTop; y--) {
+                    for (x2 = drawRight; mapData[y] && x2 >= drawLeft; x2--) {
+                      if (CheckIsoBounds(x2, y, layer, camera)) {
+                        tile = mapData[y][x2];
                         if (!tile || tile.index === -1 || !tile.visible || tile.alpha === 0) {
                           continue;
                         }
@@ -44204,8 +44204,8 @@
               var len = layer.hexSideLength;
               var rowHeight = (tileHeight - len) / 2 + len;
               var x2 = layerWorldX + tileX * tileWidth + tileY % 2 * (tileWidth / 2);
-              var y2 = layerWorldY + tileY * rowHeight;
-              return point.set(x2, y2);
+              var y = layerWorldY + tileY * rowHeight;
+              return point.set(x2, y);
             };
             module2.exports = HexagonalTileToWorldXY;
           },
@@ -44230,8 +44230,8 @@
                 tileHeight *= tilemapLayer.scaleY;
               }
               var x2 = layerWorldX + (tileX - tileY) * (tileWidth / 2);
-              var y2 = layerWorldY + (tileX + tileY) * (tileHeight / 2);
-              return point.set(x2, y2);
+              var y = layerWorldY + (tileX + tileY) * (tileHeight / 2);
+              return point.set(x2, y);
             };
             module2.exports = IsometricTileToWorldXY;
           },
@@ -44256,8 +44256,8 @@
                 tileHeight *= tilemapLayer.scaleY;
               }
               var x2 = layerWorldX + tileX * tileWidth + tileY % 2 * (tileWidth / 2);
-              var y2 = layerWorldY + tileY * (tileHeight / 2);
-              return point.set(x2, y2);
+              var y = layerWorldY + tileY * (tileHeight / 2);
+              return point.set(x2, y);
             };
             module2.exports = StaggeredTileToWorldXY;
           },
@@ -44329,9 +44329,9 @@
               }
               var len = layer.hexSideLength;
               var rowHeight = (tileHeight - len) / 2 + len;
-              var y2 = snapToFloor ? Math.floor(worldY / rowHeight) : worldY / rowHeight;
-              var x2 = snapToFloor ? Math.floor((worldX - y2 % 2 * 0.5 * tileWidth) / tileWidth) : (worldX - y2 % 2 * 0.5 * tileWidth) / tileWidth;
-              return point.set(x2, y2);
+              var y = snapToFloor ? Math.floor(worldY / rowHeight) : worldY / rowHeight;
+              var x2 = snapToFloor ? Math.floor((worldX - y % 2 * 0.5 * tileWidth) / tileWidth) : (worldX - y % 2 * 0.5 * tileWidth) / tileWidth;
+              return point.set(x2, y);
             };
             module2.exports = HexagonalWorldToTileXY;
           },
@@ -44354,8 +44354,8 @@
                 tileWidth *= tilemapLayer.scaleX;
               }
               var x2 = snapToFloor ? Math.floor((worldX / (tileWidth / 2) + worldY / (tileHeight / 2)) / 2) : (worldX / (tileWidth / 2) + worldY / (tileHeight / 2)) / 2;
-              var y2 = snapToFloor ? Math.floor((worldY / (tileHeight / 2) - worldX / (tileWidth / 2)) / 2) : (worldY / (tileHeight / 2) - worldX / (tileWidth / 2)) / 2;
-              return point.set(x2, y2);
+              var y = snapToFloor ? Math.floor((worldY / (tileHeight / 2) - worldX / (tileWidth / 2)) / 2) : (worldY / (tileHeight / 2) - worldX / (tileWidth / 2)) / 2;
+              return point.set(x2, y);
             };
             module2.exports = IsometricWorldToTileXY;
           },
@@ -44377,9 +44377,9 @@
                 worldX = worldX - (tilemapLayer.x + camera.scrollX * (1 - tilemapLayer.scrollFactorX));
                 tileWidth *= tilemapLayer.scaleX;
               }
-              var y2 = snapToFloor ? Math.floor(worldY / (tileHeight / 2)) : worldY / (tileHeight / 2);
-              var x2 = snapToFloor ? Math.floor((worldX + y2 % 2 * 0.5 * tileWidth) / tileWidth) : (worldX + y2 % 2 * 0.5 * tileWidth) / tileWidth;
-              return point.set(x2, y2);
+              var y = snapToFloor ? Math.floor(worldY / (tileHeight / 2)) : worldY / (tileHeight / 2);
+              var x2 = snapToFloor ? Math.floor((worldX + y % 2 * 0.5 * tileWidth) / tileWidth) : (worldX + y % 2 * 0.5 * tileWidth) / tileWidth;
+              return point.set(x2, y);
             };
             module2.exports = StaggeredWorldToTileXY;
           },
@@ -44566,8 +44566,8 @@
                 set = null;
                 for (var j2 = 0; j2 < layerData.data.length; j2++) {
                   row = layerData.data[j2];
-                  for (var k = 0; k < row.length; k++) {
-                    tile = row[k];
+                  for (var k2 = 0; k2 < row.length; k2++) {
+                    tile = row[k2];
                     if (tile === null || tile.index < 0) {
                       continue;
                     }
@@ -44603,12 +44603,12 @@
               for (i = 0; i < mapData.tilesets.length; i++) {
                 set = mapData.tilesets[i];
                 var x2 = set.tileMargin;
-                var y2 = set.tileMargin;
+                var y = set.tileMargin;
                 var count = 0;
                 var countX = 0;
                 var countY = 0;
                 for (var t = set.firstgid; t < set.firstgid + set.total; t++) {
-                  tiles[t] = [x2, y2, i];
+                  tiles[t] = [x2, y, i];
                   x2 += set.tileWidth + set.tileSpacing;
                   count++;
                   if (count === set.total) {
@@ -44617,7 +44617,7 @@
                   countX++;
                   if (countX === set.columns) {
                     x2 = set.tileMargin;
-                    y2 += set.tileHeight + set.tileSpacing;
+                    y += set.tileHeight + set.tileSpacing;
                     countX = 0;
                     countY++;
                     if (countY === set.rows) {
@@ -44833,10 +44833,10 @@
                     var chunk = curl.chunks[c];
                     var offsetX = chunk.x - layerOffsetX;
                     var offsetY = chunk.y - layerOffsetY;
-                    var y2 = 0;
+                    var y = 0;
                     for (var t = 0, len2 = chunk.data.length; t < len2; t++) {
                       var newOffsetX = x2 + offsetX;
-                      var newOffsetY = y2 + offsetY;
+                      var newOffsetY = y + offsetY;
                       gidInfo = ParseGID(chunk.data[t]);
                       if (gidInfo.gid > 0) {
                         tile = new Tile(layerData, gidInfo.gid, newOffsetX, newOffsetY, json.tilewidth, json.tileheight);
@@ -44849,7 +44849,7 @@
                       }
                       x2++;
                       if (x2 === chunk.width) {
-                        y2++;
+                        y++;
                         x2 = 0;
                       }
                     }
@@ -44872,8 +44872,8 @@
                     layerData.hexSideLength = json.hexsidelength;
                   }
                   var row = [];
-                  for (var k = 0, len = curl.data.length; k < len; k++) {
-                    gidInfo = ParseGID(curl.data[k]);
+                  for (var k2 = 0, len = curl.data.length; k2 < len; k2++) {
+                    gidInfo = ParseGID(curl.data[k2]);
                     if (gidInfo.gid > 0) {
                       tile = new Tile(layerData, gidInfo.gid, x2, output.length, json.tilewidth, json.tileheight);
                       tile.rotation = gidInfo.rotation;
@@ -45097,14 +45097,14 @@
                 });
                 var row = [];
                 var tileGrid = [];
-                for (var y2 = 0; y2 < layer.data.length; y2++) {
-                  for (var x2 = 0; x2 < layer.data[y2].length; x2++) {
-                    var index = layer.data[y2][x2] - 1;
+                for (var y = 0; y < layer.data.length; y++) {
+                  for (var x2 = 0; x2 < layer.data[y].length; x2++) {
+                    var index = layer.data[y][x2] - 1;
                     var tile;
                     if (index > -1) {
-                      tile = new Tile(layerData, index, x2, y2, layer.tilesize, layer.tilesize);
+                      tile = new Tile(layerData, index, x2, y, layer.tilesize, layer.tilesize);
                     } else {
-                      tile = insertNull ? null : new Tile(layerData, -1, x2, y2, layer.tilesize, layer.tilesize);
+                      tile = insertNull ? null : new Tile(layerData, -1, x2, y, layer.tilesize, layer.tilesize);
                     }
                     row.push(tile);
                   }
@@ -45180,17 +45180,17 @@
                   TileToWorldY: TilemapComponents.GetTileToWorldYFunction(orientation)
                 };
               },
-              createBlankDynamicLayer: function(name, tileset, x2, y2, width, height, tileWidth, tileHeight) {
+              createBlankDynamicLayer: function(name, tileset, x2, y, width, height, tileWidth, tileHeight) {
                 console.warn("createBlankDynamicLayer is deprecated. Use createBlankLayer");
-                return this.createBlankLayer(name, tileset, x2, y2, width, height, tileWidth, tileHeight);
+                return this.createBlankLayer(name, tileset, x2, y, width, height, tileWidth, tileHeight);
               },
-              createDynamicLayer: function(layerID, tileset, x2, y2) {
+              createDynamicLayer: function(layerID, tileset, x2, y) {
                 console.warn("createDynamicLayer is deprecated. Use createLayer");
-                return this.createLayer(layerID, tileset, x2, y2);
+                return this.createLayer(layerID, tileset, x2, y);
               },
-              createStaticLayer: function(layerID, tileset, x2, y2) {
+              createStaticLayer: function(layerID, tileset, x2, y) {
                 console.warn("createStaticLayer is deprecated. Use createLayer");
-                return this.createLayer(layerID, tileset, x2, y2);
+                return this.createLayer(layerID, tileset, x2, y);
               },
               setRenderOrder: function(renderOrder) {
                 var orders = ["right-down", "left-down", "right-up", "left-up"];
@@ -45255,12 +45255,12 @@
                   return null;
                 }
               },
-              createBlankLayer: function(name, tileset, x2, y2, width, height, tileWidth, tileHeight) {
+              createBlankLayer: function(name, tileset, x2, y, width, height, tileWidth, tileHeight) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.width;
@@ -45297,12 +45297,12 @@
                 }
                 this.layers.push(layerData);
                 this.currentLayerIndex = this.layers.length - 1;
-                var layer = new TilemapLayer(this.scene, this, this.currentLayerIndex, tileset, x2, y2);
+                var layer = new TilemapLayer(this.scene, this, this.currentLayerIndex, tileset, x2, y);
                 layer.setRenderOrder(this.renderOrder);
                 this.scene.sys.displayList.add(layer);
                 return layer;
               },
-              createLayer: function(layerID, tileset, x2, y2) {
+              createLayer: function(layerID, tileset, x2, y) {
                 var index = this.getLayerIndex(layerID);
                 if (index === null) {
                   console.warn("Invalid Tilemap Layer ID: " + layerID);
@@ -45320,10 +45320,10 @@
                 if (x2 === void 0) {
                   x2 = layerData.x;
                 }
-                if (y2 === void 0) {
-                  y2 = layerData.y;
+                if (y === void 0) {
+                  y = layerData.y;
                 }
-                var layer = new TilemapLayer(this.scene, this, index, tileset, x2, y2);
+                var layer = new TilemapLayer(this.scene, this, index, tileset, x2, y);
                 layer.setRenderOrder(this.renderOrder);
                 this.scene.sys.displayList.add(layer);
                 return layer;
@@ -45346,8 +45346,8 @@
                   var name = GetFastValue(singleConfig, "name", null);
                   var obj;
                   var toConvert = [];
-                  for (var s2 = 0; s2 < objects.length; s2++) {
-                    obj = objects[s2];
+                  for (var s = 0; s < objects.length; s++) {
+                    obj = objects[s];
                     if (id === null && gid === null && name === null || id !== null && obj.id === id || gid !== null && obj.gid === gid || name !== null && obj.name === name) {
                       toConvert.push(obj);
                     }
@@ -46009,7 +46009,7 @@
                 Components.ScrollFactor,
                 TilemapLayerRender
               ],
-              initialize: function TilemapLayer2(scene, tilemap, layerIndex, tileset, x2, y2) {
+              initialize: function TilemapLayer2(scene, tilemap, layerIndex, tileset, x2, y) {
                 GameObject.call(this, scene, "TilemapLayer");
                 this.isTilemap = true;
                 this.tilemap = tilemap;
@@ -46028,7 +46028,7 @@
                 this.gidMap = [];
                 this.setTilesets(tileset);
                 this.setAlpha(this.layer.alpha);
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.setOrigin();
                 this.setSize(tilemap.tileWidth * this.layer.width, tilemap.tileHeight * this.layer.height);
                 this.initPipeline();
@@ -46047,9 +46047,9 @@
                   }
                   if (tileset) {
                     setList.push(tileset);
-                    var s2 = tileset.firstgid;
+                    var s = tileset.firstgid;
                     for (var t = 0; t < tileset.total; t++) {
-                      gidMap[s2 + t] = tileset;
+                      gidMap[s + t] = tileset;
                     }
                   }
                 }
@@ -46901,7 +46901,7 @@
             var GetFastValue = __webpack_require__(2);
             var Vertices = __webpack_require__(64);
             var PhysicsEditorParser = {
-              parseBody: function(x2, y2, config, options) {
+              parseBody: function(x2, y, config, options) {
                 if (options === void 0) {
                   options = {};
                 }
@@ -46919,7 +46919,7 @@
                 delete matterConfig.type;
                 var body = Body.create(matterConfig);
                 Body.setParts(body, fixtures);
-                Body.setPosition(body, { x: x2, y: y2 });
+                Body.setPosition(body, { x: x2, y });
                 return body;
               },
               parseFixture: function(fixtureConfig) {
@@ -46929,9 +46929,9 @@
                 var fixtures;
                 if (fixtureConfig.circle) {
                   var x2 = GetFastValue(fixtureConfig.circle, "x");
-                  var y2 = GetFastValue(fixtureConfig.circle, "y");
+                  var y = GetFastValue(fixtureConfig.circle, "y");
                   var r = GetFastValue(fixtureConfig.circle, "radius");
-                  fixtures = [Bodies.circle(x2, y2, r, matterConfig)];
+                  fixtures = [Bodies.circle(x2, y, r, matterConfig)];
                 } else if (fixtureConfig.vertices) {
                   fixtures = this.parseVertices(fixtureConfig.vertices, matterConfig);
                 }
@@ -46958,7 +46958,7 @@
             var Bodies = __webpack_require__(86);
             var Body = __webpack_require__(41);
             var PhysicsJSONParser = {
-              parseBody: function(x2, y2, config, options) {
+              parseBody: function(x2, y, config, options) {
                 if (options === void 0) {
                   options = {};
                 }
@@ -46981,7 +46981,7 @@
                   body = Body.create(options);
                 }
                 body.label = config.label;
-                Body.setPosition(body, { x: x2, y: y2 });
+                Body.setPosition(body, { x: x2, y });
                 return body;
               }
             };
@@ -46997,11 +46997,11 @@
             var Bodies = __webpack_require__(86);
             (function() {
               Composites.stack = function(xx, yy, columns, rows, columnGap, rowGap, callback) {
-                var stack = Composite.create({ label: "Stack" }), x2 = xx, y2 = yy, lastBody, i = 0;
+                var stack = Composite.create({ label: "Stack" }), x2 = xx, y = yy, lastBody, i = 0;
                 for (var row = 0; row < rows; row++) {
                   var maxHeight = 0;
                   for (var column = 0; column < columns; column++) {
-                    var body = callback(x2, y2, column, row, lastBody, i);
+                    var body = callback(x2, y, column, row, lastBody, i);
                     if (body) {
                       var bodyHeight = body.bounds.max.y - body.bounds.min.y, bodyWidth = body.bounds.max.x - body.bounds.min.x;
                       if (bodyHeight > maxHeight)
@@ -47015,7 +47015,7 @@
                       x2 += columnGap;
                     }
                   }
-                  y2 += maxHeight + rowGap;
+                  y += maxHeight + rowGap;
                   x2 = xx;
                 }
                 return stack;
@@ -47064,7 +47064,7 @@
                 return composite;
               };
               Composites.pyramid = function(xx, yy, columns, rows, columnGap, rowGap, callback) {
-                return Composites.stack(xx, yy, columns, rows, columnGap, rowGap, function(x2, y2, column, row, lastBody, i) {
+                return Composites.stack(xx, yy, columns, rows, columnGap, rowGap, function(x2, y, column, row, lastBody, i) {
                   var actualRows = Math.min(rows, Math.ceil(columns / 2)), lastBodyWidth = lastBody ? lastBody.bounds.max.x - lastBody.bounds.min.x : 0;
                   if (row > actualRows)
                     return;
@@ -47076,7 +47076,7 @@
                     Body.translate(lastBody, { x: (column + (columns % 2 === 1 ? 1 : -1)) * lastBodyWidth, y: 0 });
                   }
                   var xOffset = lastBody ? column * lastBodyWidth : 0;
-                  return callback(xx + xOffset + column * columnGap, y2, column, row, lastBody, i);
+                  return callback(xx + xOffset + column * columnGap, y, column, row, lastBody, i);
                 });
               };
               Composites.newtonsCradle = function(xx, yy, number, size, length) {
@@ -47135,8 +47135,8 @@
               Composites.softBody = function(xx, yy, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions) {
                 particleOptions = Common.extend({ inertia: Infinity }, particleOptions);
                 constraintOptions = Common.extend({ stiffness: 0.2, render: { type: "line", anchors: false } }, constraintOptions);
-                var softBody = Composites.stack(xx, yy, columns, rows, columnGap, rowGap, function(x2, y2) {
-                  return Bodies.circle(x2, y2, particleRadius, particleOptions);
+                var softBody = Composites.stack(xx, yy, columns, rows, columnGap, rowGap, function(x2, y) {
+                  return Bodies.circle(x2, y, particleRadius, particleOptions);
                 });
                 Composites.mesh(softBody, columns, rows, crossBrace, constraintOptions);
                 softBody.label = "Soft Body";
@@ -47154,7 +47154,7 @@
                 if (typeof window !== "undefined" && !("SVGPathSeg" in window)) {
                   Common.warn("Svg.pathToVertices: SVGPathSeg not defined, a polyfill is required.");
                 }
-                var i, il, total, point, segment, segments, segmentsQueue, lastSegment, lastPoint, segmentIndex, points = [], lx, ly, length = 0, x2 = 0, y2 = 0;
+                var i, il, total, point, segment, segments, segmentsQueue, lastSegment, lastPoint, segmentIndex, points = [], lx, ly, length = 0, x2 = 0, y = 0;
                 sampleLength = sampleLength || 15;
                 var addPoint = function(px, py, pathSegType) {
                   var isRelative = pathSegType % 2 === 1 && pathSegType > 1;
@@ -47175,7 +47175,7 @@
                     }
                     points.push(point2);
                     x2 = lx + px;
-                    y2 = ly + py;
+                    y = ly + py;
                   }
                 };
                 var addSegmentPoint = function(segment2) {
@@ -47190,16 +47190,16 @@
                     case "S":
                     case "Q":
                       x2 = segment2.x;
-                      y2 = segment2.y;
+                      y = segment2.y;
                       break;
                     case "H":
                       x2 = segment2.x;
                       break;
                     case "V":
-                      y2 = segment2.y;
+                      y = segment2.y;
                       break;
                   }
-                  addPoint(x2, y2, segment2.pathSegType);
+                  addPoint(x2, y, segment2.pathSegType);
                 };
                 Svg._svgPathToAbsolute(path);
                 total = path.getTotalLength();
@@ -47232,65 +47232,65 @@
                 return points;
               };
               Svg._svgPathToAbsolute = function(path) {
-                var x0, y0, x1, y1, x2, y2, segs = path.pathSegList, x3 = 0, y3 = 0, len = segs.numberOfItems;
+                var x0, y0, x1, y1, x2, y2, segs = path.pathSegList, x3 = 0, y = 0, len = segs.numberOfItems;
                 for (var i = 0; i < len; ++i) {
                   var seg = segs.getItem(i), segType = seg.pathSegTypeAsLetter;
                   if (/[MLHVCSQTA]/.test(segType)) {
                     if ("x" in seg)
                       x3 = seg.x;
                     if ("y" in seg)
-                      y3 = seg.y;
+                      y = seg.y;
                   } else {
                     if ("x1" in seg)
                       x1 = x3 + seg.x1;
                     if ("x2" in seg)
                       x2 = x3 + seg.x2;
                     if ("y1" in seg)
-                      y1 = y3 + seg.y1;
+                      y1 = y + seg.y1;
                     if ("y2" in seg)
-                      y2 = y3 + seg.y2;
+                      y2 = y + seg.y2;
                     if ("x" in seg)
                       x3 += seg.x;
                     if ("y" in seg)
-                      y3 += seg.y;
+                      y += seg.y;
                     switch (segType) {
                       case "m":
-                        segs.replaceItem(path.createSVGPathSegMovetoAbs(x3, y3), i);
+                        segs.replaceItem(path.createSVGPathSegMovetoAbs(x3, y), i);
                         break;
                       case "l":
-                        segs.replaceItem(path.createSVGPathSegLinetoAbs(x3, y3), i);
+                        segs.replaceItem(path.createSVGPathSegLinetoAbs(x3, y), i);
                         break;
                       case "h":
                         segs.replaceItem(path.createSVGPathSegLinetoHorizontalAbs(x3), i);
                         break;
                       case "v":
-                        segs.replaceItem(path.createSVGPathSegLinetoVerticalAbs(y3), i);
+                        segs.replaceItem(path.createSVGPathSegLinetoVerticalAbs(y), i);
                         break;
                       case "c":
-                        segs.replaceItem(path.createSVGPathSegCurvetoCubicAbs(x3, y3, x1, y1, x2, y2), i);
+                        segs.replaceItem(path.createSVGPathSegCurvetoCubicAbs(x3, y, x1, y1, x2, y2), i);
                         break;
                       case "s":
-                        segs.replaceItem(path.createSVGPathSegCurvetoCubicSmoothAbs(x3, y3, x2, y2), i);
+                        segs.replaceItem(path.createSVGPathSegCurvetoCubicSmoothAbs(x3, y, x2, y2), i);
                         break;
                       case "q":
-                        segs.replaceItem(path.createSVGPathSegCurvetoQuadraticAbs(x3, y3, x1, y1), i);
+                        segs.replaceItem(path.createSVGPathSegCurvetoQuadraticAbs(x3, y, x1, y1), i);
                         break;
                       case "t":
-                        segs.replaceItem(path.createSVGPathSegCurvetoQuadraticSmoothAbs(x3, y3), i);
+                        segs.replaceItem(path.createSVGPathSegCurvetoQuadraticSmoothAbs(x3, y), i);
                         break;
                       case "a":
-                        segs.replaceItem(path.createSVGPathSegArcAbs(x3, y3, seg.r1, seg.r2, seg.angle, seg.largeArcFlag, seg.sweepFlag), i);
+                        segs.replaceItem(path.createSVGPathSegArcAbs(x3, y, seg.r1, seg.r2, seg.angle, seg.largeArcFlag, seg.sweepFlag), i);
                         break;
                       case "z":
                       case "Z":
                         x3 = x0;
-                        y3 = y0;
+                        y = y0;
                         break;
                     }
                   }
                   if (segType == "M" || segType == "m") {
                     x0 = x3;
-                    y0 = y3;
+                    y0 = y;
                   }
                 }
               };
@@ -47386,8 +47386,8 @@
                     body = Bodies.circle(ox + ow / 2, oy + oh / 2, ow / 2, options);
                   } else if (object.polygon || object.polyline) {
                     var originalPoints = object.polygon ? object.polygon : object.polyline;
-                    var points = originalPoints.map(function(p) {
-                      return { x: p.x * sx, y: p.y * sy };
+                    var points = originalPoints.map(function(p2) {
+                      return { x: p2.x * sx, y: p2.y * sy };
                     });
                     var vertices = Vertices.create(points);
                     var center = Vertices.centre(vertices);
@@ -47779,12 +47779,12 @@
               Grid._createActivePairsList = function(grid) {
                 var pairKeys, pair, pairs = [];
                 pairKeys = Common.keys(grid.pairs);
-                for (var k = 0; k < pairKeys.length; k++) {
-                  pair = grid.pairs[pairKeys[k]];
+                for (var k2 = 0; k2 < pairKeys.length; k2++) {
+                  pair = grid.pairs[pairKeys[k2]];
                   if (pair[2] > 0) {
                     pairs.push(pair);
                   } else {
-                    delete grid.pairs[pairKeys[k]];
+                    delete grid.pairs[pairKeys[k2]];
                   }
                 }
                 return pairs;
@@ -48054,17 +48054,17 @@
             })();
           },
           function(module2, exports2) {
-            var g;
-            g = function() {
+            var g2;
+            g2 = function() {
               return this;
             }();
             try {
-              g = g || new Function("return this")();
+              g2 = g2 || new Function("return this")();
             } catch (e) {
               if (typeof window === "object")
-                g = window;
+                g2 = window;
             }
-            module2.exports = g;
+            module2.exports = g2;
           },
           function(module2, exports2, __webpack_require__) {
             var QuickSet = __webpack_require__(276);
@@ -48157,12 +48157,12 @@
               var cellHeight = GetFastValue(options, "cellHeight", cellWidth);
               var position = GetFastValue(options, "position", CONST.TOP_LEFT);
               var x2 = GetFastValue(options, "x", 0);
-              var y2 = GetFastValue(options, "y", 0);
+              var y = GetFastValue(options, "y", 0);
               var cx = 0;
               var cy = 0;
               var w2 = width * cellWidth;
               var h = height * cellHeight;
-              tempZone.setPosition(x2, y2);
+              tempZone.setPosition(x2, y);
               tempZone.setSize(cellWidth, cellHeight);
               for (var i = 0; i < items.length; i++) {
                 AlignIn(items[i], tempZone, position);
@@ -48176,7 +48176,7 @@
                   if (cy === h) {
                     cy = 0;
                     cx += cellWidth;
-                    tempZone.y = y2;
+                    tempZone.y = y;
                     tempZone.x += cellWidth;
                     if (cx === w2) {
                       break;
@@ -48333,12 +48333,12 @@
               texture: null,
               frame: null,
               isCropped: false,
-              setCrop: function(x2, y2, width, height) {
+              setCrop: function(x2, y, width, height) {
                 if (x2 === void 0) {
                   this.isCropped = false;
                 } else if (this.frame) {
                   if (typeof x2 === "number") {
-                    this.frame.setCropUVs(this._crop, x2, y2, width, height, this.flipX, this.flipY);
+                    this.frame.setCropUVs(this._crop, x2, y, width, height, this.flipX, this.flipY);
                   } else {
                     var rect = x2;
                     this.frame.setCropUVs(this._crop, rect.x, rect.y, rect.width, rect.height, this.flipX, this.flipY);
@@ -48373,9 +48373,9 @@
                 this.flipY = value;
                 return this;
               },
-              setFlip: function(x2, y2) {
+              setFlip: function(x2, y) {
                 this.flipX = x2;
-                this.flipY = y2;
+                this.flipY = y;
                 return this;
               },
               resetFlip: function() {
@@ -48607,15 +48607,15 @@
                   this.originY = value / this.height;
                 }
               },
-              setOrigin: function(x2, y2) {
+              setOrigin: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0.5;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.originX = x2;
-                this.originY = y2;
+                this.originY = y;
                 return this.updateDisplayOrigin();
               },
               setOriginFromFrame: function() {
@@ -48627,15 +48627,15 @@
                 }
                 return this.updateDisplayOrigin();
               },
-              setDisplayOrigin: function(x2, y2) {
+              setDisplayOrigin: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 this.displayOriginX = x2;
-                this.displayOriginY = y2;
+                this.displayOriginY = y;
                 return this;
               },
               updateDisplayOrigin: function() {
@@ -48890,12 +48890,12 @@
               texture: null,
               frame: null,
               isCropped: false,
-              setCrop: function(x2, y2, width, height) {
+              setCrop: function(x2, y, width, height) {
                 if (x2 === void 0) {
                   this.isCropped = false;
                 } else if (this.frame) {
                   if (typeof x2 === "number") {
-                    this.frame.setCropUVs(this._crop, x2, y2, width, height, this.flipX, this.flipY);
+                    this.frame.setCropUVs(this._crop, x2, y, width, height, this.flipX, this.flipY);
                   } else {
                     var rect = x2;
                     this.frame.setCropUVs(this._crop, rect.x, rect.y, rect.width, rect.height, this.flipX, this.flipY);
@@ -49124,12 +49124,12 @@
           },
           function(module2, exports2, __webpack_require__) {
             var PropertyValueInc = __webpack_require__(46);
-            var IncXY = function(items, x2, y2, stepX, stepY, index, direction) {
-              if (y2 === void 0 || y2 === null) {
-                y2 = x2;
+            var IncXY = function(items, x2, y, stepX, stepY, index, direction) {
+              if (y === void 0 || y === null) {
+                y = x2;
               }
               PropertyValueInc(items, "x", x2, stepX, index, direction);
-              return PropertyValueInc(items, "y", y2, stepY, index, direction);
+              return PropertyValueInc(items, "y", y, stepY, index, direction);
             };
             module2.exports = IncXY;
           },
@@ -49169,11 +49169,11 @@
               }
               var angle = startAngle;
               var angleStep = (endAngle - startAngle) / items.length;
-              var a = ellipse.width / 2;
-              var b2 = ellipse.height / 2;
+              var a2 = ellipse.width / 2;
+              var b = ellipse.height / 2;
               for (var i = 0; i < items.length; i++) {
-                items[i].x = ellipse.x + a * Math.cos(angle);
-                items[i].y = ellipse.y + b2 * Math.sin(angle);
+                items[i].x = ellipse.x + a2 * Math.cos(angle);
+                items[i].y = ellipse.y + b * Math.sin(angle);
                 angle += angleStep;
               }
               return items;
@@ -49227,13 +49227,13 @@
               p3.pop();
               p1 = p1.concat(p2, p3);
               var step = p1.length / items.length;
-              var p = 0;
+              var p4 = 0;
               for (var i = 0; i < items.length; i++) {
                 var item = items[i];
-                var point = p1[Math.floor(p)];
+                var point = p1[Math.floor(p4)];
                 item.x = point.x;
                 item.y = point.y;
-                p += step;
+                p4 += step;
               }
               return items;
             };
@@ -49313,10 +49313,10 @@
             var DistanceBetween = __webpack_require__(50);
             var RotateAround = function(items, point, angle) {
               var x2 = point.x;
-              var y2 = point.y;
+              var y = point.y;
               for (var i = 0; i < items.length; i++) {
                 var item = items[i];
-                RotateAroundDistance(item, x2, y2, angle, Math.max(1, DistanceBetween(item.x, item.y, x2, y2)));
+                RotateAroundDistance(item, x2, y, angle, Math.max(1, DistanceBetween(item.x, item.y, x2, y)));
               }
               return items;
             };
@@ -49326,12 +49326,12 @@
             var MathRotateAroundDistance = __webpack_require__(182);
             var RotateAroundDistance = function(items, point, angle, distance) {
               var x2 = point.x;
-              var y2 = point.y;
+              var y = point.y;
               if (distance === 0) {
                 return items;
               }
               for (var i = 0; i < items.length; i++) {
-                MathRotateAroundDistance(items[i], x2, y2, angle, distance);
+                MathRotateAroundDistance(items[i], x2, y, angle, distance);
               }
               return items;
             };
@@ -49489,12 +49489,12 @@
           },
           function(module2, exports2, __webpack_require__) {
             var PropertyValueSet = __webpack_require__(27);
-            var SetXY = function(items, x2, y2, stepX, stepY, index, direction) {
-              if (y2 === void 0 || y2 === null) {
-                y2 = x2;
+            var SetXY = function(items, x2, y, stepX, stepY, index, direction) {
+              if (y === void 0 || y === null) {
+                y = x2;
               }
               PropertyValueSet(items, "x", x2, stepX, index, direction);
-              return PropertyValueSet(items, "y", y2, stepY, index, direction);
+              return PropertyValueSet(items, "y", y, stepY, index, direction);
             };
             module2.exports = SetXY;
           },
@@ -49507,7 +49507,7 @@
           },
           function(module2, exports2, __webpack_require__) {
             var Vector2 = __webpack_require__(3);
-            var ShiftPosition = function(items, x2, y2, direction, output) {
+            var ShiftPosition = function(items, x2, y, direction, output) {
               if (direction === void 0) {
                 direction = 0;
               }
@@ -49535,7 +49535,7 @@
                     py = cy;
                   }
                   items[len].x = x2;
-                  items[len].y = y2;
+                  items[len].y = y;
                 } else {
                   px = items[0].x;
                   py = items[0].y;
@@ -49549,13 +49549,13 @@
                     py = cy;
                   }
                   items[0].x = x2;
-                  items[0].y = y2;
+                  items[0].y = y;
                 }
               } else {
                 px = items[0].x;
                 py = items[0].y;
                 items[0].x = x2;
-                items[0].y = y2;
+                items[0].y = y;
               }
               output.x = px;
               output.y = py;
@@ -50266,7 +50266,7 @@
                 this._onUpdate;
                 this._onUpdateScope;
               },
-              start: function(x2, y2, duration, ease, force, callback, context) {
+              start: function(x2, y, duration, ease, force, callback, context) {
                 if (duration === void 0) {
                   duration = 1e3;
                 }
@@ -50290,8 +50290,8 @@
                 this.duration = duration;
                 this.progress = 0;
                 this.source.set(cam.scrollX, cam.scrollY);
-                this.destination.set(x2, y2);
-                cam.getScroll(x2, y2, this.current);
+                this.destination.set(x2, y);
+                cam.getScroll(x2, y, this.current);
                 if (typeof ease === "string" && EaseMap.hasOwnProperty(ease)) {
                   this.ease = EaseMap[ease];
                 } else if (typeof ease === "function") {
@@ -50300,7 +50300,7 @@
                 this._elapsed = 0;
                 this._onUpdate = callback;
                 this._onUpdateScope = context;
-                this.camera.emit(Events.PAN_START, this.camera, this, duration, x2, y2);
+                this.camera.emit(Events.PAN_START, this.camera, this, duration, x2, y);
                 return cam;
               },
               update: function(time, delta) {
@@ -50315,10 +50315,10 @@
                   var v2 = this.ease(progress);
                   cam.getScroll(this.destination.x, this.destination.y, this.current);
                   var x2 = this.source.x + (this.current.x - this.source.x) * v2;
-                  var y2 = this.source.y + (this.current.y - this.source.y) * v2;
-                  cam.setScroll(x2, y2);
+                  var y = this.source.y + (this.current.y - this.source.y) * v2;
+                  cam.setScroll(x2, y);
                   if (this._onUpdate) {
-                    this._onUpdate.call(this._onUpdateScope, cam, progress, x2, y2);
+                    this._onUpdate.call(this._onUpdateScope, cam, progress, x2, y);
                   }
                 } else {
                   cam.centerOn(this.destination.x, this.destination.y);
@@ -50371,11 +50371,11 @@
               if (overshoot === void 0) {
                 overshoot = 1.70158;
               }
-              var s2 = overshoot * 1.525;
+              var s = overshoot * 1.525;
               if ((v2 *= 2) < 1) {
-                return 0.5 * (v2 * v2 * ((s2 + 1) * v2 - s2));
+                return 0.5 * (v2 * v2 * ((s + 1) * v2 - s));
               } else {
-                return 0.5 * ((v2 -= 2) * v2 * ((s2 + 1) * v2 + s2) + 2);
+                return 0.5 * ((v2 -= 2) * v2 * ((s + 1) * v2 + s) + 2);
               }
             };
             module2.exports = InOut;
@@ -50492,13 +50492,13 @@
               } else if (v2 === 1) {
                 return 1;
               } else {
-                var s2 = period / 4;
+                var s = period / 4;
                 if (amplitude < 1) {
                   amplitude = 1;
                 } else {
-                  s2 = period * Math.asin(1 / amplitude) / (2 * Math.PI);
+                  s = period * Math.asin(1 / amplitude) / (2 * Math.PI);
                 }
-                return -(amplitude * Math.pow(2, 10 * (v2 -= 1)) * Math.sin((v2 - s2) * (2 * Math.PI) / period));
+                return -(amplitude * Math.pow(2, 10 * (v2 -= 1)) * Math.sin((v2 - s) * (2 * Math.PI) / period));
               }
             };
             module2.exports = In;
@@ -50516,13 +50516,13 @@
               } else if (v2 === 1) {
                 return 1;
               } else {
-                var s2 = period / 4;
+                var s = period / 4;
                 if (amplitude < 1) {
                   amplitude = 1;
                 } else {
-                  s2 = period * Math.asin(1 / amplitude) / (2 * Math.PI);
+                  s = period * Math.asin(1 / amplitude) / (2 * Math.PI);
                 }
-                return amplitude * Math.pow(2, -10 * v2) * Math.sin((v2 - s2) * (2 * Math.PI) / period) + 1;
+                return amplitude * Math.pow(2, -10 * v2) * Math.sin((v2 - s) * (2 * Math.PI) / period) + 1;
               }
             };
             module2.exports = Out;
@@ -50540,16 +50540,16 @@
               } else if (v2 === 1) {
                 return 1;
               } else {
-                var s2 = period / 4;
+                var s = period / 4;
                 if (amplitude < 1) {
                   amplitude = 1;
                 } else {
-                  s2 = period * Math.asin(1 / amplitude) / (2 * Math.PI);
+                  s = period * Math.asin(1 / amplitude) / (2 * Math.PI);
                 }
                 if ((v2 *= 2) < 1) {
-                  return -0.5 * (amplitude * Math.pow(2, 10 * (v2 -= 1)) * Math.sin((v2 - s2) * (2 * Math.PI) / period));
+                  return -0.5 * (amplitude * Math.pow(2, 10 * (v2 -= 1)) * Math.sin((v2 - s) * (2 * Math.PI) / period));
                 } else {
-                  return amplitude * Math.pow(2, -10 * (v2 -= 1)) * Math.sin((v2 - s2) * (2 * Math.PI) / period) * 0.5 + 1;
+                  return amplitude * Math.pow(2, -10 * (v2 -= 1)) * Math.sin((v2 - s) * (2 * Math.PI) / period) * 0.5 + 1;
                 }
               }
             };
@@ -51092,12 +51092,12 @@
                 eventEmitter.on(SceneEvents.UPDATE, this.update, this);
                 eventEmitter.once(SceneEvents.SHUTDOWN, this.shutdown, this);
               },
-              add: function(x2, y2, width, height, makeMain, name) {
+              add: function(x2, y, width, height, makeMain, name) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.scene.sys.scale.width;
@@ -51111,7 +51111,7 @@
                 if (name === void 0) {
                   name = "";
                 }
-                var camera = new Camera(x2, y2, width, height);
+                var camera = new Camera(x2, y, width, height);
                 camera.setName(name);
                 camera.setScene(this.scene);
                 camera.setRoundPixels(this.roundPixels);
@@ -51181,10 +51181,10 @@
                 for (var i = 0; i < config.length; i++) {
                   var cameraConfig = config[i];
                   var x2 = GetFastValue(cameraConfig, "x", 0);
-                  var y2 = GetFastValue(cameraConfig, "y", 0);
+                  var y = GetFastValue(cameraConfig, "y", 0);
                   var width = GetFastValue(cameraConfig, "width", gameWidth);
                   var height = GetFastValue(cameraConfig, "height", gameHeight);
-                  var camera = this.add(x2, y2, width, height);
+                  var camera = this.add(x2, y, width, height);
                   camera.name = GetFastValue(cameraConfig, "name", "");
                   camera.zoom = GetFastValue(cameraConfig, "zoom", 1);
                   camera.rotation = GetFastValue(cameraConfig, "rotation", 0);
@@ -51219,11 +51219,11 @@
               getCamerasBelowPointer: function(pointer) {
                 var cameras = this.cameras;
                 var x2 = pointer.x;
-                var y2 = pointer.y;
+                var y = pointer.y;
                 var output = [];
                 for (var i = 0; i < cameras.length; i++) {
                   var camera = cameras[i];
-                  if (camera.visible && camera.inputEnabled && RectangleContains(camera, x2, y2)) {
+                  if (camera.visible && camera.inputEnabled && RectangleContains(camera, x2, y)) {
                     output.unshift(camera);
                   }
                 }
@@ -51814,9 +51814,9 @@
             };
           },
           function(module2, exports2) {
-            var DistanceBetweenPointsSquared = function(a, b2) {
-              var dx = a.x - b2.x;
-              var dy = a.y - b2.y;
+            var DistanceBetweenPointsSquared = function(a2, b) {
+              var dx = a2.x - b.x;
+              var dy = a2.y - b.y;
               return dx * dx + dy * dy;
             };
             module2.exports = DistanceBetweenPointsSquared;
@@ -51898,51 +51898,51 @@
           },
           function(module2, exports2, __webpack_require__) {
             var Bernstein = __webpack_require__(356);
-            var BezierInterpolation = function(v2, k) {
-              var b2 = 0;
+            var BezierInterpolation = function(v2, k2) {
+              var b = 0;
               var n = v2.length - 1;
               for (var i = 0; i <= n; i++) {
-                b2 += Math.pow(1 - k, n - i) * Math.pow(k, i) * v2[i] * Bernstein(n, i);
+                b += Math.pow(1 - k2, n - i) * Math.pow(k2, i) * v2[i] * Bernstein(n, i);
               }
-              return b2;
+              return b;
             };
             module2.exports = BezierInterpolation;
           },
           function(module2, exports2, __webpack_require__) {
             var CatmullRom = __webpack_require__(194);
-            var CatmullRomInterpolation = function(v2, k) {
-              var m2 = v2.length - 1;
-              var f = m2 * k;
-              var i = Math.floor(f);
-              if (v2[0] === v2[m2]) {
-                if (k < 0) {
-                  i = Math.floor(f = m2 * (1 + k));
+            var CatmullRomInterpolation = function(v2, k2) {
+              var m = v2.length - 1;
+              var f2 = m * k2;
+              var i = Math.floor(f2);
+              if (v2[0] === v2[m]) {
+                if (k2 < 0) {
+                  i = Math.floor(f2 = m * (1 + k2));
                 }
-                return CatmullRom(f - i, v2[(i - 1 + m2) % m2], v2[i], v2[(i + 1) % m2], v2[(i + 2) % m2]);
+                return CatmullRom(f2 - i, v2[(i - 1 + m) % m], v2[i], v2[(i + 1) % m], v2[(i + 2) % m]);
               } else {
-                if (k < 0) {
-                  return v2[0] - (CatmullRom(-f, v2[0], v2[0], v2[1], v2[1]) - v2[0]);
+                if (k2 < 0) {
+                  return v2[0] - (CatmullRom(-f2, v2[0], v2[0], v2[1], v2[1]) - v2[0]);
                 }
-                if (k > 1) {
-                  return v2[m2] - (CatmullRom(f - m2, v2[m2], v2[m2], v2[m2 - 1], v2[m2 - 1]) - v2[m2]);
+                if (k2 > 1) {
+                  return v2[m] - (CatmullRom(f2 - m, v2[m], v2[m], v2[m - 1], v2[m - 1]) - v2[m]);
                 }
-                return CatmullRom(f - i, v2[i ? i - 1 : 0], v2[i], v2[m2 < i + 1 ? m2 : i + 1], v2[m2 < i + 2 ? m2 : i + 2]);
+                return CatmullRom(f2 - i, v2[i ? i - 1 : 0], v2[i], v2[m < i + 1 ? m : i + 1], v2[m < i + 2 ? m : i + 2]);
               }
             };
             module2.exports = CatmullRomInterpolation;
           },
           function(module2, exports2, __webpack_require__) {
             var Linear = __webpack_require__(135);
-            var LinearInterpolation = function(v2, k) {
-              var m2 = v2.length - 1;
-              var f = m2 * k;
-              var i = Math.floor(f);
-              if (k < 0) {
-                return Linear(v2[0], v2[1], f);
-              } else if (k > 1) {
-                return Linear(v2[m2], v2[m2 - 1], m2 - f);
+            var LinearInterpolation = function(v2, k2) {
+              var m = v2.length - 1;
+              var f2 = m * k2;
+              var i = Math.floor(f2);
+              if (k2 < 0) {
+                return Linear(v2[0], v2[1], f2);
+              } else if (k2 > 1) {
+                return Linear(v2[m], v2[m - 1], m - f2);
               } else {
-                return Linear(v2[i], v2[i + 1 > m2 ? m2 : i + 1], f - i);
+                return Linear(v2[i], v2[i + 1 > m ? m : i + 1], f2 - i);
               }
             };
             module2.exports = LinearInterpolation;
@@ -52078,11 +52078,11 @@
                 return 1 - 2 * this.frac();
               },
               uuid: function() {
-                var a = "";
-                var b2 = "";
-                for (b2 = a = ""; a++ < 36; b2 += ~a % 5 | a * 3 & 4 ? (a ^ 15 ? 8 ^ this.frac() * (a ^ 20 ? 16 : 4) : 4).toString(16) : "-") {
+                var a2 = "";
+                var b = "";
+                for (b = a2 = ""; a2++ < 36; b += ~a2 % 5 | a2 * 3 & 4 ? (a2 ^ 15 ? 8 ^ this.frac() * (a2 ^ 20 ? 16 : 4) : 4).toString(16) : "-") {
                 }
-                return b2;
+                return b;
               },
               pick: function(array) {
                 return array[this.integerInRange(0, array.length - 1)];
@@ -52143,14 +52143,14 @@
               if (base === void 0) {
                 base = 10;
               }
-              var p = Math.pow(base, -place);
-              return Math.ceil(value * p) / p;
+              var p2 = Math.pow(base, -place);
+              return Math.ceil(value * p2) / p2;
             };
             module2.exports = CeilTo;
           },
           function(module2, exports2) {
-            var Difference = function(a, b2) {
-              return Math.abs(a - b2);
+            var Difference = function(a2, b) {
+              return Math.abs(a2 - b);
             };
             module2.exports = Difference;
           },
@@ -52161,12 +52161,12 @@
             var NOOP = __webpack_require__(1);
             var tempMatrix = new Matrix4();
             var Euler = new Class({
-              initialize: function Euler2(x2, y2, z2, order) {
+              initialize: function Euler2(x2, y, z2, order) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (z2 === void 0) {
                   z2 = 0;
@@ -52175,7 +52175,7 @@
                   order = Euler2.DefaultOrder;
                 }
                 this._x = x2;
-                this._y = y2;
+                this._y = y;
                 this._z = z2;
                 this._order = order;
                 this.onChangeCallback = NOOP;
@@ -52216,12 +52216,12 @@
                   this.onChangeCallback(this);
                 }
               },
-              set: function(x2, y2, z2, order) {
+              set: function(x2, y, z2, order) {
                 if (order === void 0) {
                   order = this._order;
                 }
                 this._x = x2;
-                this._y = y2;
+                this._y = y;
                 this._z = z2;
                 this._order = order;
                 this.onChangeCallback(this);
@@ -52258,12 +52258,12 @@
                 var m32 = elements[6];
                 var m33 = elements[10];
                 var x2 = 0;
-                var y2 = 0;
+                var y = 0;
                 var z2 = 0;
                 var epsilon = 0.99999;
                 switch (order) {
                   case "XYZ": {
-                    y2 = Math.asin(Clamp(m13, -1, 1));
+                    y = Math.asin(Clamp(m13, -1, 1));
                     if (Math.abs(m13) < epsilon) {
                       x2 = Math.atan2(-m23, m33);
                       z2 = Math.atan2(-m12, m11);
@@ -52275,17 +52275,17 @@
                   case "YXZ": {
                     x2 = Math.asin(-Clamp(m23, -1, 1));
                     if (Math.abs(m23) < epsilon) {
-                      y2 = Math.atan2(m13, m33);
+                      y = Math.atan2(m13, m33);
                       z2 = Math.atan2(m21, m22);
                     } else {
-                      y2 = Math.atan2(-m31, m11);
+                      y = Math.atan2(-m31, m11);
                     }
                     break;
                   }
                   case "ZXY": {
                     x2 = Math.asin(Clamp(m32, -1, 1));
                     if (Math.abs(m32) < epsilon) {
-                      y2 = Math.atan2(-m31, m33);
+                      y = Math.atan2(-m31, m33);
                       z2 = Math.atan2(-m12, m22);
                     } else {
                       z2 = Math.atan2(m21, m11);
@@ -52293,7 +52293,7 @@
                     break;
                   }
                   case "ZYX": {
-                    y2 = Math.asin(-Clamp(m31, -1, 1));
+                    y = Math.asin(-Clamp(m31, -1, 1));
                     if (Math.abs(m31) < epsilon) {
                       x2 = Math.atan2(m32, m33);
                       z2 = Math.atan2(m21, m11);
@@ -52306,9 +52306,9 @@
                     z2 = Math.asin(Clamp(m21, -1, 1));
                     if (Math.abs(m21) < epsilon) {
                       x2 = Math.atan2(-m23, m22);
-                      y2 = Math.atan2(-m31, m11);
+                      y = Math.atan2(-m31, m11);
                     } else {
-                      y2 = Math.atan2(m13, m33);
+                      y = Math.atan2(m13, m33);
                     }
                     break;
                   }
@@ -52316,7 +52316,7 @@
                     z2 = Math.asin(-Clamp(m12, -1, 1));
                     if (Math.abs(m12) < epsilon) {
                       x2 = Math.atan2(m32, m22);
-                      y2 = Math.atan2(m13, m11);
+                      y = Math.atan2(m13, m11);
                     } else {
                       x2 = Math.atan2(-m23, m33);
                     }
@@ -52324,7 +52324,7 @@
                   }
                 }
                 this._x = x2;
-                this._y = y2;
+                this._y = y;
                 this._z = z2;
                 this._order = order;
                 if (update) {
@@ -52345,8 +52345,8 @@
               if (base === void 0) {
                 base = 10;
               }
-              var p = Math.pow(base, -place);
-              return Math.floor(value * p) / p;
+              var p2 = Math.pow(base, -place);
+              return Math.floor(value * p2) / p2;
             };
             module2.exports = FloorTo;
           },
@@ -52380,8 +52380,8 @@
               if (valuesNum === 0) {
                 return 0;
               }
-              values.sort(function(a, b2) {
-                return a - b2;
+              values.sort(function(a2, b) {
+                return a2 - b;
               });
               var halfIndex = Math.floor(valuesNum / 2);
               return valuesNum % 2 === 0 ? (values[halfIndex] + values[halfIndex - 1]) / 2 : values[halfIndex];
@@ -52457,9 +52457,9 @@
             module2.exports = RandomXYZW;
           },
           function(module2, exports2) {
-            var RotateTo = function(point, x2, y2, angle, distance) {
+            var RotateTo = function(point, x2, y, angle, distance) {
               point.x = x2 + distance * Math.cos(angle);
-              point.y = y2 + distance * Math.sin(angle);
+              point.y = y + distance * Math.sin(angle);
               return point;
             };
             module2.exports = RotateTo;
@@ -52472,8 +52472,8 @@
               if (base === void 0) {
                 base = 10;
               }
-              var p = Math.pow(base, -place);
-              return Math.round(value * p) / p;
+              var p2 = Math.pow(base, -place);
+              return Math.round(value * p2) / p2;
             };
             module2.exports = RoundTo;
           },
@@ -52512,23 +52512,23 @@
                 out = new Vector2();
               }
               var x2 = 0;
-              var y2 = 0;
+              var y = 0;
               var total = width * height;
               if (index > 0 && index <= total) {
                 if (index > width - 1) {
-                  y2 = Math.floor(index / width);
-                  x2 = index - y2 * width;
+                  y = Math.floor(index / width);
+                  x2 = index - y * width;
                 } else {
                   x2 = index;
                 }
               }
-              return out.set(x2, y2);
+              return out.set(x2, y);
             };
             module2.exports = ToXY;
           },
           function(module2, exports2) {
-            var Within = function(a, b2, tolerance) {
-              return Math.abs(a - b2) <= tolerance;
+            var Within = function(a2, b, tolerance) {
+              return Math.abs(a2 - b) <= tolerance;
             };
             module2.exports = Within;
           },
@@ -53145,12 +53145,12 @@
             var Vector2 = __webpack_require__(3);
             var MATH_CONST = __webpack_require__(14);
             var Path = new Class({
-              initialize: function Path2(x2, y2) {
+              initialize: function Path2(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 this.name = "";
                 this.curves = [];
@@ -53162,7 +53162,7 @@
                 if (typeof x2 === "object") {
                   this.fromJSON(x2);
                 } else {
-                  this.startPoint.set(x2, y2);
+                  this.startPoint.set(x2, y);
                 }
               },
               add: function(curve) {
@@ -53183,32 +53183,32 @@
                 }
                 return this;
               },
-              cubicBezierTo: function(x2, y2, control1X, control1Y, control2X, control2Y) {
+              cubicBezierTo: function(x2, y, control1X, control1Y, control2X, control2Y) {
                 var p0 = this.getEndPoint();
                 var p1;
                 var p2;
                 var p3;
                 if (x2 instanceof Vector2) {
                   p1 = x2;
-                  p2 = y2;
+                  p2 = y;
                   p3 = control1X;
                 } else {
                   p1 = new Vector2(control1X, control1Y);
                   p2 = new Vector2(control2X, control2Y);
-                  p3 = new Vector2(x2, y2);
+                  p3 = new Vector2(x2, y);
                 }
                 return this.add(new CubicBezierCurve(p0, p1, p2, p3));
               },
-              quadraticBezierTo: function(x2, y2, controlX, controlY) {
+              quadraticBezierTo: function(x2, y, controlX, controlY) {
                 var p0 = this.getEndPoint();
                 var p1;
                 var p2;
                 if (x2 instanceof Vector2) {
                   p1 = x2;
-                  p2 = y2;
+                  p2 = y;
                 } else {
                   p1 = new Vector2(controlX, controlY);
-                  p2 = new Vector2(x2, y2);
+                  p2 = new Vector2(x2, y);
                 }
                 return this.add(new QuadraticBezierCurve(p0, p1, p2));
               },
@@ -53403,11 +53403,11 @@
                 }
                 return null;
               },
-              lineTo: function(x2, y2) {
+              lineTo: function(x2, y) {
                 if (x2 instanceof Vector2) {
                   this._tmpVec2B.copy(x2);
                 } else {
-                  this._tmpVec2B.set(x2, y2);
+                  this._tmpVec2B.set(x2, y);
                 }
                 var end = this.getEndPoint(this._tmpVec2A);
                 return this.add(new LineCurve([end.x, end.y, this._tmpVec2B.x, this._tmpVec2B.y]));
@@ -53416,11 +53416,11 @@
                 points.unshift(this.getEndPoint());
                 return this.add(new SplineCurve(points));
               },
-              moveTo: function(x2, y2) {
+              moveTo: function(x2, y) {
                 if (x2 instanceof Vector2) {
                   return this.add(new MovePathTo(x2.x, x2.y));
                 } else {
-                  return this.add(new MovePathTo(x2, y2));
+                  return this.add(new MovePathTo(x2, y));
                 }
               },
               toJSON: function() {
@@ -53446,8 +53446,8 @@
                 this.startPoint = void 0;
               }
             });
-            GameObjectFactory.register("path", function(x2, y2) {
-              return new Path(x2, y2);
+            GameObjectFactory.register("path", function(x2, y) {
+              return new Path(x2, y);
             });
             module2.exports = Path;
           },
@@ -53648,23 +53648,23 @@
               var range = 255;
               var i;
               var r = 255;
-              var g = 0;
-              var b2 = 0;
+              var g2 = 0;
+              var b = 0;
               for (i = 0; i <= range; i++) {
-                colors.push({ r, g: i, b: b2, color: GetColor(r, i, b2) });
+                colors.push({ r, g: i, b, color: GetColor(r, i, b) });
               }
-              g = 255;
+              g2 = 255;
               for (i = range; i >= 0; i--) {
-                colors.push({ r: i, g, b: b2, color: GetColor(i, g, b2) });
+                colors.push({ r: i, g: g2, b, color: GetColor(i, g2, b) });
               }
               r = 0;
-              for (i = 0; i <= range; i++, g--) {
-                colors.push({ r, g, b: i, color: GetColor(r, g, i) });
+              for (i = 0; i <= range; i++, g2--) {
+                colors.push({ r, g: g2, b: i, color: GetColor(r, g2, i) });
               }
-              g = 0;
-              b2 = 255;
-              for (i = 0; i <= range; i++, b2--, r++) {
-                colors.push({ r, g, b: b2, color: GetColor(r, g, b2) });
+              g2 = 0;
+              b = 255;
+              for (i = 0; i <= range; i++, b--, r++) {
+                colors.push({ r, g: g2, b, color: GetColor(r, g2, b) });
               }
               if (limit === 1024) {
                 return colors;
@@ -53699,34 +53699,34 @@
           function(module2, exports2, __webpack_require__) {
             var Color = __webpack_require__(38);
             var HueToComponent = __webpack_require__(399);
-            var HSLToColor = function(h, s2, l2) {
-              var r = l2;
-              var g = l2;
-              var b2 = l2;
-              if (s2 !== 0) {
-                var q = l2 < 0.5 ? l2 * (1 + s2) : l2 + s2 - l2 * s2;
-                var p = 2 * l2 - q;
-                r = HueToComponent(p, q, h + 1 / 3);
-                g = HueToComponent(p, q, h);
-                b2 = HueToComponent(p, q, h - 1 / 3);
+            var HSLToColor = function(h, s, l) {
+              var r = l;
+              var g2 = l;
+              var b = l;
+              if (s !== 0) {
+                var q2 = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                var p2 = 2 * l - q2;
+                r = HueToComponent(p2, q2, h + 1 / 3);
+                g2 = HueToComponent(p2, q2, h);
+                b = HueToComponent(p2, q2, h - 1 / 3);
               }
               var color = new Color();
-              return color.setGLTo(r, g, b2, 1);
+              return color.setGLTo(r, g2, b, 1);
             };
             module2.exports = HSLToColor;
           },
           function(module2, exports2, __webpack_require__) {
             var HSVToRGB = __webpack_require__(188);
-            var HSVColorWheel = function(s2, v2) {
-              if (s2 === void 0) {
-                s2 = 1;
+            var HSVColorWheel = function(s, v2) {
+              if (s === void 0) {
+                s = 1;
               }
               if (v2 === void 0) {
                 v2 = 1;
               }
               var colors = [];
               for (var c = 0; c <= 359; c++) {
-                colors.push(HSVToRGB(c / 359, s2, v2));
+                colors.push(HSVToRGB(c / 359, s, v2));
               }
               return colors;
             };
@@ -53757,14 +53757,14 @@
               }
               return RGBWithRGB(color1.r, color1.g, color1.b, color2.r, color2.g, color2.b, length, index);
             };
-            var ColorWithRGB = function(color, r, g, b2, length, index) {
+            var ColorWithRGB = function(color, r, g2, b, length, index) {
               if (length === void 0) {
                 length = 100;
               }
               if (index === void 0) {
                 index = 0;
               }
-              return RGBWithRGB(color.r, color.g, color.b, r, g, b2, length, index);
+              return RGBWithRGB(color.r, color.g, color.b, r, g2, b, length, index);
             };
             module2.exports = {
               RGBWithRGB,
@@ -53788,17 +53788,17 @@
           },
           function(module2, exports2, __webpack_require__) {
             var ComponentToHex = __webpack_require__(398);
-            var RGBToString = function(r, g, b2, a, prefix) {
-              if (a === void 0) {
-                a = 255;
+            var RGBToString = function(r, g2, b, a2, prefix) {
+              if (a2 === void 0) {
+                a2 = 255;
               }
               if (prefix === void 0) {
                 prefix = "#";
               }
               if (prefix === "#") {
-                return "#" + ((1 << 24) + (r << 16) + (g << 8) + b2).toString(16).slice(1, 7);
+                return "#" + ((1 << 24) + (r << 16) + (g2 << 8) + b).toString(16).slice(1, 7);
               } else {
-                return "0x" + ComponentToHex(a) + ComponentToHex(r) + ComponentToHex(g) + ComponentToHex(b2);
+                return "0x" + ComponentToHex(a2) + ComponentToHex(r) + ComponentToHex(g2) + ComponentToHex(b);
               }
             };
             module2.exports = RGBToString;
@@ -54259,10 +54259,10 @@
                 var frame = frames[i].attributes;
                 var name = frame.name.value;
                 var x2 = parseInt(frame.x.value, 10);
-                var y2 = parseInt(frame.y.value, 10);
+                var y = parseInt(frame.y.value, 10);
                 var width = parseInt(frame.width.value, 10);
                 var height = parseInt(frame.height.value, 10);
-                newFrame = texture.add(name, sourceIndex, x2, y2, width, height);
+                newFrame = texture.add(name, sourceIndex, x2, y, width, height);
                 if (frame.frameX) {
                   var frameX = Math.abs(parseInt(frame.frameX.value, 10));
                   var frameY = Math.abs(parseInt(frame.frameY.value, 10));
@@ -54382,7 +54382,7 @@
           },
           function(module2, exports2, __webpack_require__) {
             var GetFastValue = __webpack_require__(2);
-            var SpriteSheet = function(texture, sourceIndex, x2, y2, width, height, config) {
+            var SpriteSheet = function(texture, sourceIndex, x2, y, width, height, config) {
               var frameWidth = GetFastValue(config, "frameWidth", null);
               var frameHeight = GetFastValue(config, "frameHeight", frameWidth);
               if (frameWidth === null) {
@@ -54424,7 +54424,7 @@
                 if (h > height) {
                   ay = h - height;
                 }
-                texture.add(i, sourceIndex, x2 + fx, y2 + fy, frameWidth - ax, frameHeight - ay);
+                texture.add(i, sourceIndex, x2 + fx, y + fy, frameWidth - ax, frameHeight - ay);
                 fx += frameWidth + spacing;
                 if (fx + frameWidth > width) {
                   fx = margin;
@@ -54450,7 +54450,7 @@
               var margin = GetFastValue(config, "margin", 0);
               var spacing = GetFastValue(config, "spacing", 0);
               var x2 = frame.cutX;
-              var y2 = frame.cutY;
+              var y = frame.cutY;
               var cutWidth = frame.cutWidth;
               var cutHeight = frame.cutHeight;
               var sheetWidth = frame.realWidth;
@@ -54484,7 +54484,7 @@
                 for (var sheetX = 0; sheetX < row; sheetX++) {
                   var leftRow = sheetX === 0;
                   var rightRow = sheetX === row - 1;
-                  sheetFrame = texture.add(frameIndex, sourceIndex, x2 + frameX, y2 + frameY, frameWidth, frameHeight);
+                  sheetFrame = texture.add(frameIndex, sourceIndex, x2 + frameX, y + frameY, frameWidth, frameHeight);
                   if (leftRow || topRow || rightRow || bottomRow) {
                     var destX = leftRow ? leftPad : 0;
                     var destY = topRow ? topPad : 0;
@@ -54535,8 +54535,8 @@
           function(module2, exports2) {
             var imageHeight = 0;
             var addFrame = function(texture, sourceIndex, name, frame) {
-              var y2 = imageHeight - frame.y - frame.height;
-              texture.add(name, sourceIndex, frame.x, y2, frame.width, frame.height);
+              var y = imageHeight - frame.y - frame.height;
+              texture.add(name, sourceIndex, frame.x, y, frame.width, frame.height);
             };
             var UnityYAML = function(texture, sourceIndex, yaml) {
               var source = texture.source[sourceIndex];
@@ -54935,18 +54935,18 @@
           function(module2, exports2, __webpack_require__) {
             var RotateLeft = __webpack_require__(178);
             var RotateRight = __webpack_require__(179);
-            var TranslateMatrix = function(matrix, x2, y2) {
+            var TranslateMatrix = function(matrix, x2, y) {
               if (x2 === void 0) {
                 x2 = 0;
               }
-              if (y2 === void 0) {
-                y2 = 0;
+              if (y === void 0) {
+                y = 0;
               }
-              if (y2 !== 0) {
-                if (y2 < 0) {
-                  RotateLeft(matrix, Math.abs(y2));
+              if (y !== 0) {
+                if (y < 0) {
+                  RotateLeft(matrix, Math.abs(y));
                 } else {
-                  RotateRight(matrix, y2);
+                  RotateRight(matrix, y);
                 }
               }
               if (x2 !== 0) {
@@ -55489,7 +55489,7 @@
               var glyph = null;
               var align = src._align;
               var x2 = 0;
-              var y2 = 0;
+              var y = 0;
               var scale = src.fontSize / src.fontData.size;
               var sx = scale * src.scaleX;
               var sy = scale * src.scaleY;
@@ -55645,7 +55645,7 @@
                   continue;
                 }
                 x2 = xAdvance;
-                y2 = yAdvance;
+                y = yAdvance;
                 if (lastGlyph !== null) {
                   var kerningOffset = glyph.kerning[lastCharCode];
                   x2 += kerningOffset !== void 0 ? kerningOffset : 0;
@@ -55653,11 +55653,11 @@
                 if (bx > x2) {
                   bx = x2;
                 }
-                if (by > y2) {
-                  by = y2;
+                if (by > y) {
+                  by = y;
                 }
                 var gw = x2 + glyph.xAdvance;
-                var gh = y2 + lineHeight;
+                var gh = y + lineHeight;
                 if (bw < gw) {
                   bw = gw;
                 }
@@ -55885,17 +55885,17 @@
           function(module2, exports2) {
             var BatchChar = function(pipeline, src, char, glyph, offsetX, offsetY, calcMatrix, roundPixels, tintTL, tintTR, tintBL, tintBR, tintEffect, texture, textureUnit) {
               var x2 = char.x - src.displayOriginX + offsetX;
-              var y2 = char.y - src.displayOriginY + offsetY;
+              var y = char.y - src.displayOriginY + offsetY;
               var xw = x2 + char.w;
-              var yh = y2 + char.h;
-              var tx0 = calcMatrix.getXRound(x2, y2, roundPixels);
-              var ty0 = calcMatrix.getYRound(x2, y2, roundPixels);
+              var yh = y + char.h;
+              var tx0 = calcMatrix.getXRound(x2, y, roundPixels);
+              var ty0 = calcMatrix.getYRound(x2, y, roundPixels);
               var tx1 = calcMatrix.getXRound(x2, yh, roundPixels);
               var ty1 = calcMatrix.getYRound(x2, yh, roundPixels);
               var tx2 = calcMatrix.getXRound(xw, yh, roundPixels);
               var ty2 = calcMatrix.getYRound(xw, yh, roundPixels);
-              var tx3 = calcMatrix.getXRound(xw, y2, roundPixels);
-              var ty3 = calcMatrix.getYRound(xw, y2, roundPixels);
+              var tx3 = calcMatrix.getXRound(xw, y, roundPixels);
+              var ty3 = calcMatrix.getYRound(xw, y, roundPixels);
               pipeline.batchQuad(src, tx0, ty0, tx1, ty1, tx2, ty2, tx3, ty3, glyph.u0, glyph.v0, glyph.u1, glyph.v1, tintTL, tintTR, tintBL, tintBR, tintEffect, texture, textureUnit);
             };
             module2.exports = BatchChar;
@@ -55923,7 +55923,7 @@
               var glyphW = 0;
               var glyphH = 0;
               var x2 = 0;
-              var y2 = 0;
+              var y = 0;
               var lastGlyph = null;
               var lastCharCode = 0;
               var image = textureFrame.source.image;
@@ -55969,13 +55969,13 @@
                 glyphW = glyph.width;
                 glyphH = glyph.height;
                 x2 = glyph.xOffset + xAdvance;
-                y2 = glyph.yOffset + yAdvance;
+                y = glyph.yOffset + yAdvance;
                 if (lastGlyph !== null) {
                   var kerningOffset = glyph.kerning[lastCharCode];
                   x2 += kerningOffset !== void 0 ? kerningOffset : 0;
                 }
                 x2 *= scale;
-                y2 *= scale;
+                y *= scale;
                 x2 += lineOffsetX;
                 xAdvance += glyph.xAdvance + letterSpacing;
                 lastGlyph = glyph;
@@ -55985,10 +55985,10 @@
                 }
                 if (roundPixels) {
                   x2 = Math.round(x2);
-                  y2 = Math.round(y2);
+                  y = Math.round(y);
                 }
                 ctx.save();
-                ctx.translate(x2, y2);
+                ctx.translate(x2, y);
                 ctx.scale(scale, scale);
                 ctx.drawImage(image, glyphX, glyphY, glyphW, glyphH, 0, 0, glyphW, glyphH);
                 ctx.restore();
@@ -56050,19 +56050,19 @@
                 var width = frame.width;
                 var height = frame.height;
                 var x2 = blitterX + bob.x + frame.x;
-                var y2 = blitterY + bob.y + frame.y;
+                var y = blitterY + bob.y + frame.y;
                 if (bob.flipX) {
                   width *= -1;
                   x2 += frame.width;
                 }
                 if (bob.flipY) {
                   height *= -1;
-                  y2 += frame.height;
+                  y += frame.height;
                 }
                 var xw = x2 + width;
-                var yh = y2 + height;
-                var tx0 = calcMatrix.getX(x2, y2);
-                var ty0 = calcMatrix.getY(x2, y2);
+                var yh = y + height;
+                var tx0 = calcMatrix.getX(x2, y);
+                var ty0 = calcMatrix.getY(x2, y);
                 var tx1 = calcMatrix.getX(xw, yh);
                 var ty1 = calcMatrix.getY(xw, yh);
                 var tint = Utils.getTintAppendFloatAlpha(bob.tint, bobAlpha);
@@ -56419,7 +56419,7 @@
                 glyphW = glyph.width;
                 glyphH = glyph.height;
                 var x2 = glyph.xOffset + xAdvance - scrollX;
-                var y2 = glyph.yOffset + yAdvance - scrollY;
+                var y = glyph.yOffset + yAdvance - scrollY;
                 if (lastGlyph !== null) {
                   var kerningOffset = glyph.kerning[lastCharCode];
                   x2 += kerningOffset !== void 0 ? kerningOffset : 0;
@@ -56441,13 +56441,13 @@
                   callbackData.index = i;
                   callbackData.charCode = charCode;
                   callbackData.x = x2;
-                  callbackData.y = y2;
+                  callbackData.y = y;
                   callbackData.scale = scale;
                   callbackData.rotation = rotation;
                   callbackData.data = glyph.data;
                   var output = displayCallback(callbackData);
                   x2 = output.x;
-                  y2 = output.y;
+                  y = output.y;
                   scale = output.scale;
                   rotation = output.rotation;
                   if (output.color) {
@@ -56467,11 +56467,11 @@
                   tintBR = Utils.getTintAppendFloatAlpha(tintBR, camera.alpha * src._alphaBR);
                 }
                 x2 *= scale;
-                y2 *= scale;
+                y *= scale;
                 x2 -= src.displayOriginX;
-                y2 -= src.displayOriginY;
+                y -= src.displayOriginY;
                 x2 += lineOffsetX;
-                fontMatrix.applyITRS(x2, y2, rotation, scale, scale);
+                fontMatrix.applyITRS(x2, y, rotation, scale, scale);
                 calcMatrix.multiply(fontMatrix, spriteMatrix);
                 var u0 = glyph.u0;
                 var v0 = glyph.v0;
@@ -56532,7 +56532,7 @@
               var glyphW = 0;
               var glyphH = 0;
               var x2 = 0;
-              var y2 = 0;
+              var y = 0;
               var lastGlyph = null;
               var lastCharCode = 0;
               var image = src.frame.source.image;
@@ -56583,7 +56583,7 @@
                 glyphW = glyph.width;
                 glyphH = glyph.height;
                 x2 = glyph.xOffset + xAdvance - src.scrollX;
-                y2 = glyph.yOffset + yAdvance - src.scrollY;
+                y = glyph.yOffset + yAdvance - src.scrollY;
                 if (lastGlyph !== null) {
                   var kerningOffset = glyph.kerning[lastCharCode];
                   x2 += kerningOffset !== void 0 ? kerningOffset : 0;
@@ -56592,18 +56592,18 @@
                   callbackData.index = i;
                   callbackData.charCode = charCode;
                   callbackData.x = x2;
-                  callbackData.y = y2;
+                  callbackData.y = y;
                   callbackData.scale = scale;
                   callbackData.rotation = rotation;
                   callbackData.data = glyph.data;
                   var output = displayCallback(callbackData);
                   x2 = output.x;
-                  y2 = output.y;
+                  y = output.y;
                   scale = output.scale;
                   rotation = output.rotation;
                 }
                 x2 *= scale;
-                y2 *= scale;
+                y *= scale;
                 x2 += lineOffsetX;
                 xAdvance += glyph.xAdvance + letterSpacing;
                 lastGlyph = glyph;
@@ -56613,10 +56613,10 @@
                 }
                 if (roundPixels) {
                   x2 = Math.round(x2);
-                  y2 = Math.round(y2);
+                  y = Math.round(y);
                 }
                 ctx.save();
-                ctx.translate(x2, y2);
+                ctx.translate(x2, y);
                 ctx.rotate(rotation);
                 ctx.scale(scale, scale);
                 ctx.drawImage(image, glyphX, glyphY, glyphW, glyphH, 0, 0, glyphW, glyphH);
@@ -56672,15 +56672,15 @@
             var GetCalcMatrix = __webpack_require__(19);
             var TransformMatrix = __webpack_require__(25);
             var Utils = __webpack_require__(12);
-            var Point = function(x2, y2, width) {
+            var Point = function(x2, y, width) {
               this.x = x2;
-              this.y = y2;
+              this.y = y;
               this.width = width;
             };
-            var Path = function(x2, y2, width) {
+            var Path = function(x2, y, width) {
               this.points = [];
               this.pointsLength = 1;
-              this.points[0] = new Point(x2, y2, width);
+              this.points[0] = new Point(x2, y, width);
             };
             var matrixStack = [];
             var tempMatrix = new TransformMatrix();
@@ -56781,7 +56781,7 @@
                   case Commands.ARC: {
                     var iteration = 0;
                     var x2 = commands[++cmdIndex];
-                    var y2 = commands[++cmdIndex];
+                    var y = commands[++cmdIndex];
                     var radius = commands[++cmdIndex];
                     var startAngle = commands[++cmdIndex];
                     var endAngle = commands[++cmdIndex];
@@ -56800,20 +56800,20 @@
                       endAngle = PI2 + endAngle % PI2;
                     }
                     if (lastPath === null) {
-                      lastPath = new Path(x2 + Math.cos(startAngle) * radius, y2 + Math.sin(startAngle) * radius, lineWidth);
+                      lastPath = new Path(x2 + Math.cos(startAngle) * radius, y + Math.sin(startAngle) * radius, lineWidth);
                       path.push(lastPath);
                       iteration += iterStep;
                     }
                     while (iteration < 1 + overshoot) {
                       ta = endAngle * iteration + startAngle;
                       tx = x2 + Math.cos(ta) * radius;
-                      ty = y2 + Math.sin(ta) * radius;
+                      ty = y + Math.sin(ta) * radius;
                       lastPath.points.push(new Point(tx, ty, lineWidth));
                       iteration += iterStep;
                     }
                     ta = endAngle + startAngle;
                     tx = x2 + Math.cos(ta) * radius;
-                    ty = y2 + Math.sin(ta) * radius;
+                    ty = y + Math.sin(ta) * radius;
                     lastPath.points.push(new Point(tx, ty, lineWidth));
                     break;
                   }
@@ -56853,14 +56853,14 @@
                   }
                   case Commands.TRANSLATE: {
                     x2 = commands[++cmdIndex];
-                    y2 = commands[++cmdIndex];
-                    currentMatrix.translate(x2, y2);
+                    y = commands[++cmdIndex];
+                    currentMatrix.translate(x2, y);
                     break;
                   }
                   case Commands.SCALE: {
                     x2 = commands[++cmdIndex];
-                    y2 = commands[++cmdIndex];
-                    currentMatrix.scale(x2, y2);
+                    y = commands[++cmdIndex];
+                    currentMatrix.scale(x2, y);
                     break;
                   }
                   case Commands.ROTATE: {
@@ -57123,17 +57123,17 @@
                   camMatrix.multiply(particleMatrix, calcMatrix);
                   var frame = particle.frame;
                   var x2 = -frame.halfWidth;
-                  var y2 = -frame.halfHeight;
+                  var y = -frame.halfHeight;
                   var xw = x2 + frame.width;
-                  var yh = y2 + frame.height;
-                  var tx0 = calcMatrix.getXRound(x2, y2, roundPixels);
-                  var ty0 = calcMatrix.getYRound(x2, y2, roundPixels);
+                  var yh = y + frame.height;
+                  var tx0 = calcMatrix.getXRound(x2, y, roundPixels);
+                  var ty0 = calcMatrix.getYRound(x2, y, roundPixels);
                   var tx1 = calcMatrix.getXRound(x2, yh, roundPixels);
                   var ty1 = calcMatrix.getYRound(x2, yh, roundPixels);
                   var tx2 = calcMatrix.getXRound(xw, yh, roundPixels);
                   var ty2 = calcMatrix.getYRound(xw, yh, roundPixels);
-                  var tx3 = calcMatrix.getXRound(xw, y2, roundPixels);
-                  var ty3 = calcMatrix.getYRound(xw, y2, roundPixels);
+                  var tx3 = calcMatrix.getXRound(xw, y, roundPixels);
+                  var ty3 = calcMatrix.getYRound(xw, y, roundPixels);
                   var tint = getTint(particle.tint, alpha);
                   pipeline.batchQuad(emitter, tx0, ty0, tx1, ty1, tx2, ty2, tx3, ty3, frame.u0, frame.v0, frame.u1, frame.v1, tint, tint, tint, tint, tintEffect, texture, textureUnit);
                 }
@@ -57199,16 +57199,16 @@
                   var frame = particle.frame;
                   var cd = frame.canvasData;
                   var x2 = -frame.halfWidth;
-                  var y2 = -frame.halfHeight;
+                  var y = -frame.halfHeight;
                   ctx.globalAlpha = alpha;
                   ctx.save();
                   calcMatrix.setToContext(ctx);
                   if (roundPixels) {
                     x2 = Math.round(x2);
-                    y2 = Math.round(y2);
+                    y = Math.round(y);
                   }
                   ctx.imageSmoothingEnabled = !(!renderer.antialias || frame.source.scaleMode);
-                  ctx.drawImage(frame.source.image, cd.x, cd.y, cd.width, cd.height, x2, y2, cd.width, cd.height);
+                  ctx.drawImage(frame.source.image, cd.x, cd.y, cd.width, cd.height, x2, y, cd.width, cd.height);
                   ctx.restore();
                 }
                 ctx.restore();
@@ -57315,7 +57315,7 @@
                 }
               }
               var x2 = offsetX;
-              var y2 = offsetY;
+              var y = offsetY;
               var data = {
                 retroFont: true,
                 font: key,
@@ -57327,12 +57327,12 @@
               for (var i = 0; i < letters.length; i++) {
                 var charCode = letters.charCodeAt(i);
                 var u0 = (textureX + x2) / textureWidth;
-                var v0 = (textureY + y2) / textureHeight;
+                var v0 = (textureY + y) / textureHeight;
                 var u1 = (textureX + x2 + w2) / textureWidth;
-                var v1 = (textureY + y2 + h) / textureHeight;
+                var v1 = (textureY + y + h) / textureHeight;
                 data.chars[charCode] = {
                   x: x2,
-                  y: y2,
+                  y,
                   width: w2,
                   height: h,
                   centerX: cx,
@@ -57351,7 +57351,7 @@
                 if (r === charsPerRow) {
                   r = 0;
                   x2 = offsetX;
-                  y2 += h + spacingY;
+                  y += h + spacingY;
                 } else {
                   x2 += w2 + spacingX;
                 }
@@ -57410,9 +57410,9 @@
               var debugVerts = [];
               for (var i = 0; i < meshVerticesLength; i += 2) {
                 var x2 = vertices[i + 0];
-                var y2 = vertices[i + 1];
-                var tx = x2 * calcMatrix.a + y2 * calcMatrix.c + calcMatrix.e;
-                var ty = x2 * calcMatrix.b + y2 * calcMatrix.d + calcMatrix.f;
+                var y = vertices[i + 1];
+                var tx = x2 * calcMatrix.a + y * calcMatrix.c + calcMatrix.e;
+                var ty = x2 * calcMatrix.b + y * calcMatrix.d + calcMatrix.f;
                 if (roundPixels) {
                   tx = Math.round(tx);
                   ty = Math.round(ty);
@@ -57816,7 +57816,7 @@
               var showAltCells = src.showAltCells;
               var showOutline = src.showOutline;
               var x2 = 0;
-              var y2 = 0;
+              var y = 0;
               var r = 0;
               var cw = 0;
               var ch = 0;
@@ -57838,9 +57838,9 @@
                 fillTint.TR = fillTintColor;
                 fillTint.BL = fillTintColor;
                 fillTint.BR = fillTintColor;
-                for (y2 = 0; y2 < gridHeight; y2++) {
+                for (y = 0; y < gridHeight; y++) {
                   if (showAltCells) {
-                    r = y2 % 2;
+                    r = y % 2;
                   }
                   for (x2 = 0; x2 < gridWidth; x2++) {
                     if (showAltCells && r) {
@@ -57849,8 +57849,8 @@
                     }
                     r++;
                     cw = x2 < gridWidth - 1 ? cellWidthA : cellWidthB;
-                    ch = y2 < gridHeight - 1 ? cellHeightA : cellHeightB;
-                    pipeline.batchFillRect(x2 * cellWidth, y2 * cellHeight, cw, ch);
+                    ch = y < gridHeight - 1 ? cellHeightA : cellHeightB;
+                    pipeline.batchFillRect(x2 * cellWidth, y * cellHeight, cw, ch);
                   }
                 }
               }
@@ -57861,9 +57861,9 @@
                 fillTint.TR = fillTintColor;
                 fillTint.BL = fillTintColor;
                 fillTint.BR = fillTintColor;
-                for (y2 = 0; y2 < gridHeight; y2++) {
+                for (y = 0; y < gridHeight; y++) {
                   if (showAltCells) {
-                    r = y2 % 2;
+                    r = y % 2;
                   }
                   for (x2 = 0; x2 < gridWidth; x2++) {
                     if (showAltCells && !r) {
@@ -57872,8 +57872,8 @@
                     }
                     r = 0;
                     cw = x2 < gridWidth - 1 ? cellWidthA : cellWidthB;
-                    ch = y2 < gridHeight - 1 ? cellHeightA : cellHeightB;
-                    pipeline.batchFillRect(x2 * cellWidth, y2 * cellHeight, cw, ch);
+                    ch = y < gridHeight - 1 ? cellHeightA : cellHeightB;
+                    pipeline.batchFillRect(x2 * cellWidth, y * cellHeight, cw, ch);
                   }
                 }
               }
@@ -57888,8 +57888,8 @@
                   var x1 = x2 * cellWidth;
                   pipeline.batchLine(x1, 0, x1, height, 1, 1, 1, 0, false);
                 }
-                for (y2 = 1; y2 < gridHeight; y2++) {
-                  var y1 = y2 * cellHeight;
+                for (y = 1; y < gridHeight; y++) {
+                  var y1 = y * cellHeight;
                   pipeline.batchLine(0, y1, width, y1, 1, 1, 1, 0, false);
                 }
               }
@@ -57922,7 +57922,7 @@
                 var showAltCells = src.showAltCells;
                 var showOutline = src.showOutline;
                 var x2 = 0;
-                var y2 = 0;
+                var y = 0;
                 var r = 0;
                 var cw = 0;
                 var ch = 0;
@@ -57938,9 +57938,9 @@
                 }
                 if (showCells && src.fillAlpha > 0) {
                   FillStyleCanvas(ctx, src);
-                  for (y2 = 0; y2 < gridHeight; y2++) {
+                  for (y = 0; y < gridHeight; y++) {
                     if (showAltCells) {
-                      r = y2 % 2;
+                      r = y % 2;
                     }
                     for (x2 = 0; x2 < gridWidth; x2++) {
                       if (showAltCells && r) {
@@ -57949,16 +57949,16 @@
                       }
                       r++;
                       cw = x2 < gridWidth - 1 ? cellWidthA : cellWidthB;
-                      ch = y2 < gridHeight - 1 ? cellHeightA : cellHeightB;
-                      ctx.fillRect(dx + x2 * cellWidth, dy + y2 * cellHeight, cw, ch);
+                      ch = y < gridHeight - 1 ? cellHeightA : cellHeightB;
+                      ctx.fillRect(dx + x2 * cellWidth, dy + y * cellHeight, cw, ch);
                     }
                   }
                 }
                 if (showAltCells && src.altFillAlpha > 0) {
                   FillStyleCanvas(ctx, src, src.altFillColor, src.altFillAlpha * alpha);
-                  for (y2 = 0; y2 < gridHeight; y2++) {
+                  for (y = 0; y < gridHeight; y++) {
                     if (showAltCells) {
-                      r = y2 % 2;
+                      r = y % 2;
                     }
                     for (x2 = 0; x2 < gridWidth; x2++) {
                       if (showAltCells && !r) {
@@ -57967,8 +57967,8 @@
                       }
                       r = 0;
                       cw = x2 < gridWidth - 1 ? cellWidthA : cellWidthB;
-                      ch = y2 < gridHeight - 1 ? cellHeightA : cellHeightB;
-                      ctx.fillRect(dx + x2 * cellWidth, dy + y2 * cellHeight, cw, ch);
+                      ch = y < gridHeight - 1 ? cellHeightA : cellHeightB;
+                      ctx.fillRect(dx + x2 * cellWidth, dy + y * cellHeight, cw, ch);
                     }
                   }
                 }
@@ -57981,8 +57981,8 @@
                     ctx.lineTo(x1 + dx, height + dy);
                     ctx.stroke();
                   }
-                  for (y2 = 1; y2 < gridHeight; y2++) {
-                    var y1 = y2 * cellHeight;
+                  for (y = 1; y < gridHeight; y++) {
+                    var y1 = y * cellHeight;
                     ctx.beginPath();
                     ctx.moveTo(dx, y1 + dy);
                     ctx.lineTo(dx + width, y1 + dy);
@@ -58635,22 +58635,22 @@
           function(module2, exports2, __webpack_require__) {
             var Blitter = __webpack_require__(213);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("blitter", function(x2, y2, key, frame) {
-              return this.displayList.add(new Blitter(this.scene, x2, y2, key, frame));
+            GameObjectFactory.register("blitter", function(x2, y, key, frame) {
+              return this.displayList.add(new Blitter(this.scene, x2, y, key, frame));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Container = __webpack_require__(214);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("container", function(x2, y2, children) {
-              return this.displayList.add(new Container(this.scene, x2, y2, children));
+            GameObjectFactory.register("container", function(x2, y, children) {
+              return this.displayList.add(new Container(this.scene, x2, y, children));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var DOMElement = __webpack_require__(442);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("dom", function(x2, y2, element, style, innerText) {
-              var gameObject = new DOMElement(this.scene, x2, y2, element, style, innerText);
+            GameObjectFactory.register("dom", function(x2, y, element, style, innerText) {
+              var gameObject = new DOMElement(this.scene, x2, y, element, style, innerText);
               this.displayList.add(gameObject);
               return gameObject;
             });
@@ -58658,8 +58658,8 @@
           function(module2, exports2, __webpack_require__) {
             var DynamicBitmapText = __webpack_require__(215);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("dynamicBitmapText", function(x2, y2, font, text, size) {
-              return this.displayList.add(new DynamicBitmapText(this.scene, x2, y2, font, text, size));
+            GameObjectFactory.register("dynamicBitmapText", function(x2, y, font, text, size) {
+              return this.displayList.add(new DynamicBitmapText(this.scene, x2, y, font, text, size));
             });
           },
           function(module2, exports2, __webpack_require__) {
@@ -58688,8 +58688,8 @@
           function(module2, exports2, __webpack_require__) {
             var Image2 = __webpack_require__(125);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("image", function(x2, y2, key, frame) {
-              return this.displayList.add(new Image2(this.scene, x2, y2, key, frame));
+            GameObjectFactory.register("image", function(x2, y, key, frame) {
+              return this.displayList.add(new Image2(this.scene, x2, y, key, frame));
             });
           },
           function(module2, exports2, __webpack_require__) {
@@ -58709,8 +58709,8 @@
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var PathFollower = __webpack_require__(457);
-            GameObjectFactory.register("follower", function(path, x2, y2, key, frame) {
-              var sprite = new PathFollower(this.scene, path, x2, y2, key, frame);
+            GameObjectFactory.register("follower", function(path, x2, y, key, frame) {
+              var sprite = new PathFollower(this.scene, path, x2, y, key, frame);
               this.displayList.add(sprite);
               this.updateList.add(sprite);
               return sprite;
@@ -58719,24 +58719,24 @@
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var RenderTexture = __webpack_require__(221);
-            GameObjectFactory.register("renderTexture", function(x2, y2, width, height, key, frame) {
-              return this.displayList.add(new RenderTexture(this.scene, x2, y2, width, height, key, frame));
+            GameObjectFactory.register("renderTexture", function(x2, y, width, height, key, frame) {
+              return this.displayList.add(new RenderTexture(this.scene, x2, y, width, height, key, frame));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Rope = __webpack_require__(223);
             var GameObjectFactory = __webpack_require__(5);
             if (true) {
-              GameObjectFactory.register("rope", function(x2, y2, texture, frame, points, horizontal, colors, alphas) {
-                return this.displayList.add(new Rope(this.scene, x2, y2, texture, frame, points, horizontal, colors, alphas));
+              GameObjectFactory.register("rope", function(x2, y, texture, frame, points, horizontal, colors, alphas) {
+                return this.displayList.add(new Rope(this.scene, x2, y, texture, frame, points, horizontal, colors, alphas));
               });
             }
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Sprite = __webpack_require__(73);
-            GameObjectFactory.register("sprite", function(x2, y2, key, frame) {
-              var sprite = new Sprite(this.scene, x2, y2, key, frame);
+            GameObjectFactory.register("sprite", function(x2, y, key, frame) {
+              var sprite = new Sprite(this.scene, x2, y, key, frame);
               this.displayList.add(sprite);
               return sprite;
             });
@@ -58744,116 +58744,116 @@
           function(module2, exports2, __webpack_require__) {
             var BitmapText = __webpack_require__(148);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("bitmapText", function(x2, y2, font, text, size, align) {
-              return this.displayList.add(new BitmapText(this.scene, x2, y2, font, text, size, align));
+            GameObjectFactory.register("bitmapText", function(x2, y, font, text, size, align) {
+              return this.displayList.add(new BitmapText(this.scene, x2, y, font, text, size, align));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Text = __webpack_require__(224);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("text", function(x2, y2, text, style) {
-              return this.displayList.add(new Text(this.scene, x2, y2, text, style));
+            GameObjectFactory.register("text", function(x2, y, text, style) {
+              return this.displayList.add(new Text(this.scene, x2, y, text, style));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var TileSprite = __webpack_require__(225);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("tileSprite", function(x2, y2, width, height, key, frame) {
-              return this.displayList.add(new TileSprite(this.scene, x2, y2, width, height, key, frame));
+            GameObjectFactory.register("tileSprite", function(x2, y, width, height, key, frame) {
+              return this.displayList.add(new TileSprite(this.scene, x2, y, width, height, key, frame));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Zone = __webpack_require__(129);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("zone", function(x2, y2, width, height) {
-              return this.displayList.add(new Zone(this.scene, x2, y2, width, height));
+            GameObjectFactory.register("zone", function(x2, y, width, height) {
+              return this.displayList.add(new Zone(this.scene, x2, y, width, height));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Video = __webpack_require__(226);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("video", function(x2, y2, key) {
-              return this.displayList.add(new Video(this.scene, x2, y2, key));
+            GameObjectFactory.register("video", function(x2, y, key) {
+              return this.displayList.add(new Video(this.scene, x2, y, key));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Arc = __webpack_require__(461);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("arc", function(x2, y2, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha) {
-              return this.displayList.add(new Arc(this.scene, x2, y2, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha));
+            GameObjectFactory.register("arc", function(x2, y, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha) {
+              return this.displayList.add(new Arc(this.scene, x2, y, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha));
             });
-            GameObjectFactory.register("circle", function(x2, y2, radius, fillColor, fillAlpha) {
-              return this.displayList.add(new Arc(this.scene, x2, y2, radius, 0, 360, false, fillColor, fillAlpha));
+            GameObjectFactory.register("circle", function(x2, y, radius, fillColor, fillAlpha) {
+              return this.displayList.add(new Arc(this.scene, x2, y, radius, 0, 360, false, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Curve = __webpack_require__(462);
-            GameObjectFactory.register("curve", function(x2, y2, curve, fillColor, fillAlpha) {
-              return this.displayList.add(new Curve(this.scene, x2, y2, curve, fillColor, fillAlpha));
+            GameObjectFactory.register("curve", function(x2, y, curve, fillColor, fillAlpha) {
+              return this.displayList.add(new Curve(this.scene, x2, y, curve, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Ellipse = __webpack_require__(463);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("ellipse", function(x2, y2, width, height, fillColor, fillAlpha) {
-              return this.displayList.add(new Ellipse(this.scene, x2, y2, width, height, fillColor, fillAlpha));
+            GameObjectFactory.register("ellipse", function(x2, y, width, height, fillColor, fillAlpha) {
+              return this.displayList.add(new Ellipse(this.scene, x2, y, width, height, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Grid = __webpack_require__(464);
-            GameObjectFactory.register("grid", function(x2, y2, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha) {
-              return this.displayList.add(new Grid(this.scene, x2, y2, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha));
+            GameObjectFactory.register("grid", function(x2, y, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha) {
+              return this.displayList.add(new Grid(this.scene, x2, y, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var IsoBox = __webpack_require__(465);
-            GameObjectFactory.register("isobox", function(x2, y2, size, height, fillTop, fillLeft, fillRight) {
-              return this.displayList.add(new IsoBox(this.scene, x2, y2, size, height, fillTop, fillLeft, fillRight));
+            GameObjectFactory.register("isobox", function(x2, y, size, height, fillTop, fillLeft, fillRight) {
+              return this.displayList.add(new IsoBox(this.scene, x2, y, size, height, fillTop, fillLeft, fillRight));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var IsoTriangle = __webpack_require__(466);
-            GameObjectFactory.register("isotriangle", function(x2, y2, size, height, reversed, fillTop, fillLeft, fillRight) {
-              return this.displayList.add(new IsoTriangle(this.scene, x2, y2, size, height, reversed, fillTop, fillLeft, fillRight));
+            GameObjectFactory.register("isotriangle", function(x2, y, size, height, reversed, fillTop, fillLeft, fillRight) {
+              return this.displayList.add(new IsoTriangle(this.scene, x2, y, size, height, reversed, fillTop, fillLeft, fillRight));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Line = __webpack_require__(467);
-            GameObjectFactory.register("line", function(x2, y2, x1, y1, x22, y22, strokeColor, strokeAlpha) {
-              return this.displayList.add(new Line(this.scene, x2, y2, x1, y1, x22, y22, strokeColor, strokeAlpha));
+            GameObjectFactory.register("line", function(x2, y, x1, y1, x22, y2, strokeColor, strokeAlpha) {
+              return this.displayList.add(new Line(this.scene, x2, y, x1, y1, x22, y2, strokeColor, strokeAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Polygon = __webpack_require__(468);
-            GameObjectFactory.register("polygon", function(x2, y2, points, fillColor, fillAlpha) {
-              return this.displayList.add(new Polygon(this.scene, x2, y2, points, fillColor, fillAlpha));
+            GameObjectFactory.register("polygon", function(x2, y, points, fillColor, fillAlpha) {
+              return this.displayList.add(new Polygon(this.scene, x2, y, points, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Rectangle = __webpack_require__(473);
-            GameObjectFactory.register("rectangle", function(x2, y2, width, height, fillColor, fillAlpha) {
-              return this.displayList.add(new Rectangle(this.scene, x2, y2, width, height, fillColor, fillAlpha));
+            GameObjectFactory.register("rectangle", function(x2, y, width, height, fillColor, fillAlpha) {
+              return this.displayList.add(new Rectangle(this.scene, x2, y, width, height, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var Star = __webpack_require__(474);
             var GameObjectFactory = __webpack_require__(5);
-            GameObjectFactory.register("star", function(x2, y2, points, innerRadius, outerRadius, fillColor, fillAlpha) {
-              return this.displayList.add(new Star(this.scene, x2, y2, points, innerRadius, outerRadius, fillColor, fillAlpha));
+            GameObjectFactory.register("star", function(x2, y, points, innerRadius, outerRadius, fillColor, fillAlpha) {
+              return this.displayList.add(new Star(this.scene, x2, y, points, innerRadius, outerRadius, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var Triangle = __webpack_require__(475);
-            GameObjectFactory.register("triangle", function(x2, y2, x1, y1, x22, y22, x3, y3, fillColor, fillAlpha) {
-              return this.displayList.add(new Triangle(this.scene, x2, y2, x1, y1, x22, y22, x3, y3, fillColor, fillAlpha));
+            GameObjectFactory.register("triangle", function(x2, y, x1, y1, x22, y2, x3, y3, fillColor, fillAlpha) {
+              return this.displayList.add(new Triangle(this.scene, x2, y, x1, y1, x22, y2, x3, y3, fillColor, fillAlpha));
             });
           },
           function(module2, exports2, __webpack_require__) {
@@ -58885,9 +58885,9 @@
                 config = {};
               }
               var x2 = GetAdvancedValue(config, "x", 0);
-              var y2 = GetAdvancedValue(config, "y", 0);
+              var y = GetAdvancedValue(config, "y", 0);
               var children = GetAdvancedValue(config, "children", null);
-              var container = new Container(this.scene, x2, y2, children);
+              var container = new Container(this.scene, x2, y, children);
               if (addToScene !== void 0) {
                 config.add = addToScene;
               }
@@ -59011,12 +59011,12 @@
                 config = {};
               }
               var x2 = GetAdvancedValue(config, "x", 0);
-              var y2 = GetAdvancedValue(config, "y", 0);
+              var y = GetAdvancedValue(config, "y", 0);
               var width = GetAdvancedValue(config, "width", 32);
               var height = GetAdvancedValue(config, "height", 32);
               var key = GetAdvancedValue(config, "key", void 0);
               var frame = GetAdvancedValue(config, "frame", void 0);
-              var renderTexture = new RenderTexture(this.scene, x2, y2, width, height, key, frame);
+              var renderTexture = new RenderTexture(this.scene, x2, y, width, height, key, frame);
               if (addToScene !== void 0) {
                 config.add = addToScene;
               }
@@ -59129,12 +59129,12 @@
                 config = {};
               }
               var x2 = GetAdvancedValue(config, "x", 0);
-              var y2 = GetAdvancedValue(config, "y", 0);
+              var y = GetAdvancedValue(config, "y", 0);
               var width = GetAdvancedValue(config, "width", 512);
               var height = GetAdvancedValue(config, "height", 512);
               var key = GetAdvancedValue(config, "key", "");
               var frame = GetAdvancedValue(config, "frame", "");
-              var tile = new TileSprite(this.scene, x2, y2, width, height, key, frame);
+              var tile = new TileSprite(this.scene, x2, y, width, height, key, frame);
               if (addToScene !== void 0) {
                 config.add = addToScene;
               }
@@ -59148,10 +59148,10 @@
             var Zone = __webpack_require__(129);
             GameObjectCreator.register("zone", function(config) {
               var x2 = GetAdvancedValue(config, "x", 0);
-              var y2 = GetAdvancedValue(config, "y", 0);
+              var y = GetAdvancedValue(config, "y", 0);
               var width = GetAdvancedValue(config, "width", 1);
               var height = GetAdvancedValue(config, "height", width);
-              return new Zone(this.scene, x2, y2, width, height);
+              return new Zone(this.scene, x2, y, width, height);
             });
           },
           function(module2, exports2, __webpack_require__) {
@@ -59249,12 +59249,12 @@
               var tintEffect = src.tintFill;
               var debugFaces = [];
               var debugCallback = src.debugCallback;
-              var a = calcMatrix.a;
-              var b2 = calcMatrix.b;
+              var a2 = calcMatrix.a;
+              var b = calcMatrix.b;
               var c = calcMatrix.c;
               var d = calcMatrix.d;
               var e = calcMatrix.e;
-              var f = calcMatrix.f;
+              var f2 = calcMatrix.f;
               var z2 = src.viewPosition.z;
               var hideCCW = src.hideCCW;
               var roundPixels = camera.roundPixels;
@@ -59263,7 +59263,7 @@
               renderer.pipelines.preBatch(src);
               for (var i = 0; i < totalFaces; i++) {
                 var face = faces[i];
-                if (!face.isInView(camera, hideCCW, z2, alpha, a, b2, c, d, e, f, roundPixels)) {
+                if (!face.isInView(camera, hideCCW, z2, alpha, a2, b, c, d, e, f2, roundPixels)) {
                   continue;
                 }
                 if (pipeline.shouldFlush(3)) {
@@ -59310,19 +59310,19 @@
               var width = src.width;
               var height = src.height;
               var x2 = -src._radius;
-              var y2 = -src._radius;
+              var y = -src._radius;
               var xw = x2 + width;
-              var yh = y2 + height;
+              var yh = y + height;
               var lightX = calcMatrix.getX(0, 0);
               var lightY = calcMatrix.getY(0, 0);
-              var tx0 = calcMatrix.getX(x2, y2);
-              var ty0 = calcMatrix.getY(x2, y2);
+              var tx0 = calcMatrix.getX(x2, y);
+              var ty0 = calcMatrix.getY(x2, y);
               var tx1 = calcMatrix.getX(x2, yh);
               var ty1 = calcMatrix.getY(x2, yh);
               var tx2 = calcMatrix.getX(xw, yh);
               var ty2 = calcMatrix.getY(xw, yh);
-              var tx3 = calcMatrix.getX(xw, y2);
-              var ty3 = calcMatrix.getY(xw, y2);
+              var tx3 = calcMatrix.getX(xw, y);
+              var ty3 = calcMatrix.getY(xw, y);
               renderer.pipelines.preBatch(src);
               pipeline.batchPointLight(src, camera, tx0, ty0, tx1, ty1, tx2, ty2, tx3, ty3, lightX, lightY);
               renderer.pipelines.postBatch(src);
@@ -59333,8 +59333,8 @@
             var Shader = __webpack_require__(229);
             var GameObjectFactory = __webpack_require__(5);
             if (true) {
-              GameObjectFactory.register("shader", function(key, x2, y2, width, height, textures, textureData) {
-                return this.displayList.add(new Shader(this.scene, key, x2, y2, width, height, textures, textureData));
+              GameObjectFactory.register("shader", function(key, x2, y, width, height, textures, textureData) {
+                return this.displayList.add(new Shader(this.scene, key, x2, y, width, height, textures, textureData));
               });
             }
           },
@@ -59342,16 +59342,16 @@
             var Mesh = __webpack_require__(230);
             var GameObjectFactory = __webpack_require__(5);
             if (true) {
-              GameObjectFactory.register("mesh", function(x2, y2, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas) {
-                return this.displayList.add(new Mesh(this.scene, x2, y2, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas));
+              GameObjectFactory.register("mesh", function(x2, y, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas) {
+                return this.displayList.add(new Mesh(this.scene, x2, y, texture, frame, vertices, uvs, indicies, containsZ, normals, colors, alphas));
               });
             }
           },
           function(module2, exports2, __webpack_require__) {
             var GameObjectFactory = __webpack_require__(5);
             var PointLight = __webpack_require__(150);
-            GameObjectFactory.register("pointlight", function(x2, y2, color, radius, intensity, attenuation) {
-              return this.displayList.add(new PointLight(this.scene, x2, y2, color, radius, intensity, attenuation));
+            GameObjectFactory.register("pointlight", function(x2, y, color, radius, intensity, attenuation) {
+              return this.displayList.add(new PointLight(this.scene, x2, y, color, radius, intensity, attenuation));
             });
           },
           function(module2, exports2, __webpack_require__) {
@@ -59365,10 +59365,10 @@
               }
               var key = GetAdvancedValue(config, "key", null);
               var x2 = GetAdvancedValue(config, "x", 0);
-              var y2 = GetAdvancedValue(config, "y", 0);
+              var y = GetAdvancedValue(config, "y", 0);
               var width = GetAdvancedValue(config, "width", 128);
               var height = GetAdvancedValue(config, "height", 128);
-              var shader = new Shader(this.scene, key, x2, y2, width, height);
+              var shader = new Shader(this.scene, key, x2, y, width, height);
               if (addToScene !== void 0) {
                 config.add = addToScene;
               }
@@ -59526,9 +59526,9 @@
             module2.exports = GetBounds;
           },
           function(module2, exports2) {
-            var Offset = function(circle, x2, y2) {
+            var Offset = function(circle, x2, y) {
               circle.x += x2;
-              circle.y += y2;
+              circle.y += y;
               return circle;
             };
             module2.exports = Offset;
@@ -59617,9 +59617,9 @@
             module2.exports = GetBounds;
           },
           function(module2, exports2) {
-            var Offset = function(ellipse, x2, y2) {
+            var Offset = function(ellipse, x2, y) {
               ellipse.x += x2;
-              ellipse.y += y2;
+              ellipse.y += y;
               return ellipse;
             };
             module2.exports = Offset;
@@ -59707,19 +59707,19 @@
             var GetLineToPolygon = __webpack_require__(487);
             var Line = __webpack_require__(47);
             var segment = new Line();
-            function CheckIntersects(angle, x2, y2, polygons, intersects) {
+            function CheckIntersects(angle, x2, y, polygons, intersects) {
               var dx = Math.cos(angle);
               var dy = Math.sin(angle);
-              segment.setTo(x2, y2, x2 + dx, y2 + dy);
+              segment.setTo(x2, y, x2 + dx, y + dy);
               var closestIntersect = GetLineToPolygon(segment, polygons);
               if (closestIntersect) {
                 intersects.push(new Vector4(closestIntersect.x, closestIntersect.y, angle, closestIntersect.w));
               }
             }
-            function SortIntersects(a, b2) {
-              return a.z - b2.z;
+            function SortIntersects(a2, b) {
+              return a2.z - b.z;
             }
-            var GetRaysFromPointToPolygon = function(x2, y2, polygons) {
+            var GetRaysFromPointToPolygon = function(x2, y, polygons) {
               if (!Array.isArray(polygons)) {
                 polygons = [polygons];
               }
@@ -59727,12 +59727,12 @@
               var angles = [];
               for (var i = 0; i < polygons.length; i++) {
                 var points = polygons[i].points;
-                for (var p = 0; p < points.length; p++) {
-                  var angle = Math.atan2(points[p].y - y2, points[p].x - x2);
+                for (var p2 = 0; p2 < points.length; p2++) {
+                  var angle = Math.atan2(points[p2].y - y, points[p2].x - x2);
                   if (angles.indexOf(angle) === -1) {
-                    CheckIntersects(angle, x2, y2, polygons, intersects);
-                    CheckIntersects(angle - 1e-5, x2, y2, polygons, intersects);
-                    CheckIntersects(angle + 1e-5, x2, y2, polygons, intersects);
+                    CheckIntersects(angle, x2, y, polygons, intersects);
+                    CheckIntersects(angle - 1e-5, x2, y, polygons, intersects);
+                    CheckIntersects(angle + 1e-5, x2, y, polygons, intersects);
                     angles.push(angle);
                   }
                 }
@@ -59893,9 +59893,9 @@
             module2.exports = Line;
           },
           function(module2, exports2) {
-            var CenterOn = function(line, x2, y2) {
+            var CenterOn = function(line, x2, y) {
               var tx = x2 - (line.x1 + line.x2) / 2;
-              var ty = y2 - (line.y1 + line.y2) / 2;
+              var ty = y - (line.y1 + line.y2) / 2;
               line.x1 += tx;
               line.y1 += ty;
               line.x2 += tx;
@@ -59963,9 +59963,9 @@
               var easeFunc = GetEaseFunction(ease, easeParams);
               var i;
               var v2;
-              var q = quantity - 1;
-              for (i = 0; i < q; i++) {
-                v2 = easeFunc(i / q);
+              var q2 = quantity - 1;
+              for (i = 0; i < q2; i++) {
+                v2 = easeFunc(i / q2);
                 results.push(new Point(x1 + spaceX * v2, y1 + spaceY * v2));
               }
               v2 = easeFunc(1);
@@ -60033,9 +60033,9 @@
               if (out === void 0) {
                 out = new Point();
               }
-              var a = Angle(line) - MATH_CONST.TAU;
-              out.x = Math.cos(a);
-              out.y = Math.sin(a);
+              var a2 = Angle(line) - MATH_CONST.TAU;
+              out.x = Math.cos(a2);
+              out.y = Math.sin(a2);
               return out;
             };
             module2.exports = GetNormal;
@@ -60050,8 +60050,8 @@
               if (L2 === 0) {
                 return false;
               }
-              var s2 = ((y1 - point.y) * (x2 - x1) - (x1 - point.x) * (y2 - y1)) / L2;
-              return Math.abs(s2) * Math.sqrt(L2);
+              var s = ((y1 - point.y) * (x2 - x1) - (x1 - point.x) * (y2 - y1)) / L2;
+              return Math.abs(s) * Math.sqrt(L2);
             };
             module2.exports = GetShortestDistance;
           },
@@ -60078,11 +60078,11 @@
             module2.exports = NormalY;
           },
           function(module2, exports2) {
-            var Offset = function(line, x2, y2) {
+            var Offset = function(line, x2, y) {
               line.x1 += x2;
-              line.y1 += y2;
+              line.y1 += y;
               line.x2 += x2;
-              line.y2 += y2;
+              line.y2 += y;
               return line;
             };
             module2.exports = Offset;
@@ -60105,8 +60105,8 @@
             var RotateAroundXY = __webpack_require__(236);
             var Rotate = function(line, angle) {
               var x2 = (line.x1 + line.x2) / 2;
-              var y2 = (line.y1 + line.y2) / 2;
-              return RotateAroundXY(line, x2, y2, angle);
+              var y = (line.y1 + line.y2) / 2;
+              return RotateAroundXY(line, x2, y, angle);
             };
             module2.exports = Rotate;
           },
@@ -60118,11 +60118,11 @@
             module2.exports = RotateAroundPoint;
           },
           function(module2, exports2) {
-            var SetToAngle = function(line, x2, y2, angle, length) {
+            var SetToAngle = function(line, x2, y, angle, length) {
               line.x1 = x2;
-              line.y1 = y2;
+              line.y1 = y;
               line.x2 = x2 + Math.cos(angle) * length;
-              line.y2 = y2 + Math.sin(angle) * length;
+              line.y2 = y + Math.sin(angle) * length;
               return line;
             };
             module2.exports = SetToAngle;
@@ -60231,10 +60231,10 @@
               var frameU = frameU1 - frameU0;
               var frameV = frameV1 - frameV0;
               for (iy = 0; iy < gridY1; iy++) {
-                var y2 = iy * segmentHeight - halfHeight;
+                var y = iy * segmentHeight - halfHeight;
                 for (ix = 0; ix < gridX1; ix++) {
                   var x2 = ix * segmentWidth - halfWidth;
-                  vertices.push(x2, -y2);
+                  vertices.push(x2, -y);
                   var tu = frameU0 + frameU * (ix / gridX);
                   var tv = frameV0 + frameV * (iy / gridY);
                   uvs.push(tu, tv);
@@ -60250,16 +60250,16 @@
               var colorIndex = 0;
               for (iy = 0; iy < gridY; iy++) {
                 for (ix = 0; ix < gridX; ix++) {
-                  var a = (ix + gridX1 * iy) * 2;
-                  var b2 = (ix + gridX1 * (iy + 1)) * 2;
+                  var a2 = (ix + gridX1 * iy) * 2;
+                  var b = (ix + gridX1 * (iy + 1)) * 2;
                   var c = (ix + 1 + gridX1 * (iy + 1)) * 2;
                   var d = (ix + 1 + gridX1 * iy) * 2;
                   var color = colors[colorIndex];
                   var alpha = alphas[alphaIndex];
-                  var vert1 = new Vertex(vertices[a], vertices[a + 1], 0, uvs[a], uvs[a + 1], color, alpha).transformMat4(tempMatrix);
-                  var vert2 = new Vertex(vertices[b2], vertices[b2 + 1], 0, uvs[b2], uvs[b2 + 1], color, alpha).transformMat4(tempMatrix);
+                  var vert1 = new Vertex(vertices[a2], vertices[a2 + 1], 0, uvs[a2], uvs[a2 + 1], color, alpha).transformMat4(tempMatrix);
+                  var vert2 = new Vertex(vertices[b], vertices[b + 1], 0, uvs[b], uvs[b + 1], color, alpha).transformMat4(tempMatrix);
                   var vert3 = new Vertex(vertices[d], vertices[d + 1], 0, uvs[d], uvs[d + 1], color, alpha).transformMat4(tempMatrix);
-                  var vert4 = new Vertex(vertices[b2], vertices[b2 + 1], 0, uvs[b2], uvs[b2 + 1], color, alpha).transformMat4(tempMatrix);
+                  var vert4 = new Vertex(vertices[b], vertices[b + 1], 0, uvs[b], uvs[b + 1], color, alpha).transformMat4(tempMatrix);
                   var vert5 = new Vertex(vertices[c], vertices[c + 1], 0, uvs[c], uvs[c + 1], color, alpha).transformMat4(tempMatrix);
                   var vert6 = new Vertex(vertices[d], vertices[d + 1], 0, uvs[d], uvs[d + 1], color, alpha).transformMat4(tempMatrix);
                   if (tile) {
@@ -60293,26 +60293,26 @@
           function(module2, exports2) {
             var RotateFace = function(face, angle, cx, cy) {
               var x2;
-              var y2;
+              var y;
               if (cx === void 0 && cy === void 0) {
                 var inCenter = face.getInCenter();
                 x2 = inCenter.x;
-                y2 = inCenter.y;
+                y = inCenter.y;
               }
               var c = Math.cos(angle);
-              var s2 = Math.sin(angle);
+              var s = Math.sin(angle);
               var v1 = face.vertex1;
               var v2 = face.vertex2;
               var v3 = face.vertex3;
               var tx = v1.x - x2;
-              var ty = v1.y - y2;
-              v1.set(tx * c - ty * s2 + x2, tx * s2 + ty * c + y2);
+              var ty = v1.y - y;
+              v1.set(tx * c - ty * s + x2, tx * s + ty * c + y);
               tx = v2.x - x2;
-              ty = v2.y - y2;
-              v2.set(tx * c - ty * s2 + x2, tx * s2 + ty * c + y2);
+              ty = v2.y - y;
+              v2.set(tx * c - ty * s + x2, tx * s + ty * c + y);
               tx = v3.x - x2;
-              ty = v3.y - y2;
-              v3.set(tx * c - ty * s2 + x2, tx * s2 + ty * c + y2);
+              ty = v3.y - y;
+              v3.set(tx * c - ty * s + x2, tx * s + ty * c + y);
             };
             module2.exports = RotateFace;
           },
@@ -60493,9 +60493,9 @@
             var GetMagnitude = __webpack_require__(500);
             var SetMagnitude = function(point, magnitude) {
               if (point.x !== 0 || point.y !== 0) {
-                var m2 = GetMagnitude(point);
-                point.x /= m2;
-                point.y /= m2;
+                var m = GetMagnitude(point);
+                point.x /= m;
+                point.y /= m;
               }
               point.x *= magnitude;
               point.y *= magnitude;
@@ -60558,20 +60558,20 @@
               var dx = p1.x - p2.x, dy = p1.y - p2.y;
               return dx * dx + dy * dy;
             }
-            function getSqSegDist(p, p1, p2) {
-              var x2 = p1.x, y2 = p1.y, dx = p2.x - x2, dy = p2.y - y2;
+            function getSqSegDist(p2, p1, p22) {
+              var x2 = p1.x, y = p1.y, dx = p22.x - x2, dy = p22.y - y;
               if (dx !== 0 || dy !== 0) {
-                var t = ((p.x - x2) * dx + (p.y - y2) * dy) / (dx * dx + dy * dy);
+                var t = ((p2.x - x2) * dx + (p2.y - y) * dy) / (dx * dx + dy * dy);
                 if (t > 1) {
-                  x2 = p2.x;
-                  y2 = p2.y;
+                  x2 = p22.x;
+                  y = p22.y;
                 } else if (t > 0) {
                   x2 += dx * t;
-                  y2 += dy * t;
+                  y += dy * t;
                 }
               }
-              dx = p.x - x2;
-              dy = p.y - y2;
+              dx = p2.x - x2;
+              dy = p2.y - y;
               return dx * dx + dy * dy;
             }
             function simplifyRadialDist(points, sqTolerance) {
@@ -60634,11 +60634,11 @@
             module2.exports = Simplify;
           },
           function(module2, exports2) {
-            var Translate = function(polygon, x2, y2) {
+            var Translate = function(polygon, x2, y) {
               var points = polygon.points;
               for (var i = 0; i < points.length; i++) {
                 points[i].x += x2;
-                points[i].y += y2;
+                points[i].y += y;
               }
               return polygon;
             };
@@ -60774,10 +60774,10 @@
           },
           function(module2, exports2, __webpack_require__) {
             var CenterOn = __webpack_require__(190);
-            var Inflate = function(rect, x2, y2) {
+            var Inflate = function(rect, x2, y) {
               var cx = rect.centerX;
               var cy = rect.centerY;
-              rect.setSize(rect.width + x2 * 2, rect.height + y2 * 2);
+              rect.setSize(rect.width + x2 * 2, rect.height + y * 2);
               return CenterOn(rect, cx, cy);
             };
             module2.exports = Inflate;
@@ -60836,13 +60836,13 @@
             module2.exports = MergeRect;
           },
           function(module2, exports2) {
-            var MergeXY = function(target, x2, y2) {
+            var MergeXY = function(target, x2, y) {
               var minX = Math.min(target.x, x2);
               var maxX = Math.max(target.right, x2);
               target.x = minX;
               target.width = maxX - minX;
-              var minY = Math.min(target.y, y2);
-              var maxY = Math.max(target.bottom, y2);
+              var minY = Math.min(target.y, y);
+              var maxY = Math.max(target.bottom, y);
               target.y = minY;
               target.height = maxY - minY;
               return target;
@@ -60850,9 +60850,9 @@
             module2.exports = MergeXY;
           },
           function(module2, exports2) {
-            var Offset = function(rect, x2, y2) {
+            var Offset = function(rect, x2, y) {
               rect.x += x2;
-              rect.y += y2;
+              rect.y += y;
               return rect;
             };
             module2.exports = Offset;
@@ -60879,14 +60879,14 @@
                 out = new Point();
               }
               angle = DegToRad(angle);
-              var s2 = Math.sin(angle);
+              var s = Math.sin(angle);
               var c = Math.cos(angle);
               var dx = c > 0 ? rectangle.width / 2 : rectangle.width / -2;
-              var dy = s2 > 0 ? rectangle.height / 2 : rectangle.height / -2;
-              if (Math.abs(dx * s2) < Math.abs(dy * c)) {
-                dy = dx * s2 / c;
+              var dy = s > 0 ? rectangle.height / 2 : rectangle.height / -2;
+              if (Math.abs(dx * s) < Math.abs(dy * c)) {
+                dy = dx * s / c;
               } else {
-                dx = dy * c / s2;
+                dx = dy * c / s;
               }
               out.x = dx + rectangle.centerX;
               out.y = dy + rectangle.centerY;
@@ -60933,12 +60933,12 @@
             module2.exports = SameDimensions;
           },
           function(module2, exports2) {
-            var Scale2 = function(rect, x2, y2) {
-              if (y2 === void 0) {
-                y2 = x2;
+            var Scale2 = function(rect, x2, y) {
+              if (y === void 0) {
+                y = x2;
               }
               rect.width *= x2;
-              rect.height *= y2;
+              rect.height *= y;
               return rect;
             };
             module2.exports = Scale2;
@@ -60985,15 +60985,15 @@
           },
           function(module2, exports2, __webpack_require__) {
             var Triangle = __webpack_require__(82);
-            var BuildEquilateral = function(x2, y2, length) {
+            var BuildEquilateral = function(x2, y, length) {
               var height = length * (Math.sqrt(3) / 2);
               var x1 = x2;
-              var y1 = y2;
+              var y1 = y;
               var x22 = x2 + length / 2;
-              var y22 = y2 + height;
+              var y2 = y + height;
               var x3 = x2 - length / 2;
-              var y3 = y2 + height;
-              return new Triangle(x1, y1, x22, y22, x3, y3);
+              var y3 = y + height;
+              return new Triangle(x1, y1, x22, y2, x3, y3);
             };
             module2.exports = BuildEquilateral;
           },
@@ -61014,8 +61014,8 @@
                 out = [];
               }
               var tris = EarCut(data, holes);
-              var a;
-              var b2;
+              var a2;
+              var b;
               var c;
               var x1;
               var y1;
@@ -61024,13 +61024,13 @@
               var x3;
               var y3;
               for (var i = 0; i < tris.length; i += 3) {
-                a = tris[i];
-                b2 = tris[i + 1];
+                a2 = tris[i];
+                b = tris[i + 1];
                 c = tris[i + 2];
-                x1 = data[a * 2] * scaleX;
-                y1 = data[a * 2 + 1] * scaleY;
-                x2 = data[b2 * 2] * scaleX;
-                y2 = data[b2 * 2 + 1] * scaleY;
+                x1 = data[a2 * 2] * scaleX;
+                y1 = data[a2 * 2 + 1] * scaleY;
+                x2 = data[b * 2] * scaleX;
+                y2 = data[b * 2 + 1] * scaleY;
                 x3 = data[c * 2] * scaleX;
                 y3 = data[c * 2 + 1] * scaleY;
                 out.push(new Triangle(x1, y1, x2, y2, x3, y3));
@@ -61041,30 +61041,30 @@
           },
           function(module2, exports2, __webpack_require__) {
             var Triangle = __webpack_require__(82);
-            var BuildRight = function(x2, y2, width, height) {
+            var BuildRight = function(x2, y, width, height) {
               if (height === void 0) {
                 height = width;
               }
               var x1 = x2;
-              var y1 = y2;
+              var y1 = y;
               var x22 = x2;
-              var y22 = y2 - height;
+              var y2 = y - height;
               var x3 = x2 + width;
-              var y3 = y2;
-              return new Triangle(x1, y1, x22, y22, x3, y3);
+              var y3 = y;
+              return new Triangle(x1, y1, x22, y2, x3, y3);
             };
             module2.exports = BuildRight;
           },
           function(module2, exports2, __webpack_require__) {
             var Centroid = __webpack_require__(504);
             var Offset = __webpack_require__(505);
-            var CenterOn = function(triangle, x2, y2, centerFunc) {
+            var CenterOn = function(triangle, x2, y, centerFunc) {
               if (centerFunc === void 0) {
                 centerFunc = Centroid;
               }
               var center = centerFunc(triangle);
               var diffX = x2 - center.x;
-              var diffY = y2 - center.y;
+              var diffY = y - center.y;
               return Offset(triangle, diffX, diffY);
             };
             module2.exports = CenterOn;
@@ -61105,13 +61105,13 @@
               var y2 = triangle.y2;
               var x3 = triangle.x3;
               var y3 = triangle.y3;
-              var A = x2 - x1;
+              var A2 = x2 - x1;
               var B2 = y2 - y1;
               var C2 = x3 - x1;
               var D2 = y3 - y1;
-              var E2 = A * (x1 + x2) + B2 * (y1 + y2);
+              var E2 = A2 * (x1 + x2) + B2 * (y1 + y2);
               var F2 = C2 * (x1 + x3) + D2 * (y1 + y3);
-              var G2 = 2 * (A * (y3 - y2) - B2 * (x3 - x2));
+              var G2 = 2 * (A2 * (y3 - y2) - B2 * (x3 - x2));
               var dx;
               var dy;
               if (Math.abs(G2) < 1e-6) {
@@ -61124,7 +61124,7 @@
                 out.radius = Math.sqrt(dx * dx + dy * dy);
               } else {
                 out.x = (D2 * E2 - B2 * F2) / G2;
-                out.y = (A * F2 - C2 * E2) / G2;
+                out.y = (A2 * F2 - C2 * E2) / G2;
                 dx = out.x - x1;
                 dy = out.y - y1;
                 out.radius = Math.sqrt(dx * dx + dy * dy);
@@ -62337,18 +62337,18 @@
                 }
                 return this;
               },
-              setHitAreaCircle: function(gameObjects, x2, y2, radius, callback) {
+              setHitAreaCircle: function(gameObjects, x2, y, radius, callback) {
                 if (callback === void 0) {
                   callback = CircleContains;
                 }
-                var shape = new Circle(x2, y2, radius);
+                var shape = new Circle(x2, y, radius);
                 return this.setHitArea(gameObjects, shape, callback);
               },
-              setHitAreaEllipse: function(gameObjects, x2, y2, width, height, callback) {
+              setHitAreaEllipse: function(gameObjects, x2, y, width, height, callback) {
                 if (callback === void 0) {
                   callback = EllipseContains;
                 }
-                var shape = new Ellipse(x2, y2, width, height);
+                var shape = new Ellipse(x2, y, width, height);
                 return this.setHitArea(gameObjects, shape, callback);
               },
               setHitAreaFromTexture: function(gameObjects, callback) {
@@ -62381,11 +62381,11 @@
                 }
                 return this;
               },
-              setHitAreaRectangle: function(gameObjects, x2, y2, width, height, callback) {
+              setHitAreaRectangle: function(gameObjects, x2, y, width, height, callback) {
                 if (callback === void 0) {
                   callback = RectangleContains;
                 }
-                var shape = new Rectangle(x2, y2, width, height);
+                var shape = new Rectangle(x2, y, width, height);
                 return this.setHitArea(gameObjects, shape, callback);
               },
               setHitAreaTriangle: function(gameObjects, x1, y1, x2, y2, x3, y3, callback) {
@@ -62447,21 +62447,21 @@
                     debug.setStrokeStyle(1 / gameObject.scale, color);
                     debug.setDisplayOrigin(gameObject.displayOriginX, gameObject.displayOriginY);
                     var x2 = gameObject.x;
-                    var y2 = gameObject.y;
+                    var y = gameObject.y;
                     var rotation = gameObject.rotation;
                     var scaleX = gameObject.scaleX;
                     var scaleY = gameObject.scaleY;
                     if (gameObject.parentContainer) {
                       var matrix = gameObject.getWorldTransformMatrix();
                       x2 = matrix.tx;
-                      y2 = matrix.ty;
+                      y = matrix.ty;
                       rotation = matrix.rotation;
                       scaleX = matrix.scaleX;
                       scaleY = matrix.scaleY;
                     }
                     debug.setRotation(rotation);
                     debug.setScale(scaleX, scaleY);
-                    debug.setPosition(x2 + offsetx, y2 + offsety);
+                    debug.setPosition(x2 + offsetx, y + offsety);
                     debug.setScrollFactor(gameObject.scrollFactorX, gameObject.scrollFactorY);
                     debug.setDepth(gameObject.depth);
                   };
@@ -65179,11 +65179,11 @@
                 }
                 var blob = new Blob([data], { type: filetype });
                 var url = URL.createObjectURL(blob);
-                var a = document.createElement("a");
-                a.download = filename;
-                a.textContent = "Download " + filename;
-                a.href = url;
-                a.click();
+                var a2 = document.createElement("a");
+                a2.download = filename;
+                a2.textContent = "Download " + filename;
+                a2.href = url;
+                a2.click();
                 return this;
               },
               reset: function() {
@@ -65335,11 +65335,11 @@
               resume: function() {
                 return this.world.resume();
               },
-              accelerateTo: function(gameObject, x2, y2, speed, xSpeedMax, ySpeedMax) {
+              accelerateTo: function(gameObject, x2, y, speed, xSpeedMax, ySpeedMax) {
                 if (speed === void 0) {
                   speed = 60;
                 }
-                var angle = Math.atan2(y2 - gameObject.y, x2 - gameObject.x);
+                var angle = Math.atan2(y - gameObject.y, x2 - gameObject.x);
                 gameObject.body.acceleration.setToPolar(angle, speed);
                 if (xSpeedMax !== void 0 && ySpeedMax !== void 0) {
                   gameObject.body.maxVelocity.set(xSpeedMax, ySpeedMax);
@@ -65356,7 +65356,7 @@
                 var min = Number.MAX_VALUE;
                 var closest = null;
                 var x2 = source.x;
-                var y2 = source.y;
+                var y = source.y;
                 var len = targets.length;
                 for (var i = 0; i < len; i++) {
                   var target = targets[i];
@@ -65364,7 +65364,7 @@
                   if (source === target || source === body || source === body.gameObject || source === body.center) {
                     continue;
                   }
-                  var distance = DistanceSquared(x2, y2, body.center.x, body.center.y);
+                  var distance = DistanceSquared(x2, y, body.center.x, body.center.y);
                   if (distance < min) {
                     closest = target;
                     min = distance;
@@ -65379,7 +65379,7 @@
                 var max = -1;
                 var farthest = null;
                 var x2 = source.x;
-                var y2 = source.y;
+                var y = source.y;
                 var len = targets.length;
                 for (var i = 0; i < len; i++) {
                   var target = targets[i];
@@ -65387,7 +65387,7 @@
                   if (source === target || source === body || source === body.gameObject || source === body.center) {
                     continue;
                   }
-                  var distance = DistanceSquared(x2, y2, body.center.x, body.center.y);
+                  var distance = DistanceSquared(x2, y, body.center.x, body.center.y);
                   if (distance > max) {
                     farthest = target;
                     max = distance;
@@ -65395,16 +65395,16 @@
                 }
                 return farthest;
               },
-              moveTo: function(gameObject, x2, y2, speed, maxTime) {
+              moveTo: function(gameObject, x2, y, speed, maxTime) {
                 if (speed === void 0) {
                   speed = 60;
                 }
                 if (maxTime === void 0) {
                   maxTime = 0;
                 }
-                var angle = Math.atan2(y2 - gameObject.y, x2 - gameObject.x);
+                var angle = Math.atan2(y - gameObject.y, x2 - gameObject.x);
                 if (maxTime > 0) {
-                  speed = DistanceBetween(gameObject.x, gameObject.y, x2, y2) / (maxTime / 1e3);
+                  speed = DistanceBetween(gameObject.x, gameObject.y, x2, y) / (maxTime / 1e3);
                 }
                 gameObject.body.velocity.setToPolar(angle, speed);
                 return angle;
@@ -65430,11 +65430,11 @@
                 }
                 return vec2.setToPolar(rotation, speed);
               },
-              overlapRect: function(x2, y2, width, height, includeDynamic, includeStatic) {
-                return OverlapRect(this.world, x2, y2, width, height, includeDynamic, includeStatic);
+              overlapRect: function(x2, y, width, height, includeDynamic, includeStatic) {
+                return OverlapRect(this.world, x2, y, width, height, includeDynamic, includeStatic);
               },
-              overlapCirc: function(x2, y2, radius, includeDynamic, includeStatic) {
-                return OverlapCirc(this.world, x2, y2, radius, includeDynamic, includeStatic);
+              overlapCirc: function(x2, y, radius, includeDynamic, includeStatic) {
+                return OverlapCirc(this.world, x2, y, radius, includeDynamic, includeStatic);
               },
               shutdown: function() {
                 if (!this.world) {
@@ -65461,8 +65461,8 @@
           },
           function(module2, exports2) {
             var Acceleration = {
-              setAcceleration: function(x2, y2) {
-                this.body.acceleration.set(x2, y2);
+              setAcceleration: function(x2, y) {
+                this.body.acceleration.set(x2, y);
                 return this;
               },
               setAccelerationX: function(value) {
@@ -65495,8 +65495,8 @@
           },
           function(module2, exports2) {
             var Bounce = {
-              setBounce: function(x2, y2) {
-                this.body.bounce.set(x2, y2);
+              setBounce: function(x2, y) {
+                this.body.bounce.set(x2, y);
                 return this;
               },
               setBounceX: function(value) {
@@ -65555,8 +65555,8 @@
           },
           function(module2, exports2) {
             var Drag = {
-              setDrag: function(x2, y2) {
-                this.body.drag.set(x2, y2);
+              setDrag: function(x2, y) {
+                this.body.drag.set(x2, y);
                 return this;
               },
               setDragX: function(value) {
@@ -65576,9 +65576,9 @@
           },
           function(module2, exports2) {
             var Enable = {
-              enableBody: function(reset, x2, y2, enableGameObject, showGameObject) {
+              enableBody: function(reset, x2, y, enableGameObject, showGameObject) {
                 if (reset) {
-                  this.body.reset(x2, y2);
+                  this.body.reset(x2, y);
                 }
                 if (enableGameObject) {
                   this.body.gameObject.active = true;
@@ -65615,16 +65615,16 @@
           },
           function(module2, exports2) {
             var Friction = {
-              setFriction: function(x2, y2) {
-                this.body.friction.set(x2, y2);
+              setFriction: function(x2, y) {
+                this.body.friction.set(x2, y);
                 return this;
               },
               setFrictionX: function(x2) {
                 this.body.friction.x = x2;
                 return this;
               },
-              setFrictionY: function(y2) {
-                this.body.friction.y = y2;
+              setFrictionY: function(y) {
+                this.body.friction.y = y;
                 return this;
               }
             };
@@ -65632,16 +65632,16 @@
           },
           function(module2, exports2) {
             var Gravity = {
-              setGravity: function(x2, y2) {
-                this.body.gravity.set(x2, y2);
+              setGravity: function(x2, y) {
+                this.body.gravity.set(x2, y);
                 return this;
               },
               setGravityX: function(x2) {
                 this.body.gravity.x = x2;
                 return this;
               },
-              setGravityY: function(y2) {
-                this.body.gravity.y = y2;
+              setGravityY: function(y) {
+                this.body.gravity.y = y;
                 return this;
               }
             };
@@ -65682,8 +65682,8 @@
           },
           function(module2, exports2) {
             var Size = {
-              setOffset: function(x2, y2) {
-                this.body.setOffset(x2, y2);
+              setOffset: function(x2, y) {
+                this.body.setOffset(x2, y);
                 return this;
               },
               setSize: function(width, height, center) {
@@ -65703,20 +65703,20 @@
           },
           function(module2, exports2) {
             var Velocity = {
-              setVelocity: function(x2, y2) {
-                this.body.setVelocity(x2, y2);
+              setVelocity: function(x2, y) {
+                this.body.setVelocity(x2, y);
                 return this;
               },
               setVelocityX: function(x2) {
                 this.body.setVelocityX(x2);
                 return this;
               },
-              setVelocityY: function(y2) {
-                this.body.setVelocityY(y2);
+              setVelocityY: function(y) {
+                this.body.setVelocityY(y);
                 return this;
               },
-              setMaxVelocity: function(x2, y2) {
-                this.body.maxVelocity.set(x2, y2);
+              setMaxVelocity: function(x2, y) {
+                this.body.maxVelocity.set(x2, y);
                 return this;
               }
             };
@@ -66157,128 +66157,128 @@
                 centerDiff.set(bodyCenterX - boundsCenter.x, bodyCenterY - boundsCenter.y);
                 return true;
               },
-              getTopLeft: function(body, x2, y2) {
+              getTopLeft: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + center.x + diff.x, y2 + center.y + diff.y);
+                  return new Vector2(x2 + center.x + diff.x, y + center.y + diff.y);
                 }
                 return false;
               },
-              getTopCenter: function(body, x2, y2) {
+              getTopCenter: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + diff.x, y2 + center.y + diff.y);
+                  return new Vector2(x2 + diff.x, y + center.y + diff.y);
                 }
                 return false;
               },
-              getTopRight: function(body, x2, y2) {
+              getTopRight: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 - (center.x - diff.x), y2 + center.y + diff.y);
+                  return new Vector2(x2 - (center.x - diff.x), y + center.y + diff.y);
                 }
                 return false;
               },
-              getLeftCenter: function(body, x2, y2) {
+              getLeftCenter: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + center.x + diff.x, y2 + diff.y);
+                  return new Vector2(x2 + center.x + diff.x, y + diff.y);
                 }
                 return false;
               },
-              getCenter: function(body, x2, y2) {
+              getCenter: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + diff.x, y2 + diff.y);
+                  return new Vector2(x2 + diff.x, y + diff.y);
                 }
                 return false;
               },
-              getRightCenter: function(body, x2, y2) {
+              getRightCenter: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
-                }
-                if (this.parseBody(body)) {
-                  var center = this.boundsCenter;
-                  var diff = this.centerDiff;
-                  return new Vector2(x2 - (center.x - diff.x), y2 + diff.y);
-                }
-                return false;
-              },
-              getBottomLeft: function(body, x2, y2) {
-                if (x2 === void 0) {
-                  x2 = 0;
-                }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + center.x + diff.x, y2 - (center.y - diff.y));
+                  return new Vector2(x2 - (center.x - diff.x), y + diff.y);
                 }
                 return false;
               },
-              getBottomCenter: function(body, x2, y2) {
+              getBottomLeft: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 + diff.x, y2 - (center.y - diff.y));
+                  return new Vector2(x2 + center.x + diff.x, y - (center.y - diff.y));
                 }
                 return false;
               },
-              getBottomRight: function(body, x2, y2) {
+              getBottomCenter: function(body, x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (this.parseBody(body)) {
                   var center = this.boundsCenter;
                   var diff = this.centerDiff;
-                  return new Vector2(x2 - (center.x - diff.x), y2 - (center.y - diff.y));
+                  return new Vector2(x2 + diff.x, y - (center.y - diff.y));
+                }
+                return false;
+              },
+              getBottomRight: function(body, x2, y) {
+                if (x2 === void 0) {
+                  x2 = 0;
+                }
+                if (y === void 0) {
+                  y = 0;
+                }
+                if (this.parseBody(body)) {
+                  var center = this.boundsCenter;
+                  var diff = this.centerDiff;
+                  return new Vector2(x2 - (center.x - diff.x), y - (center.y - diff.y));
                 }
                 return false;
               }
@@ -66319,47 +66319,47 @@
               if (da * dy - db * dx === 0) {
                 return false;
               }
-              var s2 = (dx * (q1[1] - p1[1]) + dy * (p1[0] - q1[0])) / (da * dy - db * dx);
+              var s = (dx * (q1[1] - p1[1]) + dy * (p1[0] - q1[0])) / (da * dy - db * dx);
               var t = (da * (p1[1] - q1[1]) + db * (q1[0] - p1[0])) / (db * dx - da * dy);
-              return s2 >= 0 && s2 <= 1 && t >= 0 && t <= 1;
+              return s >= 0 && s <= 1 && t >= 0 && t <= 1;
             }
-            function triangleArea(a, b2, c) {
-              return (b2[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b2[1] - a[1]);
+            function triangleArea(a2, b, c) {
+              return (b[0] - a2[0]) * (c[1] - a2[1]) - (c[0] - a2[0]) * (b[1] - a2[1]);
             }
-            function isLeft(a, b2, c) {
-              return triangleArea(a, b2, c) > 0;
+            function isLeft(a2, b, c) {
+              return triangleArea(a2, b, c) > 0;
             }
-            function isLeftOn(a, b2, c) {
-              return triangleArea(a, b2, c) >= 0;
+            function isLeftOn(a2, b, c) {
+              return triangleArea(a2, b, c) >= 0;
             }
-            function isRight(a, b2, c) {
-              return triangleArea(a, b2, c) < 0;
+            function isRight(a2, b, c) {
+              return triangleArea(a2, b, c) < 0;
             }
-            function isRightOn(a, b2, c) {
-              return triangleArea(a, b2, c) <= 0;
+            function isRightOn(a2, b, c) {
+              return triangleArea(a2, b, c) <= 0;
             }
             var tmpPoint1 = [], tmpPoint2 = [];
-            function collinear(a, b2, c, thresholdAngle) {
+            function collinear(a2, b, c, thresholdAngle) {
               if (!thresholdAngle) {
-                return triangleArea(a, b2, c) === 0;
+                return triangleArea(a2, b, c) === 0;
               } else {
                 var ab = tmpPoint1, bc = tmpPoint2;
-                ab[0] = b2[0] - a[0];
-                ab[1] = b2[1] - a[1];
-                bc[0] = c[0] - b2[0];
-                bc[1] = c[1] - b2[1];
+                ab[0] = b[0] - a2[0];
+                ab[1] = b[1] - a2[1];
+                bc[0] = c[0] - b[0];
+                bc[1] = c[1] - b[1];
                 var dot = ab[0] * bc[0] + ab[1] * bc[1], magA = Math.sqrt(ab[0] * ab[0] + ab[1] * ab[1]), magB = Math.sqrt(bc[0] * bc[0] + bc[1] * bc[1]), angle = Math.acos(dot / (magA * magB));
                 return angle < thresholdAngle;
               }
             }
-            function sqdist(a, b2) {
-              var dx = b2[0] - a[0];
-              var dy = b2[1] - a[1];
+            function sqdist(a2, b) {
+              var dx = b[0] - a2[0];
+              var dy = b[1] - a2[1];
               return dx * dx + dy * dy;
             }
             function polygonAt(polygon, i) {
-              var s2 = polygon.length;
-              return polygon[i < 0 ? i % s2 + s2 : i % s2];
+              var s = polygon.length;
+              return polygon[i < 0 ? i % s + s : i % s];
             }
             function polygonClear(polygon) {
               polygon.length = 0;
@@ -66370,13 +66370,13 @@
               }
             }
             function polygonMakeCCW(polygon) {
-              var br = 0, v2 = polygon;
+              var br2 = 0, v2 = polygon;
               for (var i = 1; i < polygon.length; ++i) {
-                if (v2[i][1] < v2[br][1] || v2[i][1] === v2[br][1] && v2[i][0] > v2[br][0]) {
-                  br = i;
+                if (v2[i][1] < v2[br2][1] || v2[i][1] === v2[br2][1] && v2[i][0] > v2[br2][0]) {
+                  br2 = i;
                 }
               }
-              if (!isLeft(polygonAt(polygon, br - 1), polygonAt(polygon, br), polygonAt(polygon, br + 1))) {
+              if (!isLeft(polygonAt(polygon, br2 - 1), polygonAt(polygon, br2), polygonAt(polygon, br2 + 1))) {
                 polygonReverse(polygon);
                 return true;
               } else {
@@ -66385,11 +66385,11 @@
             }
             function polygonReverse(polygon) {
               var tmp = [];
-              var N2 = polygon.length;
-              for (var i = 0; i !== N2; i++) {
+              var N = polygon.length;
+              for (var i = 0; i !== N; i++) {
                 tmp.push(polygon.pop());
               }
-              for (var i = 0; i !== N2; i++) {
+              for (var i = 0; i !== N; i++) {
                 polygon[i] = tmp[i];
               }
             }
@@ -66397,56 +66397,56 @@
               return isRight(polygonAt(polygon, i - 1), polygonAt(polygon, i), polygonAt(polygon, i + 1));
             }
             var tmpLine1 = [], tmpLine2 = [];
-            function polygonCanSee(polygon, a, b2) {
-              var p, dist, l1 = tmpLine1, l2 = tmpLine2;
-              if (isLeftOn(polygonAt(polygon, a + 1), polygonAt(polygon, a), polygonAt(polygon, b2)) && isRightOn(polygonAt(polygon, a - 1), polygonAt(polygon, a), polygonAt(polygon, b2))) {
+            function polygonCanSee(polygon, a2, b) {
+              var p2, dist, l1 = tmpLine1, l2 = tmpLine2;
+              if (isLeftOn(polygonAt(polygon, a2 + 1), polygonAt(polygon, a2), polygonAt(polygon, b)) && isRightOn(polygonAt(polygon, a2 - 1), polygonAt(polygon, a2), polygonAt(polygon, b))) {
                 return false;
               }
-              dist = sqdist(polygonAt(polygon, a), polygonAt(polygon, b2));
+              dist = sqdist(polygonAt(polygon, a2), polygonAt(polygon, b));
               for (var i = 0; i !== polygon.length; ++i) {
-                if ((i + 1) % polygon.length === a || i === a) {
+                if ((i + 1) % polygon.length === a2 || i === a2) {
                   continue;
                 }
-                if (isLeftOn(polygonAt(polygon, a), polygonAt(polygon, b2), polygonAt(polygon, i + 1)) && isRightOn(polygonAt(polygon, a), polygonAt(polygon, b2), polygonAt(polygon, i))) {
-                  l1[0] = polygonAt(polygon, a);
-                  l1[1] = polygonAt(polygon, b2);
+                if (isLeftOn(polygonAt(polygon, a2), polygonAt(polygon, b), polygonAt(polygon, i + 1)) && isRightOn(polygonAt(polygon, a2), polygonAt(polygon, b), polygonAt(polygon, i))) {
+                  l1[0] = polygonAt(polygon, a2);
+                  l1[1] = polygonAt(polygon, b);
                   l2[0] = polygonAt(polygon, i);
                   l2[1] = polygonAt(polygon, i + 1);
-                  p = lineInt(l1, l2);
-                  if (sqdist(polygonAt(polygon, a), p) < dist) {
+                  p2 = lineInt(l1, l2);
+                  if (sqdist(polygonAt(polygon, a2), p2) < dist) {
                     return false;
                   }
                 }
               }
               return true;
             }
-            function polygonCanSee2(polygon, a, b2) {
+            function polygonCanSee2(polygon, a2, b) {
               for (var i = 0; i !== polygon.length; ++i) {
-                if (i === a || i === b2 || (i + 1) % polygon.length === a || (i + 1) % polygon.length === b2) {
+                if (i === a2 || i === b || (i + 1) % polygon.length === a2 || (i + 1) % polygon.length === b) {
                   continue;
                 }
-                if (lineSegmentsIntersect(polygonAt(polygon, a), polygonAt(polygon, b2), polygonAt(polygon, i), polygonAt(polygon, i + 1))) {
+                if (lineSegmentsIntersect(polygonAt(polygon, a2), polygonAt(polygon, b), polygonAt(polygon, i), polygonAt(polygon, i + 1))) {
                   return false;
                 }
               }
               return true;
             }
             function polygonCopy(polygon, i, j2, targetPoly) {
-              var p = targetPoly || [];
-              polygonClear(p);
+              var p2 = targetPoly || [];
+              polygonClear(p2);
               if (i < j2) {
-                for (var k = i; k <= j2; k++) {
-                  p.push(polygon[k]);
+                for (var k2 = i; k2 <= j2; k2++) {
+                  p2.push(polygon[k2]);
                 }
               } else {
-                for (var k = 0; k <= j2; k++) {
-                  p.push(polygon[k]);
+                for (var k2 = 0; k2 <= j2; k2++) {
+                  p2.push(polygon[k2]);
                 }
-                for (var k = i; k < polygon.length; k++) {
-                  p.push(polygon[k]);
+                for (var k2 = i; k2 < polygon.length; k2++) {
+                  p2.push(polygon[k2]);
                 }
               }
-              return p;
+              return p2;
             }
             function polygonGetCutEdges(polygon) {
               var min = [], tmp1 = [], tmp2 = [], tmpPoly = [];
@@ -66457,8 +66457,8 @@
                     if (polygonCanSee(polygon, i, j2)) {
                       tmp1 = polygonGetCutEdges(polygonCopy(polygon, i, j2, tmpPoly));
                       tmp2 = polygonGetCutEdges(polygonCopy(polygon, j2, i, tmpPoly));
-                      for (var k = 0; k < tmp2.length; k++) {
-                        tmp1.push(tmp2[k]);
+                      for (var k2 = 0; k2 < tmp2.length; k2++) {
+                        tmp1.push(tmp2[k2]);
                       }
                       if (tmp1.length < nDiags) {
                         min = tmp1;
@@ -66550,7 +66550,7 @@
               result = typeof result !== "undefined" ? result : [];
               reflexVertices = reflexVertices || [];
               steinerPoints = steinerPoints || [];
-              var upperInt = [0, 0], lowerInt = [0, 0], p = [0, 0];
+              var upperInt = [0, 0], lowerInt = [0, 0], p2 = [0, 0];
               var upperDist = 0, lowerDist = 0, d = 0, closestDist = 0;
               var upperIndex = 0, lowerIndex = 0, closestIndex = 0;
               var lowerPoly = [], upperPoly = [];
@@ -66569,36 +66569,36 @@
                   upperDist = lowerDist = Number.MAX_VALUE;
                   for (var j2 = 0; j2 < polygon.length; ++j2) {
                     if (isLeft(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j2)) && isRightOn(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j2 - 1))) {
-                      p = getIntersectionPoint(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j2), polygonAt(poly, j2 - 1));
-                      if (isRight(polygonAt(poly, i + 1), polygonAt(poly, i), p)) {
-                        d = sqdist(poly[i], p);
+                      p2 = getIntersectionPoint(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j2), polygonAt(poly, j2 - 1));
+                      if (isRight(polygonAt(poly, i + 1), polygonAt(poly, i), p2)) {
+                        d = sqdist(poly[i], p2);
                         if (d < lowerDist) {
                           lowerDist = d;
-                          lowerInt = p;
+                          lowerInt = p2;
                           lowerIndex = j2;
                         }
                       }
                     }
                     if (isLeft(polygonAt(poly, i + 1), polygonAt(poly, i), polygonAt(poly, j2 + 1)) && isRightOn(polygonAt(poly, i + 1), polygonAt(poly, i), polygonAt(poly, j2))) {
-                      p = getIntersectionPoint(polygonAt(poly, i + 1), polygonAt(poly, i), polygonAt(poly, j2), polygonAt(poly, j2 + 1));
-                      if (isLeft(polygonAt(poly, i - 1), polygonAt(poly, i), p)) {
-                        d = sqdist(poly[i], p);
+                      p2 = getIntersectionPoint(polygonAt(poly, i + 1), polygonAt(poly, i), polygonAt(poly, j2), polygonAt(poly, j2 + 1));
+                      if (isLeft(polygonAt(poly, i - 1), polygonAt(poly, i), p2)) {
+                        d = sqdist(poly[i], p2);
                         if (d < upperDist) {
                           upperDist = d;
-                          upperInt = p;
+                          upperInt = p2;
                           upperIndex = j2;
                         }
                       }
                     }
                   }
                   if (lowerIndex === (upperIndex + 1) % polygon.length) {
-                    p[0] = (lowerInt[0] + upperInt[0]) / 2;
-                    p[1] = (lowerInt[1] + upperInt[1]) / 2;
-                    steinerPoints.push(p);
+                    p2[0] = (lowerInt[0] + upperInt[0]) / 2;
+                    p2[1] = (lowerInt[1] + upperInt[1]) / 2;
+                    steinerPoints.push(p2);
                     if (i < upperIndex) {
                       polygonAppend(lowerPoly, poly, i, upperIndex + 1);
-                      lowerPoly.push(p);
-                      upperPoly.push(p);
+                      lowerPoly.push(p2);
+                      upperPoly.push(p2);
                       if (lowerIndex !== 0) {
                         polygonAppend(upperPoly, poly, lowerIndex, poly.length);
                       }
@@ -66608,8 +66608,8 @@
                         polygonAppend(lowerPoly, poly, i, poly.length);
                       }
                       polygonAppend(lowerPoly, poly, 0, upperIndex + 1);
-                      lowerPoly.push(p);
-                      upperPoly.push(p);
+                      lowerPoly.push(p2);
+                      upperPoly.push(p2);
                       polygonAppend(upperPoly, poly, lowerIndex, i + 1);
                     }
                   } else {
@@ -66677,12 +66677,12 @@
                 }
               }
             }
-            function scalar_eq(a, b2, precision) {
+            function scalar_eq(a2, b, precision) {
               precision = precision || 0;
-              return Math.abs(a - b2) <= precision;
+              return Math.abs(a2 - b) <= precision;
             }
-            function points_eq(a, b2, precision) {
-              return scalar_eq(a[0], b2[0], precision) && scalar_eq(a[1], b2[1], precision);
+            function points_eq(a2, b, precision) {
+              return scalar_eq(a2[0], b[0], precision) && scalar_eq(a2[1], b[1], precision);
             }
           },
           function(module2, exports2, __webpack_require__) {
@@ -66705,45 +66705,45 @@
                 this.scene = world.scene;
                 this.sys = world.scene.sys;
               },
-              rectangle: function(x2, y2, width, height, options) {
-                var body = Bodies.rectangle(x2, y2, width, height, options);
+              rectangle: function(x2, y, width, height, options) {
+                var body = Bodies.rectangle(x2, y, width, height, options);
                 this.world.add(body);
                 return body;
               },
-              trapezoid: function(x2, y2, width, height, slope, options) {
-                var body = Bodies.trapezoid(x2, y2, width, height, slope, options);
+              trapezoid: function(x2, y, width, height, slope, options) {
+                var body = Bodies.trapezoid(x2, y, width, height, slope, options);
                 this.world.add(body);
                 return body;
               },
-              circle: function(x2, y2, radius, options, maxSides) {
-                var body = Bodies.circle(x2, y2, radius, options, maxSides);
+              circle: function(x2, y, radius, options, maxSides) {
+                var body = Bodies.circle(x2, y, radius, options, maxSides);
                 this.world.add(body);
                 return body;
               },
-              polygon: function(x2, y2, sides, radius, options) {
-                var body = Bodies.polygon(x2, y2, sides, radius, options);
+              polygon: function(x2, y, sides, radius, options) {
+                var body = Bodies.polygon(x2, y, sides, radius, options);
                 this.world.add(body);
                 return body;
               },
-              fromVertices: function(x2, y2, vertexSets, options, flagInternal, removeCollinear, minimumArea) {
+              fromVertices: function(x2, y, vertexSets, options, flagInternal, removeCollinear, minimumArea) {
                 if (typeof vertexSets === "string") {
                   vertexSets = Vertices.fromPath(vertexSets);
                 }
-                var body = Bodies.fromVertices(x2, y2, vertexSets, options, flagInternal, removeCollinear, minimumArea);
+                var body = Bodies.fromVertices(x2, y, vertexSets, options, flagInternal, removeCollinear, minimumArea);
                 this.world.add(body);
                 return body;
               },
-              fromPhysicsEditor: function(x2, y2, config, options, addToWorld) {
+              fromPhysicsEditor: function(x2, y, config, options, addToWorld) {
                 if (addToWorld === void 0) {
                   addToWorld = true;
                 }
-                var body = PhysicsEditorParser.parseBody(x2, y2, config, options);
+                var body = PhysicsEditorParser.parseBody(x2, y, config, options);
                 if (addToWorld && !this.world.has(body)) {
                   this.world.add(body);
                 }
                 return body;
               },
-              fromSVG: function(x2, y2, xml, scale, options, addToWorld) {
+              fromSVG: function(x2, y, xml, scale, options, addToWorld) {
                 if (scale === void 0) {
                   scale = 1;
                 }
@@ -66762,26 +66762,26 @@
                   }
                   vertexSets.push(points);
                 }
-                var body = Bodies.fromVertices(x2, y2, vertexSets, options);
+                var body = Bodies.fromVertices(x2, y, vertexSets, options);
                 if (addToWorld) {
                   this.world.add(body);
                 }
                 return body;
               },
-              fromJSON: function(x2, y2, config, options, addToWorld) {
+              fromJSON: function(x2, y, config, options, addToWorld) {
                 if (options === void 0) {
                   options = {};
                 }
                 if (addToWorld === void 0) {
                   addToWorld = true;
                 }
-                var body = PhysicsJSONParser.parseBody(x2, y2, config, options);
+                var body = PhysicsJSONParser.parseBody(x2, y, config, options);
                 if (body && addToWorld) {
                   this.world.add(body);
                 }
                 return body;
               },
-              imageStack: function(key, frame, x2, y2, columns, rows, columnGap, rowGap, options) {
+              imageStack: function(key, frame, x2, y, columns, rows, columnGap, rowGap, options) {
                 if (columnGap === void 0) {
                   columnGap = 0;
                 }
@@ -66794,21 +66794,21 @@
                 var world = this.world;
                 var displayList = this.sys.displayList;
                 options.addToWorld = false;
-                var stack = Composites.stack(x2, y2, columns, rows, columnGap, rowGap, function(x3, y3) {
-                  var image = new MatterImage(world, x3, y3, key, frame, options);
+                var stack = Composites.stack(x2, y, columns, rows, columnGap, rowGap, function(x3, y2) {
+                  var image = new MatterImage(world, x3, y2, key, frame, options);
                   displayList.add(image);
                   return image.body;
                 });
                 world.add(stack);
                 return stack;
               },
-              stack: function(x2, y2, columns, rows, columnGap, rowGap, callback) {
-                var stack = Composites.stack(x2, y2, columns, rows, columnGap, rowGap, callback);
+              stack: function(x2, y, columns, rows, columnGap, rowGap, callback) {
+                var stack = Composites.stack(x2, y, columns, rows, columnGap, rowGap, callback);
                 this.world.add(stack);
                 return stack;
               },
-              pyramid: function(x2, y2, columns, rows, columnGap, rowGap, callback) {
-                var stack = Composites.pyramid(x2, y2, columns, rows, columnGap, rowGap, callback);
+              pyramid: function(x2, y, columns, rows, columnGap, rowGap, callback) {
+                var stack = Composites.pyramid(x2, y, columns, rows, columnGap, rowGap, callback);
                 this.world.add(stack);
                 return stack;
               },
@@ -66818,18 +66818,18 @@
               mesh: function(composite, columns, rows, crossBrace, options) {
                 return Composites.mesh(composite, columns, rows, crossBrace, options);
               },
-              newtonsCradle: function(x2, y2, number, size, length) {
-                var composite = Composites.newtonsCradle(x2, y2, number, size, length);
+              newtonsCradle: function(x2, y, number, size, length) {
+                var composite = Composites.newtonsCradle(x2, y, number, size, length);
                 this.world.add(composite);
                 return composite;
               },
-              car: function(x2, y2, width, height, wheelSize) {
-                var composite = Composites.car(x2, y2, width, height, wheelSize);
+              car: function(x2, y, width, height, wheelSize) {
+                var composite = Composites.car(x2, y, width, height, wheelSize);
                 this.world.add(composite);
                 return composite;
               },
-              softBody: function(x2, y2, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions) {
-                var composite = Composites.softBody(x2, y2, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions);
+              softBody: function(x2, y, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions) {
+                var composite = Composites.softBody(x2, y, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions);
                 this.world.add(composite);
                 return composite;
               },
@@ -66886,16 +66886,16 @@
                 this.world.add(pointerConstraint.constraint);
                 return pointerConstraint;
               },
-              image: function(x2, y2, key, frame, options) {
-                var image = new MatterImage(this.world, x2, y2, key, frame, options);
+              image: function(x2, y, key, frame, options) {
+                var image = new MatterImage(this.world, x2, y, key, frame, options);
                 this.sys.displayList.add(image);
                 return image;
               },
               tileBody: function(tile, options) {
                 return new MatterTileBody(this.world, tile, options);
               },
-              sprite: function(x2, y2, key, frame, options) {
-                var sprite = new MatterSprite(this.world, x2, y2, key, frame, options);
+              sprite: function(x2, y, key, frame, options) {
+                var sprite = new MatterSprite(this.world, x2, y, key, frame, options);
                 this.sys.displayList.add(sprite);
                 this.sys.updateList.add(sprite);
                 return sprite;
@@ -66926,12 +66926,12 @@
                 addToWorld = true;
               }
               var x2 = gameObject.x;
-              var y2 = gameObject.y;
+              var y = gameObject.y;
               gameObject.body = {
                 temp: true,
                 position: {
                   x: x2,
-                  y: y2
+                  y
                 }
               };
               var mixins = [
@@ -66961,7 +66961,7 @@
                 }
               });
               gameObject.world = world;
-              gameObject._tempVec2 = new Vector2(x2, y2);
+              gameObject._tempVec2 = new Vector2(x2, y);
               if (options.hasOwnProperty("type") && options.type === "body") {
                 gameObject.setExistingBody(options, addToWorld);
               } else {
@@ -67001,21 +67001,21 @@
                 Components.Velocity,
                 Pipeline
               ],
-              initialize: function MatterImage2(world, x2, y2, texture, frame, options) {
+              initialize: function MatterImage2(world, x2, y, texture, frame, options) {
                 GameObject.call(this, world.scene, "Image");
                 this._crop = this.resetCropObject();
                 this.setTexture(texture, frame);
                 this.setSizeToFrame();
                 this.setOrigin();
                 this.world = world;
-                this._tempVec2 = new Vector2(x2, y2);
+                this._tempVec2 = new Vector2(x2, y);
                 var shape = GetFastValue(options, "shape", null);
                 if (shape) {
                   this.setBody(shape, options);
                 } else {
                   this.setRectangle(this.width, this.height, options);
                 }
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.initPipeline();
               }
             });
@@ -67047,7 +67047,7 @@
                 Components.Velocity,
                 Pipeline
               ],
-              initialize: function MatterSprite2(world, x2, y2, texture, frame, options) {
+              initialize: function MatterSprite2(world, x2, y, texture, frame, options) {
                 GameObject.call(this, world.scene, "Sprite");
                 this._crop = this.resetCropObject();
                 this.anims = new AnimationState(this);
@@ -67055,14 +67055,14 @@
                 this.setSizeToFrame();
                 this.setOrigin();
                 this.world = world;
-                this._tempVec2 = new Vector2(x2, y2);
+                this._tempVec2 = new Vector2(x2, y);
                 var shape = GetFastValue(options, "shape", null);
                 if (shape) {
                   this.setBody(shape, options);
                 } else {
                   this.setRectangle(this.width, this.height, options);
                 }
-                this.setPosition(x2, y2);
+                this.setPosition(x2, y);
                 this.initPipeline();
               }
             });
@@ -67578,7 +67578,7 @@
                     this.setBounds();
                   } else {
                     var x2 = GetFastValue(boundsConfig, "x", 0);
-                    var y2 = GetFastValue(boundsConfig, "y", 0);
+                    var y = GetFastValue(boundsConfig, "y", 0);
                     var width = GetFastValue(boundsConfig, "width", scene.sys.scale.width);
                     var height = GetFastValue(boundsConfig, "height", scene.sys.scale.height);
                     var thickness = GetFastValue(boundsConfig, "thickness", 64);
@@ -67586,7 +67586,7 @@
                     var right = GetFastValue(boundsConfig, "right", true);
                     var top = GetFastValue(boundsConfig, "top", true);
                     var bottom = GetFastValue(boundsConfig, "bottom", true);
-                    this.setBounds(x2, y2, width, height, thickness, left, right, top, bottom);
+                    this.setBounds(x2, y, width, height, thickness, left, right, top, bottom);
                   }
                 }
               },
@@ -67774,12 +67774,12 @@
                   _this.emit(Events.COLLISION_END, event, bodyA, bodyB);
                 });
               },
-              setBounds: function(x2, y2, width, height, thickness, left, right, top, bottom) {
+              setBounds: function(x2, y, width, height, thickness, left, right, top, bottom) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 0;
+                if (y === void 0) {
+                  y = 0;
                 }
                 if (width === void 0) {
                   width = this.scene.sys.scale.width;
@@ -67802,21 +67802,21 @@
                 if (bottom === void 0) {
                   bottom = true;
                 }
-                this.updateWall(left, "left", x2 - thickness, y2 - thickness, thickness, height + thickness * 2);
-                this.updateWall(right, "right", x2 + width, y2 - thickness, thickness, height + thickness * 2);
-                this.updateWall(top, "top", x2, y2 - thickness, width, thickness);
-                this.updateWall(bottom, "bottom", x2, y2 + height, width, thickness);
+                this.updateWall(left, "left", x2 - thickness, y - thickness, thickness, height + thickness * 2);
+                this.updateWall(right, "right", x2 + width, y - thickness, thickness, height + thickness * 2);
+                this.updateWall(top, "top", x2, y - thickness, width, thickness);
+                this.updateWall(bottom, "bottom", x2, y + height, width, thickness);
                 return this;
               },
-              updateWall: function(add, position, x2, y2, width, height) {
+              updateWall: function(add, position, x2, y, width, height) {
                 var wall = this.walls[position];
                 if (add) {
                   if (wall) {
                     MatterWorld.remove(this.localWorld, wall);
                   }
                   x2 += width / 2;
-                  y2 += height / 2;
-                  this.walls[position] = this.create(x2, y2, width, height, { isStatic: true, friction: 0, frictionStatic: 0 });
+                  y += height / 2;
+                  this.walls[position] = this.create(x2, y, width, height, { isStatic: true, friction: 0, frictionStatic: 0 });
                 } else {
                   if (wall) {
                     MatterWorld.remove(this.localWorld, wall);
@@ -67837,22 +67837,22 @@
                 this.localWorld.gravity.scale = 0;
                 return this;
               },
-              setGravity: function(x2, y2, scale) {
+              setGravity: function(x2, y, scale) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = 1;
+                if (y === void 0) {
+                  y = 1;
                 }
                 this.localWorld.gravity.x = x2;
-                this.localWorld.gravity.y = y2;
+                this.localWorld.gravity.y = y;
                 if (scale !== void 0) {
                   this.localWorld.gravity.scale = scale;
                 }
                 return this;
               },
-              create: function(x2, y2, width, height, options) {
-                var body = Bodies.rectangle(x2, y2, width, height, options);
+              create: function(x2, y, width, height, options) {
+                var body = Bodies.rectangle(x2, y, width, height, options);
                 MatterWorld.add(this.localWorld, body);
                 return body;
               },
@@ -68025,16 +68025,16 @@
                   var posA = bodyA.position;
                   var posB = bodyB.position;
                   var penetration = collision.penetration;
-                  var k = !bodyA.isStatic && !bodyB.isStatic ? 4 : 1;
+                  var k2 = !bodyA.isStatic && !bodyB.isStatic ? 4 : 1;
                   if (bodyB.isStatic) {
-                    k = 0;
+                    k2 = 0;
                   }
-                  graphics.lineBetween(posB.x, posB.y, posB.x - penetration.x * k, posB.y - penetration.y * k);
-                  k = !bodyA.isStatic && !bodyB.isStatic ? 4 : 1;
+                  graphics.lineBetween(posB.x, posB.y, posB.x - penetration.x * k2, posB.y - penetration.y * k2);
+                  k2 = !bodyA.isStatic && !bodyB.isStatic ? 4 : 1;
                   if (bodyA.isStatic) {
-                    k = 0;
+                    k2 = 0;
                   }
-                  graphics.lineBetween(posA.x, posA.y, posA.x - penetration.x * k, posA.y - penetration.y * k);
+                  graphics.lineBetween(posA.x, posA.y, posA.x - penetration.x * k2, posA.y - penetration.y * k2);
                 }
                 return this;
               },
@@ -68107,19 +68107,19 @@
                   }
                   var part;
                   var j2;
-                  var k;
+                  var k2;
                   if (showAxes) {
                     for (j2 = parts.length > 1 ? 1 : 0; j2 < parts.length; j2++) {
                       part = parts[j2];
-                      for (k = 0; k < part.axes.length; k++) {
-                        var axis = part.axes[k];
+                      for (k2 = 0; k2 < part.axes.length; k2++) {
+                        var axis = part.axes[k2];
                         graphics.lineBetween(part.position.x, part.position.y, part.position.x + axis.x * 20, part.position.y + axis.y * 20);
                       }
                     }
                   } else {
                     for (j2 = parts.length > 1 ? 1 : 0; j2 < parts.length; j2++) {
                       part = parts[j2];
-                      for (k = 0; k < part.axes.length; k++) {
+                      for (k2 = 0; k2 < part.axes.length; k2++) {
                         graphics.lineBetween(part.position.x, part.position.y, (part.vertices[0].x + part.vertices[part.vertices.length - 1].x) / 2, (part.vertices[0].y + part.vertices[part.vertices.length - 1].y) / 2);
                       }
                     }
@@ -68208,8 +68208,8 @@
                 var sensorLineColor = config.sensorLineColor;
                 var parts = body.parts;
                 var partsLength = parts.length;
-                for (var k = partsLength > 1 ? 1 : 0; k < partsLength; k++) {
-                  var part = parts[k];
+                for (var k2 = partsLength > 1 ? 1 : 0; k2 < partsLength; k2++) {
+                  var part = parts[k2];
                   var render = part.render;
                   var opacity = render.opacity;
                   if (!render.visible || opacity === 0 || part.isSensor && !config.showSensors) {
@@ -68550,8 +68550,8 @@
               blitFrame: function(source, target, brightness, clear, clearAlpha, eraseMode) {
                 this.manager.blitFrame(source, target, brightness, clear, clearAlpha, eraseMode);
               },
-              copyFrameRect: function(source, target, x2, y2, width, height, clear, clearAlpha) {
-                this.manager.copyFrameRect(source, target, x2, y2, width, height, clear, clearAlpha);
+              copyFrameRect: function(source, target, x2, y, width, height, clear, clearAlpha) {
+                this.manager.copyFrameRect(source, target, x2, y, width, height, clear, clearAlpha);
               },
               bindAndDraw: function(source, target, clear, clearAlpha, currentShader) {
                 if (clear === void 0) {
@@ -69471,29 +69471,29 @@
                 var tw = tile.width;
                 var th = tile.height;
                 var x2 = tile.pixelX;
-                var y2 = tile.pixelY;
+                var y = tile.pixelY;
                 var color = tile.collides ? collidingTileColor : tileColor;
                 if (color !== null) {
                   graphics.fillStyle(color.color, color.alpha / 255);
-                  graphics.fillRect(x2, y2, tw, th);
+                  graphics.fillRect(x2, y, tw, th);
                 }
                 x2 += 1;
-                y2 += 1;
+                y += 1;
                 tw -= 2;
                 th -= 2;
                 if (faceColor !== null) {
                   graphics.lineStyle(1, faceColor.color, faceColor.alpha / 255);
                   if (tile.faceTop) {
-                    graphics.lineBetween(x2, y2, x2 + tw, y2);
+                    graphics.lineBetween(x2, y, x2 + tw, y);
                   }
                   if (tile.faceRight) {
-                    graphics.lineBetween(x2 + tw, y2, x2 + tw, y2 + th);
+                    graphics.lineBetween(x2 + tw, y, x2 + tw, y + th);
                   }
                   if (tile.faceBottom) {
-                    graphics.lineBetween(x2, y2 + th, x2 + tw, y2 + th);
+                    graphics.lineBetween(x2, y + th, x2 + tw, y + th);
                   }
                   if (tile.faceLeft) {
-                    graphics.lineBetween(x2, y2, x2, y2 + th);
+                    graphics.lineBetween(x2, y, x2, y + th);
                   }
                 }
               }
@@ -69892,7 +69892,7 @@
               var scrollFactorX = src.scrollFactorX;
               var scrollFactorY = src.scrollFactorY;
               var x2 = src.x;
-              var y2 = src.y;
+              var y = src.y;
               var sx = src.scaleX;
               var sy = src.scaleY;
               renderer.pipelines.preBatch(src);
@@ -69915,7 +69915,7 @@
                 var tw = tileset.tileWidth * 0.5;
                 var th = tileset.tileHeight * 0.5;
                 var tint = getTint(tile.tint, alpha * tile.alpha);
-                pipeline.batchTexture(src, texture, texture.width, texture.height, x2 + (tw + tile.pixelX) * sx, y2 + (th + tile.pixelY) * sy, tile.width, tile.height, sx, sy, tile.rotation, tile.flipX, tile.flipY, scrollFactorX, scrollFactorY, tw, th, frameX, frameY, frameWidth, frameHeight, tint, tint, tint, tint, false, 0, 0, camera, null, true, textureUnit);
+                pipeline.batchTexture(src, texture, texture.width, texture.height, x2 + (tw + tile.pixelX) * sx, y + (th + tile.pixelY) * sy, tile.width, tile.height, sx, sy, tile.rotation, tile.flipX, tile.flipY, scrollFactorX, scrollFactorY, tw, th, frameX, frameY, frameWidth, frameHeight, tint, tint, tint, tint, false, 0, 0, camera, null, true, textureUnit);
               }
               renderer.pipelines.postBatch(src);
             };
@@ -70648,7 +70648,7 @@
           },
           function(module2, exports2) {
             var Format = function(string, values) {
-              return string.replace(/%([0-9]+)/g, function(s2, n) {
+              return string.replace(/%([0-9]+)/g, function(s, n) {
                 return values[Number(n) - 1];
               });
             };
@@ -71177,14 +71177,14 @@
                   Body.setAngle(this.body, this._rotation);
                 }
               },
-              setPosition: function(x2, y2) {
+              setPosition: function(x2, y) {
                 if (x2 === void 0) {
                   x2 = 0;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
-                this._tempVec2.set(x2, y2);
+                this._tempVec2.set(x2, y);
                 Body.setPosition(this.body, this._tempVec2);
                 return this;
               },
@@ -71208,19 +71208,19 @@
                 Body.setAngle(this.body, this.rotation);
                 return this;
               },
-              setScale: function(x2, y2, point) {
+              setScale: function(x2, y, point) {
                 if (x2 === void 0) {
                   x2 = 1;
                 }
-                if (y2 === void 0) {
-                  y2 = x2;
+                if (y === void 0) {
+                  y = x2;
                 }
                 var factorX = 1 / this._scaleX;
                 var factorY = 1 / this._scaleY;
                 this._scaleX = x2;
-                this._scaleY = y2;
+                this._scaleY = y;
                 Body.scale(this.body, factorX, factorY, point);
-                Body.scale(this.body, x2, y2, point);
+                Body.scale(this.body, x2, y, point);
                 return this;
               }
             };
@@ -71238,13 +71238,13 @@
                 Body.setVelocity(this.body, this._tempVec2);
                 return this;
               },
-              setVelocityY: function(y2) {
-                this._tempVec2.set(this.body.velocity.x, y2);
+              setVelocityY: function(y) {
+                this._tempVec2.set(this.body.velocity.x, y);
                 Body.setVelocity(this.body, this._tempVec2);
                 return this;
               },
-              setVelocity: function(x2, y2) {
-                this._tempVec2.set(x2, y2);
+              setVelocity: function(x2, y) {
+                this._tempVec2.set(x2, y);
                 Body.setVelocity(this.body, this._tempVec2);
                 return this;
               }
@@ -71441,15 +71441,15 @@
               step: function(delta, correction) {
                 this.world.step(delta, correction);
               },
-              containsPoint: function(body, x2, y2) {
+              containsPoint: function(body, x2, y) {
                 body = this.getMatterBodies(body);
-                var position = Vector.create(x2, y2);
+                var position = Vector.create(x2, y);
                 var result = Query.point(body, position);
                 return result.length > 0 ? true : false;
               },
-              intersectPoint: function(x2, y2, bodies) {
+              intersectPoint: function(x2, y, bodies) {
                 bodies = this.getMatterBodies(bodies);
-                var position = Vector.create(x2, y2);
+                var position = Vector.create(x2, y);
                 var output = [];
                 var result = Query.point(bodies, position);
                 result.forEach(function(body) {
@@ -71459,14 +71459,14 @@
                 });
                 return output;
               },
-              intersectRect: function(x2, y2, width, height, outside, bodies) {
+              intersectRect: function(x2, y, width, height, outside, bodies) {
                 if (outside === void 0) {
                   outside = false;
                 }
                 bodies = this.getMatterBodies(bodies);
                 var bounds = {
-                  min: { x: x2, y: y2 },
-                  max: { x: x2 + width, y: y2 + height }
+                  min: { x: x2, y },
+                  max: { x: x2 + width, y: y + height }
                 };
                 var output = [];
                 var result = Query.region(bodies, bounds, outside);
@@ -71580,11 +71580,11 @@
                 }
                 return output;
               },
-              setVelocity: function(bodies, x2, y2) {
+              setVelocity: function(bodies, x2, y) {
                 bodies = this.getMatterBodies(bodies);
                 var vec2 = this._tempVec2;
                 vec2.x = x2;
-                vec2.y = y2;
+                vec2.y = y;
                 bodies.forEach(function(body) {
                   Body.setVelocity(body, vec2);
                 });
@@ -71600,10 +71600,10 @@
                 });
                 return this;
               },
-              setVelocityY: function(bodies, y2) {
+              setVelocityY: function(bodies, y) {
                 bodies = this.getMatterBodies(bodies);
                 var vec2 = this._tempVec2;
-                vec2.y = y2;
+                vec2.y = y;
                 bodies.forEach(function(body) {
                   vec2.x = body.velocity.x;
                   Body.setVelocity(body, vec2);
@@ -71668,40 +71668,40 @@
                 }
                 return DistanceBetween(aX, aY, bX, bY);
               },
-              alignBody: function(body, x2, y2, align) {
+              alignBody: function(body, x2, y, align) {
                 body = body.hasOwnProperty("body") ? body.body : body;
                 var pos;
                 switch (align) {
                   case ALIGN_CONST.TOP_LEFT:
                   case ALIGN_CONST.LEFT_TOP:
-                    pos = this.bodyBounds.getTopLeft(body, x2, y2);
+                    pos = this.bodyBounds.getTopLeft(body, x2, y);
                     break;
                   case ALIGN_CONST.TOP_CENTER:
-                    pos = this.bodyBounds.getTopCenter(body, x2, y2);
+                    pos = this.bodyBounds.getTopCenter(body, x2, y);
                     break;
                   case ALIGN_CONST.TOP_RIGHT:
                   case ALIGN_CONST.RIGHT_TOP:
-                    pos = this.bodyBounds.getTopRight(body, x2, y2);
+                    pos = this.bodyBounds.getTopRight(body, x2, y);
                     break;
                   case ALIGN_CONST.LEFT_CENTER:
-                    pos = this.bodyBounds.getLeftCenter(body, x2, y2);
+                    pos = this.bodyBounds.getLeftCenter(body, x2, y);
                     break;
                   case ALIGN_CONST.CENTER:
-                    pos = this.bodyBounds.getCenter(body, x2, y2);
+                    pos = this.bodyBounds.getCenter(body, x2, y);
                     break;
                   case ALIGN_CONST.RIGHT_CENTER:
-                    pos = this.bodyBounds.getRightCenter(body, x2, y2);
+                    pos = this.bodyBounds.getRightCenter(body, x2, y);
                     break;
                   case ALIGN_CONST.LEFT_BOTTOM:
                   case ALIGN_CONST.BOTTOM_LEFT:
-                    pos = this.bodyBounds.getBottomLeft(body, x2, y2);
+                    pos = this.bodyBounds.getBottomLeft(body, x2, y);
                     break;
                   case ALIGN_CONST.BOTTOM_CENTER:
-                    pos = this.bodyBounds.getBottomCenter(body, x2, y2);
+                    pos = this.bodyBounds.getBottomCenter(body, x2, y);
                     break;
                   case ALIGN_CONST.BOTTOM_RIGHT:
                   case ALIGN_CONST.RIGHT_BOTTOM:
-                    pos = this.bodyBounds.getBottomRight(body, x2, y2);
+                    pos = this.bodyBounds.getBottomRight(body, x2, y);
                     break;
                 }
                 if (pos) {
@@ -71765,8 +71765,8 @@
                       for (var j2 = 0; j2 < bodies.length; j2++) {
                         var bodyB = bodies[j2];
                         if (i !== j2) {
-                          for (var k = 0; k < attractors.length; k++) {
-                            var attractor = attractors[k];
+                          for (var k2 = 0; k2 < attractors.length; k2++) {
+                            var attractor = attractors[k2];
                             var forceVector = attractor;
                             if (Matter.Common.isFunction(attractor)) {
                               forceVector = attractor(bodyA, bodyB);
@@ -71906,7 +71906,7 @@
               },
               Bounds: {
                 wrap: function(objectBounds, bounds) {
-                  var x2 = null, y2 = null;
+                  var x2 = null, y = null;
                   if (typeof bounds.min.x !== "undefined" && typeof bounds.max.x !== "undefined") {
                     if (objectBounds.min.x > bounds.max.x) {
                       x2 = bounds.min.x - objectBounds.max.x;
@@ -71916,15 +71916,15 @@
                   }
                   if (typeof bounds.min.y !== "undefined" && typeof bounds.max.y !== "undefined") {
                     if (objectBounds.min.y > bounds.max.y) {
-                      y2 = bounds.min.y - objectBounds.max.y;
+                      y = bounds.min.y - objectBounds.max.y;
                     } else if (objectBounds.max.y < bounds.min.y) {
-                      y2 = bounds.max.y - objectBounds.min.y;
+                      y = bounds.max.y - objectBounds.min.y;
                     }
                   }
-                  if (x2 !== null || y2 !== null) {
+                  if (x2 !== null || y !== null) {
                     return {
                       x: x2 || 0,
-                      y: y2 || 0
+                      y: y || 0
                     };
                   }
                 }
@@ -72014,366 +72014,385 @@
   });
 
   // node_modules/grid-engine/dist/GridEngine.esm.min.js
-  var ne = Object.create;
-  var Y = Object.defineProperty;
-  var se = Object.getPrototypeOf;
-  var ht = Object.prototype.hasOwnProperty;
-  var ae = Object.getOwnPropertyNames;
-  var ce = Object.getOwnPropertyDescriptor;
-  var pt = Object.getOwnPropertySymbols;
-  var le = Object.prototype.propertyIsEnumerable;
-  var ut = (i, t, e) => t in i ? Y(i, t, { enumerable: true, configurable: true, writable: true, value: e }) : i[t] = e;
-  var tt = (i, t) => {
+  var _e = Object.create;
+  var X = Object.defineProperty;
+  var Ce = Object.defineProperties;
+  var we = Object.getOwnPropertyDescriptor;
+  var De = Object.getOwnPropertyDescriptors;
+  var Oe = Object.getOwnPropertyNames;
+  var St = Object.getOwnPropertySymbols;
+  var Ee = Object.getPrototypeOf;
+  var _t = Object.prototype.hasOwnProperty;
+  var Fe = Object.prototype.propertyIsEnumerable;
+  var Ct = (i, t, e) => t in i ? X(i, t, { enumerable: true, configurable: true, writable: true, value: e }) : i[t] = e;
+  var wt = (i, t) => {
     for (var e in t || (t = {}))
-      ht.call(t, e) && ut(i, e, t[e]);
-    if (pt)
-      for (var e of pt(t))
-        le.call(t, e) && ut(i, e, t[e]);
+      _t.call(t, e) && Ct(i, e, t[e]);
+    if (St)
+      for (var e of St(t))
+        Fe.call(t, e) && Ct(i, e, t[e]);
     return i;
   };
-  var he = (i) => Y(i, "__esModule", { value: true });
-  var pe = (i, t) => () => (t || i((t = { exports: {} }).exports, t), t.exports);
-  var ue = (i, t, e) => {
+  var Dt = (i, t) => Ce(i, De(t));
+  var Re = (i) => X(i, "__esModule", { value: true });
+  var Me = (i, t) => () => (t || i((t = { exports: {} }).exports, t), t.exports);
+  var ke = (i, t, e) => {
     if (t && typeof t == "object" || typeof t == "function")
-      for (let r of ae(t))
-        !ht.call(i, r) && r !== "default" && Y(i, r, { get: () => t[r], enumerable: !(e = ce(t, r)) || e.enumerable });
+      for (let r of Oe(t))
+        !_t.call(i, r) && r !== "default" && X(i, r, { get: () => t[r], enumerable: !(e = we(t, r)) || e.enumerable });
     return i;
   };
-  var me = (i) => ue(he(Y(i != null ? ne(se(i)) : {}, "default", i && i.__esModule && "default" in i ? { get: () => i.default, enumerable: true } : { value: i, enumerable: true })), i);
-  var At = pe((Fe, q) => {
-    var bt, vt, gt, yt, xt, Tt, _t, St, Pt, X, rt, wt, Dt, A, Et, Ot, Ct, Rt, Mt, Ft, kt, Ut, Gt;
+  var Ie = (i) => ke(Re(X(i != null ? _e(Ee(i)) : {}, "default", i && i.__esModule && "default" in i ? { get: () => i.default, enumerable: true } : { value: i, enumerable: true })), i);
+  var Kt = Me((or, J) => {
+    var Rt, Mt, kt, It, At, Gt, Nt, Ut, Vt, Z, pt, Wt, Lt, Bt, V, jt, Ht, $t, zt, Yt, qt, Xt, Zt, K;
     (function(i) {
       var t = typeof global == "object" ? global : typeof self == "object" ? self : typeof this == "object" ? this : {};
       typeof define == "function" && define.amd ? define("tslib", ["exports"], function(r) {
         i(e(t, e(r)));
-      }) : typeof q == "object" && typeof q.exports == "object" ? i(e(t, e(q.exports))) : i(e(t));
+      }) : typeof J == "object" && typeof J.exports == "object" ? i(e(t, e(J.exports))) : i(e(t));
       function e(r, o) {
-        return r !== t && (typeof Object.create == "function" ? Object.defineProperty(r, "__esModule", { value: true }) : r.__esModule = true), function(n, a) {
-          return r[n] = o ? o(n, a) : a;
+        return r !== t && (typeof Object.create == "function" ? Object.defineProperty(r, "__esModule", { value: true }) : r.__esModule = true), function(n, s) {
+          return r[n] = o ? o(n, s) : s;
         };
       }
     })(function(i) {
-      var t = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(e, r) {
-        e.__proto__ = r;
-      } || function(e, r) {
-        for (var o in r)
-          r.hasOwnProperty(o) && (e[o] = r[o]);
+      var t = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, o) {
+        r.__proto__ = o;
+      } || function(r, o) {
+        for (var n in o)
+          Object.prototype.hasOwnProperty.call(o, n) && (r[n] = o[n]);
       };
-      bt = function(e, r) {
-        t(e, r);
-        function o() {
-          this.constructor = e;
+      Rt = function(r, o) {
+        if (typeof o != "function" && o !== null)
+          throw new TypeError("Class extends value " + String(o) + " is not a constructor or null");
+        t(r, o);
+        function n() {
+          this.constructor = r;
         }
-        e.prototype = r === null ? Object.create(r) : (o.prototype = r.prototype, new o());
-      }, vt = Object.assign || function(e) {
-        for (var r, o = 1, n = arguments.length; o < n; o++) {
-          r = arguments[o];
-          for (var a in r)
-            Object.prototype.hasOwnProperty.call(r, a) && (e[a] = r[a]);
+        r.prototype = o === null ? Object.create(o) : (n.prototype = o.prototype, new n());
+      }, Mt = Object.assign || function(r) {
+        for (var o, n = 1, s = arguments.length; n < s; n++) {
+          o = arguments[n];
+          for (var c in o)
+            Object.prototype.hasOwnProperty.call(o, c) && (r[c] = o[c]);
         }
-        return e;
-      }, gt = function(e, r) {
-        var o = {};
-        for (var n in e)
-          Object.prototype.hasOwnProperty.call(e, n) && r.indexOf(n) < 0 && (o[n] = e[n]);
-        if (e != null && typeof Object.getOwnPropertySymbols == "function")
-          for (var a = 0, n = Object.getOwnPropertySymbols(e); a < n.length; a++)
-            r.indexOf(n[a]) < 0 && Object.prototype.propertyIsEnumerable.call(e, n[a]) && (o[n[a]] = e[n[a]]);
-        return o;
-      }, yt = function(e, r, o, n) {
-        var a = arguments.length, c = a < 3 ? r : n === null ? n = Object.getOwnPropertyDescriptor(r, o) : n, h;
+        return r;
+      }, kt = function(r, o) {
+        var n = {};
+        for (var s in r)
+          Object.prototype.hasOwnProperty.call(r, s) && o.indexOf(s) < 0 && (n[s] = r[s]);
+        if (r != null && typeof Object.getOwnPropertySymbols == "function")
+          for (var c = 0, s = Object.getOwnPropertySymbols(r); c < s.length; c++)
+            o.indexOf(s[c]) < 0 && Object.prototype.propertyIsEnumerable.call(r, s[c]) && (n[s[c]] = r[s[c]]);
+        return n;
+      }, It = function(r, o, n, s) {
+        var c = arguments.length, l = c < 3 ? o : s === null ? s = Object.getOwnPropertyDescriptor(o, n) : s, h;
         if (typeof Reflect == "object" && typeof Reflect.decorate == "function")
-          c = Reflect.decorate(e, r, o, n);
+          l = Reflect.decorate(r, o, n, s);
         else
-          for (var u = e.length - 1; u >= 0; u--)
-            (h = e[u]) && (c = (a < 3 ? h(c) : a > 3 ? h(r, o, c) : h(r, o)) || c);
-        return a > 3 && c && Object.defineProperty(r, o, c), c;
-      }, xt = function(e, r) {
-        return function(o, n) {
-          r(o, n, e);
+          for (var m = r.length - 1; m >= 0; m--)
+            (h = r[m]) && (l = (c < 3 ? h(l) : c > 3 ? h(o, n, l) : h(o, n)) || l);
+        return c > 3 && l && Object.defineProperty(o, n, l), l;
+      }, At = function(r, o) {
+        return function(n, s) {
+          o(n, s, r);
         };
-      }, Tt = function(e, r) {
+      }, Gt = function(r, o) {
         if (typeof Reflect == "object" && typeof Reflect.metadata == "function")
-          return Reflect.metadata(e, r);
-      }, _t = function(e, r, o, n) {
-        function a(c) {
-          return c instanceof o ? c : new o(function(h) {
-            h(c);
+          return Reflect.metadata(r, o);
+      }, Nt = function(r, o, n, s) {
+        function c(l) {
+          return l instanceof n ? l : new n(function(h) {
+            h(l);
           });
         }
-        return new (o || (o = Promise))(function(c, h) {
-          function u(f) {
+        return new (n || (n = Promise))(function(l, h) {
+          function m(b) {
             try {
-              p(n.next(f));
-            } catch (k) {
-              h(k);
+              u(s.next(b));
+            } catch (O) {
+              h(O);
             }
           }
-          function g(f) {
+          function y(b) {
             try {
-              p(n.throw(f));
-            } catch (k) {
-              h(k);
+              u(s.throw(b));
+            } catch (O) {
+              h(O);
             }
           }
-          function p(f) {
-            f.done ? c(f.value) : a(f.value).then(u, g);
+          function u(b) {
+            b.done ? l(b.value) : c(b.value).then(m, y);
           }
-          p((n = n.apply(e, r || [])).next());
+          u((s = s.apply(r, o || [])).next());
         });
-      }, St = function(e, r) {
-        var o = { label: 0, sent: function() {
-          if (c[0] & 1)
-            throw c[1];
-          return c[1];
-        }, trys: [], ops: [] }, n, a, c, h;
-        return h = { next: u(0), throw: u(1), return: u(2) }, typeof Symbol == "function" && (h[Symbol.iterator] = function() {
+      }, Ut = function(r, o) {
+        var n = { label: 0, sent: function() {
+          if (l[0] & 1)
+            throw l[1];
+          return l[1];
+        }, trys: [], ops: [] }, s, c, l, h;
+        return h = { next: m(0), throw: m(1), return: m(2) }, typeof Symbol == "function" && (h[Symbol.iterator] = function() {
           return this;
         }), h;
-        function u(p) {
-          return function(f) {
-            return g([p, f]);
+        function m(u) {
+          return function(b) {
+            return y([u, b]);
           };
         }
-        function g(p) {
-          if (n)
+        function y(u) {
+          if (s)
             throw new TypeError("Generator is already executing.");
-          for (; o; )
+          for (; n; )
             try {
-              if (n = 1, a && (c = p[0] & 2 ? a.return : p[0] ? a.throw || ((c = a.return) && c.call(a), 0) : a.next) && !(c = c.call(a, p[1])).done)
-                return c;
-              switch (a = 0, c && (p = [p[0] & 2, c.value]), p[0]) {
+              if (s = 1, c && (l = u[0] & 2 ? c.return : u[0] ? c.throw || ((l = c.return) && l.call(c), 0) : c.next) && !(l = l.call(c, u[1])).done)
+                return l;
+              switch (c = 0, l && (u = [u[0] & 2, l.value]), u[0]) {
                 case 0:
                 case 1:
-                  c = p;
+                  l = u;
                   break;
                 case 4:
-                  return o.label++, { value: p[1], done: false };
+                  return n.label++, { value: u[1], done: false };
                 case 5:
-                  o.label++, a = p[1], p = [0];
+                  n.label++, c = u[1], u = [0];
                   continue;
                 case 7:
-                  p = o.ops.pop(), o.trys.pop();
+                  u = n.ops.pop(), n.trys.pop();
                   continue;
                 default:
-                  if (c = o.trys, !(c = c.length > 0 && c[c.length - 1]) && (p[0] === 6 || p[0] === 2)) {
-                    o = 0;
+                  if (l = n.trys, !(l = l.length > 0 && l[l.length - 1]) && (u[0] === 6 || u[0] === 2)) {
+                    n = 0;
                     continue;
                   }
-                  if (p[0] === 3 && (!c || p[1] > c[0] && p[1] < c[3])) {
-                    o.label = p[1];
+                  if (u[0] === 3 && (!l || u[1] > l[0] && u[1] < l[3])) {
+                    n.label = u[1];
                     break;
                   }
-                  if (p[0] === 6 && o.label < c[1]) {
-                    o.label = c[1], c = p;
+                  if (u[0] === 6 && n.label < l[1]) {
+                    n.label = l[1], l = u;
                     break;
                   }
-                  if (c && o.label < c[2]) {
-                    o.label = c[2], o.ops.push(p);
+                  if (l && n.label < l[2]) {
+                    n.label = l[2], n.ops.push(u);
                     break;
                   }
-                  c[2] && o.ops.pop(), o.trys.pop();
+                  l[2] && n.ops.pop(), n.trys.pop();
                   continue;
               }
-              p = r.call(e, o);
-            } catch (f) {
-              p = [6, f], a = 0;
+              u = o.call(r, n);
+            } catch (b) {
+              u = [6, b], c = 0;
             } finally {
-              n = c = 0;
+              s = l = 0;
             }
-          if (p[0] & 5)
-            throw p[1];
-          return { value: p[0] ? p[1] : void 0, done: true };
+          if (u[0] & 5)
+            throw u[1];
+          return { value: u[0] ? u[1] : void 0, done: true };
         }
-      }, Gt = function(e, r, o, n) {
-        n === void 0 && (n = o), e[n] = r[o];
-      }, Pt = function(e, r) {
-        for (var o in e)
-          o !== "default" && !r.hasOwnProperty(o) && (r[o] = e[o]);
-      }, X = function(e) {
-        var r = typeof Symbol == "function" && Symbol.iterator, o = r && e[r], n = 0;
-        if (o)
-          return o.call(e);
-        if (e && typeof e.length == "number")
+      }, Vt = function(r, o) {
+        for (var n in r)
+          n !== "default" && !Object.prototype.hasOwnProperty.call(o, n) && K(o, r, n);
+      }, K = Object.create ? function(r, o, n, s) {
+        s === void 0 && (s = n), Object.defineProperty(r, s, { enumerable: true, get: function() {
+          return o[n];
+        } });
+      } : function(r, o, n, s) {
+        s === void 0 && (s = n), r[s] = o[n];
+      }, Z = function(r) {
+        var o = typeof Symbol == "function" && Symbol.iterator, n = o && r[o], s = 0;
+        if (n)
+          return n.call(r);
+        if (r && typeof r.length == "number")
           return { next: function() {
-            return e && n >= e.length && (e = void 0), { value: e && e[n++], done: !e };
+            return r && s >= r.length && (r = void 0), { value: r && r[s++], done: !r };
           } };
-        throw new TypeError(r ? "Object is not iterable." : "Symbol.iterator is not defined.");
-      }, rt = function(e, r) {
-        var o = typeof Symbol == "function" && e[Symbol.iterator];
-        if (!o)
-          return e;
-        var n = o.call(e), a, c = [], h;
+        throw new TypeError(o ? "Object is not iterable." : "Symbol.iterator is not defined.");
+      }, pt = function(r, o) {
+        var n = typeof Symbol == "function" && r[Symbol.iterator];
+        if (!n)
+          return r;
+        var s = n.call(r), c, l = [], h;
         try {
-          for (; (r === void 0 || r-- > 0) && !(a = n.next()).done; )
-            c.push(a.value);
-        } catch (u) {
-          h = { error: u };
+          for (; (o === void 0 || o-- > 0) && !(c = s.next()).done; )
+            l.push(c.value);
+        } catch (m) {
+          h = { error: m };
         } finally {
           try {
-            a && !a.done && (o = n.return) && o.call(n);
+            c && !c.done && (n = s.return) && n.call(s);
           } finally {
             if (h)
               throw h.error;
           }
         }
-        return c;
-      }, wt = function() {
-        for (var e = [], r = 0; r < arguments.length; r++)
-          e = e.concat(rt(arguments[r]));
-        return e;
-      }, Dt = function() {
-        for (var e = 0, r = 0, o = arguments.length; r < o; r++)
-          e += arguments[r].length;
-        for (var n = Array(e), a = 0, r = 0; r < o; r++)
-          for (var c = arguments[r], h = 0, u = c.length; h < u; h++, a++)
-            n[a] = c[h];
-        return n;
-      }, A = function(e) {
-        return this instanceof A ? (this.v = e, this) : new A(e);
-      }, Et = function(e, r, o) {
+        return l;
+      }, Wt = function() {
+        for (var r = [], o = 0; o < arguments.length; o++)
+          r = r.concat(pt(arguments[o]));
+        return r;
+      }, Lt = function() {
+        for (var r = 0, o = 0, n = arguments.length; o < n; o++)
+          r += arguments[o].length;
+        for (var s = Array(r), c = 0, o = 0; o < n; o++)
+          for (var l = arguments[o], h = 0, m = l.length; h < m; h++, c++)
+            s[c] = l[h];
+        return s;
+      }, Bt = function(r, o) {
+        for (var n = 0, s = o.length, c = r.length; n < s; n++, c++)
+          r[c] = o[n];
+        return r;
+      }, V = function(r) {
+        return this instanceof V ? (this.v = r, this) : new V(r);
+      }, jt = function(r, o, n) {
         if (!Symbol.asyncIterator)
           throw new TypeError("Symbol.asyncIterator is not defined.");
-        var n = o.apply(e, r || []), a, c = [];
-        return a = {}, h("next"), h("throw"), h("return"), a[Symbol.asyncIterator] = function() {
+        var s = n.apply(r, o || []), c, l = [];
+        return c = {}, h("next"), h("throw"), h("return"), c[Symbol.asyncIterator] = function() {
           return this;
-        }, a;
+        }, c;
         function h(d) {
-          n[d] && (a[d] = function(U) {
-            return new Promise(function(Q, oe) {
-              c.push([d, U, Q, oe]) > 1 || u(d, U);
+          s[d] && (c[d] = function(N) {
+            return new Promise(function(lt, Se) {
+              l.push([d, N, lt, Se]) > 1 || m(d, N);
             });
           });
         }
-        function u(d, U) {
+        function m(d, N) {
           try {
-            g(n[d](U));
-          } catch (Q) {
-            k(c[0][3], Q);
+            y(s[d](N));
+          } catch (lt) {
+            O(l[0][3], lt);
           }
         }
-        function g(d) {
-          d.value instanceof A ? Promise.resolve(d.value.v).then(p, f) : k(c[0][2], d);
+        function y(d) {
+          d.value instanceof V ? Promise.resolve(d.value.v).then(u, b) : O(l[0][2], d);
         }
-        function p(d) {
-          u("next", d);
+        function u(d) {
+          m("next", d);
         }
-        function f(d) {
-          u("throw", d);
+        function b(d) {
+          m("throw", d);
         }
-        function k(d, U) {
-          d(U), c.shift(), c.length && u(c[0][0], c[0][1]);
+        function O(d, N) {
+          d(N), l.shift(), l.length && m(l[0][0], l[0][1]);
         }
-      }, Ot = function(e) {
-        var r, o;
-        return r = {}, n("next"), n("throw", function(a) {
-          throw a;
-        }), n("return"), r[Symbol.iterator] = function() {
+      }, Ht = function(r) {
+        var o, n;
+        return o = {}, s("next"), s("throw", function(c) {
+          throw c;
+        }), s("return"), o[Symbol.iterator] = function() {
           return this;
-        }, r;
-        function n(a, c) {
-          r[a] = e[a] ? function(h) {
-            return (o = !o) ? { value: A(e[a](h)), done: a === "return" } : c ? c(h) : h;
-          } : c;
+        }, o;
+        function s(c, l) {
+          o[c] = r[c] ? function(h) {
+            return (n = !n) ? { value: V(r[c](h)), done: c === "return" } : l ? l(h) : h;
+          } : l;
         }
-      }, Ct = function(e) {
+      }, $t = function(r) {
         if (!Symbol.asyncIterator)
           throw new TypeError("Symbol.asyncIterator is not defined.");
-        var r = e[Symbol.asyncIterator], o;
-        return r ? r.call(e) : (e = typeof X == "function" ? X(e) : e[Symbol.iterator](), o = {}, n("next"), n("throw"), n("return"), o[Symbol.asyncIterator] = function() {
+        var o = r[Symbol.asyncIterator], n;
+        return o ? o.call(r) : (r = typeof Z == "function" ? Z(r) : r[Symbol.iterator](), n = {}, s("next"), s("throw"), s("return"), n[Symbol.asyncIterator] = function() {
           return this;
-        }, o);
-        function n(c) {
-          o[c] = e[c] && function(h) {
-            return new Promise(function(u, g) {
-              h = e[c](h), a(u, g, h.done, h.value);
+        }, n);
+        function s(l) {
+          n[l] = r[l] && function(h) {
+            return new Promise(function(m, y) {
+              h = r[l](h), c(m, y, h.done, h.value);
             });
           };
         }
-        function a(c, h, u, g) {
-          Promise.resolve(g).then(function(p) {
-            c({ value: p, done: u });
+        function c(l, h, m, y) {
+          Promise.resolve(y).then(function(u) {
+            l({ value: u, done: m });
           }, h);
         }
-      }, Rt = function(e, r) {
-        return Object.defineProperty ? Object.defineProperty(e, "raw", { value: r }) : e.raw = r, e;
-      }, Mt = function(e) {
-        if (e && e.__esModule)
-          return e;
-        var r = {};
-        if (e != null)
-          for (var o in e)
-            Object.hasOwnProperty.call(e, o) && (r[o] = e[o]);
-        return r.default = e, r;
-      }, Ft = function(e) {
-        return e && e.__esModule ? e : { default: e };
-      }, kt = function(e, r) {
-        if (!r.has(e))
+      }, zt = function(r, o) {
+        return Object.defineProperty ? Object.defineProperty(r, "raw", { value: o }) : r.raw = o, r;
+      };
+      var e = Object.create ? function(r, o) {
+        Object.defineProperty(r, "default", { enumerable: true, value: o });
+      } : function(r, o) {
+        r.default = o;
+      };
+      Yt = function(r) {
+        if (r && r.__esModule)
+          return r;
+        var o = {};
+        if (r != null)
+          for (var n in r)
+            n !== "default" && Object.prototype.hasOwnProperty.call(r, n) && K(o, r, n);
+        return e(o, r), o;
+      }, qt = function(r) {
+        return r && r.__esModule ? r : { default: r };
+      }, Xt = function(r, o) {
+        if (!o.has(r))
           throw new TypeError("attempted to get private field on non-instance");
-        return r.get(e);
-      }, Ut = function(e, r, o) {
-        if (!r.has(e))
+        return o.get(r);
+      }, Zt = function(r, o, n) {
+        if (!o.has(r))
           throw new TypeError("attempted to set private field on non-instance");
-        return r.set(e, o), o;
-      }, i("__extends", bt), i("__assign", vt), i("__rest", gt), i("__decorate", yt), i("__param", xt), i("__metadata", Tt), i("__awaiter", _t), i("__generator", St), i("__exportStar", Pt), i("__createBinding", Gt), i("__values", X), i("__read", rt), i("__spread", wt), i("__spreadArrays", Dt), i("__await", A), i("__asyncGenerator", Et), i("__asyncDelegator", Ot), i("__asyncValues", Ct), i("__makeTemplateObject", Rt), i("__importStar", Mt), i("__importDefault", Ft), i("__classPrivateFieldGet", kt), i("__classPrivateFieldSet", Ut);
+        return o.set(r, n), n;
+      }, i("__extends", Rt), i("__assign", Mt), i("__rest", kt), i("__decorate", It), i("__param", At), i("__metadata", Gt), i("__awaiter", Nt), i("__generator", Ut), i("__exportStar", Vt), i("__createBinding", K), i("__values", Z), i("__read", pt), i("__spread", Wt), i("__spreadArrays", Lt), i("__spreadArray", Bt), i("__await", V), i("__asyncGenerator", jt), i("__asyncDelegator", Ht), i("__asyncValues", $t), i("__makeTemplateObject", zt), i("__importStar", Yt), i("__importDefault", qt), i("__classPrivateFieldGet", Xt), i("__classPrivateFieldSet", Zt);
     });
   });
-  var S;
-  (function(i) {
-    i.WAIT = "WAIT", i.RETRY = "RETRY", i.STOP = "STOP";
-  })(S || (S = {}));
-  var P = class {
+  var P;
+  (function(r) {
+    r.WAIT = "WAIT", r.RETRY = "RETRY", r.STOP = "STOP";
+  })(P || (P = {}));
+  var S = class {
     constructor(t, e) {
       typeof t == "number" ? (this.x = t, this.y = e || 0) : (this.x = t.x, this.y = t.y);
     }
     clone() {
-      return new P(this.x, this.y);
+      return new S(this.x, this.y);
     }
     add(t) {
-      return new P(this.x + t.x, this.y + t.y);
+      return new S(this.x + t.x, this.y + t.y);
     }
     multiply(t) {
-      return new P(this.x * t.x, this.y * t.y);
+      return new S(this.x * t.x, this.y * t.y);
     }
     subtract(t) {
-      return new P(this.x - t.x, this.y - t.y);
+      return new S(this.x - t.x, this.y - t.y);
     }
     equals(t) {
       return this.x === t.x && this.y === t.y;
     }
   };
-  var l = P;
-  l.ZERO = new P(0, 0), l.UP = new P(0, -1), l.DOWN = new P(0, 1), l.LEFT = new P(-1, 0), l.RIGHT = new P(1, 0);
-  var s;
-  (function(i) {
-    i.NONE = "none", i.LEFT = "left", i.UP_LEFT = "up-left", i.UP = "up", i.UP_RIGHT = "up-right", i.RIGHT = "right", i.DOWN_RIGHT = "down-right", i.DOWN = "down", i.DOWN_LEFT = "down-left";
-  })(s || (s = {}));
-  function mt(i) {
-    let t = [s.UP, s.RIGHT, s.DOWN, s.LEFT], e = [s.DOWN_LEFT, s.DOWN_RIGHT, s.UP_RIGHT, s.UP_LEFT];
-    return i === _.EIGHT ? [...t, ...e] : t;
+  var p = S;
+  p.ZERO = new S(0, 0), p.UP = new S(0, -1), p.DOWN = new S(0, 1), p.LEFT = new S(-1, 0), p.RIGHT = new S(1, 0);
+  var a;
+  (function(h) {
+    h.NONE = "none", h.LEFT = "left", h.UP_LEFT = "up-left", h.UP = "up", h.UP_RIGHT = "up-right", h.RIGHT = "right", h.DOWN_RIGHT = "down-right", h.DOWN = "down", h.DOWN_LEFT = "down-left";
+  })(a || (a = {}));
+  function Ot(i) {
+    let t = [a.UP, a.RIGHT, a.DOWN, a.LEFT], e = [a.DOWN_LEFT, a.DOWN_RIGHT, a.UP_RIGHT, a.UP_LEFT];
+    return i === T.EIGHT ? [...t, ...e] : t;
   }
-  function et(i) {
-    return [s.DOWN_LEFT, s.DOWN_RIGHT, s.UP_RIGHT, s.UP_LEFT].includes(i);
+  function ct(i) {
+    return [a.DOWN_LEFT, a.DOWN_RIGHT, a.UP_RIGHT, a.UP_LEFT].includes(i);
   }
-  function ft(i) {
-    return { [s.LEFT]: s.DOWN_LEFT, [s.UP_LEFT]: s.LEFT, [s.UP]: s.UP_LEFT, [s.UP_RIGHT]: s.UP, [s.RIGHT]: s.UP_RIGHT, [s.DOWN_RIGHT]: s.RIGHT, [s.DOWN]: s.DOWN_RIGHT, [s.DOWN_LEFT]: s.DOWN, [s.NONE]: s.NONE }[i];
+  function Et(i) {
+    return { [a.LEFT]: a.DOWN_LEFT, [a.UP_LEFT]: a.LEFT, [a.UP]: a.UP_LEFT, [a.UP_RIGHT]: a.UP, [a.RIGHT]: a.UP_RIGHT, [a.DOWN_RIGHT]: a.RIGHT, [a.DOWN]: a.DOWN_RIGHT, [a.DOWN_LEFT]: a.DOWN, [a.NONE]: a.NONE }[i];
   }
-  function C(i) {
-    return { [s.UP]: l.UP.clone(), [s.DOWN]: l.DOWN.clone(), [s.LEFT]: l.LEFT.clone(), [s.RIGHT]: l.RIGHT.clone(), [s.NONE]: l.ZERO.clone(), [s.UP_LEFT]: new l(-1, -1), [s.UP_RIGHT]: new l(1, -1), [s.DOWN_RIGHT]: new l(1, 1), [s.DOWN_LEFT]: new l(-1, 1) }[i];
+  function F(i) {
+    return { [a.UP]: p.UP.clone(), [a.DOWN]: p.DOWN.clone(), [a.LEFT]: p.LEFT.clone(), [a.RIGHT]: p.RIGHT.clone(), [a.NONE]: p.ZERO.clone(), [a.UP_LEFT]: new p(-1, -1), [a.UP_RIGHT]: new p(1, -1), [a.DOWN_RIGHT]: new p(1, 1), [a.DOWN_LEFT]: new p(-1, 1) }[i];
   }
-  function dt(i) {
-    return { [s.UP]: s.DOWN, [s.DOWN]: s.UP, [s.LEFT]: s.RIGHT, [s.RIGHT]: s.LEFT, [s.NONE]: s.NONE, [s.UP_LEFT]: s.DOWN_RIGHT, [s.UP_RIGHT]: s.DOWN_LEFT, [s.DOWN_RIGHT]: s.UP_LEFT, [s.DOWN_LEFT]: s.UP_RIGHT }[i];
+  function Ft(i) {
+    return { [a.UP]: a.DOWN, [a.DOWN]: a.UP, [a.LEFT]: a.RIGHT, [a.RIGHT]: a.LEFT, [a.NONE]: a.NONE, [a.UP_LEFT]: a.DOWN_RIGHT, [a.UP_RIGHT]: a.DOWN_LEFT, [a.DOWN_RIGHT]: a.UP_LEFT, [a.DOWN_LEFT]: a.UP_RIGHT }[i];
   }
-  var _;
-  (function(i) {
-    i[i.FOUR = 4] = "FOUR", i[i.EIGHT = 8] = "EIGHT";
-  })(_ || (_ = {}));
-  var m = class {
+  var T;
+  (function(e) {
+    e[e.FOUR = 4] = "FOUR", e[e.EIGHT = 8] = "EIGHT";
+  })(T || (T = {}));
+  var v = class {
     static vec2str(t) {
       return `${t.x}#${t.y}`;
     }
     static equal(t, e) {
-      return m.vec2str(t) == m.vec2str(e);
+      return v.vec2str(t) == v.vec2str(e);
     }
     static manhattanDistance(t, e) {
       let r = Math.abs(t.x - e.x), o = Math.abs(t.y - e.y);
@@ -72384,16 +72403,16 @@
       return Math.max(r, o);
     }
     static scalarMult(t, e) {
-      return t.clone().multiply(new l(e, e));
+      return t.clone().multiply(new p(e, e));
     }
   };
-  var G = class {
+  var U = class {
     constructor(t, e, r) {
       this.sprite = t;
       this.walkingAnimationMapping = e;
       this.characterIndex = r;
       this.lastFootLeft = false;
-      this.directionToFrameRow = { [s.DOWN]: 0, [s.DOWN_LEFT]: 1, [s.DOWN_RIGHT]: 2, [s.LEFT]: 1, [s.RIGHT]: 2, [s.UP]: 3, [s.UP_LEFT]: 1, [s.UP_RIGHT]: 2 };
+      this.directionToFrameRow = { [a.DOWN]: 0, [a.DOWN_LEFT]: 1, [a.DOWN_RIGHT]: 2, [a.LEFT]: 1, [a.RIGHT]: 2, [a.UP]: 3, [a.UP_LEFT]: 1, [a.UP_RIGHT]: 2 };
       this._isEnabled = true;
     }
     setIsEnabled(t) {
@@ -72432,37 +72451,74 @@
     }
     fallbackDirection(t) {
       switch (t) {
-        case s.DOWN_LEFT:
-          return s.LEFT;
-        case s.DOWN_RIGHT:
-          return s.RIGHT;
-        case s.UP_LEFT:
-          return s.LEFT;
-        case s.UP_RIGHT:
-          return s.RIGHT;
+        case a.DOWN_LEFT:
+          return a.LEFT;
+        case a.DOWN_RIGHT:
+          return a.RIGHT;
+        case a.UP_LEFT:
+          return a.LEFT;
+        case a.UP_RIGHT:
+          return a.RIGHT;
       }
       return t;
     }
     getFramesForCharIndex(t) {
-      let e = this.sprite.texture.source[0].width / this.sprite.width / G.FRAMES_CHAR_ROW, r = Math.floor(this.characterIndex / e), o = this.characterIndex % e, n = e * G.FRAMES_CHAR_ROW, a = G.FRAMES_CHAR_ROW * o, c = this.directionToFrameRow[t] + r * G.FRAMES_CHAR_COL, h = a + c * n;
-      return { rightFoot: h, standing: h + 1, leftFoot: h + 2 };
+      let e = this.sprite.texture.source[0].width / this.sprite.width / U.FRAMES_CHAR_ROW, r = Math.floor(this.characterIndex / e), o = this.characterIndex % e, n = e * U.FRAMES_CHAR_ROW, s = U.FRAMES_CHAR_ROW * o, c = this.directionToFrameRow[t] + r * U.FRAMES_CHAR_COL, l = s + c * n;
+      return { rightFoot: l, standing: l + 1, leftFoot: l + 2 };
     }
   };
-  var W = G;
-  W.FRAMES_CHAR_ROW = 3, W.FRAMES_CHAR_COL = 4;
-  var D = class {
+  var j = U;
+  j.FRAMES_CHAR_ROW = 3, j.FRAMES_CHAR_COL = 4;
+  var ht = class {
+    constructor() {
+      this.tilePosToCharacters = new Map();
+      this.positionChangedSubs = new Map();
+      this.positionChangeFinishedSubs = new Map();
+    }
+    isCharBlockingAt(t) {
+      let e = this.posToString(t);
+      return this.tilePosToCharacters.has(e) && this.tilePosToCharacters.get(e).size > 0;
+    }
+    addCharacter(t) {
+      this.add(this.posToString(t.getTilePos()), t), this.add(this.posToString(t.getNextTilePos()), t), this.addPositionChangeSub(t), this.addPositionChangeFinishedSub(t);
+    }
+    removeCharacter(t) {
+      let e = t.getId();
+      this.positionChangedSubs.get(e).unsubscribe(), this.positionChangeFinishedSubs.get(e).unsubscribe(), this.tilePosToCharacters.get(this.posToString(t.getTilePos())).delete(t), this.tilePosToCharacters.get(this.posToString(t.getNextTilePos())).delete(t);
+    }
+    add(t, e) {
+      this.tilePosToCharacters.has(t) || this.tilePosToCharacters.set(t, new Set()), this.tilePosToCharacters.get(t).add(e);
+    }
+    addPositionChangeSub(t) {
+      let e = t.positionChanged().subscribe((r) => {
+        this.add(this.posToString(r.enterTile), t);
+      });
+      this.positionChangedSubs.set(t.getId(), e);
+    }
+    addPositionChangeFinishedSub(t) {
+      let e = t.positionChangeFinished().subscribe((r) => {
+        this.tilePosToCharacters.get(this.posToString(r.exitTile)).delete(t);
+      });
+      this.positionChangeFinishedSubs.set(t.getId(), e);
+    }
+    posToString(t) {
+      return `${t.x}#${t.y}`;
+    }
+  };
+  var w = class {
     constructor(t, e) {
       this.tilemap = t;
       this.firstLayerAboveChar = e;
       this.characters = new Map();
       this.collisionTilePropertyName = "ge_collide";
+      this.charBlockCache = new ht();
       this.setLayerDepths();
     }
     addCharacter(t) {
-      this.characters.set(t.getId(), t);
+      this.characters.set(t.getId(), t), this.charBlockCache.addCharacter(t);
     }
     removeCharacter(t) {
-      this.characters.delete(t);
+      this.charBlockCache.removeCharacter(this.characters.get(t)), this.characters.delete(t);
     }
     getCharacters() {
       return [...this.characters.values()];
@@ -72473,7 +72529,7 @@
     hasBlockingTile(t, e) {
       if (this.hasNoTile(t))
         return true;
-      let r = D.ONE_WAY_COLLIDE_PROP_PREFIX + e;
+      let r = w.ONE_WAY_COLLIDE_PROP_PREFIX + e;
       return this.tilemap.layers.some((o) => {
         let n = this.tilemap.getTileAt(t.x, t.y, false, o.name);
         return (n == null ? void 0 : n.properties) && (n.properties[this.collisionTilePropertyName] || n.properties[r]);
@@ -72483,7 +72539,7 @@
       return !this.tilemap.layers.some((e) => this.tilemap.hasTileAt(t.x, t.y, e.name));
     }
     hasBlockingChar(t) {
-      return [...this.characters.values()].some((e) => e.isBlockingTile(t));
+      return this.charBlockCache.isCharBlockingAt(t);
     }
     setCollisionTilePropertyName(t) {
       this.collisionTilePropertyName = t;
@@ -72504,346 +72560,347 @@
       return this.getLayerProp(t, e) != null;
     }
     isLayerAlwaysOnTop(t, e) {
-      return e >= this.firstLayerAboveChar || this.hasLayerProp(t, D.ALWAYS_TOP_PROP_NAME);
+      return e >= this.firstLayerAboveChar || this.hasLayerProp(t, w.ALWAYS_TOP_PROP_NAME);
     }
     setLayerDepths() {
       let t = [];
       this.tilemap.layers.forEach((e, r) => {
-        this.isLayerAlwaysOnTop(e, r) ? e.tilemapLayer.setDepth(D.FIRST_PLAYER_LAYER + D.MAX_PLAYER_LAYERS + r) : this.hasLayerProp(e, D.HEIGHT_SHIFT_PROP_NAME) ? (this.createLayerForEachRow(e, r), t.push(e.tilemapLayer)) : e.tilemapLayer.setDepth(r);
+        this.isLayerAlwaysOnTop(e, r) ? e.tilemapLayer.setDepth(w.FIRST_PLAYER_LAYER + w.MAX_PLAYER_LAYERS + r) : this.hasLayerProp(e, w.HEIGHT_SHIFT_PROP_NAME) ? (this.createLayerForEachRow(e, r), t.push(e.tilemapLayer)) : e.tilemapLayer.setDepth(r);
       }), t.forEach((e) => e.destroy());
     }
     createLayerForEachRow(t, e) {
-      let r = this.getLayerProp(t, D.HEIGHT_SHIFT_PROP_NAME);
+      let r = this.getLayerProp(t, w.HEIGHT_SHIFT_PROP_NAME);
       for (let o = 0; o < t.height; o++) {
         let n = this.tilemap.createBlankLayer(`${e}#${o}`, t.tilemapLayer.tileset);
         for (let c = 0; c < t.width; c++)
           n.putTileAt(t.data[o][c], c, o);
         n.scale = t.tilemapLayer.scale;
-        let a = 0.5;
-        n.setDepth(D.FIRST_PLAYER_LAYER + o + r - 1 + a);
+        let s = 0.5;
+        n.setDepth(w.FIRST_PLAYER_LAYER + o + r - 1 + s);
       }
     }
   };
-  var w = D;
-  w.MAX_PLAYER_LAYERS = 1e3, w.FIRST_PLAYER_LAYER = 1e3, w.ALWAYS_TOP_PROP_NAME = "ge_alwaysTop", w.HEIGHT_SHIFT_PROP_NAME = "ge_heightShift", w.ONE_WAY_COLLIDE_PROP_PREFIX = "ge_collide_";
-  var Vt = me(At());
-  var { __extends: b, __assign: Ue, __rest: Ge, __decorate: Ae, __param: Ve, __metadata: Ie, __awaiter: Ne, __generator: We, __exportStar: Le, __createBinding: je, __values: Be, __read: He, __spread: $e, __spreadArrays: ze, __await: Ye, __asyncGenerator: qe, __asyncDelegator: Xe, __asyncValues: Ze, __makeTemplateObject: Je, __importStar: Ke, __importDefault: Qe, __classPrivateFieldGet: tr, __classPrivateFieldSet: er } = Vt.default;
-  function L(i) {
+  var _ = w;
+  _.MAX_PLAYER_LAYERS = 1e3, _.FIRST_PLAYER_LAYER = 1e3, _.ALWAYS_TOP_PROP_NAME = "ge_alwaysTop", _.HEIGHT_SHIFT_PROP_NAME = "ge_heightShift", _.ONE_WAY_COLLIDE_PROP_PREFIX = "ge_collide_";
+  var Jt = Ie(Kt());
+  var { __extends: E, __assign: nr, __rest: ar, __decorate: sr, __param: lr, __metadata: cr, __awaiter: Qt, __generator: Q, __exportStar: hr, __createBinding: pr, __values: R, __read: M, __spread: ur, __spreadArrays: mr, __spreadArray: k, __await: tt, __asyncGenerator: te, __asyncDelegator: dr, __asyncValues: ee, __makeTemplateObject: fr, __importStar: vr, __importDefault: br, __classPrivateFieldGet: gr, __classPrivateFieldSet: yr } = Jt.default;
+  function f(i) {
     return typeof i == "function";
   }
-  var it = false;
-  var y = { Promise: void 0, set useDeprecatedSynchronousErrorHandling(i) {
-    if (i) {
-      var t = new Error();
-      "" + t.stack;
-    }
-    it = i;
-  }, get useDeprecatedSynchronousErrorHandling() {
-    return it;
-  } };
-  function E(i) {
-    setTimeout(function() {
-      throw i;
-    }, 0);
+  function et(i) {
+    var t = function(r) {
+      Error.call(r), r.stack = new Error().stack;
+    }, e = i(t);
+    return e.prototype = Object.create(Error.prototype), e.prototype.constructor = e, e;
   }
-  var V = { closed: true, next: function(i) {
-  }, error: function(i) {
-    if (y.useDeprecatedSynchronousErrorHandling)
-      throw i;
-    E(i);
-  }, complete: function() {
-  } };
-  var It = function() {
-    return Array.isArray || function(i) {
-      return i && typeof i.length == "number";
-    };
-  }();
-  function Z(i) {
-    return i !== null && typeof i == "object";
-  }
-  var fe = function() {
-    function i(t) {
-      return Error.call(this), this.message = t ? t.length + ` errors occurred during unsubscription:
-` + t.map(function(e, r) {
-        return r + 1 + ") " + e.toString();
+  var rt = et(function(i) {
+    return function(e) {
+      i(this), this.message = e ? e.length + ` errors occurred during unsubscription:
+` + e.map(function(r, o) {
+        return o + 1 + ") " + r.toString();
       }).join(`
-  `) : "", this.name = "UnsubscriptionError", this.errors = t, this;
+  `) : "", this.name = "UnsubscriptionError", this.errors = e;
+    };
+  });
+  function H(i, t) {
+    if (i) {
+      var e = i.indexOf(t);
+      0 <= e && i.splice(e, 1);
     }
-    return i.prototype = Object.create(Error.prototype), i;
-  }();
-  var j = fe;
-  var O = function() {
+  }
+  var W = function() {
     function i(t) {
-      this.closed = false, this._parentOrParents = null, this._subscriptions = null, t && (this._ctorUnsubscribe = true, this._unsubscribe = t);
+      this.initialTeardown = t, this.closed = false, this._parentage = null, this._teardowns = null;
     }
     return i.prototype.unsubscribe = function() {
-      var t;
+      var t, e, r, o, n;
       if (!this.closed) {
-        var e = this, r = e._parentOrParents, o = e._ctorUnsubscribe, n = e._unsubscribe, a = e._subscriptions;
-        if (this.closed = true, this._parentOrParents = null, this._subscriptions = null, r instanceof i)
-          r.remove(this);
-        else if (r !== null)
-          for (var c = 0; c < r.length; ++c) {
-            var h = r[c];
-            h.remove(this);
-          }
-        if (L(n)) {
-          o && (this._unsubscribe = void 0);
+        this.closed = true;
+        var s = this._parentage;
+        if (s)
+          if (this._parentage = null, Array.isArray(s))
+            try {
+              for (var c = R(s), l = c.next(); !l.done; l = c.next()) {
+                var h = l.value;
+                h.remove(this);
+              }
+            } catch (d) {
+              t = { error: d };
+            } finally {
+              try {
+                l && !l.done && (e = c.return) && e.call(c);
+              } finally {
+                if (t)
+                  throw t.error;
+              }
+            }
+          else
+            s.remove(this);
+        var m = this.initialTeardown;
+        if (f(m))
           try {
-            n.call(this);
-          } catch (p) {
-            t = p instanceof j ? Nt(p.errors) : [p];
+            m();
+          } catch (d) {
+            n = d instanceof rt ? d.errors : [d];
+          }
+        var y = this._teardowns;
+        if (y) {
+          this._teardowns = null;
+          try {
+            for (var u = R(y), b = u.next(); !b.done; b = u.next()) {
+              var O = b.value;
+              try {
+                re(O);
+              } catch (d) {
+                n = n != null ? n : [], d instanceof rt ? n = k(k([], M(n)), M(d.errors)) : n.push(d);
+              }
+            }
+          } catch (d) {
+            r = { error: d };
+          } finally {
+            try {
+              b && !b.done && (o = u.return) && o.call(u);
+            } finally {
+              if (r)
+                throw r.error;
+            }
           }
         }
-        if (It(a))
-          for (var c = -1, u = a.length; ++c < u; ) {
-            var g = a[c];
-            if (Z(g))
-              try {
-                g.unsubscribe();
-              } catch (f) {
-                t = t || [], f instanceof j ? t = t.concat(Nt(f.errors)) : t.push(f);
-              }
-          }
-        if (t)
-          throw new j(t);
+        if (n)
+          throw new rt(n);
       }
     }, i.prototype.add = function(t) {
-      var e = t;
-      if (!t)
-        return i.EMPTY;
-      switch (typeof t) {
-        case "function":
-          e = new i(t);
-        case "object":
-          if (e === this || e.closed || typeof e.unsubscribe != "function")
-            return e;
-          if (this.closed)
-            return e.unsubscribe(), e;
-          if (!(e instanceof i)) {
-            var r = e;
-            e = new i(), e._subscriptions = [r];
+      var e;
+      if (t && t !== this)
+        if (this.closed)
+          re(t);
+        else {
+          if (t instanceof i) {
+            if (t.closed || t._hasParent(this))
+              return;
+            t._addParent(this);
           }
-          break;
-        default:
-          throw new Error("unrecognized teardown " + t + " added to Subscription.");
-      }
-      var o = e._parentOrParents;
-      if (o === null)
-        e._parentOrParents = this;
-      else if (o instanceof i) {
-        if (o === this)
-          return e;
-        e._parentOrParents = [o, this];
-      } else if (o.indexOf(this) === -1)
-        o.push(this);
-      else
-        return e;
-      var n = this._subscriptions;
-      return n === null ? this._subscriptions = [e] : n.push(e), e;
+          (this._teardowns = (e = this._teardowns) !== null && e !== void 0 ? e : []).push(t);
+        }
+    }, i.prototype._hasParent = function(t) {
+      var e = this._parentage;
+      return e === t || Array.isArray(e) && e.includes(t);
+    }, i.prototype._addParent = function(t) {
+      var e = this._parentage;
+      this._parentage = Array.isArray(e) ? (e.push(t), e) : e ? [e, t] : t;
+    }, i.prototype._removeParent = function(t) {
+      var e = this._parentage;
+      e === t ? this._parentage = null : Array.isArray(e) && H(e, t);
     }, i.prototype.remove = function(t) {
-      var e = this._subscriptions;
-      if (e) {
-        var r = e.indexOf(t);
-        r !== -1 && e.splice(r, 1);
-      }
-    }, i.EMPTY = function(t) {
+      var e = this._teardowns;
+      e && H(e, t), t instanceof i && t._removeParent(this);
+    }, i.EMPTY = function() {
+      var t = new i();
       return t.closed = true, t;
-    }(new i()), i;
+    }(), i;
   }();
-  function Nt(i) {
-    return i.reduce(function(t, e) {
-      return t.concat(e instanceof j ? e.errors : e);
-    }, []);
+  var ut = W.EMPTY;
+  function it(i) {
+    return i instanceof W || i && "closed" in i && f(i.remove) && f(i.add) && f(i.unsubscribe);
   }
-  var R = function() {
-    return typeof Symbol == "function" ? Symbol("rxSubscriber") : "@@rxSubscriber_" + Math.random();
+  function re(i) {
+    f(i) ? i() : i.unsubscribe();
+  }
+  var D = { onUnhandledError: null, onStoppedNotification: null, Promise: void 0, useDeprecatedSynchronousErrorHandling: false, useDeprecatedNextContext: false };
+  var L = { setTimeout: function() {
+    for (var i = [], t = 0; t < arguments.length; t++)
+      i[t] = arguments[t];
+    var e = L.delegate;
+    return ((e == null ? void 0 : e.setTimeout) || setTimeout).apply(void 0, k([], M(i)));
+  }, clearTimeout: function(i) {
+    var t = L.delegate;
+    return ((t == null ? void 0 : t.clearTimeout) || clearTimeout)(i);
+  }, delegate: void 0 };
+  function ot(i) {
+    L.setTimeout(function() {
+      var t = D.onUnhandledError;
+      if (t)
+        t(i);
+      else
+        throw i;
+    });
+  }
+  function I() {
+  }
+  var ie = function() {
+    return mt("C", void 0, void 0);
   }();
-  var x = function(i) {
-    b(t, i);
-    function t(e, r, o) {
-      var n = i.call(this) || this;
-      switch (n.syncErrorValue = null, n.syncErrorThrown = false, n.syncErrorThrowable = false, n.isStopped = false, arguments.length) {
-        case 0:
-          n.destination = V;
-          break;
-        case 1:
-          if (!e) {
-            n.destination = V;
-            break;
-          }
-          if (typeof e == "object") {
-            e instanceof t ? (n.syncErrorThrowable = e.syncErrorThrowable, n.destination = e, e.add(n)) : (n.syncErrorThrowable = true, n.destination = new Wt(n, e));
-            break;
-          }
-        default:
-          n.syncErrorThrowable = true, n.destination = new Wt(n, e, r, o);
-          break;
-      }
-      return n;
+  function oe(i) {
+    return mt("E", void 0, i);
+  }
+  function ne(i) {
+    return mt("N", i, void 0);
+  }
+  function mt(i, t, e) {
+    return { kind: i, value: t, error: e };
+  }
+  var $ = function(i) {
+    E(t, i);
+    function t(e) {
+      var r = i.call(this) || this;
+      return r.isStopped = false, e ? (r.destination = e, it(e) && e.add(r)) : r.destination = Ae, r;
     }
-    return t.prototype[R] = function() {
-      return this;
-    }, t.create = function(e, r, o) {
-      var n = new t(e, r, o);
-      return n.syncErrorThrowable = false, n;
+    return t.create = function(e, r, o) {
+      return new dt(e, r, o);
     }, t.prototype.next = function(e) {
-      this.isStopped || this._next(e);
+      this.isStopped ? vt(ne(e), this) : this._next(e);
     }, t.prototype.error = function(e) {
-      this.isStopped || (this.isStopped = true, this._error(e));
+      this.isStopped ? vt(oe(e), this) : (this.isStopped = true, this._error(e));
     }, t.prototype.complete = function() {
-      this.isStopped || (this.isStopped = true, this._complete());
+      this.isStopped ? vt(ie, this) : (this.isStopped = true, this._complete());
     }, t.prototype.unsubscribe = function() {
-      this.closed || (this.isStopped = true, i.prototype.unsubscribe.call(this));
+      this.closed || (this.isStopped = true, i.prototype.unsubscribe.call(this), this.destination = null);
     }, t.prototype._next = function(e) {
       this.destination.next(e);
     }, t.prototype._error = function(e) {
-      this.destination.error(e), this.unsubscribe();
+      try {
+        this.destination.error(e);
+      } finally {
+        this.unsubscribe();
+      }
     }, t.prototype._complete = function() {
-      this.destination.complete(), this.unsubscribe();
-    }, t.prototype._unsubscribeAndRecycle = function() {
-      var e = this._parentOrParents;
-      return this._parentOrParents = null, this.unsubscribe(), this.closed = false, this.isStopped = false, this._parentOrParents = e, this;
-    }, t;
-  }(O);
-  var Wt = function(i) {
-    b(t, i);
-    function t(e, r, o, n) {
-      var a = i.call(this) || this;
-      a._parentSubscriber = e;
-      var c, h = a;
-      return L(r) ? c = r : r && (c = r.next, o = r.error, n = r.complete, r !== V && (h = Object.create(r), L(h.unsubscribe) && a.add(h.unsubscribe.bind(h)), h.unsubscribe = a.unsubscribe.bind(a))), a._context = h, a._next = c, a._error = o, a._complete = n, a;
-    }
-    return t.prototype.next = function(e) {
-      if (!this.isStopped && this._next) {
-        var r = this._parentSubscriber;
-        !y.useDeprecatedSynchronousErrorHandling || !r.syncErrorThrowable ? this.__tryOrUnsub(this._next, e) : this.__tryOrSetError(r, this._next, e) && this.unsubscribe();
-      }
-    }, t.prototype.error = function(e) {
-      if (!this.isStopped) {
-        var r = this._parentSubscriber, o = y.useDeprecatedSynchronousErrorHandling;
-        if (this._error)
-          !o || !r.syncErrorThrowable ? (this.__tryOrUnsub(this._error, e), this.unsubscribe()) : (this.__tryOrSetError(r, this._error, e), this.unsubscribe());
-        else if (r.syncErrorThrowable)
-          o ? (r.syncErrorValue = e, r.syncErrorThrown = true) : E(e), this.unsubscribe();
-        else {
-          if (this.unsubscribe(), o)
-            throw e;
-          E(e);
-        }
-      }
-    }, t.prototype.complete = function() {
-      var e = this;
-      if (!this.isStopped) {
-        var r = this._parentSubscriber;
-        if (this._complete) {
-          var o = function() {
-            return e._complete.call(e._context);
-          };
-          !y.useDeprecatedSynchronousErrorHandling || !r.syncErrorThrowable ? (this.__tryOrUnsub(o), this.unsubscribe()) : (this.__tryOrSetError(r, o), this.unsubscribe());
-        } else
-          this.unsubscribe();
-      }
-    }, t.prototype.__tryOrUnsub = function(e, r) {
       try {
-        e.call(this._context, r);
+        this.destination.complete();
+      } finally {
+        this.unsubscribe();
+      }
+    }, t;
+  }(W);
+  var dt = function(i) {
+    E(t, i);
+    function t(e, r, o) {
+      var n = i.call(this) || this, s;
+      if (f(e))
+        s = e;
+      else if (e) {
+        s = e.next, r = e.error, o = e.complete;
+        var c;
+        n && D.useDeprecatedNextContext ? (c = Object.create(e), c.unsubscribe = function() {
+          return n.unsubscribe();
+        }) : c = e, s = s == null ? void 0 : s.bind(c), r = r == null ? void 0 : r.bind(c), o = o == null ? void 0 : o.bind(c);
+      }
+      return n.destination = { next: s ? ft(s, n) : I, error: ft(r != null ? r : ae, n), complete: o ? ft(o, n) : I }, n;
+    }
+    return t;
+  }($);
+  function ft(i, t) {
+    return function() {
+      for (var e = [], r = 0; r < arguments.length; r++)
+        e[r] = arguments[r];
+      try {
+        i.apply(void 0, k([], M(e)));
       } catch (o) {
-        if (this.unsubscribe(), y.useDeprecatedSynchronousErrorHandling)
-          throw o;
-        E(o);
+        if (D.useDeprecatedSynchronousErrorHandling)
+          if (t._syncErrorHack_isSubscribing)
+            t.__syncError = o;
+          else
+            throw o;
+        else
+          ot(o);
       }
-    }, t.prototype.__tryOrSetError = function(e, r, o) {
-      if (!y.useDeprecatedSynchronousErrorHandling)
-        throw new Error("bad call");
-      try {
-        r.call(this._context, o);
-      } catch (n) {
-        return y.useDeprecatedSynchronousErrorHandling ? (e.syncErrorValue = n, e.syncErrorThrown = true, true) : (E(n), true);
-      }
-      return false;
-    }, t.prototype._unsubscribe = function() {
-      var e = this._parentSubscriber;
-      this._context = null, this._parentSubscriber = null, e.unsubscribe();
-    }, t;
-  }(x);
-  function Lt(i) {
-    for (; i; ) {
-      var t = i, e = t.closed, r = t.destination, o = t.isStopped;
-      if (e || o)
-        return false;
-      r && r instanceof x ? i = r : i = null;
-    }
-    return true;
+    };
   }
-  function jt(i, t, e) {
-    if (i) {
-      if (i instanceof x)
-        return i;
-      if (i[R])
-        return i[R]();
-    }
-    return !i && !t && !e ? new x(V) : new x(i, t, e);
+  function ae(i) {
+    throw i;
   }
-  var I = function() {
+  function vt(i, t) {
+    var e = D.onStoppedNotification;
+    e && L.setTimeout(function() {
+      return e(i, t);
+    });
+  }
+  var Ae = { closed: true, next: I, error: ae, complete: I };
+  var B = function() {
     return typeof Symbol == "function" && Symbol.observable || "@@observable";
   }();
-  function Bt(i) {
+  function se(i) {
     return i;
   }
-  function Ht(i) {
-    return i.length === 0 ? Bt : i.length === 1 ? i[0] : function(e) {
+  function le(i) {
+    return i.length === 0 ? se : i.length === 1 ? i[0] : function(e) {
       return i.reduce(function(r, o) {
         return o(r);
       }, e);
     };
   }
-  var B = function() {
+  var C = function() {
     function i(t) {
-      this._isScalar = false, t && (this._subscribe = t);
+      t && (this._subscribe = t);
     }
     return i.prototype.lift = function(t) {
       var e = new i();
       return e.source = this, e.operator = t, e;
     }, i.prototype.subscribe = function(t, e, r) {
-      var o = this.operator, n = jt(t, e, r);
-      if (o ? n.add(o.call(n, this.source)) : n.add(this.source || y.useDeprecatedSynchronousErrorHandling && !n.syncErrorThrowable ? this._subscribe(n) : this._trySubscribe(n)), y.useDeprecatedSynchronousErrorHandling && n.syncErrorThrowable && (n.syncErrorThrowable = false, n.syncErrorThrown))
-        throw n.syncErrorValue;
-      return n;
+      var o = Ne(t) ? t : new dt(t, e, r);
+      if (D.useDeprecatedSynchronousErrorHandling)
+        this._deprecatedSyncErrorSubscribe(o);
+      else {
+        var n = this, s = n.operator, c = n.source;
+        o.add(s ? s.call(o, c) : c ? this._subscribe(o) : this._trySubscribe(o));
+      }
+      return o;
+    }, i.prototype._deprecatedSyncErrorSubscribe = function(t) {
+      var e = t;
+      e._syncErrorHack_isSubscribing = true;
+      var r = this.operator;
+      if (r)
+        t.add(r.call(t, this.source));
+      else
+        try {
+          t.add(this._subscribe(t));
+        } catch (n) {
+          e.__syncError = n;
+        }
+      for (var o = e; o; ) {
+        if ("__syncError" in o)
+          try {
+            throw o.__syncError;
+          } finally {
+            t.unsubscribe();
+          }
+        o = o.destination;
+      }
+      e._syncErrorHack_isSubscribing = false;
     }, i.prototype._trySubscribe = function(t) {
       try {
         return this._subscribe(t);
       } catch (e) {
-        y.useDeprecatedSynchronousErrorHandling && (t.syncErrorThrown = true, t.syncErrorValue = e), Lt(t) ? t.error(e) : console.warn(e);
+        t.error(e);
       }
     }, i.prototype.forEach = function(t, e) {
       var r = this;
-      return e = $t(e), new e(function(o, n) {
-        var a;
-        a = r.subscribe(function(c) {
+      return e = ce(e), new e(function(o, n) {
+        var s;
+        s = r.subscribe(function(c) {
           try {
             t(c);
-          } catch (h) {
-            n(h), a && a.unsubscribe();
+          } catch (l) {
+            n(l), s == null || s.unsubscribe();
           }
         }, n, o);
       });
     }, i.prototype._subscribe = function(t) {
-      var e = this.source;
-      return e && e.subscribe(t);
-    }, i.prototype[I] = function() {
+      var e;
+      return (e = this.source) === null || e === void 0 ? void 0 : e.subscribe(t);
+    }, i.prototype[B] = function() {
       return this;
     }, i.prototype.pipe = function() {
       for (var t = [], e = 0; e < arguments.length; e++)
         t[e] = arguments[e];
-      return t.length === 0 ? this : Ht(t)(this);
+      return t.length ? le(t)(this) : this;
     }, i.prototype.toPromise = function(t) {
       var e = this;
-      return t = $t(t), new t(function(r, o) {
+      return t = ce(t), new t(function(r, o) {
         var n;
-        e.subscribe(function(a) {
-          return n = a;
-        }, function(a) {
-          return o(a);
+        e.subscribe(function(s) {
+          return n = s;
+        }, function(s) {
+          return o(s);
         }, function() {
           return r(n);
         });
@@ -72852,257 +72909,354 @@
       return new i(t);
     }, i;
   }();
-  function $t(i) {
-    if (i || (i = y.Promise || Promise), !i)
-      throw new Error("no Promise impl found");
-    return i;
+  function ce(i) {
+    var t;
+    return (t = i != null ? i : D.Promise) !== null && t !== void 0 ? t : Promise;
   }
-  var de = function() {
-    function i() {
-      return Error.call(this), this.message = "object unsubscribed", this.name = "ObjectUnsubscribedError", this;
-    }
-    return i.prototype = Object.create(Error.prototype), i;
-  }();
-  var N = de;
-  var zt = function(i) {
-    b(t, i);
-    function t(e, r) {
-      var o = i.call(this) || this;
-      return o.subject = e, o.subscriber = r, o.closed = false, o;
+  function Ge(i) {
+    return i && f(i.next) && f(i.error) && f(i.complete);
+  }
+  function Ne(i) {
+    return i && i instanceof $ || Ge(i) && it(i);
+  }
+  function Ue(i) {
+    return f(i == null ? void 0 : i.lift);
+  }
+  function nt(i) {
+    return function(t) {
+      if (Ue(t))
+        return t.lift(function(e) {
+          try {
+            return i(e, this);
+          } catch (r) {
+            this.error(r);
+          }
+        });
+      throw new TypeError("Unable to lift unknown Observable type");
+    };
+  }
+  var at = function(i) {
+    E(t, i);
+    function t(e, r, o, n, s) {
+      var c = i.call(this, e) || this;
+      return c.onFinalize = s, c._next = r ? function(l) {
+        try {
+          r(l);
+        } catch (h) {
+          e.error(h);
+        }
+      } : i.prototype._next, c._error = n ? function(l) {
+        try {
+          n(l);
+        } catch (h) {
+          e.error(h);
+        } finally {
+          this.unsubscribe();
+        }
+      } : i.prototype._error, c._complete = o ? function() {
+        try {
+          o();
+        } catch (l) {
+          e.error(l);
+        } finally {
+          this.unsubscribe();
+        }
+      } : i.prototype._complete, c;
     }
     return t.prototype.unsubscribe = function() {
-      if (!this.closed) {
-        this.closed = true;
-        var e = this.subject, r = e.observers;
-        if (this.subject = null, !(!r || r.length === 0 || e.isStopped || e.closed)) {
-          var o = r.indexOf(this.subscriber);
-          o !== -1 && r.splice(o, 1);
-        }
-      }
+      var e, r = this.closed;
+      i.prototype.unsubscribe.call(this), !r && ((e = this.onFinalize) === null || e === void 0 || e.call(this));
     }, t;
-  }(O);
-  var be = function(i) {
-    b(t, i);
-    function t(e) {
-      var r = i.call(this, e) || this;
-      return r.destination = e, r;
-    }
-    return t;
-  }(x);
-  var v = function(i) {
-    b(t, i);
+  }($);
+  var he = et(function(i) {
+    return function() {
+      i(this), this.name = "ObjectUnsubscribedError", this.message = "object unsubscribed";
+    };
+  });
+  var g = function(i) {
+    E(t, i);
     function t() {
       var e = i.call(this) || this;
-      return e.observers = [], e.closed = false, e.isStopped = false, e.hasError = false, e.thrownError = null, e;
+      return e.closed = false, e.observers = [], e.isStopped = false, e.hasError = false, e.thrownError = null, e;
     }
-    return t.prototype[R] = function() {
-      return new be(this);
-    }, t.prototype.lift = function(e) {
-      var r = new Yt(this, this);
+    return t.prototype.lift = function(e) {
+      var r = new pe(this, this);
       return r.operator = e, r;
+    }, t.prototype._throwIfClosed = function() {
+      if (this.closed)
+        throw new he();
     }, t.prototype.next = function(e) {
-      if (this.closed)
-        throw new N();
-      if (!this.isStopped)
-        for (var r = this.observers, o = r.length, n = r.slice(), a = 0; a < o; a++)
-          n[a].next(e);
+      var r, o;
+      if (this._throwIfClosed(), !this.isStopped) {
+        var n = this.observers.slice();
+        try {
+          for (var s = R(n), c = s.next(); !c.done; c = s.next()) {
+            var l = c.value;
+            l.next(e);
+          }
+        } catch (h) {
+          r = { error: h };
+        } finally {
+          try {
+            c && !c.done && (o = s.return) && o.call(s);
+          } finally {
+            if (r)
+              throw r.error;
+          }
+        }
+      }
     }, t.prototype.error = function(e) {
-      if (this.closed)
-        throw new N();
-      this.hasError = true, this.thrownError = e, this.isStopped = true;
-      for (var r = this.observers, o = r.length, n = r.slice(), a = 0; a < o; a++)
-        n[a].error(e);
-      this.observers.length = 0;
+      if (this._throwIfClosed(), !this.isStopped) {
+        this.hasError = this.isStopped = true, this.thrownError = e;
+        for (var r = this.observers; r.length; )
+          r.shift().error(e);
+      }
     }, t.prototype.complete = function() {
-      if (this.closed)
-        throw new N();
-      this.isStopped = true;
-      for (var e = this.observers, r = e.length, o = e.slice(), n = 0; n < r; n++)
-        o[n].complete();
-      this.observers.length = 0;
+      if (this._throwIfClosed(), !this.isStopped) {
+        this.isStopped = true;
+        for (var e = this.observers; e.length; )
+          e.shift().complete();
+      }
     }, t.prototype.unsubscribe = function() {
-      this.isStopped = true, this.closed = true, this.observers = null;
-    }, t.prototype._trySubscribe = function(e) {
-      if (this.closed)
-        throw new N();
-      return i.prototype._trySubscribe.call(this, e);
+      this.isStopped = this.closed = true, this.observers = null;
+    }, Object.defineProperty(t.prototype, "observed", { get: function() {
+      var e;
+      return ((e = this.observers) === null || e === void 0 ? void 0 : e.length) > 0;
+    }, enumerable: false, configurable: true }), t.prototype._trySubscribe = function(e) {
+      return this._throwIfClosed(), i.prototype._trySubscribe.call(this, e);
     }, t.prototype._subscribe = function(e) {
-      if (this.closed)
-        throw new N();
-      return this.hasError ? (e.error(this.thrownError), O.EMPTY) : this.isStopped ? (e.complete(), O.EMPTY) : (this.observers.push(e), new zt(this, e));
+      return this._throwIfClosed(), this._checkFinalizedStatuses(e), this._innerSubscribe(e);
+    }, t.prototype._innerSubscribe = function(e) {
+      var r = this, o = r.hasError, n = r.isStopped, s = r.observers;
+      return o || n ? ut : (s.push(e), new W(function() {
+        return H(s, e);
+      }));
+    }, t.prototype._checkFinalizedStatuses = function(e) {
+      var r = this, o = r.hasError, n = r.thrownError, s = r.isStopped;
+      o ? e.error(n) : s && e.complete();
     }, t.prototype.asObservable = function() {
-      var e = new B();
+      var e = new C();
       return e.source = this, e;
     }, t.create = function(e, r) {
-      return new Yt(e, r);
+      return new pe(e, r);
     }, t;
-  }(B);
-  var Yt = function(i) {
-    b(t, i);
+  }(C);
+  var pe = function(i) {
+    E(t, i);
     function t(e, r) {
       var o = i.call(this) || this;
       return o.destination = e, o.source = r, o;
     }
     return t.prototype.next = function(e) {
-      var r = this.destination;
-      r && r.next && r.next(e);
+      var r, o;
+      (o = (r = this.destination) === null || r === void 0 ? void 0 : r.next) === null || o === void 0 || o.call(r, e);
     }, t.prototype.error = function(e) {
-      var r = this.destination;
-      r && r.error && this.destination.error(e);
+      var r, o;
+      (o = (r = this.destination) === null || r === void 0 ? void 0 : r.error) === null || o === void 0 || o.call(r, e);
     }, t.prototype.complete = function() {
-      var e = this.destination;
-      e && e.complete && this.destination.complete();
+      var e, r;
+      (r = (e = this.destination) === null || e === void 0 ? void 0 : e.complete) === null || r === void 0 || r.call(e);
     }, t.prototype._subscribe = function(e) {
-      var r = this.source;
-      return r ? this.source.subscribe(e) : O.EMPTY;
+      var r, o;
+      return (o = (r = this.source) === null || r === void 0 ? void 0 : r.subscribe(e)) !== null && o !== void 0 ? o : ut;
     }, t;
-  }(v);
-  var qt = function(i) {
-    return function(t) {
-      for (var e = 0, r = i.length; e < r && !t.closed; e++)
+  }(g);
+  var ue = function(i) {
+    return i && typeof i.length == "number" && typeof i != "function";
+  };
+  function me(i) {
+    return f(i == null ? void 0 : i.then);
+  }
+  function Ve() {
+    return typeof Symbol != "function" || !Symbol.iterator ? "@@iterator" : Symbol.iterator;
+  }
+  var de = Ve();
+  function fe(i) {
+    return f(i[B]);
+  }
+  function ve(i) {
+    return f(i == null ? void 0 : i[de]);
+  }
+  function be(i) {
+    return Symbol.asyncIterator && f(i == null ? void 0 : i[Symbol.asyncIterator]);
+  }
+  function ge(i) {
+    return new TypeError("You provided " + (i !== null && typeof i == "object" ? "an invalid object" : "'" + i + "'") + " where a stream was expected. You can provide an Observable, Promise, ReadableStream, Array, AsyncIterable, or Iterable.");
+  }
+  function ye(i) {
+    return te(this, arguments, function() {
+      var e, r, o, n;
+      return Q(this, function(s) {
+        switch (s.label) {
+          case 0:
+            e = i.getReader(), s.label = 1;
+          case 1:
+            s.trys.push([1, , 9, 10]), s.label = 2;
+          case 2:
+            return [4, tt(e.read())];
+          case 3:
+            return r = s.sent(), o = r.value, n = r.done, n ? [4, tt(void 0)] : [3, 5];
+          case 4:
+            return [2, s.sent()];
+          case 5:
+            return [4, tt(o)];
+          case 6:
+            return [4, s.sent()];
+          case 7:
+            return s.sent(), [3, 2];
+          case 8:
+            return [3, 10];
+          case 9:
+            return e.releaseLock(), [7];
+          case 10:
+            return [2];
+        }
+      });
+    });
+  }
+  function xe(i) {
+    return f(i == null ? void 0 : i.getReader);
+  }
+  function Te(i) {
+    if (i instanceof C)
+      return i;
+    if (i != null) {
+      if (fe(i))
+        return We(i);
+      if (ue(i))
+        return Le(i);
+      if (me(i))
+        return Be(i);
+      if (be(i))
+        return Pe(i);
+      if (ve(i))
+        return je(i);
+      if (xe(i))
+        return He(i);
+    }
+    throw ge(i);
+  }
+  function We(i) {
+    return new C(function(t) {
+      var e = i[B]();
+      if (f(e.subscribe))
+        return e.subscribe(t);
+      throw new TypeError("Provided object does not correctly implement Symbol.observable");
+    });
+  }
+  function Le(i) {
+    return new C(function(t) {
+      for (var e = 0; e < i.length && !t.closed; e++)
         t.next(i[e]);
       t.complete();
-    };
-  };
-  var Xt = function(i) {
-    return function(t) {
-      return i.then(function(e) {
+    });
+  }
+  function Be(i) {
+    return new C(function(t) {
+      i.then(function(e) {
         t.closed || (t.next(e), t.complete());
       }, function(e) {
         return t.error(e);
-      }).then(null, E), t;
-    };
-  };
-  function ve() {
-    return typeof Symbol != "function" || !Symbol.iterator ? "@@iterator" : Symbol.iterator;
+      }).then(null, ot);
+    });
   }
-  var J = ve();
-  var Zt = function(i) {
-    return function(t) {
-      var e = i[J]();
-      do {
-        var r = void 0;
-        try {
-          r = e.next();
-        } catch (o) {
-          return t.error(o), t;
-        }
-        if (r.done) {
-          t.complete();
-          break;
-        }
-        if (t.next(r.value), t.closed)
-          break;
-      } while (true);
-      return typeof e.return == "function" && t.add(function() {
-        e.return && e.return();
-      }), t;
-    };
-  };
-  var Jt = function(i) {
-    return function(t) {
-      var e = i[I]();
-      if (typeof e.subscribe != "function")
-        throw new TypeError("Provided object does not correctly implement Symbol.observable");
-      return e.subscribe(t);
-    };
-  };
-  var Kt = function(i) {
-    return i && typeof i.length == "number" && typeof i != "function";
-  };
-  function Qt(i) {
-    return !!i && typeof i.subscribe != "function" && typeof i.then == "function";
-  }
-  var te = function(i) {
-    if (!!i && typeof i[I] == "function")
-      return Jt(i);
-    if (Kt(i))
-      return qt(i);
-    if (Qt(i))
-      return Xt(i);
-    if (!!i && typeof i[J] == "function")
-      return Zt(i);
-    var t = Z(i) ? "an invalid object" : "'" + i + "'", e = "You provided " + t + " where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.";
-    throw new TypeError(e);
-  };
-  var ee = function(i) {
-    b(t, i);
-    function t(e) {
-      var r = i.call(this) || this;
-      return r.parent = e, r;
-    }
-    return t.prototype._next = function(e) {
-      this.parent.notifyNext(e);
-    }, t.prototype._error = function(e) {
-      this.parent.notifyError(e), this.unsubscribe();
-    }, t.prototype._complete = function() {
-      this.parent.notifyComplete(), this.unsubscribe();
-    }, t;
-  }(x);
-  var re = function(i) {
-    b(t, i);
-    function t() {
-      return i !== null && i.apply(this, arguments) || this;
-    }
-    return t.prototype.notifyNext = function(e) {
-      this.destination.next(e);
-    }, t.prototype.notifyError = function(e) {
-      this.destination.error(e);
-    }, t.prototype.notifyComplete = function() {
-      this.destination.complete();
-    }, t;
-  }(x);
-  function ie(i, t) {
-    if (!t.closed)
-      return i instanceof B ? i.subscribe(t) : te(i)(t);
-  }
-  function ot(i, t) {
-    return function(r) {
-      return r.lift(new ge(i, t));
-    };
-  }
-  var ge = function() {
-    function i(t, e) {
-      this.predicate = t, this.thisArg = e;
-    }
-    return i.prototype.call = function(t, e) {
-      return e.subscribe(new ye(t, this.predicate, this.thisArg));
-    }, i;
-  }();
-  var ye = function(i) {
-    b(t, i);
-    function t(e, r, o) {
-      var n = i.call(this, e) || this;
-      return n.predicate = r, n.thisArg = o, n.count = 0, n;
-    }
-    return t.prototype._next = function(e) {
-      var r;
+  function je(i) {
+    return new C(function(t) {
+      var e, r;
       try {
-        r = this.predicate.call(this.thisArg, e, this.count++);
-      } catch (o) {
-        this.destination.error(o);
-        return;
+        for (var o = R(i), n = o.next(); !n.done; n = o.next()) {
+          var s = n.value;
+          if (t.next(s), t.closed)
+            return;
+        }
+      } catch (c) {
+        e = { error: c };
+      } finally {
+        try {
+          n && !n.done && (r = o.return) && r.call(o);
+        } finally {
+          if (e)
+            throw e.error;
+        }
       }
-      r && this.destination.next(e);
-    }, t;
-  }(x);
-  var H = class {
+      t.complete();
+    });
+  }
+  function Pe(i) {
+    return new C(function(t) {
+      $e(i, t).catch(function(e) {
+        return t.error(e);
+      });
+    });
+  }
+  function He(i) {
+    return Pe(ye(i));
+  }
+  function $e(i, t) {
+    var e, r, o, n;
+    return Qt(this, void 0, void 0, function() {
+      var s, c;
+      return Q(this, function(l) {
+        switch (l.label) {
+          case 0:
+            l.trys.push([0, 5, 6, 11]), e = ee(i), l.label = 1;
+          case 1:
+            return [4, e.next()];
+          case 2:
+            if (r = l.sent(), !!r.done)
+              return [3, 4];
+            if (s = r.value, t.next(s), t.closed)
+              return [2];
+            l.label = 3;
+          case 3:
+            return [3, 1];
+          case 4:
+            return [3, 11];
+          case 5:
+            return c = l.sent(), o = { error: c }, [3, 11];
+          case 6:
+            return l.trys.push([6, , 9, 10]), r && !r.done && (n = e.return) ? [4, n.call(e)] : [3, 8];
+          case 7:
+            l.sent(), l.label = 8;
+          case 8:
+            return [3, 10];
+          case 9:
+            if (o)
+              throw o.error;
+            return [7];
+          case 10:
+            return [7];
+          case 11:
+            return t.complete(), [2];
+        }
+      });
+    });
+  }
+  function bt(i, t) {
+    return nt(function(e, r) {
+      var o = 0;
+      e.subscribe(new at(r, function(n) {
+        return i.call(t, n, o++) && r.next(n);
+      }));
+    });
+  }
+  var z = class {
     constructor(t, e) {
       this.id = t;
-      this.movementDirection = s.NONE;
-      this.tileSizePixelsWalked = l.ZERO.clone();
-      this._nextTilePos = new l(0, 0);
-      this._tilePos = new l(0, 0);
-      this.movementStarted$ = new v();
-      this.movementStopped$ = new v();
-      this.directionChanged$ = new v();
-      this.positionChanged$ = new v();
-      this.positionChangeFinished$ = new v();
-      this.autoMovementSet$ = new v();
-      this.lastMovementImpulse = s.NONE;
-      this.facingDirection = s.DOWN;
+      this.movementDirection = a.NONE;
+      this.tileSizePixelsWalked = p.ZERO.clone();
+      this._nextTilePos = new p(0, 0);
+      this._tilePos = new p(0, 0);
+      this.movementStarted$ = new g();
+      this.movementStopped$ = new g();
+      this.directionChanged$ = new g();
+      this.positionChanged$ = new g();
+      this.positionChangeFinished$ = new g();
+      this.autoMovementSet$ = new g();
+      this.lastMovementImpulse = a.NONE;
+      this.facingDirection = a.DOWN;
       let r = 0, o;
-      typeof e.walkingAnimationMapping == "number" ? r = e.walkingAnimationMapping : o = e.walkingAnimationMapping, this.sprite = e.sprite, this.sprite.setOrigin(0, 0), this.container = e.container, this.tilemap = e.tilemap, this.speed = e.speed, this.customOffset = new l(e.offsetX || 0, e.offsetY || 0), this.tileSize = e.tileSize.clone(), this.animation = new W(this.sprite, o, r), this.animation.setIsEnabled(e.walkingAnimationMapping !== void 0), this.animation.setStandingFrame(s.DOWN), this.updateZindex();
+      typeof e.walkingAnimationMapping == "number" ? r = e.walkingAnimationMapping : o = e.walkingAnimationMapping, this.sprite = e.sprite, this.sprite.setOrigin(0, 0), this.container = e.container, this.tilemap = e.tilemap, this.speed = e.speed, this.customOffset = new p(e.offsetX || 0, e.offsetY || 0), this.tileSize = e.tileSize.clone(), this.animation = new j(this.sprite, o, r), this.animation.setIsEnabled(e.walkingAnimationMapping !== void 0), this.animation.setStandingFrame(a.DOWN), this.updateZindex();
     }
     getId() {
       return this.id;
@@ -73124,7 +73278,7 @@
       this.animation.setWalkingAnimationMapping(t);
     }
     setTilePosition(t) {
-      this.isMoving() && this.movementStopped$.next(this.movementDirection), this.positionChanged$.next({ exitTile: this.tilePos, enterTile: t }), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: t }), this.movementDirection = s.NONE, this.nextTilePos = t, this.tilePos = t, this.updateZindex(), this.setPosition(this.tilePosToPixelPos(t).add(this.getOffset()).add(this.customOffset));
+      this.isMoving() && this.movementStopped$.next(this.movementDirection), this.positionChanged$.next({ exitTile: this.tilePos, enterTile: t }), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: t }), this.movementDirection = a.NONE, this.nextTilePos = t, this.tilePos = t, this.updateZindex(), this.setPosition(this.tilePosToPixelPos(t).add(this.getOffset()).add(this.customOffset));
     }
     getTilePos() {
       return this.tilePos;
@@ -73133,11 +73287,11 @@
       return this.nextTilePos;
     }
     move(t) {
-      this.lastMovementImpulse = t, t != s.NONE && (this.isMoving() || (this.isBlockingDirection(t) ? (this.facingDirection = t, this.animation.setStandingFrame(t), this.directionChanged$.next(t)) : this.startMoving(t)));
+      this.lastMovementImpulse = t, t != a.NONE && (this.isMoving() || (this.isBlockingDirection(t) ? (this.facingDirection = t, this.animation.setStandingFrame(t), this.directionChanged$.next(t)) : this.startMoving(t)));
     }
     update(t) {
       var e;
-      (e = this.movement) == null || e.update(t), this.isMoving() && (this.updateCharacterPosition(t), this.updateZindex()), this.lastMovementImpulse = s.NONE;
+      (e = this.movement) == null || e.update(t), this.isMoving() && (this.updateCharacterPosition(t), this.updateZindex()), this.lastMovementImpulse = a.NONE;
     }
     getMovementDirection() {
       return this.movementDirection;
@@ -73146,13 +73300,13 @@
       return this.nextTilePos.equals(t) || this.tilePos.equals(t);
     }
     isBlockingDirection(t) {
-      return t == s.NONE ? false : this.tilemap.hasBlockingTile(this.tilePosInDirection(t), dt(this.toMapDirection(t))) || this.tilemap.hasBlockingChar(this.tilePosInDirection(t));
+      return t == a.NONE ? false : this.tilemap.hasBlockingTile(this.tilePosInDirection(t), Ft(this.toMapDirection(t))) || this.tilemap.hasBlockingChar(this.tilePosInDirection(t));
     }
     isMoving() {
-      return this.movementDirection != s.NONE;
+      return this.movementDirection != a.NONE;
     }
     turnTowards(t) {
-      this.isMoving() || t != s.NONE && (this.facingDirection = t, this.animation.setStandingFrame(t));
+      this.isMoving() || t != a.NONE && (this.facingDirection = t, this.animation.setStandingFrame(t));
     }
     getFacingDirection() {
       return this.facingDirection;
@@ -73179,19 +73333,19 @@
       return t.clone().multiply(this.tileSize);
     }
     getTileDistance(t) {
-      return t === s.NONE ? l.ZERO.clone() : this.tileSize.clone();
+      return t === a.NONE ? p.ZERO.clone() : this.tileSize.clone();
     }
     toMapDirection(t) {
       return t;
     }
     getOffset() {
       let t = this.tileSize.x / 2 - Math.floor(this.sprite.width * this.sprite.scale / 2), e = -(this.sprite.height * this.sprite.scale) + this.tileSize.y;
-      return new l(t, e);
+      return new p(t, e);
     }
     createSpeedPixelsPerSecond() {
-      let t = { [s.LEFT]: new l(this.tileSize.x, 0), [s.RIGHT]: new l(this.tileSize.x, 0), [s.UP]: new l(0, this.tileSize.y), [s.DOWN]: new l(0, this.tileSize.y), [s.UP_LEFT]: this.getTileDistance(s.UP_LEFT), [s.UP_RIGHT]: this.getTileDistance(s.UP_RIGHT), [s.DOWN_LEFT]: this.getTileDistance(s.DOWN_LEFT), [s.DOWN_RIGHT]: this.getTileDistance(s.DOWN_RIGHT), [s.NONE]: l.ZERO.clone() };
+      let t = { [a.LEFT]: new p(this.tileSize.x, 0), [a.RIGHT]: new p(this.tileSize.x, 0), [a.UP]: new p(0, this.tileSize.y), [a.DOWN]: new p(0, this.tileSize.y), [a.UP_LEFT]: this.getTileDistance(a.UP_LEFT), [a.UP_RIGHT]: this.getTileDistance(a.UP_RIGHT), [a.DOWN_LEFT]: this.getTileDistance(a.DOWN_LEFT), [a.DOWN_RIGHT]: this.getTileDistance(a.DOWN_RIGHT), [a.NONE]: p.ZERO.clone() };
       return Object.entries(t).forEach(([e, r]) => {
-        t[e] = m.scalarMult(r, this.speed);
+        t[e] = v.scalarMult(r, this.speed);
       }), t;
     }
     get nextTilePos() {
@@ -73207,7 +73361,7 @@
       this._tilePos.x = t.x, this._tilePos.y = t.y;
     }
     updateZindex() {
-      (this.container || this.sprite).setDepth(w.FIRST_PLAYER_LAYER + this.mapDepth(this.nextTilePos));
+      (this.container || this.sprite).setDepth(_.FIRST_PLAYER_LAYER + this.mapDepth(this.nextTilePos));
     }
     mapDepth(t) {
       return t.y;
@@ -73218,18 +73372,18 @@
     }
     getPosition() {
       let t = this.container || this.sprite;
-      return new l(t.x, t.y);
+      return new p(t.x, t.y);
     }
     startMoving(t) {
       this.movementStarted$.next(t), this.movementDirection = t, this.facingDirection = t, this.updateTilePos();
     }
     updateTilePos() {
       this.tilePos = this.nextTilePos;
-      let t = this.nextTilePos.add(C(this.toMapDirection(this.movementDirection)));
-      this.positionChanged$.next({ exitTile: this.nextTilePos, enterTile: t }), this.nextTilePos = t;
+      let t = this.nextTilePos.add(F(this.toMapDirection(this.movementDirection)));
+      this.nextTilePos = t, this.positionChanged$.next({ exitTile: this.tilePos, enterTile: t });
     }
     tilePosInDirection(t) {
-      return this.nextTilePos.add(C(this.toMapDirection(t)));
+      return this.nextTilePos.add(F(this.toMapDirection(t)));
     }
     updateCharacterPosition(t) {
       let e = this.getSpeedPerDelta(t);
@@ -73240,103 +73394,85 @@
     }
     getSpeedPerDelta(t) {
       let e = t / 1e3;
-      return this.createSpeedPixelsPerSecond()[this.movementDirection].clone().multiply(new l(e, e)).multiply(C(this.movementDirection));
+      return this.createSpeedPixelsPerSecond()[this.movementDirection].clone().multiply(new p(e, e)).multiply(F(this.movementDirection));
     }
     willCrossTileBorderThisUpdate(t) {
       return this.tileSizePixelsWalked.x + Math.abs(t.x) >= this.getTileDistance(this.movementDirection).x || this.tileSizePixelsWalked.y + Math.abs(t.y) >= this.getTileDistance(this.movementDirection).y;
     }
     moveCharacterSpriteRestOfTile() {
-      this.moveCharacterSprite(this.getTileDistance(this.movementDirection).clone().subtract(this.tileSizePixelsWalked).multiply(C(this.movementDirection)));
+      this.moveCharacterSprite(this.getTileDistance(this.movementDirection).clone().subtract(this.tileSizePixelsWalked).multiply(F(this.movementDirection)));
     }
     moveCharacterSprite(t) {
       let e = this.getPosition().add(t);
       this.setPosition(e), this.tileSizePixelsWalked.x += Math.abs(t.x), this.tileSizePixelsWalked.y += Math.abs(t.y), this.animation.updateCharacterFrame(this.movementDirection, this.hasWalkedHalfATile()), this.tileSizePixelsWalked.x %= this.getTileDistance(this.movementDirection).x, this.tileSizePixelsWalked.y %= this.getTileDistance(this.movementDirection).y;
     }
     stopMoving() {
-      this.movementStopped$.next(this.movementDirection), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: this.nextTilePos }), this.movementDirection = s.NONE, this.tilePos = this.nextTilePos;
+      this.movementStopped$.next(this.movementDirection), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: this.nextTilePos }), this.movementDirection = a.NONE, this.tilePos = this.nextTilePos;
     }
     hasWalkedHalfATile() {
       return this.tileSizePixelsWalked.x > this.getTileDistance(this.movementDirection).x / 2 || this.tileSizePixelsWalked.y > this.getTileDistance(this.movementDirection).y / 2;
     }
   };
-  var nt = class extends H {
+  var gt = class extends z {
     tilePosToPixelPos(t) {
-      return this.getTileDistance(s.UP_LEFT).multiply(new l(t.x - t.y, t.x + t.y));
+      return this.getTileDistance(a.UP_LEFT).multiply(new p(t.x - t.y, t.x + t.y));
     }
     getTileDistance(t) {
       switch (t) {
-        case s.DOWN_LEFT:
-        case s.DOWN_RIGHT:
-        case s.UP_LEFT:
-        case s.UP_RIGHT:
-          return m.scalarMult(this.tileSize, 0.5);
+        case a.DOWN_LEFT:
+        case a.DOWN_RIGHT:
+        case a.UP_LEFT:
+        case a.UP_RIGHT:
+          return v.scalarMult(this.tileSize, 0.5);
         default:
           return super.getTileDistance(t);
       }
     }
     toMapDirection(t) {
-      return ft(t);
+      return Et(t);
     }
     mapDepth(t) {
       return t.x + t.y;
     }
   };
-  function M(i) {
-    return function(t) {
-      return t.lift(new xe(i));
-    };
+  function A(i) {
+    return nt(function(t, e) {
+      Te(i).subscribe(new at(e, function() {
+        return e.complete();
+      }, I)), !e.closed && t.subscribe(e);
+    });
   }
-  var xe = function() {
-    function i(t) {
-      this.notifier = t;
-    }
-    return i.prototype.call = function(t, e) {
-      var r = new Te(t), o = ie(this.notifier, new ee(r));
-      return o && !r.seenValue ? (r.add(o), e.subscribe(r)) : r;
-    }, i;
-  }();
-  var Te = function(i) {
-    b(t, i);
-    function t(e) {
-      var r = i.call(this, e) || this;
-      return r.seenValue = false, r;
-    }
-    return t.prototype.notifyNext = function() {
-      this.seenValue = true, this.complete();
-    }, t.prototype.notifyComplete = function() {
-    }, t;
-  }(re);
-  var T;
-  (function(i) {
-    i.STOP = "STOP", i.CLOSEST_REACHABLE = "CLOSEST_REACHABLE", i.RETRY = "RETRY";
-  })(T || (T = {}));
-  var st = class {
+  var x;
+  (function(r) {
+    r.STOP = "STOP", r.CLOSEST_REACHABLE = "CLOSEST_REACHABLE", r.RETRY = "RETRY";
+  })(x || (x = {}));
+  var yt = class {
     getShortestPath(t, e, r) {
       let o = this.shortestPathBfs(t, e, r);
       return { path: this.returnPath(o.previous, t, e), closestToTarget: o.closestToTarget };
     }
     shortestPathBfs(t, e, r) {
-      let o = new Map(), n = new Set(), a = [], c = t, h = m.manhattanDistance(t, e);
-      for (a.push({ node: t, dist: 0 }), n.add(m.vec2str(t)); a.length > 0; ) {
-        let { node: u, dist: g } = a.shift(), p = m.manhattanDistance(u, e);
-        if (p < h && (h = p, c = u), m.equal(u, e))
-          return { shortestDistance: g, previous: o, closestToTarget: c };
-        for (let f of r(u))
-          n.has(m.vec2str(f)) || (o.set(m.vec2str(f), u), a.push({ node: f, dist: g + 1 }), n.add(m.vec2str(f)));
+      let o = new Map(), n = new Set(), s = [], c = t, l = v.manhattanDistance(t, e);
+      for (s.push({ node: t, dist: 0 }), n.add(v.vec2str(t)); s.length > 0; ) {
+        let { node: h, dist: m } = s.shift(), y = v.manhattanDistance(h, e);
+        if (y < l && (l = y, c = h), v.equal(h, e))
+          return { shortestDistance: m, previous: o, closestToTarget: c };
+        for (let u of r(h))
+          n.has(v.vec2str(u)) || (o.set(v.vec2str(u), h), s.push({ node: u, dist: m + 1 }), n.add(v.vec2str(u)));
       }
       return { shortestDistance: -1, previous: o, closestToTarget: c };
     }
     returnPath(t, e, r) {
       let o = [], n = r;
-      for (o.push(n); !m.equal(n, e); ) {
-        if (n = t.get(m.vec2str(n)), !n)
+      for (o.push(n); !v.equal(n, e); ) {
+        if (n = t.get(v.vec2str(n)), !n)
           return [];
         o.push(n);
       }
       return o.reverse();
     }
   };
-  var K = class {
+  var st = class {
     constructor(t, e, r) {
       this.backoffMs = t;
       this.maxRetries = e;
@@ -73354,43 +73490,43 @@
       this.retries = 0, this.elapsed = 0;
     }
   };
-  var $ = class {
+  var Y = class {
     distance(t, e) {
-      return m.chebyshevDistance(t, e);
+      return v.chebyshevDistance(t, e);
     }
     neighbours(t) {
-      let e = [new l(t.x, t.y + 1), new l(t.x + 1, t.y), new l(t.x - 1, t.y), new l(t.x, t.y - 1)], r = [new l(t.x + 1, t.y + 1), new l(t.x + 1, t.y - 1), new l(t.x - 1, t.y + 1), new l(t.x - 1, t.y - 1)];
+      let e = [new p(t.x, t.y + 1), new p(t.x + 1, t.y), new p(t.x - 1, t.y), new p(t.x, t.y - 1)], r = [new p(t.x + 1, t.y + 1), new p(t.x + 1, t.y - 1), new p(t.x - 1, t.y + 1), new p(t.x - 1, t.y - 1)];
       return [...e, ...r];
     }
     direction(t, e) {
-      return e.x > t.x ? e.y > t.y ? s.DOWN_RIGHT : e.y < t.y ? s.UP_RIGHT : s.RIGHT : e.x < t.x ? e.y > t.y ? s.DOWN_LEFT : e.y < t.y ? s.UP_LEFT : s.LEFT : e.y < t.y ? s.UP : e.y > t.y ? s.DOWN : s.NONE;
+      return e.x > t.x ? e.y > t.y ? a.DOWN_RIGHT : e.y < t.y ? a.UP_RIGHT : a.RIGHT : e.x < t.x ? e.y > t.y ? a.DOWN_LEFT : e.y < t.y ? a.UP_LEFT : a.LEFT : e.y < t.y ? a.UP : e.y > t.y ? a.DOWN : a.NONE;
     }
   };
-  var F = class {
+  var G = class {
     distance(t, e) {
-      return m.manhattanDistance(t, e);
+      return v.manhattanDistance(t, e);
     }
     direction(t, e) {
-      if (m.equal(t, e))
-        return s.NONE;
+      if (v.equal(t, e))
+        return a.NONE;
       let r = t.clone().subtract(e);
-      return Math.abs(r.x) > Math.abs(r.y) ? r.x > 0 ? s.LEFT : s.RIGHT : r.y > 0 ? s.UP : s.DOWN;
+      return Math.abs(r.x) > Math.abs(r.y) ? r.x > 0 ? a.LEFT : a.RIGHT : r.y > 0 ? a.UP : a.DOWN;
     }
     neighbours(t) {
-      return [new l(t.x, t.y + 1), new l(t.x + 1, t.y), new l(t.x - 1, t.y), new l(t.x, t.y - 1)];
+      return [new p(t.x, t.y + 1), new p(t.x + 1, t.y), new p(t.x - 1, t.y), new p(t.x, t.y - 1)];
     }
   };
-  var z = class {
+  var q = class {
     constructor(t, e, r = 0, o) {
       this.tilemap = t;
       this.targetPos = e;
       this.distance = r;
       this.posOnPath = 0;
       this.stopped = false;
-      this.distanceUtils = new F();
+      this.distanceUtils = new G();
       this.getNeighbours = (t2) => this.distanceUtils.neighbours(t2).filter((r2) => !this.isBlocking(r2));
       this.isBlocking = (t2) => !t2 || this.tilemap.isBlocking(t2);
-      this.noPathFoundStrategy = (o == null ? void 0 : o.noPathFoundStrategy) || T.STOP, this.pathBlockedStrategy = (o == null ? void 0 : o.pathBlockedStrategy) || S.WAIT, this.noPathFoundRetryable = new K((o == null ? void 0 : o.noPathFoundRetryBackoffMs) || 200, (o == null ? void 0 : o.noPathFoundMaxRetries) || -1, () => this.stop()), this.pathBlockedRetryable = new K((o == null ? void 0 : o.pathBlockedRetryBackoffMs) || 200, (o == null ? void 0 : o.pathBlockedMaxRetries) || -1, () => this.stop()), this.pathBlockedWaitTimeoutMs = (o == null ? void 0 : o.pathBlockedWaitTimeoutMs) || -1;
+      this.noPathFoundStrategy = (o == null ? void 0 : o.noPathFoundStrategy) || x.STOP, this.pathBlockedStrategy = (o == null ? void 0 : o.pathBlockedStrategy) || P.WAIT, this.noPathFoundRetryable = new st((o == null ? void 0 : o.noPathFoundRetryBackoffMs) || 200, (o == null ? void 0 : o.noPathFoundMaxRetries) || -1, () => this.stop()), this.pathBlockedRetryable = new st((o == null ? void 0 : o.pathBlockedRetryBackoffMs) || 200, (o == null ? void 0 : o.pathBlockedMaxRetries) || -1, () => this.stop()), this.pathBlockedWaitTimeoutMs = (o == null ? void 0 : o.pathBlockedWaitTimeoutMs) || -1;
     }
     setPathBlockedStrategy(t) {
       this.pathBlockedStrategy = t;
@@ -73399,16 +73535,16 @@
       return this.pathBlockedStrategy;
     }
     setNumberOfDirections(t) {
-      t === _.EIGHT ? this.distanceUtils = new $() : this.distanceUtils = new F();
+      t === T.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new G();
     }
     setCharacter(t) {
       this.character = t, this.noPathFoundRetryable.reset(), this.pathBlockedRetryable.reset(), this.pathBlockedWaitElapsed = 0, this.calcShortestPath();
     }
     update(t) {
-      this.stopped || (this.noPathFound() && this.noPathFoundStrategy === T.RETRY && this.noPathFoundRetryable.retry(t, () => this.calcShortestPath()), this.isBlocking(this.nextTileOnPath()) ? this.applyPathBlockedStrategy(t) : this.pathBlockedWaitElapsed = 0, this.updatePosOnPath(), this.hasArrived() ? this.existsDistToTarget() && this.turnTowardsTarget() : this.isBlocking(this.nextTileOnPath()) || this.moveCharOnPath());
+      this.stopped || (this.noPathFound() && this.noPathFoundStrategy === x.RETRY && this.noPathFoundRetryable.retry(t, () => this.calcShortestPath()), this.isBlocking(this.nextTileOnPath()) ? this.applyPathBlockedStrategy(t) : this.pathBlockedWaitElapsed = 0, this.updatePosOnPath(), this.hasArrived() ? this.existsDistToTarget() && this.turnTowardsTarget() : this.isBlocking(this.nextTileOnPath()) || this.moveCharOnPath());
     }
     applyPathBlockedStrategy(t) {
-      this.pathBlockedStrategy === S.RETRY ? this.pathBlockedRetryable.retry(t, () => this.calcShortestPath()) : this.pathBlockedStrategy === S.STOP ? this.stop() : this.pathBlockedStrategy === S.WAIT && this.pathBlockedWaitTimeoutMs > -1 && (this.pathBlockedWaitElapsed += t, this.pathBlockedWaitElapsed >= this.pathBlockedWaitTimeoutMs && this.stop());
+      this.pathBlockedStrategy === P.RETRY ? this.pathBlockedRetryable.retry(t, () => this.calcShortestPath()) : this.pathBlockedStrategy === P.STOP ? this.stop() : this.pathBlockedStrategy === P.WAIT && this.pathBlockedWaitTimeoutMs > -1 && (this.pathBlockedWaitElapsed += t, this.pathBlockedWaitElapsed >= this.pathBlockedWaitTimeoutMs && this.stop());
     }
     moveCharOnPath() {
       let t = this.getDir(this.character.getNextTilePos(), this.nextTileOnPath());
@@ -73443,10 +73579,10 @@
       this.posOnPath = 0, this.shortestPath = t.path, this.distOffset = t.distOffset;
     }
     getShortestPath() {
-      let t = new st(), { path: e, closestToTarget: r } = t.getShortestPath(this.character.getNextTilePos(), this.targetPos, this.getNeighbours);
-      if (e.length == 0 && this.noPathFoundStrategy === T.CLOSEST_REACHABLE) {
-        let n = t.getShortestPath(this.character.getNextTilePos(), r, this.getNeighbours).path, a = this.distanceUtils.distance(r, this.targetPos);
-        return { path: n, distOffset: a };
+      let t = new yt(), { path: e, closestToTarget: r } = t.getShortestPath(this.character.getNextTilePos(), this.targetPos, this.getNeighbours);
+      if (e.length == 0 && this.noPathFoundStrategy === x.CLOSEST_REACHABLE) {
+        let n = t.getShortestPath(this.character.getNextTilePos(), r, this.getNeighbours).path, s = this.distanceUtils.distance(r, this.targetPos);
+        return { path: n, distOffset: s };
       }
       return { path: e, distOffset: 0 };
     }
@@ -73454,19 +73590,19 @@
       return this.distanceUtils.direction(t, e);
     }
   };
-  var at = class {
-    constructor(t, e, r = 0, o = T.STOP) {
+  var xt = class {
+    constructor(t, e, r = 0, o = x.STOP) {
       this.gridTilemap = t;
       this.charToFollow = e;
       this.distance = r;
       this.noPathFoundStrategy = o;
-      this.numberOfDirections = _.FOUR;
+      this.numberOfDirections = T.FOUR;
     }
     setNumberOfDirections(t) {
       this.numberOfDirections = t;
     }
     setCharacter(t) {
-      this.character = t, this.updateTarget(this.charToFollow.getTilePos()), this.charToFollow.positionChanged().pipe(M(this.character.autoMovementSet())).subscribe(({ enterTile: e }) => {
+      this.character = t, this.updateTarget(this.charToFollow.getTilePos()), this.charToFollow.positionChanged().pipe(A(this.character.autoMovementSet())).subscribe(({ enterTile: e }) => {
         this.updateTarget(e);
       });
     }
@@ -73475,21 +73611,21 @@
       (e = this.targetMovement) == null || e.update(t);
     }
     updateTarget(t) {
-      this.targetMovement = new z(this.gridTilemap, new l(t), this.distance + 1, { noPathFoundStrategy: this.noPathFoundStrategy }), this.targetMovement.setNumberOfDirections(this.numberOfDirections), this.targetMovement.setCharacter(this.character);
+      this.targetMovement = new q(this.gridTilemap, new p(t), this.distance + 1, { noPathFoundStrategy: this.noPathFoundStrategy }), this.targetMovement.setNumberOfDirections(this.numberOfDirections), this.targetMovement.setCharacter(this.character);
     }
   };
-  var ct = class {
+  var Tt = class {
     constructor(t = 0, e = -1) {
       this.delay = t;
       this.radius = e;
-      this.numberOfDirections = _.FOUR;
-      this.distanceUtils = new F();
+      this.numberOfDirections = T.FOUR;
+      this.distanceUtils = new G();
     }
     setNumberOfDirections(t) {
-      this.numberOfDirections = t, t === _.EIGHT ? this.distanceUtils = new $() : this.distanceUtils = new F();
+      this.numberOfDirections = t, t === T.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new G();
     }
     setCharacter(t) {
-      this.character = t, this.delayLeft = this.delay, this.initialRow = t.getNextTilePos().y, this.initialCol = t.getNextTilePos().x, this.stepSize = this.getRandomInt(this.radius) + 1, this.stepsWalked = 0, this.currentMovementDirection = s.NONE, this.character.positionChanged().pipe(M(this.character.autoMovementSet())).subscribe(() => {
+      this.character = t, this.delayLeft = this.delay, this.initialRow = t.getNextTilePos().y, this.initialCol = t.getNextTilePos().x, this.stepSize = this.getRandomInt(this.radius) + 1, this.stepsWalked = 0, this.currentMovementDirection = a.NONE, this.character.positionChanged().pipe(A(this.character.autoMovementSet())).subscribe(() => {
         this.stepsWalked++;
       });
     }
@@ -73503,30 +73639,30 @@
       }
     }
     shouldContinueWalkingCurrentDirection() {
-      return this.stepsWalked < this.stepSize && this.currentMovementDirection !== s.NONE && !this.character.isBlockingDirection(this.currentMovementDirection) && this.isWithinRadius(this.currentMovementDirection);
+      return this.stepsWalked < this.stepSize && this.currentMovementDirection !== a.NONE && !this.character.isBlockingDirection(this.currentMovementDirection) && this.isWithinRadius(this.currentMovementDirection);
     }
     getFreeDirections() {
-      return mt(this.numberOfDirections).filter((e) => !this.character.isBlockingDirection(e)).filter((e) => this.isWithinRadius(e));
+      return Ot(this.numberOfDirections).filter((e) => !this.character.isBlockingDirection(e)).filter((e) => this.isWithinRadius(e));
     }
     isWithinRadius(t) {
       return this.radius == -1 ? true : this.getDist(t) <= this.radius;
     }
     getDist(t) {
-      return this.distanceUtils.distance(this.character.getNextTilePos().add(C(t)), new l(this.initialCol, this.initialRow));
+      return this.distanceUtils.distance(this.character.getNextTilePos().add(F(t)), new p(this.initialCol, this.initialRow));
     }
     getFreeRandomDirection() {
       let t = this.getFreeDirections();
-      return t.length == 0 ? s.NONE : t[this.getRandomInt(t.length)];
+      return t.length == 0 ? a.NONE : t[this.getRandomInt(t.length)];
     }
     getRandomInt(t) {
       return Math.floor(Math.random() * Math.floor(t));
     }
   };
-  var lt = class {
+  var Pt = class {
     constructor(t) {
       this.scene = t;
       this.isCreated = false;
-      this.numberOfDirections = _.FOUR;
+      this.numberOfDirections = T.FOUR;
       this.scene.sys.events.once("boot", this.boot, this);
     }
     boot() {
@@ -73536,7 +73672,7 @@
       this.scene = void 0, this.tilemap = void 0, this.gridCharacters = void 0, this.gridTilemap = void 0, this.movementStarted$ = void 0, this.movementStopped$ = void 0, this.directionChanged$ = void 0, this.positionChangeStarted$ = void 0, this.positionChangeFinished$ = void 0, this.charRemoved$ = void 0;
     }
     create(t, e) {
-      this.isCreated = true, this.gridCharacters = new Map(), this.tilemap = t, this.movementStopped$ = new v(), this.movementStarted$ = new v(), this.directionChanged$ = new v(), this.positionChangeStarted$ = new v(), this.positionChangeFinished$ = new v(), this.charRemoved$ = new v(), this.gridTilemap = new w(t), e.collisionTilePropertyName && this.gridTilemap.setCollisionTilePropertyName(e.collisionTilePropertyName), this.numberOfDirections = e.numberOfDirections || this.numberOfDirections, this.addCharacters(e);
+      this.isCreated = true, this.gridCharacters = new Map(), this.tilemap = t, this.movementStopped$ = new g(), this.movementStarted$ = new g(), this.directionChanged$ = new g(), this.positionChangeStarted$ = new g(), this.positionChangeFinished$ = new g(), this.charRemoved$ = new g(), this.gridTilemap = new _(t), e.collisionTilePropertyName && this.gridTilemap.setCollisionTilePropertyName(e.collisionTilePropertyName), this.numberOfDirections = e.numberOfDirections || this.numberOfDirections, this.addCharacters(e);
     }
     getPosition(t) {
       return this.initGuard(), this.unknownCharGuard(t), this.gridCharacters.get(t).getTilePos();
@@ -73546,13 +73682,13 @@
     }
     moveRandomly(t, e = 0, r = -1) {
       this.initGuard(), this.unknownCharGuard(t);
-      let o = new ct(e, r);
+      let o = new Tt(e, r);
       o.setNumberOfDirections(this.numberOfDirections), this.gridCharacters.get(t).setMovement(o);
     }
     moveTo(t, e, r) {
       let o = this.assembleMoveToConfig(r);
       this.initGuard(), this.unknownCharGuard(t);
-      let n = new z(this.gridTilemap, new l(e), 0, o);
+      let n = new q(this.gridTilemap, new p(e), 0, o);
       n.setNumberOfDirections(this.numberOfDirections), this.gridCharacters.get(t).setMovement(n);
     }
     stopMovement(t) {
@@ -73571,19 +73707,19 @@
     }
     addCharacter(t) {
       this.initGuard();
-      let e = { sprite: t.sprite, speed: t.speed || 4, tilemap: this.gridTilemap, tileSize: new l(this.gridTilemap.getTileWidth(), this.gridTilemap.getTileHeight()), walkingAnimationMapping: t.walkingAnimationMapping, container: t.container, offsetX: t.offsetX, offsetY: t.offsetY }, r = this.createCharacter(t.id, e);
+      let e = { sprite: t.sprite, speed: t.speed || 4, tilemap: this.gridTilemap, tileSize: new p(this.gridTilemap.getTileWidth(), this.gridTilemap.getTileHeight()), walkingAnimationMapping: t.walkingAnimationMapping, container: t.container, offsetX: t.offsetX, offsetY: t.offsetY }, r = this.createCharacter(t.id, e);
       t.facingDirection && r.turnTowards(t.facingDirection), this.gridCharacters.set(t.id, r);
-      let o = t.startPosition ? new l(t.startPosition) : new l(0, 0);
+      let o = t.startPosition ? new p(t.startPosition) : new p(0, 0);
       r.setTilePosition(o), this.gridTilemap.addCharacter(r), r.movementStopped().pipe(this.takeUntilCharRemoved(r.getId())).subscribe((n) => {
         this.movementStopped$.next({ charId: r.getId(), direction: n });
       }), r.movementStarted().pipe(this.takeUntilCharRemoved(r.getId())).subscribe((n) => {
         this.movementStarted$.next({ charId: r.getId(), direction: n });
       }), r.directionChanged().pipe(this.takeUntilCharRemoved(r.getId())).subscribe((n) => {
         this.directionChanged$.next({ charId: r.getId(), direction: n });
-      }), r.positionChanged().pipe(this.takeUntilCharRemoved(r.getId())).subscribe(({ exitTile: n, enterTile: a }) => {
-        this.positionChangeStarted$.next({ charId: r.getId(), exitTile: n, enterTile: a });
-      }), r.positionChangeFinished().pipe(this.takeUntilCharRemoved(r.getId())).subscribe(({ exitTile: n, enterTile: a }) => {
-        this.positionChangeFinished$.next({ charId: r.getId(), exitTile: n, enterTile: a });
+      }), r.positionChanged().pipe(this.takeUntilCharRemoved(r.getId())).subscribe(({ exitTile: n, enterTile: s }) => {
+        this.positionChangeStarted$.next({ charId: r.getId(), exitTile: n, enterTile: s });
+      }), r.positionChangeFinished().pipe(this.takeUntilCharRemoved(r.getId())).subscribe(({ exitTile: n, enterTile: s }) => {
+        this.positionChangeFinished$.next({ charId: r.getId(), exitTile: n, enterTile: s });
       });
     }
     hasCharacter(t) {
@@ -73602,7 +73738,7 @@
     }
     follow(t, e, r = 0, o = false) {
       this.initGuard(), this.unknownCharGuard(t), this.unknownCharGuard(e);
-      let n = new at(this.gridTilemap, this.gridCharacters.get(e), r, o ? T.CLOSEST_REACHABLE : T.STOP);
+      let n = new xt(this.gridTilemap, this.gridCharacters.get(e), r, o ? x.CLOSEST_REACHABLE : x.STOP);
       n.setNumberOfDirections(this.numberOfDirections), this.gridCharacters.get(t).setMovement(n);
     }
     isMoving(t) {
@@ -73615,7 +73751,7 @@
       return this.initGuard(), this.unknownCharGuard(t), this.gridCharacters.get(t).turnTowards(e);
     }
     setPosition(t, e) {
-      this.initGuard(), this.unknownCharGuard(t), this.gridCharacters.get(t).setTilePosition(new l(e));
+      this.initGuard(), this.unknownCharGuard(t), this.gridCharacters.get(t).setTilePosition(new p(e));
     }
     movementStarted() {
       return this.movementStarted$;
@@ -73633,7 +73769,7 @@
       return this.positionChangeFinished$;
     }
     takeUntilCharRemoved(t) {
-      return M(this.charRemoved$.pipe(ot((e) => e == t)));
+      return A(this.charRemoved$.pipe(bt((e) => e == t)));
     }
     initGuard() {
       if (!this.isCreated)
@@ -73644,17 +73780,17 @@
         throw new Error(`Character unknown: ${t}`);
     }
     createCharacter(t, e) {
-      return this._isIsometric() ? new nt(t, e) : new H(t, e);
+      return this._isIsometric() ? new gt(t, e) : new z(t, e);
     }
     addCharacters(t) {
       t.characters.forEach((e) => this.addCharacter(e));
     }
     moveChar(t, e) {
-      if (this.initGuard(), this.unknownCharGuard(t), this.numberOfDirections === _.FOUR) {
-        if (!this._isIsometric() && et(e)) {
+      if (this.initGuard(), this.unknownCharGuard(t), this.numberOfDirections === T.FOUR) {
+        if (!this._isIsometric() && ct(e)) {
           console.warn(`GridEngine: Character '${t}' can't be moved '${e}' in 4 direction mode.`);
           return;
-        } else if (this._isIsometric() && !et(e)) {
+        } else if (this._isIsometric() && !ct(e)) {
           console.warn(`GridEngine: Character '${t}' can't be moved '${e}' in 4 direction isometric mode.`);
           return;
         }
@@ -73668,8 +73804,8 @@
       return this.tilemap.orientation == `${Phaser.Tilemaps.Orientation.ISOMETRIC}`;
     }
     assembleMoveToConfig(t) {
-      let e = tt(tt({}, t), { noPathFoundStrategy: T.STOP, pathBlockedStrategy: S.WAIT });
-      return (t == null ? void 0 : t.noPathFoundStrategy) && (Object.values(T).includes(t.noPathFoundStrategy) ? e.noPathFoundStrategy = t.noPathFoundStrategy : console.warn(`GridEngine: Unknown NoPathFoundStrategy '${t.noPathFoundStrategy}'. Falling back to '${T.STOP}'`)), (t == null ? void 0 : t.pathBlockedStrategy) && (Object.values(S).includes(t.pathBlockedStrategy) ? e.pathBlockedStrategy = t.pathBlockedStrategy : console.warn(`GridEngine: Unknown PathBlockedStrategy '${t.pathBlockedStrategy}'. Falling back to '${S.WAIT}'`)), e;
+      let e = Dt(wt({}, t), { noPathFoundStrategy: x.STOP, pathBlockedStrategy: P.WAIT });
+      return (t == null ? void 0 : t.noPathFoundStrategy) && (Object.values(x).includes(t.noPathFoundStrategy) ? e.noPathFoundStrategy = t.noPathFoundStrategy : console.warn(`GridEngine: Unknown NoPathFoundStrategy '${t.noPathFoundStrategy}'. Falling back to '${x.STOP}'`)), (t == null ? void 0 : t.pathBlockedStrategy) && (Object.values(P).includes(t.pathBlockedStrategy) ? e.pathBlockedStrategy = t.pathBlockedStrategy : console.warn(`GridEngine: Unknown PathBlockedStrategy '${t.pathBlockedStrategy}'. Falling back to '${P.WAIT}'`)), e;
     }
   };
 
@@ -73686,11 +73822,22 @@
   })(Direction || (Direction = {}));
 
   // src/helpers/Characters.ts
-  function createCharacterSprite(scene, x2, y2, texture, depth, scale) {
-    const sprite = scene.add.sprite(x2, y2, texture);
-    sprite.setDepth(depth);
+  function createCharacterSprite(scene, x2, y, texture, scale) {
+    const sprite = scene.add.sprite(x2, y, texture);
     sprite.scale = scale;
     return sprite;
+  }
+  function registerBasicMovement(scene, id = "player") {
+    const cursors = scene.input.keyboard.createCursorKeys();
+    if (cursors.left.isDown) {
+      scene.GridEngine.move(id, a.LEFT);
+    } else if (cursors.right.isDown) {
+      scene.GridEngine.move(id, a.RIGHT);
+    } else if (cursors.up.isDown) {
+      scene.GridEngine.move(id, a.UP);
+    } else if (cursors.down.isDown) {
+      scene.GridEngine.move(id, a.DOWN);
+    }
   }
 
   // src/helpers/Tilemaps.ts
@@ -73717,7 +73864,7 @@
     }
     create() {
       const tilemap = createTilemap(this, "beach", [{ layer: "beach", image: "beachTiles" }]);
-      const playerSprite = createCharacterSprite(this, 0, 0, "player", 4, 1.5);
+      const playerSprite = createCharacterSprite(this, 0, 0, "player", 1.5);
       this.cameras.main.startFollow(playerSprite, true);
       this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
       this.GridEngine.create(tilemap, {
@@ -73756,8 +73903,12 @@
     notice2.classList.replace("hidden", "show");
   }
 
+  // src/classes/BaseScene.ts
+  var BaseScene = class extends Phaser.Scene {
+  };
+
   // src/scenes/MainScene.ts
-  var MainScene = class extends Phaser.Scene {
+  var MainScene = class extends BaseScene {
     constructor() {
       super({
         key: "Main"
@@ -73773,7 +73924,7 @@
     }
     create() {
       const tilemap = createTilemap(this, "map", [{ layer: "Atlantis", image: "tiles" }]);
-      const playerSprite = createCharacterSprite(this, 0, 0, "player", 2, 1.5);
+      const playerSprite = createCharacterSprite(this, 0, 0, "player", 1.5);
       this.cameras.main.startFollow(playerSprite, true);
       this.cameras.main.setFollowOffset(-playerSprite.width, -playerSprite.height);
       this.GridEngine.create(tilemap, {
@@ -73786,27 +73937,21 @@
           }
         ]
       });
-      this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
-        console.log("Movement stopped");
-        console.log(this.GridEngine.getPosition(charId));
-        if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
+      this.GridEngine.movementStarted().subscribe(({ charId }) => {
+        const pos = this.GridEngine.getPosition(charId);
+        console.log("Movement started at (" + pos.x + ", " + pos.y + ")");
+      });
+      this.GridEngine.movementStopped().subscribe(({ charId }) => {
+        const pos = this.GridEngine.getPosition(charId);
+        console.log("Movement ended at (" + pos.x + ", " + pos.y + ")");
+        if (this.hasTrigger(tilemap, pos)) {
           console.log("Found the trigger!");
           notice("Found the thingy!");
-          this.scene.start("beach");
         }
       });
     }
     update() {
-      const cursors = this.input.keyboard.createCursorKeys();
-      if (cursors.left.isDown) {
-        this.GridEngine.move("player", Direction.LEFT);
-      } else if (cursors.right.isDown) {
-        this.GridEngine.move("player", Direction.RIGHT);
-      } else if (cursors.up.isDown) {
-        this.GridEngine.move("player", Direction.UP);
-      } else if (cursors.down.isDown) {
-        this.GridEngine.move("player", Direction.DOWN);
-      }
+      registerBasicMovement(this);
     }
     hasTrigger(tilemap, pos) {
       console.log("Checking for trigger");
@@ -73836,7 +73981,7 @@
       scene: [
         {
           key: "GridEngine",
-          plugin: lt,
+          plugin: Pt,
           mapping: "GridEngine"
         }
       ]

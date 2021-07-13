@@ -217,7 +217,7 @@
  </layer>
  <layer id="5" name="Trees" width="30" height="30">
   <properties>
-   <property name="ge_heightShift" type="int" value="1"/>
+   <property name="ge_alwaysTop" type="bool" value="true"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

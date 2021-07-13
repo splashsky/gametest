@@ -1,12 +1,11 @@
 import { GridEngine, Position } from "grid-engine"
 import { Direction } from "../helpers/Direction"
-import { createCharacterSprite } from "../helpers/Characters"
+import { createCharacterSprite, registerBasicMovement } from "../helpers/Characters"
 import { createTilemap } from "../helpers/Tilemaps"
 import { notice } from "../UI"
+import BaseScene from "../classes/BaseScene"
 
-export default class MainScene extends Phaser.Scene {
-    private GridEngine: GridEngine
-
+export default class MainScene extends BaseScene {
     constructor() {
         super({
             key: "Main"
@@ -43,30 +42,25 @@ export default class MainScene extends Phaser.Scene {
             ]
         })
 
-        this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
-            console.log("Movement stopped")
-            
-            console.log(this.GridEngine.getPosition(charId));
-            if (this.hasTrigger(tilemap, this.GridEngine.getPosition(charId))) {
+        this.GridEngine.movementStarted().subscribe(({ charId }) => {
+            const pos = this.GridEngine.getPosition(charId)
+            console.log("Movement started at ("+pos.x+", "+pos.y+")")
+        })
+
+        this.GridEngine.movementStopped().subscribe(({ charId }) => {
+            const pos = this.GridEngine.getPosition(charId)
+            console.log("Movement ended at ("+pos.x+", "+pos.y+")")
+
+            if (this.hasTrigger(tilemap, pos)) {
                 console.log("Found the trigger!")
                 notice("Found the thingy!")
-                this.scene.start('beach');
+                //this.scene.start('beach')
             }
         })
     }
 
     public update(): void {
-        const cursors = this.input.keyboard.createCursorKeys()
-
-        if (cursors.left.isDown) {
-            this.GridEngine.move("player", Direction.LEFT)
-        } else if (cursors.right.isDown) {
-            this.GridEngine.move("player", Direction.RIGHT)
-        } else if (cursors.up.isDown) {
-            this.GridEngine.move("player", Direction.UP)
-        } else if (cursors.down.isDown) {
-            this.GridEngine.move("player", Direction.DOWN)
-        }
+        registerBasicMovement(this)
     }
 
     private hasTrigger(tilemap: Phaser.Tilemaps.Tilemap, pos: Position): boolean {
