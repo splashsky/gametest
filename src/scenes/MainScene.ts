@@ -1,5 +1,4 @@
-import { GridEngine, Position } from "grid-engine"
-import { Direction } from "../helpers/Direction"
+import { GridEngine, Position, Direction } from "grid-engine"
 import { createCharacterSprite, registerBasicMovement } from "../helpers/Characters"
 import { createTilemap } from "../helpers/Tilemaps"
 import { notice } from "../UI"
@@ -13,9 +12,9 @@ export default class MainScene extends BaseScene {
     }
 
     public preload(): void {
-        this.load.image("tiles", "assets/tf_atlantis_tiles.png")
+        this.load.image("tiles", "assets/atlantis-tiles.png")
 
-        this.load.spritesheet("player", "assets/FactionKnights2x.png", {
+        this.load.spritesheet("player", "assets/fk.png", {
             frameWidth: 52,
             frameHeight: 72
         })

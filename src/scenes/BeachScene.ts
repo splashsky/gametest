@@ -1,17 +1,15 @@
-import { GridEngine } from "grid-engine"
-import { Direction } from "../helpers/Direction"
-import { createCharacterSprite } from "../helpers/Characters"
+import { GridEngine, Direction } from "grid-engine"
+import BaseScene from "../classes/BaseScene"
+import { createCharacterSprite, registerBasicMovement } from "../helpers/Characters"
 import { createTilemap } from "../helpers/Tilemaps"
 
-export default class BeachScene extends Phaser.Scene {
-    private GridEngine: GridEngine
-
+export default class BeachScene extends BaseScene {
     constructor() {
         super({ key: 'beach' })
     }
 
     public preload(): void {
-        this.load.image('beachTiles', 'assets/BeachWithBoundary.png')
+        this.load.image('beachTiles', 'assets/beach-tiles.png')
         this.load.tilemapTiledJSON('beach', 'assets/beachmap.json')
     }
 
@@ -33,23 +31,9 @@ export default class BeachScene extends Phaser.Scene {
                 }
             ]
         })
-
-        this.GridEngine.movementStopped().subscribe(({ charId, direction }) => {
-            console.log("Movement stopped")
-        })
     }
     
     public update(): void {
-        const cursors = this.input.keyboard.createCursorKeys()
-
-        if (cursors.left.isDown) {
-            this.GridEngine.move("player", Direction.LEFT)
-        } else if (cursors.right.isDown) {
-            this.GridEngine.move("player", Direction.RIGHT)
-        } else if (cursors.up.isDown) {
-            this.GridEngine.move("player", Direction.UP)
-        } else if (cursors.down.isDown) {
-            this.GridEngine.move("player", Direction.DOWN)
-        }
+        registerBasicMovement(this)
     }
 }
