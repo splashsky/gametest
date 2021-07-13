@@ -43211,26 +43211,26 @@
                 return result;
               },
               _build: function(items, left, right, height) {
-                var N = right - left + 1, M2 = this._maxEntries, node;
-                if (N <= M2) {
+                var N2 = right - left + 1, M2 = this._maxEntries, node;
+                if (N2 <= M2) {
                   node = createNode(items.slice(left, right + 1));
                   calcBBox(node, this.toBBox);
                   return node;
                 }
                 if (!height) {
-                  height = Math.ceil(Math.log(N) / Math.log(M2));
-                  M2 = Math.ceil(N / Math.pow(M2, height - 1));
+                  height = Math.ceil(Math.log(N2) / Math.log(M2));
+                  M2 = Math.ceil(N2 / Math.pow(M2, height - 1));
                 }
                 node = createNode([]);
                 node.leaf = false;
                 node.height = height;
-                var N2 = Math.ceil(N / M2), N1 = N2 * Math.ceil(Math.sqrt(M2)), i, j2, right2, right3;
+                var N22 = Math.ceil(N2 / M2), N1 = N22 * Math.ceil(Math.sqrt(M2)), i, j2, right2, right3;
                 multiSelect(items, left, right, N1, this.compareMinX);
                 for (i = left; i <= right; i += N1) {
                   right2 = Math.min(i + N1 - 1, right);
-                  multiSelect(items, i, right2, N2, this.compareMinY);
-                  for (j2 = i; j2 <= right2; j2 += N2) {
-                    right3 = Math.min(j2 + N2 - 1, right2);
+                  multiSelect(items, i, right2, N22, this.compareMinY);
+                  for (j2 = i; j2 <= right2; j2 += N22) {
+                    right3 = Math.min(j2 + N22 - 1, right2);
                     node.children.push(this._build(items, j2, right3, height - 1));
                   }
                 }
@@ -61111,10 +61111,10 @@
               var D2 = y3 - y1;
               var E2 = A2 * (x1 + x2) + B2 * (y1 + y2);
               var F2 = C2 * (x1 + x3) + D2 * (y1 + y3);
-              var G2 = 2 * (A2 * (y3 - y2) - B2 * (x3 - x2));
+              var G = 2 * (A2 * (y3 - y2) - B2 * (x3 - x2));
               var dx;
               var dy;
-              if (Math.abs(G2) < 1e-6) {
+              if (Math.abs(G) < 1e-6) {
                 var minX = Math.min(x1, x2, x3);
                 var minY = Math.min(y1, y2, y3);
                 dx = (Math.max(x1, x2, x3) - minX) * 0.5;
@@ -61123,8 +61123,8 @@
                 out.y = minY + dy;
                 out.radius = Math.sqrt(dx * dx + dy * dy);
               } else {
-                out.x = (D2 * E2 - B2 * F2) / G2;
-                out.y = (A2 * F2 - C2 * E2) / G2;
+                out.x = (D2 * E2 - B2 * F2) / G;
+                out.y = (A2 * F2 - C2 * E2) / G;
                 dx = out.x - x1;
                 dy = out.y - y1;
                 out.radius = Math.sqrt(dx * dx + dy * dy);
@@ -66385,11 +66385,11 @@
             }
             function polygonReverse(polygon) {
               var tmp = [];
-              var N = polygon.length;
-              for (var i = 0; i !== N; i++) {
+              var N2 = polygon.length;
+              for (var i = 0; i !== N2; i++) {
                 tmp.push(polygon.pop());
               }
-              for (var i = 0; i !== N; i++) {
+              for (var i = 0; i !== N2; i++) {
                 polygon[i] = tmp[i];
               }
             }
@@ -72252,15 +72252,15 @@
           return this;
         }, c;
         function h(d) {
-          s[d] && (c[d] = function(N) {
+          s[d] && (c[d] = function(G) {
             return new Promise(function(lt, Se) {
-              l.push([d, N, lt, Se]) > 1 || m(d, N);
+              l.push([d, G, lt, Se]) > 1 || m(d, G);
             });
           });
         }
-        function m(d, N) {
+        function m(d, G) {
           try {
-            y(s[d](N));
+            y(s[d](G));
           } catch (lt) {
             O(l[0][3], lt);
           }
@@ -72274,8 +72274,8 @@
         function b(d) {
           m("throw", d);
         }
-        function O(d, N) {
-          d(N), l.shift(), l.length && m(l[0][0], l[0][1]);
+        function O(d, G) {
+          d(G), l.shift(), l.length && m(l[0][0], l[0][1]);
         }
       }, Ht = function(r) {
         var o, n;
@@ -72337,39 +72337,48 @@
       }, i("__extends", Rt), i("__assign", Mt), i("__rest", kt), i("__decorate", It), i("__param", At), i("__metadata", Gt), i("__awaiter", Nt), i("__generator", Ut), i("__exportStar", Vt), i("__createBinding", K), i("__values", Z), i("__read", pt), i("__spread", Wt), i("__spreadArrays", Lt), i("__spreadArray", Bt), i("__await", V), i("__asyncGenerator", jt), i("__asyncDelegator", Ht), i("__asyncValues", $t), i("__makeTemplateObject", zt), i("__importStar", Yt), i("__importDefault", qt), i("__classPrivateFieldGet", Xt), i("__classPrivateFieldSet", Zt);
     });
   });
-  var P;
+  var S;
   (function(r) {
     r.WAIT = "WAIT", r.RETRY = "RETRY", r.STOP = "STOP";
-  })(P || (P = {}));
-  var S = class {
+  })(S || (S = {}));
+  var T = class {
     constructor(t, e) {
       typeof t == "number" ? (this.x = t, this.y = e || 0) : (this.x = t.x, this.y = t.y);
     }
     clone() {
-      return new S(this.x, this.y);
+      return new T(this.x, this.y);
     }
     add(t) {
-      return new S(this.x + t.x, this.y + t.y);
+      return new T(this.x + t.x, this.y + t.y);
     }
     multiply(t) {
-      return new S(this.x * t.x, this.y * t.y);
+      return new T(this.x * t.x, this.y * t.y);
+    }
+    divide(t) {
+      return new T(this.x / t.x, this.y / t.y);
     }
     subtract(t) {
-      return new S(this.x - t.x, this.y - t.y);
+      return new T(this.x - t.x, this.y - t.y);
     }
     equals(t) {
       return this.x === t.x && this.y === t.y;
     }
+    abs() {
+      return new T(Math.abs(this.x), Math.abs(this.y));
+    }
+    length() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
   };
-  var p = S;
-  p.ZERO = new S(0, 0), p.UP = new S(0, -1), p.DOWN = new S(0, 1), p.LEFT = new S(-1, 0), p.RIGHT = new S(1, 0);
+  var p = T;
+  p.ZERO = new T(0, 0), p.UP = new T(0, -1), p.DOWN = new T(0, 1), p.LEFT = new T(-1, 0), p.RIGHT = new T(1, 0);
   var a;
   (function(h) {
     h.NONE = "none", h.LEFT = "left", h.UP_LEFT = "up-left", h.UP = "up", h.UP_RIGHT = "up-right", h.RIGHT = "right", h.DOWN_RIGHT = "down-right", h.DOWN = "down", h.DOWN_LEFT = "down-left";
   })(a || (a = {}));
   function Ot(i) {
     let t = [a.UP, a.RIGHT, a.DOWN, a.LEFT], e = [a.DOWN_LEFT, a.DOWN_RIGHT, a.UP_RIGHT, a.UP_LEFT];
-    return i === T.EIGHT ? [...t, ...e] : t;
+    return i === P.EIGHT ? [...t, ...e] : t;
   }
   function ct(i) {
     return [a.DOWN_LEFT, a.DOWN_RIGHT, a.UP_RIGHT, a.UP_LEFT].includes(i);
@@ -72377,16 +72386,16 @@
   function Et(i) {
     return { [a.LEFT]: a.DOWN_LEFT, [a.UP_LEFT]: a.LEFT, [a.UP]: a.UP_LEFT, [a.UP_RIGHT]: a.UP, [a.RIGHT]: a.UP_RIGHT, [a.DOWN_RIGHT]: a.RIGHT, [a.DOWN]: a.DOWN_RIGHT, [a.DOWN_LEFT]: a.DOWN, [a.NONE]: a.NONE }[i];
   }
-  function F(i) {
+  function N(i) {
     return { [a.UP]: p.UP.clone(), [a.DOWN]: p.DOWN.clone(), [a.LEFT]: p.LEFT.clone(), [a.RIGHT]: p.RIGHT.clone(), [a.NONE]: p.ZERO.clone(), [a.UP_LEFT]: new p(-1, -1), [a.UP_RIGHT]: new p(1, -1), [a.DOWN_RIGHT]: new p(1, 1), [a.DOWN_LEFT]: new p(-1, 1) }[i];
   }
   function Ft(i) {
     return { [a.UP]: a.DOWN, [a.DOWN]: a.UP, [a.LEFT]: a.RIGHT, [a.RIGHT]: a.LEFT, [a.NONE]: a.NONE, [a.UP_LEFT]: a.DOWN_RIGHT, [a.UP_RIGHT]: a.DOWN_LEFT, [a.DOWN_RIGHT]: a.UP_LEFT, [a.DOWN_LEFT]: a.UP_RIGHT }[i];
   }
-  var T;
+  var P;
   (function(e) {
     e[e.FOUR = 4] = "FOUR", e[e.EIGHT = 8] = "EIGHT";
-  })(T || (T = {}));
+  })(P || (P = {}));
   var v = class {
     static vec2str(t) {
       return `${t.x}#${t.y}`;
@@ -72583,7 +72592,7 @@
   var _ = w;
   _.MAX_PLAYER_LAYERS = 1e3, _.FIRST_PLAYER_LAYER = 1e3, _.ALWAYS_TOP_PROP_NAME = "ge_alwaysTop", _.HEIGHT_SHIFT_PROP_NAME = "ge_heightShift", _.ONE_WAY_COLLIDE_PROP_PREFIX = "ge_collide_";
   var Jt = Ie(Kt());
-  var { __extends: E, __assign: nr, __rest: ar, __decorate: sr, __param: lr, __metadata: cr, __awaiter: Qt, __generator: Q, __exportStar: hr, __createBinding: pr, __values: R, __read: M, __spread: ur, __spreadArrays: mr, __spreadArray: k, __await: tt, __asyncGenerator: te, __asyncDelegator: dr, __asyncValues: ee, __makeTemplateObject: fr, __importStar: vr, __importDefault: br, __classPrivateFieldGet: gr, __classPrivateFieldSet: yr } = Jt.default;
+  var { __extends: E, __assign: nr, __rest: ar, __decorate: sr, __param: lr, __metadata: cr, __awaiter: Qt, __generator: Q, __exportStar: hr, __createBinding: pr, __values: F, __read: R, __spread: ur, __spreadArrays: mr, __spreadArray: M, __await: tt, __asyncGenerator: te, __asyncDelegator: dr, __asyncValues: ee, __makeTemplateObject: fr, __importStar: vr, __importDefault: br, __classPrivateFieldGet: gr, __classPrivateFieldSet: yr } = Jt.default;
   function f(i) {
     return typeof i == "function";
   }
@@ -72620,7 +72629,7 @@
         if (s)
           if (this._parentage = null, Array.isArray(s))
             try {
-              for (var c = R(s), l = c.next(); !l.done; l = c.next()) {
+              for (var c = F(s), l = c.next(); !l.done; l = c.next()) {
                 var h = l.value;
                 h.remove(this);
               }
@@ -72647,12 +72656,12 @@
         if (y) {
           this._teardowns = null;
           try {
-            for (var u = R(y), b = u.next(); !b.done; b = u.next()) {
+            for (var u = F(y), b = u.next(); !b.done; b = u.next()) {
               var O = b.value;
               try {
                 re(O);
               } catch (d) {
-                n = n != null ? n : [], d instanceof rt ? n = k(k([], M(n)), M(d.errors)) : n.push(d);
+                n = n != null ? n : [], d instanceof rt ? n = M(M([], R(n)), R(d.errors)) : n.push(d);
               }
             }
           } catch (d) {
@@ -72711,7 +72720,7 @@
     for (var i = [], t = 0; t < arguments.length; t++)
       i[t] = arguments[t];
     var e = L.delegate;
-    return ((e == null ? void 0 : e.setTimeout) || setTimeout).apply(void 0, k([], M(i)));
+    return ((e == null ? void 0 : e.setTimeout) || setTimeout).apply(void 0, M([], R(i)));
   }, clearTimeout: function(i) {
     var t = L.delegate;
     return ((t == null ? void 0 : t.clearTimeout) || clearTimeout)(i);
@@ -72725,7 +72734,7 @@
         throw i;
     });
   }
-  function I() {
+  function k() {
   }
   var ie = function() {
     return mt("C", void 0, void 0);
@@ -72784,7 +72793,7 @@
           return n.unsubscribe();
         }) : c = e, s = s == null ? void 0 : s.bind(c), r = r == null ? void 0 : r.bind(c), o = o == null ? void 0 : o.bind(c);
       }
-      return n.destination = { next: s ? ft(s, n) : I, error: ft(r != null ? r : ae, n), complete: o ? ft(o, n) : I }, n;
+      return n.destination = { next: s ? ft(s, n) : k, error: ft(r != null ? r : ae, n), complete: o ? ft(o, n) : k }, n;
     }
     return t;
   }($);
@@ -72793,7 +72802,7 @@
       for (var e = [], r = 0; r < arguments.length; r++)
         e[r] = arguments[r];
       try {
-        i.apply(void 0, k([], M(e)));
+        i.apply(void 0, M([], R(e)));
       } catch (o) {
         if (D.useDeprecatedSynchronousErrorHandling)
           if (t._syncErrorHack_isSubscribing)
@@ -72814,7 +72823,7 @@
       return e(i, t);
     });
   }
-  var Ae = { closed: true, next: I, error: ae, complete: I };
+  var Ae = { closed: true, next: k, error: ae, complete: k };
   var B = function() {
     return typeof Symbol == "function" && Symbol.observable || "@@observable";
   }();
@@ -72990,7 +72999,7 @@
       if (this._throwIfClosed(), !this.isStopped) {
         var n = this.observers.slice();
         try {
-          for (var s = R(n), c = s.next(); !c.done; c = s.next()) {
+          for (var s = F(n), c = s.next(); !c.done; c = s.next()) {
             var l = c.value;
             l.next(e);
           }
@@ -73164,7 +73173,7 @@
     return new C(function(t) {
       var e, r;
       try {
-        for (var o = R(i), n = o.next(); !n.done; n = o.next()) {
+        for (var o = F(i), n = o.next(); !n.done; n = o.next()) {
           var s = n.value;
           if (t.next(s), t.closed)
             return;
@@ -73300,7 +73309,10 @@
       return this.nextTilePos.equals(t) || this.tilePos.equals(t);
     }
     isBlockingDirection(t) {
-      return t == a.NONE ? false : this.tilemap.hasBlockingTile(this.tilePosInDirection(t), Ft(this.toMapDirection(t))) || this.tilemap.hasBlockingChar(this.tilePosInDirection(t));
+      if (t == a.NONE)
+        return false;
+      let e = this.tilePosInDirection(t), r = this.tilemap.hasBlockingTile(e, Ft(this.toMapDirection(t))), o = this.tilemap.hasBlockingChar(e) && !this.tilePos.equals(e);
+      return r || o;
     }
     isMoving() {
       return this.movementDirection != a.NONE;
@@ -73333,7 +73345,7 @@
       return t.clone().multiply(this.tileSize);
     }
     getTileDistance(t) {
-      return t === a.NONE ? p.ZERO.clone() : this.tileSize.clone();
+      return this.tileSize.clone();
     }
     toMapDirection(t) {
       return t;
@@ -73375,39 +73387,41 @@
       return new p(t.x, t.y);
     }
     startMoving(t) {
-      this.movementStarted$.next(t), this.movementDirection = t, this.facingDirection = t, this.updateTilePos();
+      t != this.movementDirection && this.movementStarted$.next(t), this.movementDirection = t, this.facingDirection = t, this.updateTilePos();
     }
     updateTilePos() {
       this.tilePos = this.nextTilePos;
-      let t = this.nextTilePos.add(F(this.toMapDirection(this.movementDirection)));
+      let t = this.tilePosInDirection(this.movementDirection);
       this.nextTilePos = t, this.positionChanged$.next({ exitTile: this.tilePos, enterTile: t });
     }
     tilePosInDirection(t) {
-      return this.nextTilePos.add(F(this.toMapDirection(t)));
+      return this.nextTilePos.add(N(this.toMapDirection(t)));
+    }
+    getDistToNextTile() {
+      return this.getTileDistance(this.movementDirection).clone().subtract(this.tileSizePixelsWalked).multiply(N(this.movementDirection));
     }
     updateCharacterPosition(t) {
-      let e = this.getSpeedPerDelta(t);
-      this.willCrossTileBorderThisUpdate(e) ? this.shouldContinueMoving() ? (this.moveCharacterSprite(e), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: this.nextTilePos }), this.updateTilePos()) : (this.moveCharacterSpriteRestOfTile(), this.stopMoving()) : this.moveCharacterSprite(e);
+      let e = this.getSpeedPerDelta(t), r = this.getDistToNextTile(), o = r.length() <= e.length(), n = o ? r : e;
+      this.moveCharacterSprite(n), o && (this.shouldContinueMoving() ? (this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: this.nextTilePos }), this.startMoving(this.lastMovementImpulse), this.updateCharacterPosition(t * this.getProportionWalked(e, r))) : this.stopMoving());
+    }
+    getProportionWalked(t, e) {
+      let o = t.subtract(e).divide(t);
+      return isNaN(o.x) && (o.x = 0), Math.max(Math.abs(o.x), Math.abs(o.y));
     }
     shouldContinueMoving() {
-      return this.movementDirection == this.lastMovementImpulse && !this.isBlockingDirection(this.lastMovementImpulse);
+      return this.lastMovementImpulse !== a.NONE && !this.isBlockingDirection(this.lastMovementImpulse);
     }
     getSpeedPerDelta(t) {
       let e = t / 1e3;
-      return this.createSpeedPixelsPerSecond()[this.movementDirection].clone().multiply(new p(e, e)).multiply(F(this.movementDirection));
-    }
-    willCrossTileBorderThisUpdate(t) {
-      return this.tileSizePixelsWalked.x + Math.abs(t.x) >= this.getTileDistance(this.movementDirection).x || this.tileSizePixelsWalked.y + Math.abs(t.y) >= this.getTileDistance(this.movementDirection).y;
-    }
-    moveCharacterSpriteRestOfTile() {
-      this.moveCharacterSprite(this.getTileDistance(this.movementDirection).clone().subtract(this.tileSizePixelsWalked).multiply(F(this.movementDirection)));
+      return this.createSpeedPixelsPerSecond()[this.movementDirection].clone().multiply(new p(e, e)).multiply(N(this.movementDirection));
     }
     moveCharacterSprite(t) {
       let e = this.getPosition().add(t);
       this.setPosition(e), this.tileSizePixelsWalked.x += Math.abs(t.x), this.tileSizePixelsWalked.y += Math.abs(t.y), this.animation.updateCharacterFrame(this.movementDirection, this.hasWalkedHalfATile()), this.tileSizePixelsWalked.x %= this.getTileDistance(this.movementDirection).x, this.tileSizePixelsWalked.y %= this.getTileDistance(this.movementDirection).y;
     }
     stopMoving() {
-      this.movementStopped$.next(this.movementDirection), this.positionChangeFinished$.next({ exitTile: this.tilePos, enterTile: this.nextTilePos }), this.movementDirection = a.NONE, this.tilePos = this.nextTilePos;
+      let t = this.tilePos, e = this.nextTilePos, r = this.movementDirection;
+      this.tilePos = this.nextTilePos, this.movementDirection = a.NONE, this.movementStopped$.next(r), this.positionChangeFinished$.next({ exitTile: t, enterTile: e });
     }
     hasWalkedHalfATile() {
       return this.tileSizePixelsWalked.x > this.getTileDistance(this.movementDirection).x / 2 || this.tileSizePixelsWalked.y > this.getTileDistance(this.movementDirection).y / 2;
@@ -73435,11 +73449,11 @@
       return t.x + t.y;
     }
   };
-  function A(i) {
+  function I(i) {
     return nt(function(t, e) {
       Te(i).subscribe(new at(e, function() {
         return e.complete();
-      }, I)), !e.closed && t.subscribe(e);
+      }, k)), !e.closed && t.subscribe(e);
     });
   }
   var x;
@@ -73502,7 +73516,7 @@
       return e.x > t.x ? e.y > t.y ? a.DOWN_RIGHT : e.y < t.y ? a.UP_RIGHT : a.RIGHT : e.x < t.x ? e.y > t.y ? a.DOWN_LEFT : e.y < t.y ? a.UP_LEFT : a.LEFT : e.y < t.y ? a.UP : e.y > t.y ? a.DOWN : a.NONE;
     }
   };
-  var G = class {
+  var A = class {
     distance(t, e) {
       return v.manhattanDistance(t, e);
     }
@@ -73523,10 +73537,10 @@
       this.distance = r;
       this.posOnPath = 0;
       this.stopped = false;
-      this.distanceUtils = new G();
+      this.distanceUtils = new A();
       this.getNeighbours = (t2) => this.distanceUtils.neighbours(t2).filter((r2) => !this.isBlocking(r2));
       this.isBlocking = (t2) => !t2 || this.tilemap.isBlocking(t2);
-      this.noPathFoundStrategy = (o == null ? void 0 : o.noPathFoundStrategy) || x.STOP, this.pathBlockedStrategy = (o == null ? void 0 : o.pathBlockedStrategy) || P.WAIT, this.noPathFoundRetryable = new st((o == null ? void 0 : o.noPathFoundRetryBackoffMs) || 200, (o == null ? void 0 : o.noPathFoundMaxRetries) || -1, () => this.stop()), this.pathBlockedRetryable = new st((o == null ? void 0 : o.pathBlockedRetryBackoffMs) || 200, (o == null ? void 0 : o.pathBlockedMaxRetries) || -1, () => this.stop()), this.pathBlockedWaitTimeoutMs = (o == null ? void 0 : o.pathBlockedWaitTimeoutMs) || -1;
+      this.noPathFoundStrategy = (o == null ? void 0 : o.noPathFoundStrategy) || x.STOP, this.pathBlockedStrategy = (o == null ? void 0 : o.pathBlockedStrategy) || S.WAIT, this.noPathFoundRetryable = new st((o == null ? void 0 : o.noPathFoundRetryBackoffMs) || 200, (o == null ? void 0 : o.noPathFoundMaxRetries) || -1, () => this.stop()), this.pathBlockedRetryable = new st((o == null ? void 0 : o.pathBlockedRetryBackoffMs) || 200, (o == null ? void 0 : o.pathBlockedMaxRetries) || -1, () => this.stop()), this.pathBlockedWaitTimeoutMs = (o == null ? void 0 : o.pathBlockedWaitTimeoutMs) || -1;
     }
     setPathBlockedStrategy(t) {
       this.pathBlockedStrategy = t;
@@ -73535,7 +73549,7 @@
       return this.pathBlockedStrategy;
     }
     setNumberOfDirections(t) {
-      t === T.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new G();
+      t === P.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new A();
     }
     setCharacter(t) {
       this.character = t, this.noPathFoundRetryable.reset(), this.pathBlockedRetryable.reset(), this.pathBlockedWaitElapsed = 0, this.calcShortestPath();
@@ -73544,7 +73558,7 @@
       this.stopped || (this.noPathFound() && this.noPathFoundStrategy === x.RETRY && this.noPathFoundRetryable.retry(t, () => this.calcShortestPath()), this.isBlocking(this.nextTileOnPath()) ? this.applyPathBlockedStrategy(t) : this.pathBlockedWaitElapsed = 0, this.updatePosOnPath(), this.hasArrived() ? this.existsDistToTarget() && this.turnTowardsTarget() : this.isBlocking(this.nextTileOnPath()) || this.moveCharOnPath());
     }
     applyPathBlockedStrategy(t) {
-      this.pathBlockedStrategy === P.RETRY ? this.pathBlockedRetryable.retry(t, () => this.calcShortestPath()) : this.pathBlockedStrategy === P.STOP ? this.stop() : this.pathBlockedStrategy === P.WAIT && this.pathBlockedWaitTimeoutMs > -1 && (this.pathBlockedWaitElapsed += t, this.pathBlockedWaitElapsed >= this.pathBlockedWaitTimeoutMs && this.stop());
+      this.pathBlockedStrategy === S.RETRY ? this.pathBlockedRetryable.retry(t, () => this.calcShortestPath()) : this.pathBlockedStrategy === S.STOP ? this.stop() : this.pathBlockedStrategy === S.WAIT && this.pathBlockedWaitTimeoutMs > -1 && (this.pathBlockedWaitElapsed += t, this.pathBlockedWaitElapsed >= this.pathBlockedWaitTimeoutMs && this.stop());
     }
     moveCharOnPath() {
       let t = this.getDir(this.character.getNextTilePos(), this.nextTileOnPath());
@@ -73596,13 +73610,13 @@
       this.charToFollow = e;
       this.distance = r;
       this.noPathFoundStrategy = o;
-      this.numberOfDirections = T.FOUR;
+      this.numberOfDirections = P.FOUR;
     }
     setNumberOfDirections(t) {
       this.numberOfDirections = t;
     }
     setCharacter(t) {
-      this.character = t, this.updateTarget(this.charToFollow.getTilePos()), this.charToFollow.positionChanged().pipe(A(this.character.autoMovementSet())).subscribe(({ enterTile: e }) => {
+      this.character = t, this.updateTarget(this.charToFollow.getTilePos()), this.charToFollow.positionChanged().pipe(I(this.character.autoMovementSet())).subscribe(({ enterTile: e }) => {
         this.updateTarget(e);
       });
     }
@@ -73618,14 +73632,14 @@
     constructor(t = 0, e = -1) {
       this.delay = t;
       this.radius = e;
-      this.numberOfDirections = T.FOUR;
-      this.distanceUtils = new G();
+      this.numberOfDirections = P.FOUR;
+      this.distanceUtils = new A();
     }
     setNumberOfDirections(t) {
-      this.numberOfDirections = t, t === T.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new G();
+      this.numberOfDirections = t, t === P.EIGHT ? this.distanceUtils = new Y() : this.distanceUtils = new A();
     }
     setCharacter(t) {
-      this.character = t, this.delayLeft = this.delay, this.initialRow = t.getNextTilePos().y, this.initialCol = t.getNextTilePos().x, this.stepSize = this.getRandomInt(this.radius) + 1, this.stepsWalked = 0, this.currentMovementDirection = a.NONE, this.character.positionChanged().pipe(A(this.character.autoMovementSet())).subscribe(() => {
+      this.character = t, this.delayLeft = this.delay, this.initialRow = t.getNextTilePos().y, this.initialCol = t.getNextTilePos().x, this.stepSize = this.getRandomInt(this.radius) + 1, this.stepsWalked = 0, this.currentMovementDirection = a.NONE, this.character.positionChanged().pipe(I(this.character.autoMovementSet())).subscribe(() => {
         this.stepsWalked++;
       });
     }
@@ -73648,7 +73662,7 @@
       return this.radius == -1 ? true : this.getDist(t) <= this.radius;
     }
     getDist(t) {
-      return this.distanceUtils.distance(this.character.getNextTilePos().add(F(t)), new p(this.initialCol, this.initialRow));
+      return this.distanceUtils.distance(this.character.getNextTilePos().add(N(t)), new p(this.initialCol, this.initialRow));
     }
     getFreeRandomDirection() {
       let t = this.getFreeDirections();
@@ -73662,7 +73676,7 @@
     constructor(t) {
       this.scene = t;
       this.isCreated = false;
-      this.numberOfDirections = T.FOUR;
+      this.numberOfDirections = P.FOUR;
       this.scene.sys.events.once("boot", this.boot, this);
     }
     boot() {
@@ -73769,7 +73783,7 @@
       return this.positionChangeFinished$;
     }
     takeUntilCharRemoved(t) {
-      return A(this.charRemoved$.pipe(bt((e) => e == t)));
+      return I(this.charRemoved$.pipe(bt((e) => e == t)));
     }
     initGuard() {
       if (!this.isCreated)
@@ -73786,7 +73800,7 @@
       t.characters.forEach((e) => this.addCharacter(e));
     }
     moveChar(t, e) {
-      if (this.initGuard(), this.unknownCharGuard(t), this.numberOfDirections === T.FOUR) {
+      if (this.initGuard(), this.unknownCharGuard(t), this.numberOfDirections === P.FOUR) {
         if (!this._isIsometric() && ct(e)) {
           console.warn(`GridEngine: Character '${t}' can't be moved '${e}' in 4 direction mode.`);
           return;
@@ -73804,8 +73818,8 @@
       return this.tilemap.orientation == `${Phaser.Tilemaps.Orientation.ISOMETRIC}`;
     }
     assembleMoveToConfig(t) {
-      let e = Dt(wt({}, t), { noPathFoundStrategy: x.STOP, pathBlockedStrategy: P.WAIT });
-      return (t == null ? void 0 : t.noPathFoundStrategy) && (Object.values(x).includes(t.noPathFoundStrategy) ? e.noPathFoundStrategy = t.noPathFoundStrategy : console.warn(`GridEngine: Unknown NoPathFoundStrategy '${t.noPathFoundStrategy}'. Falling back to '${x.STOP}'`)), (t == null ? void 0 : t.pathBlockedStrategy) && (Object.values(P).includes(t.pathBlockedStrategy) ? e.pathBlockedStrategy = t.pathBlockedStrategy : console.warn(`GridEngine: Unknown PathBlockedStrategy '${t.pathBlockedStrategy}'. Falling back to '${P.WAIT}'`)), e;
+      let e = Dt(wt({}, t), { noPathFoundStrategy: x.STOP, pathBlockedStrategy: S.WAIT });
+      return (t == null ? void 0 : t.noPathFoundStrategy) && (Object.values(x).includes(t.noPathFoundStrategy) ? e.noPathFoundStrategy = t.noPathFoundStrategy : console.warn(`GridEngine: Unknown NoPathFoundStrategy '${t.noPathFoundStrategy}'. Falling back to '${x.STOP}'`)), (t == null ? void 0 : t.pathBlockedStrategy) && (Object.values(S).includes(t.pathBlockedStrategy) ? e.pathBlockedStrategy = t.pathBlockedStrategy : console.warn(`GridEngine: Unknown PathBlockedStrategy '${t.pathBlockedStrategy}'. Falling back to '${S.WAIT}'`)), e;
     }
   };
 
